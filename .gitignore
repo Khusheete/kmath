@@ -1,0 +1,7 @@
+# Build files
+bin/
+obj/
+lib/
+.cache/
+compile_commands.json
+**/Makefile

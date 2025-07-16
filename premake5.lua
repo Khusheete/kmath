@@ -9,5 +9,4 @@ include "premake/build_config.lua"
 
 -- Include build files
 -- include "thirdparty/build.lua"
-include "kmath/build.lua"
 include "test/build.lua"

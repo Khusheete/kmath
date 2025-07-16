@@ -23,7 +23,6 @@
 #include <cmath>
 #include <cstdlib>
 #include <numbers>
-#include <iostream>
 
 #include "kmath/kmath.hpp"
 #include "thirdparty/raylib/raylib.h"
@@ -34,7 +33,7 @@ int main(void) {
   SetTargetFPS(60.0);
 
   Camera3D camera = {
-    .position   = (Vector3){0.0f, 0.0f, 3.0f},
+    .position   = (Vector3){0.0f, 0.0f, 5.0f},
     .target     = (Vector3){0.0f, 0.0f, 0.0f},
     .up         = (Vector3){0.0f, 1.0f, 0.0f},
     .fovy       = 45.0f,
@@ -45,37 +44,33 @@ int main(void) {
     return std::abs(std::fmod(t + 1.0, 2.0) - 1.0);
   };
 
-  // kmath::Quat rot90 = kmath::Quat::from_axis_angle(kmath::Vec3::Y, 0.5 * std::numbers::pi);
-  // Vector3 cube_position = {0.0f, 0.0f, 0.0f};
+  kmath::Quatf rot90 = kmath::Quatf::from_axis_angle(kmath::Vec3f::Y, 0.5 * std::numbers::pi);
+  Vector3 cube_position = {0.0f, 0.0f, 0.0f};
   
-  std::array<kmath::Vec3, 3> triangle = {
-    kmath::Vec3(0.0 ,  std::sqrt(3.0) / 4.0, 0.0),
-    kmath::Vec3(-0.5, -std::sqrt(3.0) / 4.0, 0.0),
-    kmath::Vec3(0.5 , -std::sqrt(3.0) / 4.0, 0.0),
+  std::array<kmath::Vec3f, 3> triangle = {
+    kmath::Vec3f(0.0 ,  std::sqrt(3.0) / 4.0, 0.0),
+    kmath::Vec3f(-0.5, -std::sqrt(3.0) / 4.0, 0.0),
+    kmath::Vec3f(0.5 , -std::sqrt(3.0) / 4.0, 0.0),
   };
 
-  kmath::DQuat start = kmath::DQuat::from_axis_angle_translation(kmath::Vec3::Y, 0.0, kmath::Vec3::X);
-  kmath::DQuat end = kmath::DQuat::from_axis_angle_translation(kmath::Vec3::Y, std::numbers::pi, -kmath::Vec3::X);
+  kmath::DQuatf start = kmath::DQuatf::from_axis_angle_translation(kmath::Vec3f::Y, 0.0, 2.0f * kmath::Vec3f::X);
+  kmath::DQuatf end = kmath::DQuatf::from_axis_angle_translation(kmath::Vec3f::Y, std::numbers::pi, -2.0f * kmath::Vec3f::X);
 
   double prev_time = GetTime();
   while (!WindowShouldClose()) {
     double time = GetTime();
     // double delta = time - prev_time;
 
-    // kmath::Quat rot = kmath::slerp(kmath::Quat::IDENTITY, rot90, 0.2 * std::numbers::pi * time);
-    // kmath::Vec3 pos = (kmath::Vec3)kmath::conjugate_unit(rot, { 0.0, 0.0, 3.0, 0.0 });
-    // camera.position.x = pos.x;
-    // camera.position.y = pos.y;
-    // camera.position.z = pos.z;
+    kmath::Quatf rot = kmath::slerp<float>(kmath::Quatf::IDENTITY, rot90, 0.2 * std::numbers::pi * time);
+    kmath::Vec3f pos = (kmath::Vec3f)rot.unit_conjugate(kmath::Quatf(0.0, 0.0, 5.0, 0.0));
+    camera.position = reinterpret_cast<Vector3&>(pos);
     
-    kmath::DQuat transform = kmath::kenlerp(start, end, ping_pong(time), 0.7);
+    kmath::DQuatf transform = kmath::kenlerp<float>(start, end, ping_pong(time), 0.7);
     std::array<Vector3, 3> transformed_triangle = {};
 
     for (int i = 0; i < 3; i++) {
-      kmath::Vec3 vertex = kmath::conjugate_unit(transform, kmath::DQuat::from_point(triangle[i])).get_point();
-      transformed_triangle[i].x = vertex.x;
-      transformed_triangle[i].y = vertex.y;
-      transformed_triangle[i].z = vertex.z;
+      kmath::Vec3f vertex = transform.unit_conjugate(kmath::DQuatf::from_point(triangle[i])).get_point();
+      transformed_triangle[i] = reinterpret_cast<Vector3&>(vertex);
     }
 
     // Draw the scene
@@ -84,11 +79,11 @@ int main(void) {
     
     BeginMode3D(camera);
 
-    // DrawCube(cube_position, 1.0f, 1.0f, 1.0f, WHITE);
-    // DrawCubeWires(cube_position, 1.0f, 1.0f, 1.0f, MAROON);
+    DrawCube(cube_position, 1.0f, 1.0f, 1.0f, WHITE);
+    DrawCubeWires(cube_position, 1.0f, 1.0f, 1.0f, MAROON);
     
-    DrawTriangle3D(transformed_triangle[0], transformed_triangle[1], transformed_triangle[2], WHITE);
-    DrawTriangle3D(transformed_triangle[0], transformed_triangle[2], transformed_triangle[1], WHITE);
+    DrawTriangle3D(transformed_triangle[0], transformed_triangle[1], transformed_triangle[2], BLUE);
+    DrawTriangle3D(transformed_triangle[0], transformed_triangle[2], transformed_triangle[1], BLUE);
     
     EndMode3D();
 

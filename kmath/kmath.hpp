@@ -166,6 +166,10 @@ namespace kmath {
     }
 
 
+    _Vec3() : x(0.0), y(0.0), z(0.0) {}
+    _Vec3(const T x, const T y, const T z) : x(x), y(y), z(z) {}
+
+
     static const _Vec3<T> ZERO;
     static const _Vec3<T> ONE;
     static const _Vec3<T> INF;
@@ -313,6 +317,10 @@ namespace kmath {
     static T dot(const _Vec4<T> &a, const _Vec4<T> &b) {
       return a.x * b.x + a.y * b.x + a.z * b.z + a.w * b.w;
     }
+
+
+    _Vec4() : x(0.0), y(0.0), z(0.0), w(0.0) {}
+    _Vec4(const T x, const T y, const T z, const T w) : x(x), y(y), z(z), w(w) {}
 
 
     static const _Vec4<T> ZERO;
@@ -543,6 +551,7 @@ namespace kmath {
     }
 
 
+    _Quat(): x(0.0), y(0.0), z(0.0), w(1.0) {}
     _Quat(const T x, const T y, const T z, const T w) : x(x), y(y), z(z), w(w) {}
     _Quat(const _Vec3<T> &v, const T w) : x(v.x), y(v.y), z(v.z), w(w) {}
     _Quat(const _Vec3<T> &v) : x(v.x), y(v.y), z(v.z), w(0.0) {}
@@ -867,6 +876,7 @@ namespace kmath {
     }
 
 
+    _DQuat(): yz(0.0), zx(0.0), xy(0.0), w(1.0), dx(0.0), dy(0.0), dz(0.0), dxyz(0.0) {}
     _DQuat(const T yz, const T zx, const T xy, const T w, const T dx, const T dy, const T dz, const T dxyz)
       : yz(yz), zx(zx), xy(xy), w(w), dx(dx), dy(dy), dz(dz), dxyz(dxyz) {}
     _DQuat(const _Quat<T> &real, const _Quat<T> &dual)

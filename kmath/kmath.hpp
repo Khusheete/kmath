@@ -521,6 +521,42 @@ namespace kmath {
     }
 
 
+    _Vec3<T> get_x_axis() const {
+      return _Vec3<T>(
+        x * x - y * y - z * z + w * w,
+        2.0 * (x * y + z * w),
+        2.0 * (x * z - y * w)
+      );
+    }
+
+
+    _Vec3<T> get_y_axis() const {
+      return _Vec3<T>(
+        2.0 * (x * y - z * w),
+        -x * x + y * y - z * z + w * w,
+        2.0 * (y * z + x * w)
+      );
+    }
+
+
+    _Vec3<T> get_z_axis() const {
+      return _Vec3<T>(
+        2.0 * (x * z + y * w),
+        2.0 * (y * z - x * w),
+        -x * x - y * y + z * z + w * w
+      );
+    }
+
+
+    _Mat3<T> get_basis() const {
+      return _Mat3<T>(
+        get_x_axis(),
+        get_y_axis(),
+        get_z_axis()
+      );
+    }
+
+
     operator const _Vec4<T>&() const {
       return *reinterpret_cast<const _Vec4<T>*>(this);
     }
@@ -733,6 +769,18 @@ namespace kmath {
       return _Vec3<T>(translation.x, translation.y, translation.z);
     }
 
+
+    _Mat4<T> get_transform() const {
+      _Mat3<T> basis = real_part().get_basis();
+      _Vec3<T> translation = get_translation();
+      return _Mat4<T>(
+        _Vec4<T>(basis.x.x    , basis.x.y    , basis.x.z    , 0.0),
+        _Vec4<T>(basis.y.x    , basis.y.y    , basis.y.z    , 0.0),
+        _Vec4<T>(basis.z.x    , basis.z.y    , basis.z.z    , 0.0),
+        _Vec4<T>(translation.x, translation.y, translation.z, 1.0)
+      );
+    }
+    
 
     // If this dual quaternion represents a point, returns the coordinates of this point
     _Vec3<T> get_point() const {

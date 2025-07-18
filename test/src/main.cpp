@@ -22,74 +22,130 @@
 #include <array>
 #include <cmath>
 #include <cstdlib>
-#include <numbers>
+#include <string>
+#include <iostream>
 
-#include "kmath/kmath.hpp"
+#include "test/src/tests.hpp"
 #include "thirdparty/raylib/raylib.h"
+
+
+struct Test {
+  std::string name;
+  void *(*init)(void);
+  void (*run)(void*);
+  void (*cleanup)(void*);
+};
+
+const std::array<Test, 1> TESTS = {
+  Test{
+    .name = "Test Quat and DQuat structs",
+    .init = &quat_dquat_init,
+    .run = &quat_dquat_run,
+    .cleanup = &quat_dquat_cleanup,
+  },
+};
+
+const Test *current_test = nullptr;
+void *current_test_data = nullptr;
+
+
+bool is_inside_rect(const Rectangle &p_rect, const Vector2 &p_point);
+bool button(const char *p_text, const Vector2 &p_position, const float p_font_size, const Vector2 &p_inset);
+
+
+void test_selection_menu() {
+  const int Y_SIZE = 20;
+  const int Y_SPACING = 28;
+  const int FONT_SIZE = 26;
+
+  int render_width = GetRenderWidth();
+
+  Vector2 mouse_pos = GetMousePosition();
+
+  for (int i = 0; i < TESTS.size(); i++) {
+    const Test &test = TESTS[i];
+
+    if (button(
+      test.name.c_str(),
+      Vector2(0.5f * render_width, i * (Y_SIZE + Y_SPACING) + Y_SPACING),
+      FONT_SIZE,
+      Vector2(10.0, 5.0))
+    ) {
+      current_test = &test;
+    }
+  }
+}
 
 
 int main(void) {
   InitWindow(800, 600, "KMathTest");
   SetTargetFPS(60.0);
 
-  Camera3D camera = {
-    .position   = (Vector3){0.0f, 0.0f, 5.0f},
-    .target     = (Vector3){0.0f, 0.0f, 0.0f},
-    .up         = (Vector3){0.0f, 1.0f, 0.0f},
-    .fovy       = 45.0f,
-    .projection = CAMERA_PERSPECTIVE,
-  };
-
-  auto ping_pong = [](const double t) {
-    return std::abs(std::fmod(t + 1.0, 2.0) - 1.0);
-  };
-
-  kmath::Quatf rot90 = kmath::Quatf::from_axis_angle(kmath::Vec3f::Y, 0.5 * std::numbers::pi);
-  Vector3 cube_position = {0.0f, 0.0f, 0.0f};
-  
-  std::array<kmath::Vec3f, 3> triangle = {
-    kmath::Vec3f(0.0 ,  std::sqrt(3.0) / 4.0, 0.0),
-    kmath::Vec3f(-0.5, -std::sqrt(3.0) / 4.0, 0.0),
-    kmath::Vec3f(0.5 , -std::sqrt(3.0) / 4.0, 0.0),
-  };
-
-  kmath::DQuatf start = kmath::DQuatf::from_axis_angle_translation(kmath::Vec3f::Y, 0.0, 2.0f * kmath::Vec3f::X);
-  kmath::DQuatf end = kmath::DQuatf::from_axis_angle_translation(kmath::Vec3f::Y, std::numbers::pi, -2.0f * kmath::Vec3f::X);
-
-  double prev_time = GetTime();
   while (!WindowShouldClose()) {
-    double time = GetTime();
-    // double delta = time - prev_time;
-
-    kmath::Quatf rot = kmath::slerp<float>(kmath::Quatf::IDENTITY, rot90, 0.2 * std::numbers::pi * time);
-    kmath::Vec3f pos = (kmath::Vec3f)rot.unit_conjugate(kmath::Quatf(0.0, 0.0, 5.0, 0.0));
-    camera.position = reinterpret_cast<Vector3&>(pos);
-    
-    kmath::DQuatf transform = kmath::kenlerp<float>(start, end, ping_pong(time), 0.7);
-    std::array<Vector3, 3> transformed_triangle = {};
-
-    for (int i = 0; i < 3; i++) {
-      kmath::Vec3f vertex = transform.unit_conjugate(kmath::DQuatf::from_point(triangle[i])).get_point();
-      transformed_triangle[i] = reinterpret_cast<Vector3&>(vertex);
-    }
-
-    // Draw the scene
     BeginDrawing();
     ClearBackground(BLACK);
-    
-    BeginMode3D(camera);
 
-    DrawCube(cube_position, 1.0f, 1.0f, 1.0f, WHITE);
-    DrawCubeWires(cube_position, 1.0f, 1.0f, 1.0f, MAROON);
-    
-    DrawTriangle3D(transformed_triangle[0], transformed_triangle[1], transformed_triangle[2], BLUE);
-    DrawTriangle3D(transformed_triangle[0], transformed_triangle[2], transformed_triangle[1], BLUE);
-    
-    EndMode3D();
+    if (current_test == nullptr) {
+      test_selection_menu();
+    } else {
+      if (current_test_data == nullptr)
+        current_test_data = current_test->init();
+
+      current_test->run(current_test_data);
+
+      if (IsKeyDown(KEY_BACKSPACE) || button(" < ", Vector2(16.0, 16.0), 18.0, Vector2(5.0, 5.0))) {
+        current_test->cleanup(current_test_data);
+        current_test_data = nullptr;
+        current_test = nullptr;
+      }
+    }
 
     EndDrawing();
   }
 
   CloseWindow();
   return EXIT_SUCCESS;
+}
+
+
+bool is_inside_rect(const Rectangle &p_rect, const Vector2 &p_point) {
+  return p_rect.x <= p_point.x && p_point.x <= p_rect.x + p_rect.width && p_rect.y <= p_point.y && p_point.y <= p_rect.y + p_rect.height;
+}
+
+
+bool button(const char *p_text, const Vector2 &p_position, const float p_font_size, const Vector2 &p_inset) {
+  Font default_font = GetFontDefault();
+  Vector2 text_size = MeasureTextEx(default_font, p_text, p_font_size, 1.0);
+
+  Rectangle button_rect = {
+    p_position.x - 0.5f * text_size.x - p_inset.x,
+    p_position.y - 0.5f * text_size.y - p_inset.y,
+    text_size.x + 2.0f * p_inset.x,
+    text_size.y + 2.0f * p_inset.y,
+  };
+
+  bool pressed = false;
+
+  Color stroke_color = BLUE;
+  Color fill_color = SKYBLUE;
+
+  if (is_inside_rect(button_rect, GetMousePosition())) {
+    if (IsMouseButtonDown(MOUSE_BUTTON_LEFT)) {
+      stroke_color = RED;
+      fill_color = GOLD;
+    } else {
+      stroke_color = LIME;
+      fill_color = GREEN;
+    }
+
+    if (IsMouseButtonReleased(MOUSE_BUTTON_LEFT)) {
+      pressed = true;
+    }
+  }
+
+  DrawRectangleRec(button_rect, fill_color);
+  DrawRectangleLinesEx(button_rect, 2.0, stroke_color);
+  DrawTextEx(default_font, p_text, Vector2(button_rect.x + p_inset.x, button_rect.y + p_inset.y), p_font_size, 1.0, stroke_color);
+
+  return pressed;
 }

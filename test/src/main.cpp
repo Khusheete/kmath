@@ -23,7 +23,6 @@
 #include <cmath>
 #include <cstdlib>
 #include <string>
-#include <iostream>
 
 #include "test/src/tests.hpp"
 #include "thirdparty/raylib/raylib.h"

@@ -157,7 +157,7 @@ namespace kmath {
     }
 
 
-    _Vec3<T> cross(const _Vec3<T> &a, const _Vec3<T> &b) {
+    static _Vec3<T> cross(const _Vec3<T> &a, const _Vec3<T> &b) {
       return _Vec3<T>(
         a.y * b.z - a.z * b.y,
         a.z * b.x - a.x * b.z,

@@ -42,25 +42,25 @@ void *quat_dquat_init() {
 }
 
 
-void quat_dquat_run(void *data) {
-  TestData *d = (TestData*)data;
+void quat_dquat_run(void *p_data) {
+  TestData *data = (TestData*)p_data;
 
   float time = GetTime();
   
-  kmath::Quatf rot = kmath::slerp<float>(kmath::Quatf::IDENTITY, d->camera_rotation, 0.2 * std::numbers::pi * time);
+  kmath::Quatf rot = kmath::slerp<float>(kmath::Quatf::IDENTITY, data->camera_rotation, 0.2 * std::numbers::pi * time);
   kmath::Vec3f pos = (kmath::Vec3f)rot.unit_conjugate(kmath::Quatf(0.0, 0.0, 5.0, 0.0));
-  d->camera.position = reinterpret_cast<Vector3&>(pos);
+  data->camera.position = reinterpret_cast<Vector3&>(pos);
   
-  kmath::DQuatf transform = kmath::kenlerp<float>(d->triangle_start, d->triangle_end, ping_pong(time), 0.7);
+  kmath::DQuatf transform = kmath::kenlerp<float>(data->triangle_start, data->triangle_end, ping_pong(time), 0.7);
   std::array<Vector3, 3> transformed_triangle = {};
 
   for (int i = 0; i < 3; i++) {
-    kmath::Vec3f vertex = transform.unit_conjugate(kmath::DQuatf::from_point(d->triangle[i])).get_point();
+    kmath::Vec3f vertex = transform.unit_conjugate(kmath::DQuatf::from_point(data->triangle[i])).get_point();
     transformed_triangle[i] = reinterpret_cast<Vector3&>(vertex);
   }
 
 
-  BeginMode3D(d->camera);
+  BeginMode3D(data->camera);
 
   DrawCube(Vector3(), 1.0f, 1.0f, 1.0f, WHITE);
   DrawCubeWires(Vector3(), 1.0f, 1.0f, 1.0f, MAROON);
@@ -72,8 +72,8 @@ void quat_dquat_run(void *data) {
 }
 
 
-void quat_dquat_cleanup(void *data) {
-  free(data);
+void quat_dquat_cleanup(void *p_data) {
+  delete (TestData*)p_data;
 }
 
 

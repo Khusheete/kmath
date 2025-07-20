@@ -36,12 +36,18 @@ struct Test {
   void (*cleanup)(void*);
 };
 
-const std::array<Test, 1> TESTS = {
+const std::array<Test, 2> TESTS = {
   Test{
     .name = "Test Quat and DQuat structs",
     .init = &quat_dquat_init,
     .run = &quat_dquat_run,
     .cleanup = &quat_dquat_cleanup,
+  },
+  Test{
+    .name = "Camera",
+    .init = &camera_init,
+    .run = &camera_run,
+    .cleanup = &camera_cleanup,
   },
 };
 

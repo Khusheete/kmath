@@ -3,6 +3,7 @@
 #include "kmath/kmath.hpp"
 #include "thirdparty/raylib/raylib.h"
 #include <cmath>
+#include <iostream>
 
 
 struct TestData {
@@ -82,18 +83,13 @@ void camera_run(void *p_data) {
     float mouse_mag = std::sqrt(mouse_delta.x * mouse_delta.x + mouse_delta.y * mouse_delta.y);
     SetMousePosition(0.5 * render_width, 0.5 * render_height);
     
-    // kmath::Quatf vertical_rotate = kmath::Quatf::from_axis_angle(right, -0.5 * mouse_delta.y * delta);
-    // kmath::Quatf horizontal_rotate = kmath::Quatf::from_axis_angle(up, -0.5 * mouse_delta.x * delta);
+    kmath::Quatf vertical_rotate = kmath::Quatf::from_axis_angle(right, -0.5 * mouse_delta.y * delta);
+    kmath::Quatf horizontal_rotate = kmath::Quatf::from_axis_angle(kmath::Vec3f::Y, -0.5 * mouse_delta.x * delta);
+    if (kmath::Vec3f::dot(kmath::Vec3f::Y, up) < 0.0) { // Inverse rotation if the camera's up vector is pointing down
+      horizontal_rotate = horizontal_rotate.conjugate();
+    }
 
-    // data->cam_direction = (vertical_rotate * horizontal_rotate * data->cam_direction).normalize();
-
-    kmath::Vec3f target_forward = (forward + mouse_delta.x * right - mouse_delta.y * up).normalize();
-    kmath::Vec3f rotation_axis = kmath::Vec3f::cross(forward, target_forward);
-    float rotation_angle = 0.5 * mouse_mag * delta;
-
-    kmath::Quatf rotation = kmath::Quatf::from_axis_angle(rotation_axis, rotation_angle);
-
-    data->cam_direction = (rotation * data->cam_direction).normalize();
+    data->cam_direction = (horizontal_rotate * vertical_rotate * data->cam_direction).normalize();
 
     forward = -data->cam_direction.get_z_axis();
     up = data->cam_direction.get_y_axis();

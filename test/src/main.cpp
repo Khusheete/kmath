@@ -84,6 +84,9 @@ void test_selection_menu() {
 
 int main(void) {
   InitWindow(800, 600, "KMathTest");
+  SetWindowState(
+    FLAG_WINDOW_RESIZABLE
+  );
   SetTargetFPS(60.0);
 
   while (!WindowShouldClose()) {

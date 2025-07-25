@@ -153,7 +153,7 @@ namespace kmath {
 
 
     static T dot(const _Vec3<T> &a, const _Vec3<T> &b) {
-      return a.x * b.x + a.y * b.x + a.z * b.z;
+      return a.x * b.x + a.y * b.y + a.z * b.z;
     }
 
 
@@ -315,7 +315,7 @@ namespace kmath {
 
 
     static T dot(const _Vec4<T> &a, const _Vec4<T> &b) {
-      return a.x * b.x + a.y * b.x + a.z * b.z + a.w * b.w;
+      return a.x * b.x + a.y * b.y + a.z * b.z + a.w * b.w;
     }
 
 

@@ -35,7 +35,8 @@ struct Test {
   void (*cleanup)(void*);
 };
 
-const std::array<Test, 2> TESTS = {
+
+const std::array<Test, 3> TESTS = {
   Test{
     .name = "Test Quat and DQuat structs",
     .init = &quat_dquat_init,
@@ -48,7 +49,14 @@ const std::array<Test, 2> TESTS = {
     .run = &camera_run,
     .cleanup = &camera_cleanup,
   },
+  Test{
+    .name = "DQuat Transforms",
+    .init = &dquat_transforms_init,
+    .run = &dquat_transforms_run,
+    .cleanup = &dquat_transforms_cleanup,
+  },
 };
+
 
 const Test *current_test = nullptr;
 void *current_test_data = nullptr;

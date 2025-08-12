@@ -1,7 +1,8 @@
-#include "kmath/kmath.hpp"
 #include "tests.hpp"
 
-#include <cmath>
+#include "kmath/kmath.hpp"
+#include "test/src/utils/math.hpp"
+
 #include <cstdlib>
 #include <iostream>
 #include <thirdparty/raylib/raylib.h>
@@ -15,11 +16,6 @@ struct TestData {
   kmath::DQuatf triangle_end;
   kmath::Vec3f triangle[3];
 };
-
-
-float ping_pong(const double t) {
-  return std::abs(std::fmod(t + 1.0, 2.0) - 1.0);
-}
 
 
 void *quat_dquat_init() {

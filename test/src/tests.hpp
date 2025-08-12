@@ -8,3 +8,9 @@ void quat_dquat_cleanup(void *p_data);
 void *camera_init();
 void camera_run(void *p_data);
 void camera_cleanup(void *p_data);
+
+
+void *dquat_transforms_init();
+void dquat_transforms_run(void *p_data);
+void dquat_transforms_cleanup(void *p_data);
+

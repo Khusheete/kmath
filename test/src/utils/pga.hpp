@@ -21,22 +21,12 @@
 
 #pragma once
 
-void *quat_dquat_init();
-void quat_dquat_run(void *p_data);
-void quat_dquat_cleanup(void *p_data);
+
+#include "kmath/kmath.hpp"
+#include "kmath/kpga.hpp"
+#include "thirdparty/raylib/raylib.h"
 
 
-void *camera_init();
-void camera_run(void *p_data);
-void camera_cleanup(void *p_data);
-
-
-void *dquat_transforms_init();
-void dquat_transforms_run(void *p_data);
-void dquat_transforms_cleanup(void *p_data);
-
-
-void *pga_visualization_init();
-void pga_visualization_run(void *p_data);
-void pga_visualization_cleanup(void *p_data);
-
+void draw_plane(const kmath::Vec3f &p_next_to, const kmath::Mvec3df &p_plane, const Color &p_color);
+void draw_line(const kmath::Vec3f &p_next_to, const kmath::Mvec3df &p_line, const Color &p_color);
+void draw_point(const kmath::Mvec3df &p_line, const Color &p_color);

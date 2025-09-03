@@ -36,7 +36,7 @@ struct Test {
 };
 
 
-const std::array<Test, 3> TESTS = {
+const std::array<Test, 4> TESTS = {
   Test{
     .name = "Test Quat and DQuat structs",
     .init = &quat_dquat_init,
@@ -54,6 +54,12 @@ const std::array<Test, 3> TESTS = {
     .init = &dquat_transforms_init,
     .run = &dquat_transforms_run,
     .cleanup = &dquat_transforms_cleanup,
+  },
+  Test{
+    .name = "PGA Visualization",
+    .init = &pga_visualization_init,
+    .run = &pga_visualization_run,
+    .cleanup = &pga_visualization_run,
   },
 };
 

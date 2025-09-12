@@ -20,16 +20,17 @@
 
 
 #include "freecam.hpp"
+#include "kmath/rotor_3d.hpp"
 #include "thirdparty/raylib/raylib.h"
 
 
 void FreeCam::update(float p_delta) {
   // Update camera position
-  kmath::Vec3f forward = -direction.get_z_axis();
-  kmath::Vec3f right = direction.get_x_axis();
-  kmath::Vec3f up = direction.get_y_axis();
+  kmath::Vec3 forward = -kmath::get_z_basis_vector(direction);
+  kmath::Vec3 right   = kmath::get_x_basis_vector(direction);
+  kmath::Vec3 up      = kmath::get_y_basis_vector(direction);
 
-  kmath::Vec3f movement_dir = kmath::Vec3f::ZERO;
+  kmath::Vec3 movement_dir = kmath::Vec3::ZERO;
 
   if (IsKeyDown(KEY_W)) {
     movement_dir += forward;
@@ -73,21 +74,21 @@ void FreeCam::update(float p_delta) {
     float mouse_mag = std::sqrt(mouse_delta.x * mouse_delta.x + mouse_delta.y * mouse_delta.y);
     SetMousePosition(0.5 * render_width, 0.5 * render_height);
     
-    kmath::Quatf vertical_rotate = kmath::Quatf::from_axis_angle(right, -0.5 * mouse_delta.y * p_delta);
-    kmath::Quatf horizontal_rotate = kmath::Quatf::from_axis_angle(kmath::Vec3f::Y, -0.5 * mouse_delta.x * p_delta);
-    if (kmath::Vec3f::dot(kmath::Vec3f::Y, up) < 0.0) { // Inverse rotation if the camera's up vector is pointing down
-      horizontal_rotate = horizontal_rotate.conjugate();
+    kmath::Rotor3 vertical_rotate = kmath::Rotor3::from_axis_angle(right, -0.5 * mouse_delta.y * p_delta);
+    kmath::Rotor3 horizontal_rotate = kmath::Rotor3::from_axis_angle(kmath::Vec3::Y, -0.5 * mouse_delta.x * p_delta);
+    if (kmath::dot(kmath::Vec3::Y, up) < 0.0) { // Inverse rotation if the camera's up vector is pointing down
+      horizontal_rotate = kmath::reverse(horizontal_rotate);
     }
 
-    direction = (horizontal_rotate * vertical_rotate * direction).normalize();
+    direction = kmath::normalized(horizontal_rotate * vertical_rotate * direction);
 
-    forward = -direction.get_z_axis();
-    up = direction.get_y_axis();
+    forward = -kmath::get_z_basis_vector(direction);
+    up = kmath::get_y_basis_vector(direction);
   }
 
   // Update camera internals
   rl_camera.position = reinterpret_cast<Vector3&>(position);
-  kmath::Vec3f camera_target = position + forward;
+  kmath::Vec3 camera_target = position + forward;
   rl_camera.target = reinterpret_cast<Vector3&>(camera_target);
   rl_camera.up = reinterpret_cast<Vector3&>(up);
 }

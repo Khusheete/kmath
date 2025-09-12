@@ -1,4 +1,4 @@
-project "KmathTest"
+project "KmathTests"
   kind "WindowedApp"
   language "C++"
   cppdialect "c++20"

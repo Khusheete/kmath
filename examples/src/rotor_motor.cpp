@@ -19,10 +19,10 @@
 // SOFTWARE.
 
 
-#include "tests.hpp"
+#include "examples.hpp"
 
 #include "kmath/kmath.hpp"
-#include "test/src/utils/math.hpp"
+#include "utils/math.hpp"
 
 #include <cstdlib>
 #include <iostream>
@@ -32,14 +32,14 @@
 
 struct TestData {
   Camera3D camera;
-  kmath::Quatf camera_rotation;
-  kmath::DQuatf triangle_start;
-  kmath::DQuatf triangle_end;
-  kmath::Vec3f triangle[3];
+  kmath::Rotor3 camera_rotation;
+  kmath::Motor3 triangle_start;
+  kmath::Motor3 triangle_end;
+  kmath::Vec3 triangle[3];
 };
 
 
-void *quat_dquat_init() {
+void *rotor_motor_init() {
   TestData *data = new TestData();
   data->camera = {
     .position   = (Vector3){0.0f, 0.0f, 5.0f},
@@ -48,31 +48,31 @@ void *quat_dquat_init() {
     .fovy       = 45.0f,
     .projection = CAMERA_PERSPECTIVE,
   };
-  data->camera_rotation = kmath::Quatf::from_axis_angle(kmath::Vec3f::Y, 0.5 * std::numbers::pi);
-  data->triangle_start = kmath::DQuatf::from_axis_angle_translation(kmath::Vec3f::Y, 0.0, 2.0f * kmath::Vec3f::X);
-  data->triangle_end = kmath::DQuatf::from_axis_angle_translation(kmath::Vec3f::Y, std::numbers::pi, -2.0f * kmath::Vec3f::X);
-  data->triangle[0] = kmath::Vec3f(0.0 ,  std::sqrt(3.0) / 4.0, 0.0);
-  data->triangle[1] = kmath::Vec3f(-0.5, -std::sqrt(3.0) / 4.0, 0.0);
-  data->triangle[2] = kmath::Vec3f(0.5 , -std::sqrt(3.0) / 4.0, 0.0);
+  data->camera_rotation = kmath::Rotor3::from_axis_angle(kmath::Vec3::Y, 0.5 * std::numbers::pi);
+  data->triangle_start = kmath::Motor3::from_axis_angle_translation(kmath::Vec3::Y, 0.0, 2.0f * kmath::Vec3::X);
+  data->triangle_end = kmath::Motor3::from_axis_angle_translation(kmath::Vec3::Y, std::numbers::pi, -2.0f * kmath::Vec3::X);
+  data->triangle[0] = kmath::Vec3(0.0 ,  std::sqrt(3.0) / 4.0, 0.0);
+  data->triangle[1] = kmath::Vec3(-0.5, -std::sqrt(3.0) / 4.0, 0.0);
+  data->triangle[2] = kmath::Vec3(0.5 , -std::sqrt(3.0) / 4.0, 0.0);
   std::cout << "INIT" << std::endl;
   return data;
 }
 
 
-void quat_dquat_run(void *p_data) {
+void rotor_motor_run(void *p_data) {
   TestData *data = (TestData*)p_data;
 
   float time = GetTime();
   
-  kmath::Quatf rot = kmath::slerp<float>(kmath::Quatf::IDENTITY, data->camera_rotation, 0.2 * std::numbers::pi * time);
-  kmath::Vec3f pos = (kmath::Vec3f)rot.unit_conjugate(kmath::Quatf(0.0, 0.0, 5.0, 0.0));
-  data->camera.position = reinterpret_cast<Vector3&>(pos);
+  kmath::Rotor3 rot = kmath::slerp<float>(kmath::Rotor3::IDENTITY, data->camera_rotation, 0.2 * std::numbers::pi * time);
+  // kmath::Vec3 pos = kmath::transform(kmath::Vec3(0.0, 0.0, 5.0), rot);
+  // data->camera.position = reinterpret_cast<Vector3&>(pos);
   
-  kmath::DQuatf transform = kmath::kenlerp<float>(data->triangle_start, data->triangle_end, ping_pong(time), 0.7);
+  kmath::Motor3 transform = kmath::seplerp<float>(data->triangle_start, data->triangle_end, ping_pong(time));
   std::array<Vector3, 3> transformed_triangle = {};
 
   for (int i = 0; i < 3; i++) {
-    kmath::Vec3f vertex = transform.unit_conjugate(kmath::DQuatf::from_point(data->triangle[i])).get_point();
+    kmath::Vec3 vertex = kmath::transform_point(data->triangle[i], transform);
     transformed_triangle[i] = reinterpret_cast<Vector3&>(vertex);
   }
 
@@ -89,7 +89,7 @@ void quat_dquat_run(void *p_data) {
 }
 
 
-void quat_dquat_cleanup(void *p_data) {
+void rotor_motor_cleanup(void *p_data) {
   delete (TestData*)p_data;
 }
 

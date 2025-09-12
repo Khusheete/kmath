@@ -19,10 +19,10 @@
 // SOFTWARE.
 
 
-#include "tests.hpp"
+#include "examples.hpp"
 
 #include "kmath/kmath.hpp"
-#include "test/src/utils/freecam.hpp"
+#include "utils/freecam.hpp"
 
 #include "thirdparty/raylib/raylib.h"
 #include <cmath>
@@ -36,7 +36,7 @@ struct TestData {
 
 void *camera_init() {
   TestData *data = new TestData();
-  data->camera.position = 2.0f * kmath::Vec3f::Z;
+  data->camera.position = 2.0f * kmath::Vec3::Z;
   data->prev_time = GetTime();
   return data;
 }

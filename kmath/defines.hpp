@@ -22,14 +22,34 @@
 #pragma once
 
 
-#define KMATH_FORCE_INLINE
-#include "defines.hpp"
+// ========================
+// = Functions qualifiers =
+// ========================
 
-#include "utils.hpp"
-#include "vector.hpp"
-#include "matrix.hpp"
-#include "euclidian_flat_3d.hpp"
-#include "motor_3d.hpp"
-#include "rotor_3d.hpp"
 
-#include "pga_3d.hpp"
+#define KMATH_INLINE inline
+
+
+#ifndef KMATH_FUNC
+
+#ifndef KMATH_FORCE_INLINE
+#define KMATH_FUNC
+#else
+#define KMATH_FUNC KMATH_INLINE
+#endif
+
+#endif // #ifndef KMATH_FUNC
+
+
+// =======================
+// = Precision constants =
+// =======================
+
+
+#ifndef KMATH_EPSILON
+// Default epsilon value
+#define KMATH_EPSILON 0.00001
+#endif
+
+#define KMATH_EPSILON2 (KMATH_EPSILON * KMATH_EPSILON)
+

@@ -20,10 +20,10 @@
 
 
 #include "kmath/kmath.hpp"
-#include "tests.hpp"
+#include "examples.hpp"
 
-#include "test/src/utils/freecam.hpp"
-#include "test/src/utils/math.hpp"
+#include "utils/freecam.hpp"
+#include "utils/math.hpp"
 #include "thirdparty/raylib/raylib.h"
 #include <vector>
 
@@ -37,21 +37,21 @@ struct TestData {
   FreeCam camera;
   float prev_time;
 
-  std::vector<kmath::Vec3f> reference_points;
+  std::vector<kmath::Vec3> reference_points;
   TransformId current_transform;
 };
 
 
-kmath::DQuatf get_transformation(TransformId p_trans) {
+kmath::Motor3 get_transformation(TransformId p_trans) {
   switch (p_trans) {
-  case TransformId::I: return kmath::DQuatf(1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0);
-  case TransformId::J: return kmath::DQuatf(0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0);
-  case TransformId::K: return kmath::DQuatf(0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0);
-  case TransformId::IE: return kmath::DQuatf(0.0, 0.0, 0.0, 1.0, 2.0, 0.0, 0.0, 0.0);
-  case TransformId::JE: return kmath::DQuatf(0.0, 0.0, 0.0, 1.0, 0.0, 2.0, 0.0, 0.0);
-  case TransformId::KE: return kmath::DQuatf(0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 2.0, 0.0);
+  case TransformId::I: return kmath::Motor3(1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0);
+  case TransformId::J: return kmath::Motor3(0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0);
+  case TransformId::K: return kmath::Motor3(0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0);
+  case TransformId::IE: return kmath::Motor3(0.0, 0.0, 0.0, 1.0, 2.0, 0.0, 0.0, 0.0);
+  case TransformId::JE: return kmath::Motor3(0.0, 0.0, 0.0, 1.0, 0.0, 2.0, 0.0, 0.0);
+  case TransformId::KE: return kmath::Motor3(0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 2.0, 0.0);
   }
-  return kmath::DQuatf::IDENTITY;
+  return kmath::Motor3::IDENTITY;
 }
 
 
@@ -61,16 +61,16 @@ TransformId &operator++(TransformId &p_trans) {
 }
 
 
-void *dquat_transforms_init() {
+void *motor_transforms_init() {
   TestData *data = new TestData();
-  data->camera.position = kmath::Vec3f(0.0, 0.5, -2.0);
+  data->camera.position = kmath::Vec3(0.0, 0.5, -2.0);
   data->prev_time = GetTime();
 
   data->reference_points.reserve(10 * 10 * 10);
   for (int i = -5; i <= 5; ++i) {
     for (int j = -5; j <= 5; ++j) {
       for (int k = -5; k <= 5; ++k) {
-        data->reference_points.push_back(kmath::Vec3f(
+        data->reference_points.push_back(kmath::Vec3(
           i, j, k          
         ));
       }
@@ -84,7 +84,7 @@ void *dquat_transforms_init() {
 
 
 
-void dquat_transforms_run(void *p_data) {
+void motor_transforms_run(void *p_data) {
   TestData *data = (TestData*)p_data;
 
   // Get delta
@@ -106,24 +106,22 @@ void dquat_transforms_run(void *p_data) {
 
   DrawGrid(20, 1.0);
 
-  kmath::DQuatf current_transform = kmath::seplerp(
-    kmath::DQuatf::IDENTITY,
+  kmath::Motor3 current_transform = kmath::seplerp(
+    kmath::Motor3::IDENTITY,
     get_transformation(data->current_transform),
     ping_pong(0.5 * time)
   );
   for (int i = 0; i < data->reference_points.size(); ++i) {
-    kmath::DQuatf transformed = kmath::DQuatf::from_point(data->reference_points[i]);
-    transformed = current_transform.unit_conjugate(transformed);
-    kmath::Vec3f new_pos = transformed.get_point();
+    kmath::Vec3 transformed = kmath::transform_point(data->reference_points[i], current_transform);
 
-    DrawPoint3D(reinterpret_cast<Vector3&>(new_pos), WHITE);
+    DrawPoint3D(reinterpret_cast<Vector3&>(transformed), WHITE);
   }
 
   EndMode3D();
 }
 
 
-void dquat_transforms_cleanup(void *p_data) {
+void motor_transforms_cleanup(void *p_data) {
   delete (TestData*)p_data;
 }
 

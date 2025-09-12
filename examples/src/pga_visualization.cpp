@@ -19,11 +19,12 @@
 // SOFTWARE.
 
 
-#include "test/src/utils/freecam.hpp"
-#include "test/src/utils/pga.hpp"
-#include "tests.hpp"
+#include "examples.hpp"
+#include "utils/freecam.hpp"
+#include "utils/pga.hpp"
 
-#include "kmath/kpga.hpp"
+#include "kmath/kmath.hpp"
+
 #include "thirdparty/raylib/raylib.h"
 #include <cstdlib>
 
@@ -31,17 +32,19 @@
 struct TestData {
   FreeCam camera;
   float prev_time;
-  kmath::Mvec3df some_point;
-  kmath::Mvec3df some_line;
+  kmath::Mvec3 some_point;
+  kmath::Mvec3 some_line;
+  kmath::Mvec3 some_plane;
 };
 
 
 void *pga_visualization_init() {
   TestData *data = new TestData();
-  data->camera.position = kmath::Vec3f(0.0, 1.0, 2.0);
+  data->camera.position = kmath::Vec3(0.0, 1.0, 2.0);
   data->prev_time = GetTime();
-  data->some_point = kmath::Mvec3df::point(1.0, 1.0, 2.0);
-  data->some_line = kmath::Mvec3df::line(-1.0, 2.0, 5.0);
+  data->some_point = kmath::Mvec3::point(1.0, 1.0, 2.0);
+  data->some_line = kmath::Mvec3::line(-1.0, 2.0, 5.0);
+  data->some_plane = kmath::Mvec3::plane(1.0, -1.0, 0.0, 2.0).plane_normalize();
 
   // std::cout << data->some_point.to_string() << std::endl;
   // std::cout << data->some_line.to_string() << std::endl;
@@ -64,6 +67,7 @@ void pga_visualization_run(void *p_data) {
   DrawGrid(10, 1.0);
   draw_point(data->some_point, RED);
   draw_line(data->camera.position, data->some_line, RED);
+  draw_plane(data->camera.position, data->some_plane, BLUE);
   
   EndMode3D();
 }

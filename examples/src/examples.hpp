@@ -21,9 +21,9 @@
 
 #pragma once
 
-void *quat_dquat_init();
-void quat_dquat_run(void *p_data);
-void quat_dquat_cleanup(void *p_data);
+void *rotor_motor_init();
+void rotor_motor_run(void *p_data);
+void rotor_motor_cleanup(void *p_data);
 
 
 void *camera_init();
@@ -31,9 +31,9 @@ void camera_run(void *p_data);
 void camera_cleanup(void *p_data);
 
 
-void *dquat_transforms_init();
-void dquat_transforms_run(void *p_data);
-void dquat_transforms_cleanup(void *p_data);
+void *motor_transforms_init();
+void motor_transforms_run(void *p_data);
+void motor_transforms_cleanup(void *p_data);
 
 
 void *pga_visualization_init();

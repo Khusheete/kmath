@@ -24,7 +24,7 @@
 #include <cstdlib>
 #include <string>
 
-#include "test/src/tests.hpp"
+#include "examples.hpp"
 #include "thirdparty/raylib/raylib.h"
 
 
@@ -39,9 +39,9 @@ struct Test {
 const std::array<Test, 4> TESTS = {
   Test{
     .name = "Test Quat and DQuat structs",
-    .init = &quat_dquat_init,
-    .run = &quat_dquat_run,
-    .cleanup = &quat_dquat_cleanup,
+    .init = &rotor_motor_init,
+    .run = &rotor_motor_run,
+    .cleanup = &rotor_motor_cleanup,
   },
   Test{
     .name = "Camera",
@@ -51,9 +51,9 @@ const std::array<Test, 4> TESTS = {
   },
   Test{
     .name = "DQuat Transforms",
-    .init = &dquat_transforms_init,
-    .run = &dquat_transforms_run,
-    .cleanup = &dquat_transforms_cleanup,
+    .init = &motor_transforms_init,
+    .run = &motor_transforms_run,
+    .cleanup = &motor_transforms_cleanup,
   },
   Test{
     .name = "PGA Visualization",

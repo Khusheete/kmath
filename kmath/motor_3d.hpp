@@ -305,10 +305,10 @@ namespace kmath {
   template<typename T>
   KMATH_FUNC _Motor3<T> operator*(const _Motor3<T> &a, const _Motor3<T> &b) {
     return _Motor3<T>(
+      -a.e23 * b.e23 - a.e31 * b.e31 - a.e12 * b.e12 + a.s   * b.s,
       a.s    * b.e23 + a.e23 * b.s + a.e31   * b.e12 - a.e12 * b.e31,
       a.s    * b.e31 + a.e31 * b.s + a.e12   * b.e23 - a.e23 * b.e12,
       a.s    * b.e12 + a.e12 * b.s + a.e23   * b.e31 - a.e31 * b.e23,
-      -a.e23 * b.e23 - a.e31 * b.e31 - a.e12 * b.e12 + a.s   * b.s,
 
       -a.e01  * b.e23 - a.e02 * b.e31 - a.e03 * b.e12 + a.e0123 * b.s   - a.e23 * b.e01 - a.e31 * b.e02   - a.e12 * b.e03 + a.s   * b.e0123,
       a.e0123 * b.e23 + a.e01 * b.s   + a.e02 * b.e12 - a.e03   * b.e31 + a.s   * b.e01 + a.e23 * b.e0123 + a.e31 * b.e03 - a.e12 * b.e02,

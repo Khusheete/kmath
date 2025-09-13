@@ -44,12 +44,12 @@ struct TestData {
 
 kmath::Motor3 get_transformation(TransformId p_trans) {
   switch (p_trans) {
-  case TransformId::I: return kmath::Motor3(1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0);
-  case TransformId::J: return kmath::Motor3(0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0);
-  case TransformId::K: return kmath::Motor3(0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0);
-  case TransformId::IE: return kmath::Motor3(0.0, 0.0, 0.0, 1.0, 2.0, 0.0, 0.0, 0.0);
-  case TransformId::JE: return kmath::Motor3(0.0, 0.0, 0.0, 1.0, 0.0, 2.0, 0.0, 0.0);
-  case TransformId::KE: return kmath::Motor3(0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 2.0, 0.0);
+  case TransformId::I: return kmath::Motor3(0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0);
+  case TransformId::J: return kmath::Motor3(0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0);
+  case TransformId::K: return kmath::Motor3(0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0);
+  case TransformId::IE: return kmath::Motor3(1.0, 0.0, 0.0, 0.0, 0.0, 2.0, 0.0, 0.0);
+  case TransformId::JE: return kmath::Motor3(1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 2.0, 0.0);
+  case TransformId::KE: return kmath::Motor3(1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 2.0);
   }
   return kmath::Motor3::IDENTITY;
 }
@@ -109,7 +109,7 @@ void motor_transforms_run(void *p_data) {
   kmath::Motor3 current_transform = kmath::seplerp(
     kmath::Motor3::IDENTITY,
     get_transformation(data->current_transform),
-    ping_pong(0.5 * time)
+    std::fmod(0.5f * time, 1.0f)
   );
   for (int i = 0; i < data->reference_points.size(); ++i) {
     kmath::Vec3 transformed = kmath::transform_point(data->reference_points[i], current_transform);

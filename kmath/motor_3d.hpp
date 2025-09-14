@@ -249,7 +249,19 @@ namespace kmath {
 
 
   template<typename T>
-  KMATH_FUNC _Mat4<T> as_transform(const _Motor3<T> &m); // TODO
+  KMATH_FUNC _Mat4<T> as_transform(const _Motor3<T> &m) {
+    _Rotor3<T> rotor = get_rotor(m);
+    _Vec3<T> translation = get_translation(m);
+    _Vec3<T> rotation_x = get_x_basis_vector(rotor);
+    _Vec3<T> rotation_y = get_y_basis_vector(rotor);
+    _Vec3<T> rotation_z = get_z_basis_vector(rotor);
+    return _Mat4<T>(
+      _Vec4<T>(rotation_x.x, rotation_x.y, rotation_x.z, (T)0.0),
+      _Vec4<T>(rotation_y.x, rotation_y.y, rotation_y.z, (T)0.0),
+      _Vec4<T>(rotation_z.x, rotation_z.y, rotation_z.z, (T)0.0),
+      _Vec4<T>(translation.x, translation.y, translation.z, (T)1.0)
+    );
+  }
 
 
   // ===================

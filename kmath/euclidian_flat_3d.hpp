@@ -785,10 +785,10 @@ namespace kmath {
   template<typename T>
   KMATH_FUNC _Plane3<T> inner(const _Plane3<T> &plane, const _Line3<T> &line) {
     return _Plane3<T>(
+      -(plane.e1 * line.e01 + plane.e2 * line.e02 + plane.e3 * line.e03),
       plane.e3 * line.e31 - plane.e2 * line.e12,
       plane.e1 * line.e12 - plane.e3 * line.e23,
-      plane.e2 * line.e23 - plane.e1 * line.e31,
-      -(plane.e1 * line.e01 + plane.e2 * line.e02 + plane.e3 * line.e03)
+      plane.e2 * line.e23 - plane.e1 * line.e31
     );
   }
 
@@ -801,7 +801,7 @@ namespace kmath {
 
   template<typename T>
   KMATH_FUNC bool is_on(const _Line3<T> &line, const _Plane3<T> &plane) {
-    return is_approx_zero(inner(plane, line));
+    return is_approx_zero(inner(plane, line)); // TODO: check
   }
 
 
@@ -830,10 +830,10 @@ namespace kmath {
   template<typename T>
   KMATH_FUNC _Plane3<T> inner(const _Line3<T> &line, const _Point3<T> &point) {
     return _Plane3<T>(
+      line.e23 * point.e032 + line.e31 * point.e013 + line.e12 * point.e021,
        - line.e23 * point.e123,
        - line.e31 * point.e123,
-       - line.e12 * point.e123,
-      line.e23 * point.e032 + line.e31 * point.e013 + line.e12 * point.e021 
+       - line.e12 * point.e123
     );
   }
 

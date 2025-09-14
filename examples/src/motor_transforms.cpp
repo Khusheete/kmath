@@ -22,14 +22,10 @@
 #include "kmath/kmath.hpp"
 #include "examples.hpp"
 
-#include "kmath/motor_3d.hpp"
-#include "kmath/rotor_3d.hpp"
-#include "kmath/vector.hpp"
 #include "utils/freecam.hpp"
 #include "utils/math.hpp"
 #include "thirdparty/raylib/raylib.h"
 #include <iostream>
-#include <ostream>
 #include <vector>
 
 
@@ -49,9 +45,9 @@ struct TestData {
 
 kmath::Motor3 get_transformation(TransformId p_trans) {
   switch (p_trans) {
-  case TransformId::I: return kmath::Motor3::from_axis_angle(kmath::Vec3::X, PI);
-  case TransformId::J: return kmath::Motor3::from_axis_angle(kmath::Vec3::Y, PI);
-  case TransformId::K: return kmath::Motor3::from_axis_angle(kmath::Vec3::Z, PI);
+  case TransformId::I: return kmath::Motor3::from_axis_angle(kmath::Vec3::X, 0.5 * PI);
+  case TransformId::J: return kmath::Motor3::from_axis_angle(kmath::Vec3::Y, 0.5 * PI);
+  case TransformId::K: return kmath::Motor3::from_axis_angle(kmath::Vec3::Z, 0.5 * PI);
   case TransformId::IE: return kmath::Motor3::from_translation(4.0f * kmath::Vec3::X);
   case TransformId::JE: return kmath::Motor3::from_translation(4.0f * kmath::Vec3::Y);
   case TransformId::KE: return kmath::Motor3::from_translation(4.0f * kmath::Vec3::Z);

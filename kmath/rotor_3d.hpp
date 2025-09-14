@@ -288,7 +288,7 @@ namespace kmath {
 
 
   template<typename T>
-  KMATH_FUNC _Mat3<T> get_basis(const _Rotor3<T> &r) {
+  KMATH_FUNC _Mat3<T> as_basis(const _Rotor3<T> &r) {
     return _Mat3<T>(
       get_x_basis_vec(r),
       get_y_basis_vec(r),

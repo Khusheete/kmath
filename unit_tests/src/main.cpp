@@ -160,31 +160,31 @@ int main(void) {
 
 
   UNIT_TEST_SECTION("Plane3", {
-    const Plane3 a(5.0, Vec3(1.0, -2.0, 3.0));
-    const Plane3 b(-2.0, Vec3::ZERO);
-    const Plane3 c(-2.0, Vec3(4.0, 2.0, -1.0));
-    const Plane3 d(12.0, Vec3(0.0, 1.0, 0.0));
+    const Plane3 a(Vec3(1.0, -2.0, 3.0), 5.0);
+    const Plane3 b(Vec3::ZERO, -2.0);
+    const Plane3 c(Vec3(4.0, 2.0, -1.0), -2.0);
+    const Plane3 d(Vec3(0.0, 1.0, 0.0), 12.0);
 
     UNIT_TEST("Addition", {
       Plane3 e(a);
-      TEST_EQ_APPROX("a + c", a + c, Plane3(3.0, Vec3(5.0, 0.0, 2.0)));
-      TEST_EQ_APPROX("e += c", e += c, Plane3(3.0, Vec3(5.0, 0.0, 2.0)));
+      TEST_EQ_APPROX("a + c", a + c, Plane3(Vec3(5.0, 0.0, 2.0), 3.0));
+      TEST_EQ_APPROX("e += c", e += c, Plane3(Vec3(5.0, 0.0, 2.0), 3.0));
     });
     UNIT_TEST("Subtraction", {
       Plane3 e(a);
-      TEST_EQ_APPROX("a - c", a - c, Plane3(7.0, Vec3(-3.0, -4.0, 4.0)));
-      TEST_EQ_APPROX("e -= c", e -= c, Plane3(7.0, Vec3(-3.0, -4.0, 4.0)));
+      TEST_EQ_APPROX("a - c", a - c, Plane3(Vec3(-3.0, -4.0, 4.0), 7.0));
+      TEST_EQ_APPROX("e -= c", e -= c, Plane3(Vec3(-3.0, -4.0, 4.0), 7.0));
     });
     UNIT_TEST("Scalar multiplication", {
       Plane3 e(a);
-      TEST_EQ_APPROX("a * 2.0", a * 2.0f, Plane3(10.0, Vec3(2.0, -4.0, 6.0)));
-      TEST_EQ_APPROX("2.0 * a", 2.0f * a, Plane3(10.0, Vec3(2.0, -4.0, 6.0)));
-      TEST_EQ_APPROX("e *= 2.0", e *= 2.0f, Plane3(10.0, Vec3(2.0, -4.0, 6.0)));
+      TEST_EQ_APPROX("a * 2.0", a * 2.0f, Plane3(Vec3(2.0, -4.0, 6.0), 10.0));
+      TEST_EQ_APPROX("2.0 * a", 2.0f * a, Plane3(Vec3(2.0, -4.0, 6.0), 10.0));
+      TEST_EQ_APPROX("e *= 2.0", e *= 2.0f, Plane3(Vec3(2.0, -4.0, 6.0), 10.0));
     });
     UNIT_TEST("Scalar division", {
       Plane3 e(a);
-      TEST_EQ_APPROX("a / 0.5", a / 0.5f, Plane3(10.0, Vec3(2.0, -4.0, 6.0)));
-      TEST_EQ_APPROX("e /= 0.5", e /= 0.5f, Plane3(10.0, Vec3(2.0, -4.0, 6.0)));
+      TEST_EQ_APPROX("a / 0.5", a / 0.5f, Plane3(Vec3(2.0, -4.0, 6.0), 10.0));
+      TEST_EQ_APPROX("e /= 0.5", e /= 0.5f, Plane3(Vec3(2.0, -4.0, 6.0), 10.0));
     });
     UNIT_TEST("Is vanishing", {
       TEST_EQ("a", is_vanishing(a), false);
@@ -202,8 +202,8 @@ int main(void) {
     });
     UNIT_TEST("Normalized", {
       float sqrt14 = std::sqrt(14.0);
-      TEST_EQ_APPROX("normalize a", normalized(a), Plane3(5.0 / sqrt14, Vec3(1.0, -2.0, 3.0) / sqrt14));
-      TEST_EQ_APPROX("normalize b", normalized(b), Plane3(-1.0, 0.0, 0.0, 0.0));
+      TEST_EQ_APPROX("normalize a", normalized(a), Plane3(Vec3(1.0, -2.0, 3.0) / sqrt14, 5.0 / sqrt14));
+      TEST_EQ_APPROX("normalize b", normalized(b), Plane3(0.0, 0.0, 0.0, -1.0));
     });
     UNIT_TEST("Meet 2", {
       TEST_EQ_APPROX("meet(a, b)", meet(a, b), Line3::vanishing_line(Vec3(-2.0, 4.0, -6.0)));
@@ -347,8 +347,8 @@ int main(void) {
     });
     UNIT_TEST("Join 3", {
       Point3 d = Point3(3.0, 0.0, 5.0, -1.0);
-      TEST_EQ_APPROX("join(a, b, c)", join(a, b, c), Plane3(0.0, -3.0, 9.0, -5.0));
-      TEST_EQ_APPROX("join(a, b, d)", join(a, b, d), Plane3(34.0, 3.0, -43.0, 5.0));
+      TEST_EQ_APPROX("join(a, b, c)", join(a, b, c), Plane3(-3.0, 9.0, -5.0, 0.0));
+      TEST_EQ_APPROX("join(a, b, d)", join(a, b, d), Plane3(3.0, -43.0, 5.0, 34.0));
     });
     UNIT_TEST("Inner", {
       TEST_EQ_APPROX("inner(a, b)", inner(a, b), -2.0f);
@@ -363,8 +363,8 @@ int main(void) {
 
 
   UNIT_TEST_SECTION("Operations between Euclidian Flat 3D", {
-    Plane3 p = Plane3(4.0, -1.0, 6.0, 2.0);
-    Plane3 vp = Plane3(-4.0, Vec3::ZERO);
+    Plane3 p = Plane3(-1.0, 6.0, 2.0, 4.0);
+    Plane3 vp = Plane3(Vec3::ZERO, -4.0);
     Line3 l = Line3::line(7.0, -4.0, 1.0, 1.0, 6.0, -2.0);
     Line3 vl = Line3::vanishing_line(-4.0, 3.0, -1.0);
     Point3 x = Point3::point(2.0, 5.0, -1.0);
@@ -384,11 +384,11 @@ int main(void) {
       TEST_EQ_APPROX("meet(vl, vp)", meet(vl, vp), Point3(0.0, 0.0, 0.0, 0.0));
     });
     UNIT_TEST("Plane-line inner", {
-      TEST_EQ_APPROX("inner(p, l)", inner(p, l), Plane3(180.0, -14.0, -15.0, 38.0));
-      TEST_EQ_APPROX("inner(l, p)", inner(l, p), Plane3(-180.0, 14.0, 15.0, -38.0));
+      TEST_EQ_APPROX("inner(p, l)", inner(p, l), Plane3(-14.0, -15.0, 38.0, 180.0));
+      TEST_EQ_APPROX("inner(l, p)", inner(l, p), Plane3(14.0, 15.0, -38.0, -180.0));
 
-      TEST_EQ_APPROX("inner(p, vl)", inner(p, vl), Plane3(-20.0, 0.0, 0.0, 0.0));
-      TEST_EQ_APPROX("inner(vl, p)", inner(vl, p), Plane3(20.0, 0.0, 0.0, 0.0));
+      TEST_EQ_APPROX("inner(p, vl)", inner(p, vl), Plane3(0.0, 0.0, 0.0, -20.0));
+      TEST_EQ_APPROX("inner(vl, p)", inner(vl, p), Plane3(0.0, 0.0, 0.0, 20.0));
 
       TEST_EQ_APPROX("inner(vp, l)", inner(vp, l), Plane3(0.0, 0.0, 0.0, 0.0));
       TEST_EQ_APPROX("inner(l, vp)", inner(l, vp), Plane3(0.0, 0.0, 0.0, 0.0));
@@ -397,27 +397,27 @@ int main(void) {
       TEST_EQ_APPROX("inner(vl, vp)", inner(vl, vp), Plane3(0.0, 0.0, 0.0, 0.0));
     });
     UNIT_TEST("Line-point join", {
-      TEST_EQ_APPROX("join(x, l)", join(x, l), Plane3(33.0, -3.0, -6.0, -3.0));
-      TEST_EQ_APPROX("join(l, x)", join(l, x), Plane3(33.0, -3.0, -6.0, -3.0));
+      TEST_EQ_APPROX("join(x, l)", join(x, l), Plane3(-3.0, -6.0, -3.0, 33.0));
+      TEST_EQ_APPROX("join(l, x)", join(l, x), Plane3(-3.0, -6.0, -3.0, 33.0));
 
-      TEST_EQ_APPROX("join(x, vl)", join(x, vl), Plane3(-8.0, -4.0, 3.0, -1.0));
-      TEST_EQ_APPROX("join(vl, x)", join(vl, x), Plane3(-8.0, -4.0, 3.0, -1.0));
+      TEST_EQ_APPROX("join(x, vl)", join(x, vl), Plane3(-4.0, 3.0, -1.0, -8.0));
+      TEST_EQ_APPROX("join(vl, x)", join(vl, x), Plane3(-4.0, 3.0, -1.0, -8.0));
 
-      TEST_EQ_APPROX("join(v, l)", join(v, l), Plane3(212.0, -18.0, -29.0, 10.0));
-      TEST_EQ_APPROX("join(l, v)", join(l, v), Plane3(212.0, -18.0, -29.0, 10.0));
+      TEST_EQ_APPROX("join(v, l)", join(v, l), Plane3(-18.0, -29.0, 10.0, 212.0));
+      TEST_EQ_APPROX("join(l, v)", join(l, v), Plane3(-18.0, -29.0, 10.0, 212.0));
 
-      TEST_EQ_APPROX("join(v, vl)", join(v, vl), Plane3(-6.0, 0.0, 0.0, 0.0));
-      TEST_EQ_APPROX("join(vl, v)", join(vl, v), Plane3(-6.0, 0.0, 0.0, 0.0));
+      TEST_EQ_APPROX("join(v, vl)", join(v, vl), Plane3(0.0, 0.0, 0.0, -6.0));
+      TEST_EQ_APPROX("join(vl, v)", join(vl, v), Plane3(0.0, 0.0, 0.0, -6.0));
     });
     UNIT_TEST("Line-point inner", {
-      TEST_EQ_APPROX("inner(x, l)", inner(x, l), Plane3(-7.0, -7.0, 4.0, -1.0));
-      TEST_EQ_APPROX("inner(l, x)", inner(l, x), Plane3(-7.0, -7.0, 4.0, -1.0));
+      TEST_EQ_APPROX("inner(x, l)", inner(x, l), Plane3(-7.0, 4.0, -1.0, -7.0));
+      TEST_EQ_APPROX("inner(l, x)", inner(l, x), Plane3(-7.0, 4.0, -1.0, -7.0));
 
       TEST_EQ_APPROX("inner(x, vl)", inner(x, vl), Plane3(0.0, 0.0, 0.0, 0.0));
       TEST_EQ_APPROX("inner(vl, x)", inner(vl, x), Plane3(0.0, 0.0, 0.0, 0.0));
 
-      TEST_EQ_APPROX("inner(v, l)", inner(v, l), Plane3(-11.0, 0.0, 0.0, 0.0));
-      TEST_EQ_APPROX("inner(l, v)", inner(l, v), Plane3(-11.0, 0.0, 0.0, 0.0));
+      TEST_EQ_APPROX("inner(v, l)", inner(v, l), Plane3(0.0, 0.0, 0.0, -11.0));
+      TEST_EQ_APPROX("inner(l, v)", inner(l, v), Plane3(0.0, 0.0, 0.0, -11.0));
 
       TEST_EQ_APPROX("inner(v, vl)", inner(v, vl), Plane3(0.0, 0.0, 0.0, 0.0));
       TEST_EQ_APPROX("inner(vl, v)", inner(vl, v), Plane3(0.0, 0.0, 0.0, 0.0));

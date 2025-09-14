@@ -37,12 +37,12 @@ namespace kmath {
 
   template<typename T>
   struct _Plane3 {
-    T e0, e1, e2, e3;    
+    T e1, e2, e3, e0;    
 
   public:
     _Plane3(): _Plane3((T)0.0, (T)0.0, (T)0.0, (T)0.0) {}
-    _Plane3(T e0, T e1, T e2, T e3): e0(e0), e1(e1), e2(e2), e3(e3) {}
-    _Plane3(const T distance, const _Vec3<T> normal): e0(-distance), e1(normal.x), e2(normal.y), e3(normal.z) {}
+    _Plane3(T e1, T e2, T e3, T e0): e1(e1), e2(e2), e3(e3), e0(e0) {}
+    _Plane3(const _Vec3<T> normal, const T distance): e1(normal.x), e2(normal.y), e3(normal.z), e0(-distance) {}
 
 
   public:
@@ -235,7 +235,7 @@ namespace kmath {
       return a / magnitude(a);
     } else {
       return _Plane3<T>(
-        -1.0, 0.0, 0.0, 0.0
+        0.0, 0.0, 0.0, -1.0
       );
     }
   }
@@ -299,10 +299,10 @@ namespace kmath {
 
   template<typename T>
   KMATH_FUNC _Plane3<T> &operator+=(_Plane3<T> &a, const _Plane3<T> &b) {
-    a.e0 += b.e0;
     a.e1 += b.e1;
     a.e2 += b.e2;
     a.e3 += b.e3;
+    a.e0 += b.e0;
     return a;
   }
 
@@ -317,10 +317,10 @@ namespace kmath {
 
   template<typename T>
   KMATH_FUNC _Plane3<T> &operator-=(_Plane3<T> &a, const _Plane3<T> &b) {
-    a.e0 -= b.e0;
     a.e1 -= b.e1;
     a.e2 -= b.e2;
     a.e3 -= b.e3;
+    a.e0 -= b.e0;
     return a;
   }
 
@@ -328,10 +328,10 @@ namespace kmath {
   template<typename T>
   KMATH_FUNC _Plane3<T> operator-(const _Plane3<T> &a){
     return _Plane3<T>(
-      -a.e0,
       -a.e1,
       -a.e2,
-      -a.e3
+      -a.e3,
+      -a.e0
     );
   }
 
@@ -339,10 +339,10 @@ namespace kmath {
   template<typename T>
   KMATH_FUNC _Plane3<T> operator*(const T a, const _Plane3<T> &b) {
     _Plane3<T> res(b);
-    res.e0 = a * res.e0;
     res.e1 = a * res.e1;
     res.e2 = a * res.e2;
     res.e3 = a * res.e3;
+    res.e0 = a * res.e0;
     return res;
   }
 
@@ -350,10 +350,10 @@ namespace kmath {
   template<typename T>
   KMATH_FUNC _Plane3<T> operator*(const _Plane3<T> &a, const T b) {
     _Plane3<T> res(a);
-    res.e0 = res.e0 * b;
     res.e1 = res.e1 * b;
     res.e2 = res.e2 * b;
     res.e3 = res.e3 * b;
+    res.e0 = res.e0 * b;
     return res;
   }
 
@@ -375,10 +375,10 @@ namespace kmath {
 
   template<typename T>
   KMATH_FUNC _Plane3<T> &operator/=(_Plane3<T> &a, const T b) {
-    a.e0 /= b;
     a.e1 /= b;
     a.e2 /= b;
     a.e3 /= b;
+    a.e0 /= b;
     return a;
   }
 
@@ -785,10 +785,10 @@ namespace kmath {
   template<typename T>
   KMATH_FUNC _Plane3<T> inner(const _Plane3<T> &plane, const _Line3<T> &line) {
     return _Plane3<T>(
-      -(plane.e1 * line.e01 + plane.e2 * line.e02 + plane.e3 * line.e03),
       plane.e3 * line.e31 - plane.e2 * line.e12,
       plane.e1 * line.e12 - plane.e3 * line.e23,
-      plane.e2 * line.e23 - plane.e1 * line.e31
+      plane.e2 * line.e23 - plane.e1 * line.e31,
+      -(plane.e1 * line.e01 + plane.e2 * line.e02 + plane.e3 * line.e03)
     );
   }
 
@@ -813,10 +813,10 @@ namespace kmath {
   template<typename T>
   KMATH_FUNC _Plane3<T> join(const _Line3<T> &line, const _Point3<T> &point) {
     return _Plane3<T>(
-      -line.e01 * point.e032 - line.e02 * point.e013 - line.e03 * point.e021,
       line.e01 * point.e123 + line.e31 * point.e021 - line.e12 * point.e013,
       line.e02 * point.e123 + line.e12 * point.e032 - line.e23 * point.e021,
-      line.e03 * point.e123 + line.e23 * point.e013 - line.e31 * point.e032
+      line.e03 * point.e123 + line.e23 * point.e013 - line.e31 * point.e032,
+      -line.e01 * point.e032 - line.e02 * point.e013 - line.e03 * point.e021
     );
   }
 
@@ -830,10 +830,10 @@ namespace kmath {
   template<typename T>
   KMATH_FUNC _Plane3<T> inner(const _Line3<T> &line, const _Point3<T> &point) {
     return _Plane3<T>(
-      line.e23 * point.e032 + line.e31 * point.e013 + line.e12 * point.e021,
        - line.e23 * point.e123,
        - line.e31 * point.e123,
-       - line.e12 * point.e123
+       - line.e12 * point.e123,
+      line.e23 * point.e032 + line.e31 * point.e013 + line.e12 * point.e021
     );
   }
 
@@ -1070,10 +1070,10 @@ namespace kmath {
   template<typename T>
   KMATH_FUNC _Plane3<T> fast_reflect(const _Plane3<T> &a, const _Plane3<T> &b) {
     return _Plane3<T>(
-      a.e0 * b.e1 * b.e1 + a.e0 * b.e2 * b.e2 + a.e0 * b.e3 * b.e3 - (T)2.0 * a.e2 * b.e2 * b.e0 - (T)2.0 * a.e3 * b.e3 * b.e0 - (T)2.0 * a.e1 * b.e1 * b.e0 ,
       a.e1 * b.e2 * b.e2 + a.e1 * b.e3 * b.e3 - a.e1 * b.e1 * b.e1 - (T)2.0 * a.e3 * b.e1 * b.e3 - (T)2.0 * a.e2 * b.e1 * b.e2,
       a.e2 * b.e1 * b.e1 + a.e2 * b.e3 * b.e3 - a.e2 * b.e2 * b.e2 - (T)2.0 * a.e3 * b.e2 * b.e3 - (T)2.0 * a.e1 * b.e1 * b.e2,
-      a.e3 * b.e2 * b.e2 + a.e3 * b.e1 * b.e1 - a.e3 * b.e3 * b.e3 - (T)2.0 * a.e2 * b.e2 * b.e3 - (T)2.0 * a.e1 * b.e1 * b.e3
+      a.e3 * b.e2 * b.e2 + a.e3 * b.e1 * b.e1 - a.e3 * b.e3 * b.e3 - (T)2.0 * a.e2 * b.e2 * b.e3 - (T)2.0 * a.e1 * b.e1 * b.e3,
+      a.e0 * b.e1 * b.e1 + a.e0 * b.e2 * b.e2 + a.e0 * b.e3 * b.e3 - (T)2.0 * a.e2 * b.e2 * b.e0 - (T)2.0 * a.e3 * b.e3 * b.e0 - (T)2.0 * a.e1 * b.e1 * b.e0
     );
   }
 
@@ -1081,10 +1081,10 @@ namespace kmath {
   template<typename T>
   KMATH_FUNC _Plane3<T> fast_reflect(const _Plane3<T> &a, const _Line3<T> &b) {
     return _Plane3<T>(
-      + (T)2.0 * a.e2 * b.e23 * b.e03 - (T)2.0 * a.e1 * b.e12 * b.e02 - (T)2.0 * a.e3 * b.e31 * b.e01 + a.e0 * b.e23 * b.e23 + a.e0 * b.e31 * b.e31 + a.e0 * b.e12 * b.e12 + (T)2.0 * a.e3 * b.e23 * b.e02 + (T)2.0 * a.e1 * b.e31 * b.e03 + (T)2.0 * a.e2 * b.e12 * b.e01,
       + a.e1 * b.e31 * b.e31 - a.e1 * b.e12 * b.e12 + a.e1 * b.e23 * b.e23 + (T)2.0 * a.e2 * b.e23 * b.e31 + (T)2.0 * a.e3 * b.e23 * b.e12,
       + a.e2 * b.e23 * b.e23 - a.e2 * b.e12 * b.e12 + a.e2 * b.e31 * b.e31 + (T)2.0 * a.e3 * b.e31 * b.e12 + (T)2.0 * a.e1 * b.e23 * b.e31,
-      + a.e3 * b.e31 * b.e31 - a.e3 * b.e23 * b.e23 + a.e3 * b.e12 * b.e12 + (T)2.0 * a.e1 * b.e23 * b.e12 + (T)2.0 * a.e2 * b.e31 * b.e12
+      + a.e3 * b.e31 * b.e31 - a.e3 * b.e23 * b.e23 + a.e3 * b.e12 * b.e12 + (T)2.0 * a.e1 * b.e23 * b.e12 + (T)2.0 * a.e2 * b.e31 * b.e12,
+      + (T)2.0 * a.e2 * b.e23 * b.e03 - (T)2.0 * a.e1 * b.e12 * b.e02 - (T)2.0 * a.e3 * b.e31 * b.e01 + a.e0 * b.e23 * b.e23 + a.e0 * b.e31 * b.e31 + a.e0 * b.e12 * b.e12 + (T)2.0 * a.e3 * b.e23 * b.e02 + (T)2.0 * a.e1 * b.e31 * b.e03 + (T)2.0 * a.e2 * b.e12 * b.e01
     );
   }
 
@@ -1092,10 +1092,10 @@ namespace kmath {
   template<typename T>
   KMATH_FUNC _Plane3<T> fast_reflect(const _Plane3<T> &a, const _Point3<T> &b) {
     return _Plane3<T>(
-      + a.e0 * b.e123 * b.e123 + 2 * a.e1 * b.e123 * b.e032 + 2 * a.e2 * b.e123 * b.e013 + 2 * a.e3 * b.e123 * b.e021,
       - a.e1 * b.e123 * b.e123,
       - a.e2 * b.e123 * b.e123,
-      - a.e3 * b.e123 * b.e123
+      - a.e3 * b.e123 * b.e123,
+      + a.e0 * b.e123 * b.e123 + 2 * a.e1 * b.e123 * b.e032 + 2 * a.e2 * b.e123 * b.e013 + 2 * a.e3 * b.e123 * b.e021
     );
   }
 

@@ -44,7 +44,7 @@ namespace kmath {
   public:
     _Plane3(): _Plane3((T)0.0, (T)0.0, (T)0.0, (T)0.0) {}
     _Plane3(T e0, T e1, T e2, T e3): e0(e0), e1(e1), e2(e2), e3(e3) {}
-    _Plane3(const _Vec3<T> normal, const T distance): e0(-distance), e1(normal.x), e2(normal.y), e3(normal.z) {}
+    _Plane3(const T distance, const _Vec3<T> normal): e0(-distance), e1(normal.x), e2(normal.y), e3(normal.z) {}
 
 
   public:
@@ -82,10 +82,30 @@ namespace kmath {
     }
 
 
+    static _Line3<T> line(const T dx, const T dy, const T dz, const T px, const T py, const T pz) {
+      return _Line3<T>(
+        dx,
+        dy,
+        dz,
+        py * dz - pz * dy,
+        pz * dx - px * dz,
+        px * dy - py * dx
+      );
+    }
+
+
     static _Line3<T> vanishing_line(const _Vec3<T> direction) {
       return _Line3<T>(
         (T)0.0, (T)0.0, (T)0.0,
         direction.x, direction.y, direction.z
+      );
+    }
+
+
+    static _Line3<T> vanishing_line(const T dx, const T dy, const T dz) {
+      return _Line3<T>(
+        (T)0.0, (T)0.0, (T)0.0,
+        dx, dy, dz
       );
     }
 
@@ -94,6 +114,14 @@ namespace kmath {
       return _Line3<T>(
         direction.x, direction.y, direction.z,
         moment.x, moment.y, moment.z      
+      );
+    }
+
+    
+    static _Line3<T> from_plucker(const T dx, const T dy, const T dz, const T mx, const T my, const T mz) {
+      return _Line3<T>(
+        dx, dy, dz,
+        mx, my, mz      
       );
     }
   };

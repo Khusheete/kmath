@@ -54,7 +54,7 @@ namespace kmath {
     static _Motor3<T> from_translation(const _Vec3<T> &translation) {
       return _Motor3<T>(
         _Rotor3<T>::IDENTITY,
-        _Rotor3<T>((T)0.0, ((T)0.5) * translation)
+        _Rotor3<T>((T)0.0, -((T)0.5) * translation)
       );
     }
 
@@ -65,14 +65,14 @@ namespace kmath {
 
 
     static _Motor3<T> from_rotor_translation(const _Rotor3<T> &rotation, const _Vec3<T> &translation) {
-      _Rotor3<T> trans((T)0.0, ((T)0.5) * translation);
+      _Rotor3<T> trans((T)0.0, -((T)0.5) * translation);
       return _Motor3<T>(rotation, trans * rotation);
     }
 
 
     static _Motor3<T> from_axis_angle_translation(const _Vec3<T> &axis, const T angle, const _Vec3<T> translation) {
       _Rotor3<T> rot = _Rotor3<T>::from_axis_angle(axis, angle);
-      _Rotor3<T> trans((T)0.0, ((T)0.5) * translation);
+      _Rotor3<T> trans((T)0.0, -((T)0.5) * translation);
       return _Motor3<T>(rot, trans * rot);
     }
 
@@ -130,7 +130,7 @@ namespace kmath {
     const _Rotor3<T> &real = get_real_part(m);
     const _Rotor3<T> &dual = get_dual_part(m);
     _Rotor3<T> translation = ((T)2.0) * dual * reverse(real);
-    return _Vec3<T>(translation.e23, translation.e31, translation.e12);
+    return -_Vec3<T>(translation.e23, translation.e31, translation.e12);
   }
 
 
@@ -305,15 +305,15 @@ namespace kmath {
   template<typename T>
   KMATH_FUNC _Motor3<T> operator*(const _Motor3<T> &a, const _Motor3<T> &b) {
     return _Motor3<T>(
-      -a.e23 * b.e23 - a.e31 * b.e31 - a.e12 * b.e12 + a.s   * b.s,
-      a.s    * b.e23 + a.e23 * b.s + a.e31   * b.e12 - a.e12 * b.e31,
-      a.s    * b.e31 + a.e31 * b.s + a.e12   * b.e23 - a.e23 * b.e12,
-      a.s    * b.e12 + a.e12 * b.s + a.e23   * b.e31 - a.e31 * b.e23,
+      b.s * a.s - b.e23 * a.e23 - a.e31 * b.e31 - b.e12 * a.e12,
+      a.s * b.e23 + b.s * a.e23 - a.e31 * b.e12 + b.e31 * a.e12,
+      a.s * b.e31 + b.s * a.e31 + a.e23 * b.e12 - b.e23 * a.e12,
+      a.s * b.e12 + b.s * a.e12 - a.e23 * b.e31 + b.e23 * a.e31,
 
-      -a.e01  * b.e23 - a.e02 * b.e31 - a.e03 * b.e12 + a.e0123 * b.s   - a.e23 * b.e01 - a.e31 * b.e02   - a.e12 * b.e03 + a.s   * b.e0123,
-      a.e0123 * b.e23 + a.e01 * b.s   + a.e02 * b.e12 - a.e03   * b.e31 + a.s   * b.e01 + a.e23 * b.e0123 + a.e31 * b.e03 - a.e12 * b.e02,
-      a.e0123 * b.e31 + a.e02 * b.s   + a.e03 * b.e23 - a.e01   * b.e12 + a.s   * b.e02 + a.e31 * b.e0123 + a.e12 * b.e01 - a.e23 * b.e03,
-      a.e0123 * b.e12 + a.e03 * b.s   + a.e01 * b.e31 - a.e02   * b.e23 + a.s   * b.e03 + a.e12 * b.e0123 + a.e23 * b.e02 - a.e31 * b.e01
+      a.e01 * b.e23 + a.e02 * b.e31 + a.e03 * b.e12 + b.e01 * a.e23 + b.e02 * a.e31 + b.e03 * a.e12 + a.s * b.e0123 + b.s * a.e0123,
+      a.s * b.e01 + b.s * a.e01 + a.e03 * b.e31 - a.e02 * b.e12 + b.e02 * a.e12 - b.e03 * a.e31 - a.e23 * b.e0123 - b.e23 * a.e0123,
+      a.s * b.e02 + b.s * a.e02 + a.e01 * b.e12 - a.e03 * b.e23 - b.e01 * a.e12 + b.e03 * a.e23 - a.e31 * b.e0123 - b.e31 * a.e0123,
+      a.s * b.e03 + b.s * a.e03 - a.e01 * b.e31 + a.e02 * b.e23 + b.e01 * a.e31 - b.e02 * a.e23 - a.e12 * b.e0123 - b.e12 * a.e0123
     );
   }
 
@@ -367,10 +367,10 @@ namespace kmath {
   template<typename T>
   KMATH_FUNC _Plane3<T> transform(const _Plane3<T> &a, const _Motor3<T> &m) {
     return _Plane3<T>(
-      (T)2.0 * a.e1 * m.e02 * m.e12 + (T)2.0 * a.e2 * m.e03 * m.e23 + (T)2.0 * a.e3 * m.e01 * m.e31 - a.e0 * m.s * m.s - a.e0 * m.e23 * m.e23 - a.e0 * m.e31 * m.e31 - a.e0 * m.e12 * m.e12 - (T)2.0 * a.e1 * m.s * m.e01 - (T)2.0 * a.e2 * m.s * m.e02 - (T)2.0 * a.e3 * m.s * m.e03 - (T)2.0 * a.e1 * m.e0123 * m.e23 - (T)2.0 * a.e2 * m.e0123 * m.e31 - (T)2.0 * a.e3 * m.e0123 * m.e12 - (T)2.0 * a.e1 * m.e03 * m.e31 - (T)2.0 * a.e2 * m.e12 * m.e01 - (T)2.0 * a.e3 * m.e02 * m.e23,
-      a.e1 * m.e12 * m.e12 + a.e1 * m.e31 * m.e31 - a.e1 * m.s * m.s - a.e1 * m.e23 * m.e23 - (T)2.0 * a.e2 * m.e12 * m.s - (T)2.0 * a.e2 * m.e23 * m.e31 + (T)2.0 * a.e3 * m.s * m.e31 - (T)2.0 * a.e3 * m.e12 * m.e23,
-      a.e2 * m.e23 * m.e23 + a.e2 * m.e12 * m.e12 - a.e2 * m.s * m.s - a.e2 * m.e31 * m.e31 - (T)2.0 * a.e3 * m.s * m.e23 - (T)2.0 * a.e3 * m.e12 * m.e31 + (T)2.0 * a.e1 * m.s * m.e12 - (T)2.0 * a.e1 * m.e23 * m.e31,
-      a.e3 * m.e23 * m.e23 + a.e3 * m.e31 * m.e31 - a.e3 * m.s * m.s - a.e3 * m.e12 * m.e12 - (T)2.0 * a.e1 * m.s * m.e31 - (T)2.0 * a.e1 * m.e12 * m.e23 + (T)2.0 * a.e2 * m.s * m.e23 - (T)2.0 * a.e2 * m.e12 * m.e31
+      - (T)2.0 * a.e1 * m.e02 * m.e12 - (T)2.0 * a.e2 * m.e03 * m.e23 - (T)2.0 * a.e3 * m.e01 * m.e31 + a.e0 * m.s * m.s + a.e0 * m.e23 * m.e23 + a.e0 * m.e31 * m.e31 + a.e0 * m.e12 * m.e12 + (T)2.0 * a.e1 * m.s * m.e01 + (T)2.0 * a.e2 * m.s * m.e02 + (T)2.0 * a.e3 * m.s * m.e03 + (T)2.0 * a.e1 * m.e0123 * m.e23 + (T)2.0 * a.e2 * m.e0123 * m.e31 + (T)2.0 * a.e3 * m.e0123 * m.e12 + (T)2.0 * a.e1 * m.e03 * m.e31 + (T)2.0 * a.e2 * m.e12 * m.e01 + (T)2.0 * a.e3 * m.e02 * m.e23,
+      - a.e1 * m.e12 * m.e12 - a.e1 * m.e31 * m.e31 + a.e1 * m.s * m.s + a.e1 * m.e23 * m.e23 + (T)2.0 * a.e2 * m.e12 * m.s + (T)2.0 * a.e2 * m.e23 * m.e31 - (T)2.0 * a.e3 * m.s * m.e31 + (T)2.0 * a.e3 * m.e12 * m.e23,
+      - a.e2 * m.e23 * m.e23 - a.e2 * m.e12 * m.e12 + a.e2 * m.s * m.s + a.e2 * m.e31 * m.e31 + (T)2.0 * a.e3 * m.s * m.e23 + (T)2.0 * a.e3 * m.e12 * m.e31 - (T)2.0 * a.e1 * m.s * m.e12 + (T)2.0 * a.e1 * m.e23 * m.e31,
+      - a.e3 * m.e23 * m.e23 - a.e3 * m.e31 * m.e31 + a.e3 * m.s * m.s + a.e3 * m.e12 * m.e12 + (T)2.0 * a.e1 * m.s * m.e31 + (T)2.0 * a.e1 * m.e12 * m.e23 - (T)2.0 * a.e2 * m.s * m.e23 + (T)2.0 * a.e2 * m.e12 * m.e31
     );
   }
   
@@ -378,12 +378,12 @@ namespace kmath {
   template<typename T>
   KMATH_FUNC _Line3<T> transform(const _Line3<T> &a, const _Motor3<T> &m) {
     return _Line3<T>(
-      a.e23 * m.e31 * m.e31 + a.e23 * m.e12 * m.e12 - a.e23 * m.e23 * m.e23 - a.e23 * m.s * m.s - (T)2.0 * a.e31 * m.s * m.e12 + (T)2.0 * a.e12 * m.s * m.e31 - (T)2.0 * a.e31 * m.e23 * m.e31 - (T)2.0 * a.e12 * m.e12 * m.e23,
-      a.e31 * m.e23 * m.e23 + m.e12 * m.e12 * a.e31 - a.e31 * m.e31 * m.e31 - m.s * m.s * a.e31 + (T)2.0 * a.e23 * m.s * m.e12 - (T)2.0 * a.e12 * m.s * m.e23 - (T)2.0 * a.e12 * m.e12 * m.e31 - (T)2.0 * a.e23 * m.e23 * m.e31,
-      a.e12 * m.e23 * m.e23 + a.e12 * m.e31 * m.e31 - a.e12 * m.e12 * m.e12 - a.e12 * m.s * m.s - (T)2.0 * a.e23 * m.s * m.e31 + (T)2.0 * a.e31 * m.s * m.e23 - (T)2.0 * a.e23 * m.e12 * m.e23 - (T)2.0 * a.e31 * m.e12 * m.e31,
-      a.e01 * m.e31 * m.e31 + a.e01 * m.e12 * m.e12 - a.e01 * m.e23 * m.e23 - a.e01 * m.s * m.s + (T)2.0 * a.e12 * m.s * m.e02 + (T)2.0 * a.e03 * m.s * m.e31 + (T)2.0 * a.e23 * m.s * m.e0123 + (T)2.0 * a.e23 * m.e31 * m.e02 + (T)2.0 * a.e23 * m.e12 * m.e03 + (T)2.0 * a.e31 * m.e12 * m.e0123 - (T)2.0 * a.e31 * m.s * m.e03 - (T)2.0 * a.e02 * m.s * m.e12 - (T)2.0 * a.e03 * m.e12 * m.e23 - (T)2.0 * a.e02 * m.e23 * m.e31 - (T)2.0 * a.e31 * m.e01 * m.e31 - (T)2.0 * a.e31 * m.e23 * m.e02 - (T)2.0 * a.e12 * m.e03 * m.e23 - (T)2.0 * a.e12 * m.e12 * m.e01 - (T)2.0 * a.e23 * m.e23 * m.e01 - (T)2.0 * a.e12 * m.e0123 * m.e31,
-      a.e02 * m.e23 * m.e23 + a.e02 * m.e12 * m.e12 - a.e02 * m.e31 * m.e31 - a.e02 * m.s * m.s - (T)2.0 * a.e12 * m.s * m.e01 + (T)2.0 * a.e01 * m.s * m.e12 + (T)2.0 * a.e23 * m.s * m.e03 + (T)2.0 * a.e31 * m.e23 * m.e01 + (T)2.0 * a.e31 * m.e12 * m.e03 + (T)2.0 * a.e31 * m.s * m.e0123 + (T)2.0 * a.e12 * m.e0123 * m.e23 - (T)2.0 * a.e03 * m.s * m.e23 - (T)2.0 * a.e12 * m.e12 * m.e02 - (T)2.0 * a.e23 * m.e01 * m.e31 - (T)2.0 * a.e31 * m.e31 * m.e02 - (T)2.0 * a.e03 * m.e12 * m.e31 - (T)2.0 * a.e23 * m.e23 * m.e02 - (T)2.0 * a.e01 * m.e23 * m.e31 - (T)2.0 * a.e12 * m.e03 * m.e31 - (T)2.0 * a.e23 * m.e12 * m.e0123,
-      a.e03 * m.e23 * m.e23 + a.e03 * m.e31 * m.e31 - a.e03 * m.e12 * m.e12 - a.e03 * m.s * m.s + (T)2.0 * a.e02 * m.s * m.e23 + (T)2.0 * a.e31 * m.s * m.e01 - (T)2.0 * a.e23 * m.s * m.e02 + (T)2.0 * a.e12 * m.e23 * m.e01 + (T)2.0 * a.e12 * m.e31 * m.e02 + (T)2.0 * a.e12 * m.s * m.e0123 + (T)2.0 * a.e23 * m.e0123 * m.e31 - (T)2.0 * a.e01 * m.s * m.e31 - (T)2.0 * a.e23 * m.e12 * m.e01 - (T)2.0 * a.e31 * m.e12 * m.e02 - (T)2.0 * a.e12 * m.e12 * m.e03 - (T)2.0 * a.e01 * m.e12 * m.e23 - (T)2.0 * a.e02 * m.e12 * m.e31 - (T)2.0 * a.e23 * m.e03 * m.e23 - (T)2.0 * a.e31 * m.e03 * m.e31 - (T)2.0 * a.e31 * m.e0123 * m.e23
+      - a.e23 * m.e31 * m.e31 - a.e23 * m.e12 * m.e12 + a.e23 * m.e23 * m.e23 + a.e23 * m.s * m.s + (T)2.0 * a.e31 * m.s * m.e12 - (T)2.0 * a.e12 * m.s * m.e31 + (T)2.0 * a.e31 * m.e23 * m.e31 + (T)2.0 * a.e12 * m.e12 * m.e23,
+      - a.e31 * m.e23 * m.e23 - m.e12 * m.e12 * a.e31 + a.e31 * m.e31 * m.e31 + m.s * m.s * a.e31 - (T)2.0 * a.e23 * m.s * m.e12 + (T)2.0 * a.e12 * m.s * m.e23 + (T)2.0 * a.e12 * m.e12 * m.e31 + (T)2.0 * a.e23 * m.e23 * m.e31,
+      - a.e12 * m.e23 * m.e23 - a.e12 * m.e31 * m.e31 + a.e12 * m.e12 * m.e12 + a.e12 * m.s * m.s + (T)2.0 * a.e23 * m.s * m.e31 - (T)2.0 * a.e31 * m.s * m.e23 + (T)2.0 * a.e23 * m.e12 * m.e23 + (T)2.0 * a.e31 * m.e12 * m.e31,
+      - a.e01 * m.e31 * m.e31 - a.e01 * m.e12 * m.e12 + a.e01 * m.e23 * m.e23 + a.e01 * m.s * m.s - (T)2.0 * a.e12 * m.s * m.e02 - (T)2.0 * a.e03 * m.s * m.e31 - (T)2.0 * a.e23 * m.s * m.e0123 - (T)2.0 * a.e23 * m.e31 * m.e02 - (T)2.0 * a.e23 * m.e12 * m.e03 - (T)2.0 * a.e31 * m.e12 * m.e0123 + (T)2.0 * a.e31 * m.s * m.e03 + (T)2.0 * a.e02 * m.s * m.e12 + (T)2.0 * a.e03 * m.e12 * m.e23 + (T)2.0 * a.e02 * m.e23 * m.e31 + (T)2.0 * a.e31 * m.e01 * m.e31 + (T)2.0 * a.e31 * m.e23 * m.e02 + (T)2.0 * a.e12 * m.e03 * m.e23 + (T)2.0 * a.e12 * m.e12 * m.e01 + (T)2.0 * a.e23 * m.e23 * m.e01 + (T)2.0 * a.e12 * m.e0123 * m.e31,
+      - a.e02 * m.e23 * m.e23 - a.e02 * m.e12 * m.e12 + a.e02 * m.e31 * m.e31 + a.e02 * m.s * m.s + (T)2.0 * a.e12 * m.s * m.e01 - (T)2.0 * a.e01 * m.s * m.e12 - (T)2.0 * a.e23 * m.s * m.e03 - (T)2.0 * a.e31 * m.e23 * m.e01 - (T)2.0 * a.e31 * m.e12 * m.e03 - (T)2.0 * a.e31 * m.s * m.e0123 - (T)2.0 * a.e12 * m.e0123 * m.e23 + (T)2.0 * a.e03 * m.s * m.e23 + (T)2.0 * a.e12 * m.e12 * m.e02 + (T)2.0 * a.e23 * m.e01 * m.e31 + (T)2.0 * a.e31 * m.e31 * m.e02 + (T)2.0 * a.e03 * m.e12 * m.e31 + (T)2.0 * a.e23 * m.e23 * m.e02 + (T)2.0 * a.e01 * m.e23 * m.e31 + (T)2.0 * a.e12 * m.e03 * m.e31 + (T)2.0 * a.e23 * m.e12 * m.e0123,
+      - a.e03 * m.e23 * m.e23 - a.e03 * m.e31 * m.e31 + a.e03 * m.e12 * m.e12 + a.e03 * m.s * m.s - (T)2.0 * a.e02 * m.s * m.e23 - (T)2.0 * a.e31 * m.s * m.e01 + (T)2.0 * a.e23 * m.s * m.e02 - (T)2.0 * a.e12 * m.e23 * m.e01 - (T)2.0 * a.e12 * m.e31 * m.e02 - (T)2.0 * a.e12 * m.s * m.e0123 - (T)2.0 * a.e23 * m.e0123 * m.e31 + (T)2.0 * a.e01 * m.s * m.e31 + (T)2.0 * a.e23 * m.e12 * m.e01 + (T)2.0 * a.e31 * m.e12 * m.e02 + (T)2.0 * a.e12 * m.e12 * m.e03 + (T)2.0 * a.e01 * m.e12 * m.e23 + (T)2.0 * a.e02 * m.e12 * m.e31 + (T)2.0 * a.e23 * m.e03 * m.e23 + (T)2.0 * a.e31 * m.e03 * m.e31 + (T)2.0 * a.e31 * m.e0123 * m.e23
     );
   }
 
@@ -391,21 +391,21 @@ namespace kmath {
   template<typename T>
   KMATH_FUNC _Point3<T> transform(const _Point3<T> &a, const _Motor3<T> &m) {
     return _Point3<T>(
-      a.e032 * m.e31 * m.e31 + a.e032 * m.e12 * m.e12 - a.e032 * m.e23 * m.e23 - a.e032 * m.s * m.s + (T)2.0 * a.e021 * m.e31 * m.s + (T)2.0 * a.e123 * m.e01 * m.s + (T)2.0 * a.e123 * m.e02 * m.e12 + (T)2.0 * a.e123 * m.e0123 * m.e23 - (T)2.0 * a.e013 * m.e12 * m.s - (T)2.0 * a.e021 * m.e23 * m.e12 - (T)2.0 * a.e013 * m.e23 * m.e31 - (T)2.0 * a.e123 * m.e31 * m.e03,
-      a.e013 * m.e12 * m.e12 + a.e013 * m.e23 * m.e23 - a.e013 * m.e31 * m.e31 - a.e013 * m.s * m.s + (T)2.0 * a.e032 * m.e12 * m.s + (T)2.0 * a.e123 * m.e02 * m.s + (T)2.0 * a.e123 * m.e23 * m.e03 + (T)2.0 * a.e123 * m.e0123 * m.e31 - (T)2.0 * a.e021 * m.e23 * m.s - (T)2.0 * a.e032 * m.e23 * m.e31 - (T)2.0 * a.e021 * m.e31 * m.e12 - (T)2.0 * a.e123 * m.e01 * m.e12,
-      a.e021 * m.e23 * m.e23 + a.e021 * m.e31 * m.e31 - a.e021 * m.e12 * m.e12 - a.e021 * m.s * m.s + (T)2.0 * a.e013 * m.e23 * m.s + (T)2.0 * a.e123 * m.e03 * m.s + (T)2.0 * a.e123 * m.e01 * m.e31 + (T)2.0 * a.e123 * m.e0123 * m.e12 - (T)2.0 * a.e032 * m.e31 * m.s - (T)2.0 * a.e032 * m.e23 * m.e12 - (T)2.0 * a.e013 * m.e31 * m.e12 - (T)2.0 * a.e123 * m.e23 * m.e02,
-      - a.e123 * (m.e23 * m.e23 + m.e31 * m.e31 + m.e12 * m.e12 + m.s * m.s)
+      - a.e032 * m.e31 * m.e31 - a.e032 * m.e12 * m.e12 + a.e032 * m.e23 * m.e23 + a.e032 * m.s * m.s - (T)2.0 * a.e021 * m.e31 * m.s - (T)2.0 * a.e123 * m.e01 * m.s - (T)2.0 * a.e123 * m.e02 * m.e12 - (T)2.0 * a.e123 * m.e0123 * m.e23 + (T)2.0 * a.e013 * m.e12 * m.s + (T)2.0 * a.e021 * m.e23 * m.e12 + (T)2.0 * a.e013 * m.e23 * m.e31 + (T)2.0 * a.e123 * m.e31 * m.e03,
+      - a.e013 * m.e12 * m.e12 - a.e013 * m.e23 * m.e23 + a.e013 * m.e31 * m.e31 + a.e013 * m.s * m.s - (T)2.0 * a.e032 * m.e12 * m.s - (T)2.0 * a.e123 * m.e02 * m.s - (T)2.0 * a.e123 * m.e23 * m.e03 - (T)2.0 * a.e123 * m.e0123 * m.e31 + (T)2.0 * a.e021 * m.e23 * m.s + (T)2.0 * a.e032 * m.e23 * m.e31 + (T)2.0 * a.e021 * m.e31 * m.e12 + (T)2.0 * a.e123 * m.e01 * m.e12,
+      - a.e021 * m.e23 * m.e23 - a.e021 * m.e31 * m.e31 + a.e021 * m.e12 * m.e12 + a.e021 * m.s * m.s - (T)2.0 * a.e013 * m.e23 * m.s - (T)2.0 * a.e123 * m.e03 * m.s - (T)2.0 * a.e123 * m.e01 * m.e31 - (T)2.0 * a.e123 * m.e0123 * m.e12 + (T)2.0 * a.e032 * m.e31 * m.s + (T)2.0 * a.e032 * m.e23 * m.e12 + (T)2.0 * a.e013 * m.e31 * m.e12 + (T)2.0 * a.e123 * m.e23 * m.e02,
+      + a.e123 * (m.e23 * m.e23 - m.e31 * m.e31 - m.e12 * m.e12 - m.s * m.s)
     );
   }
 
 
   template<typename T>
   KMATH_FUNC _Vec3<T> transform_point(const _Vec3<T> &a, const _Motor3<T> &m) {
-    T norm = - (m.s * m.s + m.e23 * m.e23 + m.e31 * m.e31 + m.e12 * m.e12);
+    T norm = m.s * m.s + m.e23 * m.e23 + m.e31 * m.e31 + m.e12 * m.e12;
     return _Vec3<T>(
-      - a.x * m.e23 * m.e23 + a.x * m.e31 * m.e31 + a.x * m.e12 * m.e12 - a.x * m.s * m.s - (T)2.0 * a.y * m.e23 * m.e31 - (T)2.0 * a.y * m.s * m.e12 - (T)2.0 * a.z * m.e23 * m.e12 + (T)2.0 * a.z * m.s * m.e31 + (T)2.0 * m.e01 * m.s + (T)2.0 * m.e02 * m.e12 - (T)2.0 * m.e03 * m.e31 + (T)2.0 * m.e0123 * m.e23,
-      + a.y * m.e23 * m.e23 - a.y * m.e31 * m.e31 + a.y * m.e12 * m.e12 - a.y * m.s * m.s - (T)2.0 * a.z * m.s * m.e23 - (T)2.0 * a.x * m.e23 * m.e31 - (T)2.0 * a.z * m.e31 * m.e12 + (T)2.0 * a.x * m.s * m.e12 - (T)2.0 * m.e01 * m.e12 + (T)2.0 * m.e02 * m.s + (T)2.0 * m.e03 * m.e23 + (T)2.0 * m.e0123 * m.e31,
-      + a.z * m.e23 * m.e23 + a.z * m.e31 * m.e31 - a.z * m.e12 * m.e12 - a.z * m.s * m.s - (T)2.0 * a.x * m.e23 * m.e12 - (T)2.0 * a.x * m.e31 * m.s + (T)2.0 * a.y * m.e23 * m.s - (T)2.0 * a.y * m.e31 * m.e12 + (T)2.0 * m.e01 * m.e31 - (T)2.0 * m.e02 * m.e23 + (T)2.0 * m.e03 * m.s + (T)2.0 * m.e0123 * m.e12
+      + a.x * m.e23 * m.e23 - a.x * m.e31 * m.e31 - a.x * m.e12 * m.e12 + a.x * m.s * m.s + (T)2.0 * a.y * m.e23 * m.e31 + (T)2.0 * a.y * m.s * m.e12 + (T)2.0 * a.z * m.e23 * m.e12 - (T)2.0 * a.z * m.s * m.e31 - (T)2.0 * m.e01 * m.s - (T)2.0 * m.e02 * m.e12 + (T)2.0 * m.e03 * m.e31 - (T)2.0 * m.e0123 * m.e23,
+      - a.y * m.e23 * m.e23 + a.y * m.e31 * m.e31 - a.y * m.e12 * m.e12 + a.y * m.s * m.s + (T)2.0 * a.z * m.s * m.e23 + (T)2.0 * a.x * m.e23 * m.e31 + (T)2.0 * a.z * m.e31 * m.e12 - (T)2.0 * a.x * m.s * m.e12 + (T)2.0 * m.e01 * m.e12 - (T)2.0 * m.e02 * m.s - (T)2.0 * m.e03 * m.e23 - (T)2.0 * m.e0123 * m.e31,
+      - a.z * m.e23 * m.e23 - a.z * m.e31 * m.e31 + a.z * m.e12 * m.e12 + a.z * m.s * m.s + (T)2.0 * a.x * m.e23 * m.e12 + (T)2.0 * a.x * m.e31 * m.s - (T)2.0 * a.y * m.e23 * m.s + (T)2.0 * a.y * m.e31 * m.e12 - (T)2.0 * m.e01 * m.e31 + (T)2.0 * m.e02 * m.e23 - (T)2.0 * m.e03 * m.s - (T)2.0 * m.e0123 * m.e12
     ) / norm;
   }
 
@@ -413,9 +413,23 @@ namespace kmath {
   template<typename T>
   KMATH_FUNC _Vec3<T> transform_direction(const _Vec3<T> &a, const _Motor3<T> &m) {
     return _Vec3<T>(
-      - a.x * m.e23 * m.e23 + a.x * m.e31 * m.e31 + a.x * m.e12 * m.e12 - a.x * m.s * m.s - (T)2.0 * a.y * m.e31 * m.e23 - (T)2.0 * a.y * m.e12 * m.s + (T)2.0 * a.z * m.e31 * m.s - (T)2.0 * a.z * m.e12 * m.e23,
-      + a.y * m.e23 * m.e23 - a.y * m.e31 * m.e31 + a.y * m.e12 * m.e12 - a.y * m.s * m.s - (T)2.0 * a.z * m.s * m.e23 - (T)2.0 * a.z * m.e31 * m.e12 - (T)2.0 * a.x * m.e31 * m.e23 + (T)2.0 * a.x * m.s * m.e12,
-      + a.z * m.e23 * m.e23 + a.z * m.e31 * m.e31 - a.z * m.e12 * m.e12 - a.z * m.s * m.s - (T)2.0 * a.x * m.e12 * m.e23 - (T)2.0 * a.x * m.s * m.e31 + (T)2.0 * a.y * m.s * m.e23 - (T)2.0 * a.y * m.e31 * m.e12
+      + a.x * m.e23 * m.e23 - a.x * m.e31 * m.e31 - a.x * m.e12 * m.e12 + a.x * m.s * m.s + (T)2.0 * a.y * m.e31 * m.e23 + (T)2.0 * a.y * m.e12 * m.s - (T)2.0 * a.z * m.e31 * m.s + (T)2.0 * a.z * m.e12 * m.e23,
+      - a.y * m.e23 * m.e23 + a.y * m.e31 * m.e31 - a.y * m.e12 * m.e12 + a.y * m.s * m.s + (T)2.0 * a.z * m.s * m.e23 + (T)2.0 * a.z * m.e31 * m.e12 + (T)2.0 * a.x * m.e31 * m.e23 - (T)2.0 * a.x * m.s * m.e12,
+      - a.z * m.e23 * m.e23 - a.z * m.e31 * m.e31 + a.z * m.e12 * m.e12 + a.z * m.s * m.s + (T)2.0 * a.x * m.e12 * m.e23 + (T)2.0 * a.x * m.s * m.e31 - (T)2.0 * a.y * m.s * m.e23 + (T)2.0 * a.y * m.e31 * m.e12
+    );
+  }
+
+
+  // =========
+  // = Debug =
+  // =========
+
+
+  template<typename T>
+  std::string to_string(const _Motor3<T> &m) {
+    return std::format(
+      "{} + {} e23 + {} e31 + {} e12 + {} e0123 + {} e01 + {} e02 + {} e03",
+      m.s, m.e23, m.e31, m.e12, m.e0123, m.e01, m.e02, m.e03
     );
   }
   

@@ -46,7 +46,7 @@ namespace kmath {
     static _Rotor3<T> from_axis_angle(const _Vec3<T> &axis, const T angle) {
       return _Rotor3<T>(
         (T)std::cos(angle / 2.0),
-        (T)std::sin(angle / 2.0) * axis
+        - (T)std::sin(angle / 2.0) * axis
       );
     }
 
@@ -101,7 +101,7 @@ namespace kmath {
 
   template<typename T>
   KMATH_FUNC _Vec3<T> get_direction(const _Rotor3<T> &r) {
-    return _Vec3<T>(r.e23, r.e31, r.e12);
+    return -_Vec3<T>(r.e23, r.e31, r.e12);
   }
 
 
@@ -237,10 +237,10 @@ namespace kmath {
   template<typename T>
   KMATH_FUNC _Rotor3<T> operator*(const _Rotor3<T> &a, const _Rotor3<T> &b) {
     return _Rotor3<T>(
-      -a.e23 * b.e23 - a.e31 * b.e31 - a.e12 * b.e12 + a.s   * b.s,
-       a.s   * b.e23 + a.e23 * b.s + a.e31   * b.e12 - a.e12 * b.e31,
-       a.s   * b.e31 + a.e31 * b.s + a.e12   * b.e23 - a.e23 * b.e12,
-       a.s   * b.e12 + a.e12 * b.s + a.e23   * b.e31 - a.e31 * b.e23
+      b.s * a.s - b.e23 * a.e23 - a.e31 * b.e31 - b.e12 * a.e12,
+      a.s * b.e23 + b.s * a.e23 - a.e31 * b.e12 + b.e31 * a.e12,
+      a.s * b.e31 + b.s * a.e31 + a.e23 * b.e12 - b.e23 * a.e12,
+      a.s * b.e12 + b.s * a.e12 - a.e23 * b.e31 + b.e23 * a.e31
     );
   }
 
@@ -261,8 +261,8 @@ namespace kmath {
   KMATH_FUNC _Vec3<T> get_x_basis_vector(const _Rotor3<T> &r) {
     return _Vec3<T>(
       r.e23 * r.e23 - r.e31 * r.e31 - r.e12 * r.e12 + r.s * r.s,
-      2.0 * (r.e23 * r.e31 + r.e12 * r.s),
-      2.0 * (r.e23 * r.e12 - r.e31 * r.s)
+      (T)2.0 * (r.e23 * r.e31 - r.e12 * r.s),
+      (T)2.0 * (r.e23 * r.e12 + r.e31 * r.s)
     );
   }
 
@@ -270,9 +270,9 @@ namespace kmath {
   template<typename T>
   KMATH_FUNC _Vec3<T> get_y_basis_vector(const _Rotor3<T> &r) {
     return _Vec3<T>(
-      2.0 * (r.e23 * r.e31 - r.e12 * r.s),
+      (T)2.0 * (r.e23 * r.e31 + r.e12 * r.s),
       -r.e23 * r.e23 + r.e31 * r.e31 - r.e12 * r.e12 + r.s * r.s,
-      2.0 * (r.e31 * r.e12 + r.e23 * r.s)
+      (T)2.0 * (r.e31 * r.e12 - r.e23 * r.s)
     );
   }
 
@@ -280,8 +280,8 @@ namespace kmath {
   template<typename T>
   KMATH_FUNC _Vec3<T> get_z_basis_vector(const _Rotor3<T> &r) {
     return _Vec3<T>(
-      2.0 * (r.e23 * r.e12 + r.e31 * r.s),
-      2.0 * (r.e31 * r.e12 - r.e23 * r.s),
+      (T)2.0 * (r.e23 * r.e12 - r.e31 * r.s),
+      (T)2.0 * (r.e31 * r.e12 + r.e23 * r.s),
       -r.e23 * r.e23 - r.e31 * r.e31 + r.e12 * r.e12 + r.s * r.s
     );
   }
@@ -317,9 +317,9 @@ namespace kmath {
   template<typename T>
   KMATH_FUNC _Vec3<T> transform(const _Vec3<T> &a, const _Rotor3<T> &r) {
     return _Vec3<T>(
-      - a.x * r.e23 * r.e23 + a.x * r.e31 * r.e31 + a.x * r.e12 * r.e12 - a.x * r.s * r.s - (T)2.0 * a.y * r.s * r.e12 - (T)2.0 * a.y * r.e31 * r.e23 - (T)2.0 * a.z * r.e12 * r.e23 + (T)2.0 * a.z * r.s * r.e31,
-      + a.y * r.e23 * r.e23 - a.y * r.e31 * r.e31 + a.y * r.e12 * r.e12 - a.y * r.s * r.s - (T)2.0 * a.z * r.s * r.e23 - (T)2.0 * a.z * r.e31 * r.e12 - (T)2.0 * a.x * r.e31 * r.e23 + (T)2.0 * a.x * r.s * r.e12,
-      + a.z * r.e23 * r.e23 + a.z * r.e31 * r.e31 - a.z * r.e12 * r.e12 - a.z * r.s * r.s - (T)2.0 * a.x * r.e12 * r.e23 - (T)2.0 * a.x * r.s * r.e31 + (T)2.0 * a.y * r.s * r.e23 - (T)2.0 * a.y * r.e31 * r.e12
+      2 * r.e23 * r.e31 * a.y + 2 * a.y * r.e12 * r.s + 2 * a.z * r.e23 * r.e12 - a.x * r.e31 * r.e31 - 2 * a.z * r.e31 * r.s + r.e23 * r.e23 * a.x - a.x * r.e12 * r.e12 + a.x * r.s * r.s,
+      - r.e23 * r.e23 * a.y + 2 * a.z * r.e23 * r.s + 2 * a.z * r.e31 * r.e12 + r.e31 * r.e31 * a.y - a.y * r.e12 * r.e12 - 2 * a.x * r.e12 * r.s + a.y * r.s * r.s + 2 * r.e23 * a.x * r.e31,
+      - a.z * r.e23 * r.e23 + 2 * r.e23 * a.x * r.e12 + a.z * r.e12 * r.e12 - 2 * r.e23 * a.y * r.s + 2 * a.x * r.e31 * r.s + a.z * r.s * r.s - a.z * r.e31 * r.e31 + 2 * r.e31 * a.y * r.e12
     );
   }
 

@@ -22,14 +22,19 @@
 #include "kmath/kmath.hpp"
 #include "examples.hpp"
 
+#include "kmath/motor_3d.hpp"
+#include "kmath/rotor_3d.hpp"
+#include "kmath/vector.hpp"
 #include "utils/freecam.hpp"
 #include "utils/math.hpp"
 #include "thirdparty/raylib/raylib.h"
+#include <iostream>
+#include <ostream>
 #include <vector>
 
 
 enum class TransformId : int {
-  I, J, K, IE, JE, KE,
+  I, J, K, IE, JE, KE, MAX_ID
 };
 
 
@@ -44,19 +49,20 @@ struct TestData {
 
 kmath::Motor3 get_transformation(TransformId p_trans) {
   switch (p_trans) {
-  case TransformId::I: return kmath::Motor3(0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0);
-  case TransformId::J: return kmath::Motor3(0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0);
-  case TransformId::K: return kmath::Motor3(0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0);
-  case TransformId::IE: return kmath::Motor3(1.0, 0.0, 0.0, 0.0, 0.0, 2.0, 0.0, 0.0);
-  case TransformId::JE: return kmath::Motor3(1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 2.0, 0.0);
-  case TransformId::KE: return kmath::Motor3(1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 2.0);
+  case TransformId::I: return kmath::Motor3::from_axis_angle(kmath::Vec3::X, PI);
+  case TransformId::J: return kmath::Motor3::from_axis_angle(kmath::Vec3::Y, PI);
+  case TransformId::K: return kmath::Motor3::from_axis_angle(kmath::Vec3::Z, PI);
+  case TransformId::IE: return kmath::Motor3::from_translation(4.0f * kmath::Vec3::X);
+  case TransformId::JE: return kmath::Motor3::from_translation(4.0f * kmath::Vec3::Y);
+  case TransformId::KE: return kmath::Motor3::from_translation(4.0f * kmath::Vec3::Z);
+  case TransformId::MAX_ID: return kmath::Motor3::IDENTITY;
   }
   return kmath::Motor3::IDENTITY;
 }
 
 
 TransformId &operator++(TransformId &p_trans) {
-  p_trans = (TransformId)(1 + (int)p_trans);
+  p_trans = (TransformId)((1 + (int)p_trans) % (int)TransformId::MAX_ID);
   return p_trans;
 }
 
@@ -111,8 +117,10 @@ void motor_transforms_run(void *p_data) {
     get_transformation(data->current_transform),
     std::fmod(0.5f * time, 1.0f)
   );
+
   for (int i = 0; i < data->reference_points.size(); ++i) {
     kmath::Vec3 transformed = kmath::transform_point(data->reference_points[i], current_transform);
+    transformed.y += 5.0f;
 
     DrawPoint3D(reinterpret_cast<Vector3&>(transformed), WHITE);
   }

@@ -22,6 +22,7 @@
 #include "freecam.hpp"
 #include "kmath/rotor_3d.hpp"
 #include "thirdparty/raylib/raylib.h"
+#include <iostream>
 
 
 void FreeCam::update(float p_delta) {
@@ -71,7 +72,6 @@ void FreeCam::update(float p_delta) {
     float render_height = GetRenderHeight();
     
     Vector2 mouse_delta = GetMouseDelta();
-    float mouse_mag = std::sqrt(mouse_delta.x * mouse_delta.x + mouse_delta.y * mouse_delta.y);
     SetMousePosition(0.5 * render_width, 0.5 * render_height);
     
     kmath::Rotor3 vertical_rotate = kmath::Rotor3::from_axis_angle(right, -0.5 * mouse_delta.y * p_delta);

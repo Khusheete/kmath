@@ -134,6 +134,63 @@ namespace kmath {
   }
 
 
+  // A motor is simple when its grade 4 part is null
+  template<typename T>
+  KMATH_FUNC bool is_simple(const _Motor3<T> &m) {
+    return is_approx_zero(m.e0132);
+  }
+
+
+  // The fast square root returns the motor that does half the transformation as `m` modulo a positive factor
+  template<typename T>
+  KMATH_FUNC _Motor3<T> fast_sqrt(const _Motor3<T> &m) {
+    T scaling = (T)1.0 + m.s;
+    T half_g4 = (T)0.5 * m.e0123;
+    return _Motor3<T>(
+      scaling * scaling,
+      scaling * m.e23,
+      scaling * m.e31,
+      scaling * m.e12,
+      scaling * m.e0123 - m.s * half_g4,
+      scaling * m.e01 + m.e23 * half_g4,
+      scaling * m.e02 + m.e31 * half_g4,
+      scaling * m.e03 + m.e12 * half_g4
+    );
+  }
+
+
+  template<typename T>
+  KMATH_FUNC _Motor3<T> sqrt(const _Motor3<T> &m) {
+    if (m.s >= 0.0) {
+      T num = (T)2.0 * ((T)1.0 + m.s);
+      T g4 = m.e0123 / num;
+      return _Motor3<T>(
+        (T)1.0 + m.s,
+        m.e23,
+        m.e31,
+        m.e12,
+        m.e0123 - m.s * g4,
+        m.e01 + m.e23 * g4,
+        m.e02 + m.e31 * g4,
+        m.e03 + m.e12 * g4
+      ) / std::sqrt(num);
+    } else {
+      T num = (T)2.0 * ((T)1.0 - m.s);
+      T g4 = m.e0123 / num;
+      return _Motor3<T>(
+        (T)1.0 - m.s,
+        -m.e23,
+        -m.e31,
+        -m.e12,
+        -m.e0123 - m.s * g4,
+        -m.e01 + m.e23 * g4,
+        -m.e02 + m.e31 * g4,
+        -m.e03 + m.e12 * g4
+      ) / std::sqrt(num);
+    }
+  }
+
+
   template<typename T>
   KMATH_FUNC void to_screw_coordinates(const _Motor3<T> &m, _Vec3<T> &direction, _Vec3<T> &moment, T &angle, T &translation) {
     angle = 2.0 * std::acos(m.s);

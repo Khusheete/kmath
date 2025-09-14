@@ -418,20 +418,6 @@ namespace kmath {
       - a.z * m.e23 * m.e23 - a.z * m.e31 * m.e31 + a.z * m.e12 * m.e12 + a.z * m.s * m.s + (T)2.0 * a.x * m.e12 * m.e23 + (T)2.0 * a.x * m.s * m.e31 - (T)2.0 * a.y * m.s * m.e23 + (T)2.0 * a.y * m.e31 * m.e12
     );
   }
-
-
-  // =========
-  // = Debug =
-  // =========
-
-
-  template<typename T>
-  std::string to_string(const _Motor3<T> &m) {
-    return std::format(
-      "{} + {} e23 + {} e31 + {} e12 + {} e0123 + {} e01 + {} e02 + {} e03",
-      m.s, m.e23, m.e31, m.e12, m.e0123, m.e01, m.e02, m.e03
-    );
-  }
   
 
   // ================

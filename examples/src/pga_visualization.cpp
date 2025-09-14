@@ -45,9 +45,6 @@ void *pga_visualization_init() {
   data->some_point = kmath::Mvec3::point(1.0, 1.0, 2.0);
   data->some_line = kmath::Mvec3::line(-1.0, 2.0, 5.0);
   data->some_plane = kmath::Mvec3::plane(1.0, -1.0, 0.0, 2.0).plane_normalize();
-
-  // std::cout << data->some_point.to_string() << std::endl;
-  // std::cout << data->some_line.to_string() << std::endl;
   
   return data;
 }

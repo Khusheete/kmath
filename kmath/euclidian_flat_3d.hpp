@@ -25,8 +25,6 @@
 #include "kmath/utils.hpp"
 #include "vector.hpp"
 #include <cmath>
-#include <format>
-#include <string>
 
 
 namespace kmath {
@@ -199,18 +197,6 @@ namespace kmath {
   // ===================
   // = Plane functions =
   // ===================
-  
-
-  template<typename T>
-  KMATH_FUNC std::string to_string(const _Plane3<T> &a) {
-    return std::format(
-      "{} e0 + {} e1 + {} e2 + {} e3",
-      a.e0,
-      a.e1,
-      a.e2,
-      a.e3
-    );
-  }
   
 
   template<typename T>
@@ -400,20 +386,6 @@ namespace kmath {
   // ==================
   // = Line functions =
   // ==================
-
-
-  template<typename T>
-  KMATH_FUNC std::string to_string(const _Line3<T> &a) {
-    return std::format(
-      "{} e23 + {} e31 + {} e12 + {} e01 + {} e02 + {} e03",
-      a.e23,
-      a.e31,
-      a.e12,
-      a.e01,
-      a.e02,
-      a.e03
-    );
-  }
 
 
   template<typename T>

@@ -26,9 +26,6 @@
 #include "vector.hpp"
 
 #include <cmath>
-#include <format>
-
-#include <ostream>
 
 
 namespace kmath {
@@ -198,19 +195,6 @@ namespace kmath {
 
     KMATH_FUNC _Mvec3<T> point_normalize() const {
       return (*this) / (*this)[Basis::e123];
-    }
-    
-
-    std::string to_string() const {
-      return std::format(
-        "{} + {} e1 + {} e2 + {} e3 + {} e0 + {} e23 + {} e31 + {} e12 + {} e01 + {} e02 + {} e03 + {} e123 + {} e032 + {} e013 + {} e021 + {} e0123",
-        (*this)[Basis::s],
-        (*this)[Basis::e1]  , (*this)[Basis::e2]  , (*this)[Basis::e3]  , (*this)[Basis::e0],
-        (*this)[Basis::e23] , (*this)[Basis::e31] , (*this)[Basis::e12] ,
-        (*this)[Basis::e01] , (*this)[Basis::e02] , (*this)[Basis::e03] ,
-        (*this)[Basis::e123], (*this)[Basis::e032], (*this)[Basis::e013], (*this)[Basis::e021],
-        (*this)[Basis::e0123]
-      );
     }
 
 
@@ -756,38 +740,6 @@ namespace kmath {
     res[14] = a[14];
     res[15] = a[15];
     return res;    
-  }
-
-
-  // ==================
-  // = Print function =
-  // ==================
-
-
-  template<typename T>
-  std::ostream &operator<<(std::ostream &stream, const _Mvec3<T> &m) {
-    stream << m[_Mvec3<T>::Basis::s];
-
-    stream << " + " << m[_Mvec3<T>::Basis::e1] << " e1";
-    stream << " + " << m[_Mvec3<T>::Basis::e2] << " e2";
-    stream << " + " << m[_Mvec3<T>::Basis::e3] << " e3";
-    stream << " + " << m[_Mvec3<T>::Basis::e0] << " e0";
-
-    stream << " + " << m[_Mvec3<T>::Basis::e23] << " e23";
-    stream << " + " << m[_Mvec3<T>::Basis::e31] << " e31";
-    stream << " + " << m[_Mvec3<T>::Basis::e12] << " e12";
-    stream << " + " << m[_Mvec3<T>::Basis::e01] << " e01";
-    stream << " + " << m[_Mvec3<T>::Basis::e02] << " e02";
-    stream << " + " << m[_Mvec3<T>::Basis::e03] << " e03";
-
-    stream << " + " << m[_Mvec3<T>::Basis::e123] << " e123";
-    stream << " + " << m[_Mvec3<T>::Basis::e032] << " e032";
-    stream << " + " << m[_Mvec3<T>::Basis::e013] << " e013";
-    stream << " + " << m[_Mvec3<T>::Basis::e021] << " e021";
-
-    stream << " + " << m[_Mvec3<T>::Basis::e0123] << " e0123";
-
-    return stream;
   }
 
 

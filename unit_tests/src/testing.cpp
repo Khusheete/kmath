@@ -74,6 +74,11 @@ std::string Testing::assert(const std::string &p_title, const bool p_success) {
 }
 
 
+bool Testing::has_succeeded() const {
+  return total_success_count == total_assertion_count;
+}
+
+
 void Testing::init_singleton() {
   singleton = new Testing();
 }

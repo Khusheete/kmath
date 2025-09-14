@@ -17,6 +17,8 @@ public:
   std::string get_final_report();
 
   std::string assert(const std::string &p_title, const bool p_success);
+
+  bool has_succeeded() const;
   
   
 public:

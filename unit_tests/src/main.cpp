@@ -160,31 +160,31 @@ int main(void) {
 
 
   UNIT_TEST_SECTION("Plane3", {
-    const Plane3 a(Vec3(1.0, -2.0, 3.0), 5.0);
-    const Plane3 b(Vec3::ZERO, -2.0);
-    const Plane3 c(Vec3(4.0, 2.0, -1.0), -2.0);
-    const Plane3 d(Vec3(0.0, 1.0, 0.0), 12.0);
+    const Plane3 a = Plane3::plane(Vec3(1.0, -2.0, 3.0), 5.0);
+    const Plane3 b = Plane3::plane(Vec3::ZERO, -2.0);
+    const Plane3 c = Plane3::plane(Vec3(4.0, 2.0, -1.0), -2.0);
+    const Plane3 d = Plane3::plane(Vec3(0.0, 1.0, 0.0), 12.0);
 
     UNIT_TEST("Addition", {
       Plane3 e(a);
-      TEST_EQ_APPROX("a + c", a + c, Plane3(Vec3(5.0, 0.0, 2.0), 3.0));
-      TEST_EQ_APPROX("e += c", e += c, Plane3(Vec3(5.0, 0.0, 2.0), 3.0));
+      TEST_EQ_APPROX("a + c", a + c, Plane3::plane(Vec3(5.0, 0.0, 2.0), 3.0));
+      TEST_EQ_APPROX("e += c", e += c, Plane3::plane(Vec3(5.0, 0.0, 2.0), 3.0));
     });
     UNIT_TEST("Subtraction", {
       Plane3 e(a);
-      TEST_EQ_APPROX("a - c", a - c, Plane3(Vec3(-3.0, -4.0, 4.0), 7.0));
-      TEST_EQ_APPROX("e -= c", e -= c, Plane3(Vec3(-3.0, -4.0, 4.0), 7.0));
+      TEST_EQ_APPROX("a - c", a - c, Plane3::plane(Vec3(-3.0, -4.0, 4.0), 7.0));
+      TEST_EQ_APPROX("e -= c", e -= c, Plane3::plane(Vec3(-3.0, -4.0, 4.0), 7.0));
     });
     UNIT_TEST("Scalar multiplication", {
       Plane3 e(a);
-      TEST_EQ_APPROX("a * 2.0", a * 2.0f, Plane3(Vec3(2.0, -4.0, 6.0), 10.0));
-      TEST_EQ_APPROX("2.0 * a", 2.0f * a, Plane3(Vec3(2.0, -4.0, 6.0), 10.0));
-      TEST_EQ_APPROX("e *= 2.0", e *= 2.0f, Plane3(Vec3(2.0, -4.0, 6.0), 10.0));
+      TEST_EQ_APPROX("a * 2.0", a * 2.0f, Plane3::plane(Vec3(2.0, -4.0, 6.0), 10.0));
+      TEST_EQ_APPROX("2.0 * a", 2.0f * a, Plane3::plane(Vec3(2.0, -4.0, 6.0), 10.0));
+      TEST_EQ_APPROX("e *= 2.0", e *= 2.0f, Plane3::plane(Vec3(2.0, -4.0, 6.0), 10.0));
     });
     UNIT_TEST("Scalar division", {
       Plane3 e(a);
-      TEST_EQ_APPROX("a / 0.5", a / 0.5f, Plane3(Vec3(2.0, -4.0, 6.0), 10.0));
-      TEST_EQ_APPROX("e /= 0.5", e /= 0.5f, Plane3(Vec3(2.0, -4.0, 6.0), 10.0));
+      TEST_EQ_APPROX("a / 0.5", a / 0.5f, Plane3::plane(Vec3(2.0, -4.0, 6.0), 10.0));
+      TEST_EQ_APPROX("e /= 0.5", e /= 0.5f, Plane3::plane(Vec3(2.0, -4.0, 6.0), 10.0));
     });
     UNIT_TEST("Is vanishing", {
       TEST_EQ("a", is_vanishing(a), false);
@@ -202,7 +202,7 @@ int main(void) {
     });
     UNIT_TEST("Normalized", {
       float sqrt14 = std::sqrt(14.0);
-      TEST_EQ_APPROX("normalize a", normalized(a), Plane3(Vec3(1.0, -2.0, 3.0) / sqrt14, 5.0 / sqrt14));
+      TEST_EQ_APPROX("normalize a", normalized(a), Plane3::plane(Vec3(1.0, -2.0, 3.0) / sqrt14, 5.0 / sqrt14));
       TEST_EQ_APPROX("normalize b", normalized(b), Plane3(0.0, 0.0, 0.0, -1.0));
     });
     UNIT_TEST("Meet 2", {
@@ -363,8 +363,8 @@ int main(void) {
 
 
   UNIT_TEST_SECTION("Operations between Euclidian Flat 3D", {
-    Plane3 p = Plane3(-1.0, 6.0, 2.0, 4.0);
-    Plane3 vp = Plane3(Vec3::ZERO, -4.0);
+    Plane3 p = Plane3::plane(-1.0, 6.0, 2.0, -4.0);
+    Plane3 vp = Plane3::vanishing_plane(-4.0);
     Line3 l = Line3::line(7.0, -4.0, 1.0, 1.0, 6.0, -2.0);
     Line3 vl = Line3::vanishing_line(-4.0, 3.0, -1.0);
     Point3 x = Point3::point(2.0, 5.0, -1.0);

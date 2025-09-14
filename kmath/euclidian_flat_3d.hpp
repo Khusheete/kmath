@@ -42,7 +42,21 @@ namespace kmath {
   public:
     _Plane3(): _Plane3((T)0.0, (T)0.0, (T)0.0, (T)0.0) {}
     _Plane3(T e1, T e2, T e3, T e0): e1(e1), e2(e2), e3(e3), e0(e0) {}
-    _Plane3(const _Vec3<T> normal, const T distance): e1(normal.x), e2(normal.y), e3(normal.z), e0(-distance) {}
+
+
+    static _Plane3<T> plane(const T a, const T b, const T c, const T d) {
+      return _Plane3<T>(a, b, c, -d);
+    }
+
+
+    static _Plane3<T> plane(const _Vec3<T> &normal, const T distance) {
+      return _Plane3<T>(normal.x, normal.y, normal.z, -distance);
+    }
+
+
+    static _Plane3<T> vanishing_plane(const T delta) {
+      return _Plane3<T>((T)0.0, (T)0.0, (T)0.0, -delta);
+    }
 
 
   public:
@@ -53,10 +67,10 @@ namespace kmath {
   };
 
 
-  template<typename T> const _Plane3<T> _Plane3<T>::VANISHING_PLANE = _Plane3<T>((T)-1.0, (T)0.0, (T)0.0, (T)0.0);
-  template<typename T> const _Plane3<T> _Plane3<T>::YZ = _Plane3<T>((T)0.0, (T)1.0, (T)0.0, (T)0.0);
-  template<typename T> const _Plane3<T> _Plane3<T>::ZX = _Plane3<T>((T)0.0, (T)0.0, (T)1.0, (T)0.0);
-  template<typename T> const _Plane3<T> _Plane3<T>::XY = _Plane3<T>((T)0.0, (T)0.0, (T)0.0, (T)1.0);
+  template<typename T> const _Plane3<T> _Plane3<T>::VANISHING_PLANE = _Plane3<T>((T)0.0, (T)0.0, (T)0.0, (T)-1.0);
+  template<typename T> const _Plane3<T> _Plane3<T>::YZ = _Plane3<T>((T)1.0, (T)0.0, (T)0.0, (T)0.0);
+  template<typename T> const _Plane3<T> _Plane3<T>::ZX = _Plane3<T>((T)0.0, (T)1.0, (T)0.0, (T)0.0);
+  template<typename T> const _Plane3<T> _Plane3<T>::XY = _Plane3<T>((T)0.0, (T)0.0, (T)1.0, (T)0.0);
   
 
   template<typename T>

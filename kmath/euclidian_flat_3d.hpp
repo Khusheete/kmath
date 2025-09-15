@@ -976,6 +976,20 @@ namespace kmath {
 
   // Fast projection gives a projection modulo a positive factor
   template<typename T>
+  KMATH_FUNC _Line3<T> fast_project(const _Line3<T> &a, const _Plane3<T> &b) {
+    return meet(inner(a, b), b);
+  }
+
+
+  // Fast projection gives a projection modulo a positive factor
+  template<typename T>
+  KMATH_FUNC _Line3<T> fast_project(const _Plane3<T> &a, const _Line3<T> &b) {
+    return inner(inner(a, b), b);
+  }
+
+
+  // Fast projection gives a projection modulo a positive factor
+  template<typename T>
   KMATH_FUNC _Point3<T> fast_project(const _Point3<T> &a, const _Plane3<T> &b) {
     return meet(inner(a, b), b);
   }
@@ -996,6 +1010,18 @@ namespace kmath {
 
   template<typename T>
   KMATH_FUNC _Line3<T> project(const _Line3<T> &a, const _Point3<T> &b) {
+    return inner(inner(a, b), inverse(b));
+  }
+
+
+  template<typename T>
+  KMATH_FUNC _Line3<T> project(const _Line3<T> &a, const _Plane3<T> &b) {
+    return meet(inner(a, b), inverse(b));
+  }
+
+
+  template<typename T>
+  KMATH_FUNC _Line3<T> project(const _Plane3<T> &a, const _Line3<T> &b) {
     return inner(inner(a, b), inverse(b));
   }
 
@@ -1028,6 +1054,20 @@ namespace kmath {
 
   // Fast rejection gives a rejection modulo a positive factor
   template<typename T>
+  KMATH_FUNC _Line3<T> fast_reject(const _Line3<T> &a, const _Plane3<T> &b) {
+    return meet(inner(a, b), a);
+  }
+
+
+  // Fast rejection gives a rejection modulo a positive factor
+  template<typename T>
+  KMATH_FUNC _Line3<T> fast_reject(const _Plane3<T> &a, const _Line3<T> &b) {
+    return inner(inner(a, b), a);
+  }
+
+
+  // Fast rejection gives a rejection modulo a positive factor
+  template<typename T>
   KMATH_FUNC _Point3<T> fast_reject(const _Point3<T> &a, const _Plane3<T> &b) {
     return meet(inner(a, b), a);
   }
@@ -1048,6 +1088,18 @@ namespace kmath {
 
   template<typename T>
   KMATH_FUNC _Line3<T> reject(const _Line3<T> &a, const _Point3<T> &b) {
+    return inner(inner(a, b), inverse(a));
+  }
+
+
+  template<typename T>
+  KMATH_FUNC _Line3<T> reject(const _Line3<T> &a, const _Plane3<T> &b) {
+    return meet(inner(a, b), inverse(a));
+  }
+
+
+  template<typename T>
+  KMATH_FUNC _Line3<T> reject(const _Plane3<T> &a, const _Line3<T> &b) {
     return inner(inner(a, b), inverse(a));
   }
 

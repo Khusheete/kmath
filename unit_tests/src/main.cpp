@@ -288,6 +288,12 @@ int main(void) {
     UNIT_TEST("Inverse", {
       TEST_EQ_APPROX("inverse(a)", inverse(a), Line3(-2.0 / 5.0, -1.0 / 5.0, 0.0, -2.0 / 5.0, 4.0 / 5.0, 5.0 / 5.0));
     });
+    UNIT_TEST("meet & join", {
+      TEST_EQ_APPROX("meet(a, b)", meet(a, b), -2.0f);
+      TEST_EQ_APPROX("meet(b, a)", meet(b, a), -2.0f);
+      TEST_EQ_APPROX("join(a, b)", join(a, b), -2.0f);
+      TEST_EQ_APPROX("join(b, a)", join(b, a), -2.0f);
+    });
   })
 
 
@@ -421,6 +427,32 @@ int main(void) {
 
       TEST_EQ_APPROX("inner(v, vl)", inner(v, vl), Plane3(0.0, 0.0, 0.0, 0.0));
       TEST_EQ_APPROX("inner(vl, v)", inner(vl, v), Plane3(0.0, 0.0, 0.0, 0.0));
+    });
+    UNIT_TEST("Plane-point meet", {
+      TEST_EQ_APPROX("meet(x, p)", meet(x, p), -30.0f);
+      TEST_EQ_APPROX("meet(p, x)", meet(p, x), 30.0f);
+
+      TEST_EQ_APPROX("meet(x, vp)", meet(x, vp), -4.0f);
+      TEST_EQ_APPROX("meet(vp, x)", meet(vp, x), 4.0f);
+
+      TEST_EQ_APPROX("meet(v, p)", meet(v, p), -21.0f);
+      TEST_EQ_APPROX("meet(p, v)", meet(p, v), 21.0f);
+
+      TEST_EQ_APPROX("meet(v, vp)", meet(v, vp), 0.0f);
+      TEST_EQ_APPROX("meet(vp, v)", meet(vp, v), 0.0f);
+    });
+    UNIT_TEST("Plane-point join", {
+      TEST_EQ_APPROX("join(x, p)", join(x, p), 30.0f);
+      TEST_EQ_APPROX("join(p, x)", join(p, x), -30.0f);
+
+      TEST_EQ_APPROX("join(x, vp)", join(x, vp), 4.0f);
+      TEST_EQ_APPROX("join(vp, x)", join(vp, x), -4.0f);
+
+      TEST_EQ_APPROX("join(v, p)", join(v, p), 21.0f);
+      TEST_EQ_APPROX("join(p, v)", join(p, v), -21.0f);
+
+      TEST_EQ_APPROX("join(v, vp)", join(v, vp), 0.0f);
+      TEST_EQ_APPROX("join(vp, v)", join(vp, v), 0.0f);
     });
     UNIT_TEST("Plane-point inner", {
       TEST_EQ_APPROX("inner(x, p)", inner(x, p), Line3(-1.0, 6.0, 2.0, 16.0, -3.0, 17.0));

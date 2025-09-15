@@ -449,6 +449,32 @@ namespace kmath {
 
 
   template<typename T>
+  KMATH_FUNC T join(const _Line3<T> &a, const _Line3<T> &b) {
+    return (
+      a.e23 * b.e01
+      + a.e31 * b.e02
+      + a.e12 * b.e03
+      + a.e01 * b.e23
+      + a.e02 * b.e31
+      + a.e03 * b.e12
+    );
+  }
+
+
+  template<typename T>
+  KMATH_FUNC T meet(const _Line3<T> &a, const _Line3<T> &b) {
+    return (
+      a.e23 * b.e01
+      + a.e31 * b.e02
+      + a.e12 * b.e03
+      + a.e01 * b.e23
+      + a.e02 * b.e31
+      + a.e03 * b.e12
+    );
+  }
+
+
+  template<typename T>
   KMATH_FUNC _Line3<T> reverse(const _Line3<T> &l) {
     return -l;
   }
@@ -868,6 +894,40 @@ namespace kmath {
   // = Plane-point functions =
   // =========================
 
+
+  template<typename T>
+  KMATH_FUNC T meet(const _Plane3<T> &plane, const _Point3<T> &point) {
+    return (
+      plane.e0 * point.e123
+      + plane.e1 * point.e032
+      + plane.e2 * point.e013
+      + plane.e3 * point.e021
+    );
+  }
+
+
+  template<typename T>
+  KMATH_FUNC T meet(const _Point3<T> &point, const _Plane3<T> &plane) {
+    return -meet(plane, point);
+  }
+  
+
+  template<typename T>
+  KMATH_FUNC T join(const _Plane3<T> &plane, const _Point3<T> &point) {
+    return (
+      - plane.e0 * point.e123
+      - plane.e1 * point.e032
+      - plane.e2 * point.e013
+      - plane.e3 * point.e021
+    );
+  }
+
+
+  template<typename T>
+  KMATH_FUNC T join(const _Point3<T> &point, const _Plane3<T> &plane) {
+    return -join(plane, point);
+  }
+  
 
   template<typename T>
   KMATH_FUNC _Line3<T> inner(const _Plane3<T> &plane, const _Point3<T> &point) {

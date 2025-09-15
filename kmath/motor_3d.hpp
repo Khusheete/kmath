@@ -223,7 +223,7 @@ namespace kmath {
 
   template<typename T>
   KMATH_FUNC T magnitude_squared(const _Motor3<T> &m) {
-    return m * reverse(m);
+    return m.s * m.s + m.e23 * m.e23 + m.e31 * m.e31 + m.e12 * m.e12;
   }
 
 
@@ -236,6 +236,12 @@ namespace kmath {
   template<typename T>
   KMATH_FUNC _Motor3<T> inverse(const _Motor3<T> &m) {
     return reverse(m) / magnitude_squared(m);
+  }
+
+
+  template<typename T>
+  KMATH_FUNC _Motor3<T> normalized(const _Motor3<T> &m) {
+    return m / magnitude(m);
   }
 
 

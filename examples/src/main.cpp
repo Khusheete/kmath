@@ -38,7 +38,7 @@ struct Test {
 
 const std::array<Test, 4> TESTS = {
   Test{
-    .name = "Test Quat and DQuat structs",
+    .name = "Test Rotor3 and Motor3 structs",
     .init = &rotor_motor_init,
     .run = &rotor_motor_run,
     .cleanup = &rotor_motor_cleanup,
@@ -50,7 +50,7 @@ const std::array<Test, 4> TESTS = {
     .cleanup = &camera_cleanup,
   },
   Test{
-    .name = "DQuat Transforms",
+    .name = "Motor3 Transforms",
     .init = &motor_transforms_init,
     .run = &motor_transforms_run,
     .cleanup = &motor_transforms_cleanup,

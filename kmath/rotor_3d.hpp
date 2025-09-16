@@ -297,6 +297,18 @@ namespace kmath {
   }
 
 
+  template<typename T>
+  KMATH_FUNC _Mat3<T> as_transform(const _Rotor3<T> &rotor, const _Vec3<T> &translation) {
+    _Mat3<T> m = as_basis(rotor);
+    return _Mat4<T>(
+      _Vec4<T>(m.x.x        , m.x.y        , m.x.z        , 0.0),
+      _Vec4<T>(m.y.x        , m.y.y        , m.y.z        , 0.0),
+      _Vec4<T>(m.z.x        , m.z.y        , m.z.z        , 0.0),
+      _Vec4<T>(translation.x, translation.y, translation.z, 1.0)
+    );
+  }
+
+
   // ===================
   // = Transformations =
   // ===================

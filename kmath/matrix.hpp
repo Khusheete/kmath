@@ -126,9 +126,9 @@ namespace kmath {
   template<typename T>
   KMATH_FUNC _Mat3<T> operator*(const _Mat3<T> &a, const _Mat3<T> &b) {
     return _Mat3<T>(
-      _Vec3<T>(a * b.x),
-      _Vec3<T>(a * b.y),
-      _Vec3<T>(a * b.z)
+      a * b.x,
+      a * b.y,
+      a * b.z
     );
   }
 
@@ -187,10 +187,10 @@ namespace kmath {
   template<typename T>
   KMATH_FUNC _Mat4<T> operator*(const _Mat4<T> &a, const _Mat4<T> &b) {
     return _Mat4<T>(
-      _Vec4<T>(a * b.x),
-      _Vec4<T>(a * b.y),
-      _Vec4<T>(a * b.z),
-      _Vec4<T>(a * b.w)
+      a * b.x,
+      a * b.y,
+      a * b.z,
+      a * b.w
     );
   }
 

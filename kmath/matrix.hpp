@@ -40,23 +40,46 @@ namespace kmath {
 
 
   template<typename T>
-  KMATH_FUNC _Mat2<T> transpose(const _Mat2<T> &m);
+  KMATH_FUNC _Mat2<T> transpose(const _Mat2<T> &m) {
+    return _Mat2<T>(
+      _Vec2<T>(m.x.x, m.y.x),
+      _Vec2<T>(m.x.y, m.y.y)
+    );
+  }
 
   
   template<typename T>
-  KMATH_FUNC _Vec2<T> operator*(const _Mat2<T> &a, const _Vec2<T> &b);
+  KMATH_FUNC _Vec2<T> operator*(const _Mat2<T> &a, const _Vec2<T> &b) {
+    return _Vec2<T>(
+      a.x.x * b.x + a.y.x * b.y,
+      a.x.y * b.x + a.y.x * b.y
+    );
+  }
 
 
   template<typename T>
-  KMATH_FUNC _Vec2<T> operator*(const _Vec2<T> &a, const _Mat2<T> &b);
+  KMATH_FUNC _Vec2<T> operator*(const _Vec2<T> &a, const _Mat2<T> &b) {
+    return _Vec2<T>(
+      kmath::dot(a.x, b),
+      kmath::dot(a.y, b)
+    );
+  }
 
 
   template<typename T>
-  KMATH_FUNC _Mat2<T> operator*(const _Mat2<T> &a, const _Mat2<T> &b);
+  KMATH_FUNC _Mat2<T> operator*(const _Mat2<T> &a, const _Mat2<T> &b) {
+    return _Mat2<T>(
+      a * b.x,
+      a * b.y
+    );
+  }
 
 
   template<typename T>
-  KMATH_FUNC _Mat2<T> &operator*=(_Mat2<T> &a, const _Mat2<T> &b);
+  KMATH_FUNC _Mat2<T> &operator*=(_Mat2<T> &a, const _Mat2<T> &b) {
+    a = a * b;
+    return a;
+  }
 
 
   // ========

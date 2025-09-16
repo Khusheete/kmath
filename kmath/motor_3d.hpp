@@ -43,7 +43,7 @@ namespace kmath {
     _Motor3(const _Rotor3<T> &real, const _Rotor3<T> &dual): s(real.s), e23(real.e23), e31(real.e31), e12(real.e12), e0123(dual.s), e01(dual.e23), e02(dual.e31), e03(dual.e12) {}
 
 
-    static _Motor3<T> from_axis_angle(const _Vec3<T> &axis, const T angle) {
+    static KMATH_FUNC _Motor3<T> from_axis_angle(const _Vec3<T> &axis, const T angle) {
       return _Motor3<T>(
         _Rotor3<T>::from_axis_angle(axis, angle),
         _Rotor3<T>::ZERO
@@ -51,7 +51,7 @@ namespace kmath {
     }
     
 
-    static _Motor3<T> from_translation(const _Vec3<T> &translation) {
+    static KMATH_FUNC _Motor3<T> from_translation(const _Vec3<T> &translation) {
       return _Motor3<T>(
         _Rotor3<T>::IDENTITY,
         _Rotor3<T>((T)0.0, -((T)0.5) * translation)
@@ -59,25 +59,25 @@ namespace kmath {
     }
 
 
-    static _Motor3<T> from_rotor(const _Rotor3<T> &rotation) {
+    static KMATH_FUNC _Motor3<T> from_rotor(const _Rotor3<T> &rotation) {
       return _Motor3<T>(rotation, _Rotor3<T>::ZERO);
     }
 
 
-    static _Motor3<T> from_rotor_translation(const _Rotor3<T> &rotation, const _Vec3<T> &translation) {
+    static KMATH_FUNC _Motor3<T> from_rotor_translation(const _Rotor3<T> &rotation, const _Vec3<T> &translation) {
       _Rotor3<T> trans((T)0.0, -((T)0.5) * translation);
       return _Motor3<T>(rotation, trans * rotation);
     }
 
 
-    static _Motor3<T> from_axis_angle_translation(const _Vec3<T> &axis, const T angle, const _Vec3<T> translation) {
+    static KMATH_FUNC _Motor3<T> from_axis_angle_translation(const _Vec3<T> &axis, const T angle, const _Vec3<T> translation) {
       _Rotor3<T> rot = _Rotor3<T>::from_axis_angle(axis, angle);
       _Rotor3<T> trans((T)0.0, -((T)0.5) * translation);
       return _Motor3<T>(rot, trans * rot);
     }
 
     
-    static _Motor3<T> from_screw_coordinates(const _Vec3<T> &direction, const _Vec3<T> &moment, const T angle, const T translation) {
+    static KMATH_FUNC _Motor3<T> from_screw_coordinates(const _Vec3<T> &direction, const _Vec3<T> &moment, const T angle, const T translation) {
       if (!is_approx_zero(angle)) {
         T cos_a = std::cos(angle / 2.0);
         T sin_a = std::sin(angle / 2.0);

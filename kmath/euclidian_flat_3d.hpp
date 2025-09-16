@@ -44,17 +44,17 @@ namespace kmath {
     _Plane3(T e1, T e2, T e3, T e0): e1(e1), e2(e2), e3(e3), e0(e0) {}
 
 
-    static _Plane3<T> plane(const T a, const T b, const T c, const T d) {
+    static KMATH_FUNC _Plane3<T> plane(const T a, const T b, const T c, const T d) {
       return _Plane3<T>(a, b, c, -d);
     }
 
 
-    static _Plane3<T> plane(const _Vec3<T> &normal, const T distance) {
+    static KMATH_FUNC _Plane3<T> plane(const _Vec3<T> &normal, const T distance) {
       return _Plane3<T>(normal.x, normal.y, normal.z, -distance);
     }
 
 
-    static _Plane3<T> vanishing_plane(const T delta) {
+    static KMATH_FUNC _Plane3<T> vanishing_plane(const T delta) {
       return _Plane3<T>((T)0.0, (T)0.0, (T)0.0, -delta);
     }
 
@@ -82,7 +82,7 @@ namespace kmath {
     _Line3(const T e23, const T e31, const T e12, const T e01, const T e02, const T e03): e23(e23), e31(e31), e12(e12), e01(e01), e02(e02), e03(e03) {}
 
 
-    static _Line3<T> line(const _Vec3<T> direction, const _Vec3<T> point) {
+    static KMATH_FUNC _Line3<T> line(const _Vec3<T> direction, const _Vec3<T> point) {
       return _Line3<T>(
         direction.x,
         direction.y,
@@ -94,7 +94,7 @@ namespace kmath {
     }
 
 
-    static _Line3<T> line(const T dx, const T dy, const T dz, const T px, const T py, const T pz) {
+    static KMATH_FUNC _Line3<T> line(const T dx, const T dy, const T dz, const T px, const T py, const T pz) {
       return _Line3<T>(
         dx,
         dy,
@@ -106,7 +106,7 @@ namespace kmath {
     }
 
 
-    static _Line3<T> vanishing_line(const _Vec3<T> direction) {
+    static KMATH_FUNC _Line3<T> vanishing_line(const _Vec3<T> direction) {
       return _Line3<T>(
         (T)0.0, (T)0.0, (T)0.0,
         direction.x, direction.y, direction.z
@@ -114,7 +114,7 @@ namespace kmath {
     }
 
 
-    static _Line3<T> vanishing_line(const T dx, const T dy, const T dz) {
+    static KMATH_FUNC _Line3<T> vanishing_line(const T dx, const T dy, const T dz) {
       return _Line3<T>(
         (T)0.0, (T)0.0, (T)0.0,
         dx, dy, dz
@@ -122,7 +122,7 @@ namespace kmath {
     }
 
     
-    static _Line3<T> from_plucker(const _Vec3<T> direction, const _Vec3<T> moment) {
+    static KMATH_FUNC _Line3<T> from_plucker(const _Vec3<T> direction, const _Vec3<T> moment) {
       return _Line3<T>(
         direction.x, direction.y, direction.z,
         moment.x, moment.y, moment.z      
@@ -130,7 +130,7 @@ namespace kmath {
     }
 
     
-    static _Line3<T> from_plucker(const T dx, const T dy, const T dz, const T mx, const T my, const T mz) {
+    static KMATH_FUNC _Line3<T> from_plucker(const T dx, const T dy, const T dz, const T mx, const T my, const T mz) {
       return _Line3<T>(
         dx, dy, dz,
         mx, my, mz      
@@ -144,28 +144,28 @@ namespace kmath {
     T e032, e013, e021, e123;
 
   public:
-    static _Point3<T> point(const _Vec3<T> &p) {
+    static KMATH_FUNC _Point3<T> point(const _Vec3<T> &p) {
       return _Point3<T>(
         p.x, p.y, p.z, (T)1.0
       );
     }
 
 
-    static _Point3<T> point(const T x, const T y, const T z) {
+    static KMATH_FUNC _Point3<T> point(const T x, const T y, const T z) {
       return _Point3<T>(
         x, y, z, (T)1.0
       );
     }
 
 
-    static _Point3<T> direction(const _Vec3<T> &d) {
+    static KMATH_FUNC _Point3<T> direction(const _Vec3<T> &d) {
       return _Point3<T>(
         d.x, d.y, d.z, (T)0.0
       );
     }
 
 
-    static _Point3<T> direction(const T x, const T y, const T z) {
+    static KMATH_FUNC _Point3<T> direction(const T x, const T y, const T z) {
       return _Point3<T>(
         x, y, z, (T)0.0
       );

@@ -30,7 +30,6 @@
 
 #include <cmath>
 #include <array>
-#include <iostream>
 
 
 struct TestData {

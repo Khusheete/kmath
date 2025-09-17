@@ -46,6 +46,7 @@ namespace kmath {
   typedef _Vec3<float> XYZD65;
 
   // See: https://bottosson.github.io/posts/colorpicker/ and https://bottosson.github.io/posts/oklab/
+  // Code for Ok color spaces is adapted from Björn Ottosson's blog
   typedef _Vec3<float> OkLab;
   typedef _Vec3<float> OkHsl;
   typedef _Vec4<float> OkHsla;
@@ -146,9 +147,28 @@ namespace kmath {
   // ===================
 
 
-  // TODO: implement
-  Lsrgb okhsv_to_lrgb(const OkHsv &hsv);
-  OkHsv lrgb_to_okhsv(const Lsrgb &rgb);
+  OkLab okhsv_to_oklab(const OkHsv &hsv);
+  OkHsv oklab_to_okhsv(const OkLab &lab);
+  
+
+  inline Lsrgb okhsv_to_lrgb(const OkHsv &hsv) {
+    return oklab_to_lrgb(okhsv_to_oklab(hsv));
+  }
+
+
+  inline OkHsv lrgb_to_okhsv(const Lsrgb &rgb) {
+    return oklab_to_okhsv(lrgb_to_oklab(rgb));
+  }
+
+
+  inline Srgb okhsv_to_rgb(const OkHsv &hsv) {
+    return lrgb_to_rgb(okhsv_to_lrgb(hsv));
+  }
+
+
+  inline OkHsv rgb_to_okhsv(const Srgb &rgb) {
+    return lrgb_to_okhsv(rgb_to_lrgb(rgb));
+  }
 
 
   // ===================
@@ -156,7 +176,26 @@ namespace kmath {
   // ===================
 
 
-  // TODO: implement
-  Lsrgb okhsl_to_lrgb(const OkHsl &hsl);
-  OkHsl lrgb_to_okhsl(const Lsrgb &rgb);
+  OkLab okhsl_to_oklab(const OkHsl &hsl);
+  OkHsl oklab_to_okhsl(const OkLab &lab);
+
+
+  inline Lsrgb okhsl_to_lrgb(const OkHsl &hsl) {
+    return oklab_to_lrgb(okhsl_to_oklab(hsl));
+  }
+
+
+  inline OkHsl lrgb_to_okhsl(const Lsrgb &rgb) {
+    return oklab_to_lrgb(lrgb_to_oklab(rgb));
+  }
+
+
+  inline Srgb okhsl_to_rgb(const OkHsl &hsl) {
+    return lrgb_to_rgb(okhsl_to_lrgb(hsl));
+  }
+
+
+  inline OkHsl rgb_to_okhsl(const Srgb &rgb) {
+    return lrgb_to_okhsl(rgb_to_lrgb(rgb));
+  }
 }

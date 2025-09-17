@@ -77,6 +77,18 @@ namespace kmath {
   inline T length(const _Vec2<T> &v) {
     return std::sqrt(length_squared(v));
   }
+
+
+  template<typename T>
+  inline T distance_squared(const _Vec2<T> &a, const _Vec2<T> &b) {
+    return length_squared(b - a);
+  }
+
+
+  template<typename T>
+  inline T distance(const _Vec2<T> &a, const _Vec2<T> &b) {
+    return length(b - a);
+  }
   
 
   template<typename T>
@@ -137,6 +149,22 @@ namespace kmath {
 
 
   template<typename T>
+  inline _Vec2<T> operator*(const _Vec2<T> &a, const _Vec2<T> &b) {
+    _Vec2<T> res(a);
+    res *= b;
+    return res;
+  }
+
+
+  template<typename T>
+  inline _Vec2<T> &operator*=(_Vec2<T> &a, const _Vec2<T> &b) {
+    a.x *= b.x;
+    a.y *= b.y;
+    return a;
+  }
+
+
+  template<typename T>
   inline _Vec2<T> operator*(const T s, const _Vec2<T> &v) {
     return _Vec2<T>(
       s * v.x,
@@ -189,6 +217,8 @@ namespace kmath {
   public:
     _Vec3(): _Vec3(ZERO) {}
     _Vec3(const T x, const T y, const T z): x(x), y(y), z(z) {}
+    _Vec3(const _Vec2<T> &a, const T b): x(a.x), y(a.y), z(b) {}
+    _Vec3(const T a, const _Vec2<T> &b): x(a), y(b.x), z(b.y) {}
     
   public:
     static const _Vec3<T> ZERO;
@@ -228,6 +258,18 @@ namespace kmath {
   template<typename T>
   inline T length(const _Vec3<T> &v) {
     return std::sqrt(length_squared(v));
+  }
+
+
+  template<typename T>
+  inline T distance_squared(const _Vec3<T> &a, const _Vec3<T> &b) {
+    return length_squared(b - a);
+  }
+
+
+  template<typename T>
+  inline T distance(const _Vec3<T> &a, const _Vec3<T> &b) {
+    return length(b - a);
   }
   
 
@@ -301,6 +343,23 @@ namespace kmath {
 
 
   template<typename T>
+  inline _Vec3<T> operator*(const _Vec3<T> &a, const _Vec3<T> &b) {
+    _Vec3<T> res(a);
+    res *= b;
+    return res;
+  }
+
+
+  template<typename T>
+  inline _Vec3<T> &operator*=(_Vec3<T> &a, const _Vec3<T> &b) {
+    a.x *= b.x;
+    a.y *= b.y;
+    a.z *= b.z;
+    return a;
+  }
+
+
+  template<typename T>
   inline _Vec3<T> operator*(const T s, const _Vec3<T> &v) {
     return _Vec3<T>(
       s * v.x,
@@ -356,6 +415,12 @@ namespace kmath {
   public:
     _Vec4(): _Vec4(ZERO) {}
     _Vec4(const T x, const T y, const T z, const T w): x(x), y(y), z(z), w(w) {}
+    _Vec4(const _Vec2<T> &a, const T b, const T c): x(a.x), y(a.y), z(b), w(c) {}
+    _Vec4(const T a, const _Vec2<T> &b, const T c): x(a), y(b.x), z(b.z), w(c) {}
+    _Vec4(const T a, const T b, const _Vec2<T> &c): x(a), y(b), z(c.x), w(c.y) {}
+    _Vec4(const _Vec2<T> &a, const _Vec2<T> &b): x(a.x), y(a.y), z(b.x), w(b.y) {}
+    _Vec4(const _Vec3<T> &a, const T b): x(a.x), y(a.y), z(a.z), w(b) {}
+    _Vec4(const T a, const _Vec3<T> &b): x(a), y(b.x), z(b.y), w(b.z) {}
     
   public:
     static const _Vec4<T> ZERO;
@@ -398,6 +463,18 @@ namespace kmath {
   template<typename T>
   inline T length(const _Vec4<T> &v) {
     return std::sqrt(length_squared(v));
+  }
+
+
+  template<typename T>
+  inline T distance_squared(const _Vec4<T> &a, const _Vec4<T> &b) {
+    return length_squared(b - a);
+  }
+
+
+  template<typename T>
+  inline T distance(const _Vec4<T> &a, const _Vec4<T> &b) {
+    return length(b - a);
   }
   
 
@@ -459,6 +536,24 @@ namespace kmath {
     return _Vec4<T>(
       -a.x, -a.y, -a.z, -a.w    
     );
+  }
+
+
+  template<typename T>
+  inline _Vec4<T> operator*(const _Vec4<T> &a, const _Vec4<T> &b) {
+    _Vec4<T> res(a);
+    res *= b;
+    return res;
+  }
+
+
+  template<typename T>
+  inline _Vec4<T> &operator*=(_Vec4<T> &a, const _Vec4<T> &b) {
+    a.x *= b.x;
+    a.y *= b.y;
+    a.z *= b.z;
+    a.w *= b.w;
+    return a;
   }
 
 

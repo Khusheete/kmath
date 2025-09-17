@@ -148,6 +148,168 @@ namespace kmath {
   template<typename T>
   struct _Mat4 {
     _Vec4<T> x, y, z, w;
+
+  public:
+    // Creates an orthogonal projection matrix with a right handed ndc that goes from negative one to one.
+    // Note that the near plane is mapped to -1 and the far plane is mapped to 1.
+    static KMATH_FUNC _Mat4<T> orthogonal_rh_no_ndc(const T near, const T far, const T width, const T height) {
+      const T inv_nf_dist = (T)1.0 / (far - near);
+      return _Mat4<T>(
+        _Vec4<T>((T)2.0 / width, (T)0.0         , (T)0.0                    , (T)0.0                           ),
+        _Vec4<T>((T)0.0        , (T)2.0 / height, (T)0.0                    , (T)0.0                           ),
+        _Vec4<T>((T)0.0        , (T)0.0         , (far + near) * inv_nf_dist, (T)2.0 * near * far * inv_nf_dist),
+        _Vec4<T>((T)0.0        , (T)0.0         , (T)0.0                    , (T)1.0                           )
+      );
+    }
+
+
+    // Creates an orthogonal projection matrix with a left handed ndc that goes from negative one to one.
+    // Note that the near plane is mapped to -1 and the far plane is mapped to 1.
+    static KMATH_FUNC _Mat4<T> orthogonal_lh_no_ndc(const T near, const T far, const T width, const T height) {
+      const T inv_nf_dist = (T)1.0 / (far - near);
+      return _Mat4<T>(
+        _Vec4<T>((T)2.0 / width, (T)0.0         , (T)0.0                , (T)0.0                      ),
+        _Vec4<T>((T)0.0        , (T)2.0 / height, (T)0.0                , (T)0.0                      ),
+        _Vec4<T>((T)0.0        , (T)0.0         , - (T)2.0 * inv_nf_dist, - (far + near) * inv_nf_dist),
+        _Vec4<T>((T)0.0        , (T)0.0         , (T)0.0                , (T)1.0                      )
+      );
+    }
+
+    
+    // Creates a perspective projection matrix with a right handed ndc that goes from zero to one.
+    // Note that the near plane is mapped to 1 and the far plane is mapped to 0.
+    // v_fov is the vertical field of view in rad.
+    static KMATH_FUNC _Mat4<T> perspective_rh_zo_ndc_vfov(const T near, const T far, const T v_fov, const T target_width, const T target_height) {
+      const T half_fov = (T)0.5 * v_fov;
+      const T iw_v = std::cos(half_fov) / std::sin(half_fov);
+      const T iw_h = iw_v * target_height / target_width;
+      const T inv_nf_dist = (T)1.0 / (far - near);
+      return _Mat4<T>(
+        _Vec4<T>(iw_h  , (T)0.0,   (T)0.0                  , (T)0.0),
+        _Vec4<T>((T)0.0, iw_v  ,   (T)0.0                  , (T)0.0),
+        _Vec4<T>((T)0.0, (T)0.0, - near * inv_nf_dist      , (T)1.0),
+        _Vec4<T>((T)0.0, (T)0.0, - near * far * inv_nf_dist, (T)0.0)
+      );
+    }
+
+
+    // Creates a perspective projection matrix with a right handed ndc that goes from zero to one.
+    // Note that the near plane is mapped to 1 and the far plane is mapped to 0.
+    // h_fov is the horizontal field of view in rad.
+    static KMATH_FUNC _Mat4<T> perspective_rh_zo_ndc_hfov(const T near, const T far, const T v_fov, const T target_width, const T target_height) {
+      const T half_fov = (T)0.5 * v_fov;
+      const T iw_h = std::cos(half_fov) / std::sin(half_fov);
+      const T iw_v = iw_h * target_width / target_height;
+      const T inv_nf_dist = (T)1.0 / (far - near);
+      return _Mat4<T>(
+        _Vec4<T>(iw_h  , (T)0.0,   (T)0.0                  , (T)0.0),
+        _Vec4<T>((T)0.0, iw_v  ,   (T)0.0                  , (T)0.0),
+        _Vec4<T>((T)0.0, (T)0.0, - near * inv_nf_dist      , (T)1.0),
+        _Vec4<T>((T)0.0, (T)0.0, - near * far * inv_nf_dist, (T)0.0)
+      );
+    }
+
+
+    // Creates a perspective projection matrix with a right handed ndc that goes from zero to one.
+    // Note that the near plane is mapped to 1 and the far plane is mapped to 0.
+    // v_fov is the vertical field of view in rad.
+    static KMATH_FUNC _Mat4<T> perspective_lh_zo_ndc_vfov(const T near, const T far, const T v_fov, const T target_width, const T target_height) {
+      const T half_fov = (T)0.5 * v_fov;
+      const T iw_v = std::cos(half_fov) / std::sin(half_fov);
+      const T iw_h = iw_v * target_height / target_width;
+      const T inv_nf_dist = (T)1.0 / (far - near);
+      return _Mat4<T>(
+        _Vec4<T>(iw_h  , (T)0.0,   (T)0.0                , (T)0.0  ),
+        _Vec4<T>((T)0.0, iw_v  ,   (T)0.0                , (T)0.0  ),
+        _Vec4<T>((T)0.0, (T)0.0, near * inv_nf_dist      , - (T)1.0),
+        _Vec4<T>((T)0.0, (T)0.0, near * far * inv_nf_dist, (T)0.0  )
+      );
+    }
+
+
+    // Creates a perspective projection matrix with a right handed ndc that goes from zero to one.
+    // Note that the near plane is mapped to 1 and the far plane is mapped to 0.
+    // h_fov is the horizontal field of view in rad.
+    static KMATH_FUNC _Mat4<T> perspective_lh_zo_ndc_hfov(const T near, const T far, const T v_fov, const T target_width, const T target_height) {
+      const T half_fov = (T)0.5 * v_fov;
+      const T iw_h = std::cos(half_fov) / std::sin(half_fov);
+      const T iw_v = iw_h * target_width / target_height;
+      const T inv_nf_dist = (T)1.0 / (far - near);
+      return _Mat4<T>(
+        _Vec4<T>(iw_h  , (T)0.0,   (T)0.0                , (T)0.0  ),
+        _Vec4<T>((T)0.0, iw_v  ,   (T)0.0                , (T)0.0  ),
+        _Vec4<T>((T)0.0, (T)0.0, near * inv_nf_dist      , - (T)1.0),
+        _Vec4<T>((T)0.0, (T)0.0, near * far * inv_nf_dist, (T)0.0  )
+      );
+    }
+
+
+    // Creates a perspective projection matrix with a right handed ndc that goes from negative one to one.
+    // Note that the near plane is mapped to -1 and the far plane is mapped to 1.
+    // v_fov is the vertical field of view in rad.
+    static KMATH_FUNC _Mat4<T> perspective_rh_no_ndc_vfov(const T near, const T far, const T v_fov, const T target_width, const T target_height) {
+      const T half_fov = (T)0.5 * v_fov;
+      const T iw_v = std::cos(half_fov) / std::sin(half_fov);
+      const T iw_h = iw_v * target_height / target_width;
+      const T inv_nf_dist = (T)1.0 / (far - near);
+      return _Mat4<T>(
+        _Vec4<T>(iw_h  , (T)0.0,   (T)0.0                           , (T)0.0),
+        _Vec4<T>((T)0.0, iw_v  ,   (T)0.0                           , (T)0.0),
+        _Vec4<T>((T)0.0, (T)0.0, (far + near) * inv_nf_dist         , (T)1.0),
+        _Vec4<T>((T)0.0, (T)0.0, - (T)2.0 * near * far * inv_nf_dist, (T)0.0)
+      );
+    }
+
+
+    // Creates a perspective projection matrix with a right handed ndc that goes from negative one to one.
+    // Note that the near plane is mapped to -1 and the far plane is mapped to 1.
+    // h_fov is the horizontal field of view in rad.
+    static KMATH_FUNC _Mat4<T> perspective_rh_no_ndc_hfov(const T near, const T far, const T h_fov, const T target_width, const T target_height) {
+      const T half_fov = (T)0.5 * h_fov;
+      const T iw_h = std::cos(half_fov) / std::sin(half_fov);
+      const T iw_v = iw_h * target_width / target_height;
+      const T inv_nf_dist = (T)1.0 / (far - near);
+      return _Mat4<T>(
+        _Vec4<T>(iw_h  , (T)0.0,   (T)0.0                           , (T)0.0),
+        _Vec4<T>((T)0.0, iw_v  ,   (T)0.0                           , (T)0.0),
+        _Vec4<T>((T)0.0, (T)0.0, (far + near) * inv_nf_dist         , (T)1.0),
+        _Vec4<T>((T)0.0, (T)0.0, - (T)2.0 * near * far * inv_nf_dist, (T)0.0)
+      );
+    }
+
+    
+    // Creates a perspective projection matrix with a left handed ndc that goes from negative one to one.
+    // Note that the near plane is mapped to -1 and the far plane is mapped to 1.
+    // v_fov is the vertical field of view in rad.
+    static KMATH_FUNC _Mat4<T> perspective_lh_no_ndc_vfov(const T near, const T far, const T v_fov, const T target_width, const T target_height) {
+      const T half_fov = (T)0.5 * v_fov;
+      const T iw_v = std::cos(half_fov) / std::sin(half_fov);
+      const T iw_h = iw_v * target_height / target_width;
+      const T inv_nf_dist = (T)1.0 / (far - near);
+      return _Mat4<T>(
+        _Vec4<T>(iw_h  , (T)0.0,   (T)0.0                           , (T)0.0  ),
+        _Vec4<T>((T)0.0, iw_v  ,   (T)0.0                           , (T)0.0  ),
+        _Vec4<T>((T)0.0, (T)0.0, - (far + near) * inv_nf_dist       , - (T)1.0),
+        _Vec4<T>((T)0.0, (T)0.0, - (T)2.0 * near * far * inv_nf_dist, (T)0.0  )
+      );
+    }
+
+
+    // Creates a perspective projection matrix with a left handed ndc that goes from negative one to one.
+    // Note that the near plane is mapped to -1 and the far plane is mapped to 1.
+    // h_fov is the horizontal field of view in rad.
+    static KMATH_FUNC _Mat4<T> perspective_lh_no_ndc_hfov(const T near, const T far, const T h_fov, const T target_width, const T target_height) {
+      const T half_fov = (T)0.5 * h_fov;
+      const T iw_h = std::cos(half_fov) / std::sin(half_fov);
+      const T iw_v = iw_h * target_width / target_height;
+      const T inv_nf_dist = (T)1.0 / (far - near);
+      return _Mat4<T>(
+        _Vec4<T>(iw_h  , (T)0.0,   (T)0.0                           , (T)0.0  ),
+        _Vec4<T>((T)0.0, iw_v  ,   (T)0.0                           , (T)0.0  ),
+        _Vec4<T>((T)0.0, (T)0.0, - (far + near) * inv_nf_dist       , - (T)1.0),
+        _Vec4<T>((T)0.0, (T)0.0, - (T)2.0 * near * far * inv_nf_dist, (T)0.0  )
+      );
+    }
   };
 
 

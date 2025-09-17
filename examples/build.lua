@@ -4,6 +4,6 @@ project "KmathExample"
   cppdialect "c++20"
 
   files { "src/**.hpp", "src/**.cpp" }
-  links { "raylib" }
+  links { "kmath", "raylib" }
   
   app_build_config()

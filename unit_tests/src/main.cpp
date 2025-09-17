@@ -1,3 +1,4 @@
+#include "kmath/color.hpp"
 #include "testing.hpp"
 
 #include "kmath/kmath.hpp"
@@ -466,6 +467,31 @@ int main(void) {
 
       TEST_EQ_APPROX("inner(v, vp)", inner(v, vp), Line3(0.0, 0.0, 0.0, 0.0, 0.0, 0.0));
       TEST_EQ_APPROX("inner(vp, v)", inner(vp, v), Line3(0.0, 0.0, 0.0, 0.0, 0.0, 0.0));
+    });
+  })
+
+
+  UNIT_TEST_SECTION("Color", {
+    auto round = [](const Vec3 &v, const int dec = 3){
+      const int scale = std::pow(10, dec);
+      return Vec3(
+        std::roundf(v.x * scale) / scale,
+        std::roundf(v.y * scale) / scale,
+        std::roundf(v.z * scale) / scale
+      );
+    };
+    
+    UNIT_TEST("XYZ to OkLab", {
+      TEST_EQ_APPROX("1", round(xyz_to_oklab(XYZD65(0.950f, 1.000f, 1.089f))), OkLab(1.000, 0.000, 0.000));
+      TEST_EQ_APPROX("2", round(xyz_to_oklab(XYZD65(1.000f, 0.000f, 0.000f))), OkLab(0.450, 1.236, -0.019));
+      TEST_EQ_APPROX("3", round(xyz_to_oklab(XYZD65(0.000f, 1.000f, 0.000f))), OkLab(0.922, -0.671, 0.263));
+      TEST_EQ_APPROX("4", round(xyz_to_oklab(XYZD65(0.000f, 0.000f, 1.000f))), OkLab(0.153, -1.415, -0.449));
+    });
+    UNIT_TEST("OkLab to XYZ", {
+      TEST_EQ_APPROX("1", round(oklab_to_xyz(OkLab(1.000, 0.000, 0.000)), 2), XYZD65(0.95f, 1.00f, 1.09f));
+      TEST_EQ_APPROX("2", round(oklab_to_xyz(OkLab(0.450, 1.236, -0.019)), 2), XYZD65(1.00f, 0.00f, 0.00f));
+      TEST_EQ_APPROX("3", round(oklab_to_xyz(OkLab(0.922, -0.671, 0.263)), 2), XYZD65(0.00f, 1.00f, 0.00f));
+      TEST_EQ_APPROX("4", round(oklab_to_xyz(OkLab(0.153, -1.415, -0.449)), 2), XYZD65(0.00f, 0.00f, 1.00f));
     });
   })
 

@@ -40,3 +40,8 @@ void *pga_visualization_init();
 void pga_visualization_run(void *p_data);
 void pga_visualization_cleanup(void *p_data);
 
+
+void *oklab_interpolation_init();
+void oklab_interpolation_run(void *p_data);
+void oklab_interpolation_cleanup(void *p_data);
+

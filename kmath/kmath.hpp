@@ -25,6 +25,7 @@
 #define KMATH_FORCE_INLINE
 #include "defines.hpp"
 
+
 #include "utils.hpp"
 #include "vector.hpp"
 #include "matrix.hpp"
@@ -32,4 +33,9 @@
 #include "motor_3d.hpp"
 #include "rotor_3d.hpp"
 
+
+#include "color.hpp"
+
+
 #include "pga_3d.hpp"
+

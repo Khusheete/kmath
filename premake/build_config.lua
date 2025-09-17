@@ -43,7 +43,7 @@ end
 function _build_config()
   -- Include
   includedirs { "%{wks.location}" }
-  libdirs { "%{wks.location}/lib" }
+  libdirs { "%{wks.location}/lib", "%{wks.location}/lib/%{cfg.platform}/%{cfg.buildcfg}" }
 
   -- Build output
   objdir "%{wks.location}/obj/%{cfg.platform}/%{cfg.buildcfg}/%{prj.name}"

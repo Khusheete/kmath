@@ -36,7 +36,7 @@ struct Test {
 };
 
 
-const std::array<Test, 4> TESTS = {
+const std::array<Test, 5> TESTS = {
   Test{
     .name = "Test Rotor3 and Motor3 structs",
     .init = &rotor_motor_init,
@@ -60,6 +60,12 @@ const std::array<Test, 4> TESTS = {
     .init = &pga_visualization_init,
     .run = &pga_visualization_run,
     .cleanup = &pga_visualization_run,
+  },
+  Test{
+    .name = "OkLab interpolation",
+    .init = &oklab_interpolation_init,
+    .run = &oklab_interpolation_run,
+    .cleanup = &oklab_interpolation_cleanup,
   },
 };
 

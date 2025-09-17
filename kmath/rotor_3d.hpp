@@ -22,7 +22,6 @@
 #pragma once
 
 
-#include "defines.hpp"
 #include "vector.hpp"
 #include "matrix.hpp"
 #include "euclidian_flat_3d.hpp"
@@ -68,7 +67,7 @@ namespace kmath {
 
 
   template<typename T>
-  KMATH_FUNC _Rotor3<T> reverse(const _Rotor3<T> &r) {
+  inline _Rotor3<T> reverse(const _Rotor3<T> &r) {
     return _Rotor3<T>(
       r.s, -r.e23, -r.e31, -r.e12
     );
@@ -76,37 +75,37 @@ namespace kmath {
 
 
   template<typename T>
-  KMATH_FUNC T length_squared(const _Rotor3<T> &r) {
+  inline T length_squared(const _Rotor3<T> &r) {
     return r.s * r.s + r.e23 * r.e23 + r.e31 * r.e31 + r.e12 * r.e12;
   }
 
 
   template<typename T>
-  KMATH_FUNC T length(const _Rotor3<T> &r) {
+  inline T length(const _Rotor3<T> &r) {
     return std::sqrt(length_squared(r));
   }
 
 
   template<typename T>
-  KMATH_FUNC _Rotor3<T> normalized(const _Rotor3<T> &r) {
+  inline _Rotor3<T> normalized(const _Rotor3<T> &r) {
     return r / length(r);
   }
 
 
   template<typename T>
-  KMATH_FUNC _Rotor3<T> inverse(const _Rotor3<T> &r) {
+  inline _Rotor3<T> inverse(const _Rotor3<T> &r) {
     return r / length_squared(r);
   }
 
 
   template<typename T>
-  KMATH_FUNC _Vec3<T> get_direction(const _Rotor3<T> &r) {
+  inline _Vec3<T> get_direction(const _Rotor3<T> &r) {
     return -_Vec3<T>(r.e23, r.e31, r.e12);
   }
 
 
   template<typename T>
-  KMATH_FUNC _Rotor3<T> exp(const _Rotor3<T> &r) {
+  _Rotor3<T> exp(const _Rotor3<T> &r) {
     T len_v = length(get_direction(r));
     T exp_w = std::exp(r.s);
 
@@ -120,7 +119,7 @@ namespace kmath {
 
 
   template<typename T>
-  KMATH_FUNC _Rotor3<T> ln(const _Rotor3<T> &r) {
+  _Rotor3<T> ln(const _Rotor3<T> &r) {
     T len = length(r);
     T len_v = length(_Vec3<T>(r.e23, r.e31, r.e12));
 
@@ -134,7 +133,7 @@ namespace kmath {
 
 
   template<typename T>
-  KMATH_FUNC _Rotor3<T> pow(const _Rotor3<T> &r, const T power) {
+  inline _Rotor3<T> pow(const _Rotor3<T> &r, const T power) {
     return exp(power * ln(r));
   }
 
@@ -145,13 +144,13 @@ namespace kmath {
 
   
   template<typename T>
-  KMATH_FUNC _Rotor3<T> slerp(const _Rotor3<T> &a, const _Rotor3<T> &b, const T t) {
+  inline _Rotor3<T> slerp(const _Rotor3<T> &a, const _Rotor3<T> &b, const T t) {
     return a * pow(reverse(a) * b, t);
   }
 
 
   template<typename T>
-  KMATH_FUNC _Rotor3<T> operator+(const _Rotor3<T> &a, const _Rotor3<T> &b) {
+  inline _Rotor3<T> operator+(const _Rotor3<T> &a, const _Rotor3<T> &b) {
     _Rotor3<T> r(a);
     r += b;
     return r;
@@ -159,7 +158,7 @@ namespace kmath {
 
 
   template<typename T>
-  KMATH_FUNC _Rotor3<T> &operator+=(_Rotor3<T> &a, const _Rotor3<T> &b) {
+  inline _Rotor3<T> &operator+=(_Rotor3<T> &a, const _Rotor3<T> &b) {
     a.s   += b.s;
     a.e23 += b.e23;
     a.e31 += b.e31;
@@ -169,7 +168,7 @@ namespace kmath {
 
 
   template<typename T>
-  KMATH_FUNC _Rotor3<T> operator-(const _Rotor3<T> &a, const _Rotor3<T> &b) {
+  inline _Rotor3<T> operator-(const _Rotor3<T> &a, const _Rotor3<T> &b) {
     _Rotor3<T> r(a);
     r -= b;
     return r;
@@ -177,7 +176,7 @@ namespace kmath {
 
 
   template<typename T>
-  KMATH_FUNC _Rotor3<T> &operator-=(_Rotor3<T> &a, const _Rotor3<T> &b) {
+  inline _Rotor3<T> &operator-=(_Rotor3<T> &a, const _Rotor3<T> &b) {
     a.s   -= b.s;
     a.e23 -= b.e23;
     a.e31 -= b.e31;
@@ -187,13 +186,13 @@ namespace kmath {
 
 
   template<typename T>
-  KMATH_FUNC _Rotor3<T> operator-(const _Rotor3<T> &a) {
+  inline _Rotor3<T> operator-(const _Rotor3<T> &a) {
     return _Rotor3<T>(-a.s, -a.e23, -a.e31, -a.e12);
   }
 
 
   template<typename T>
-  KMATH_FUNC _Rotor3<T> operator*(const T a, const _Rotor3<T> &b) {
+  inline _Rotor3<T> operator*(const T a, const _Rotor3<T> &b) {
     _Rotor3<T> r(b);
     r *= a;
     return r;
@@ -201,13 +200,13 @@ namespace kmath {
 
 
   template<typename T>
-  KMATH_FUNC _Rotor3<T> operator*(const _Rotor3<T> &a, const T b) {
+  inline _Rotor3<T> operator*(const _Rotor3<T> &a, const T b) {
     return b * a;
   }
 
 
   template<typename T>
-  KMATH_FUNC _Rotor3<T> &operator*=(_Rotor3<T> &a, const T b) {
+  inline _Rotor3<T> &operator*=(_Rotor3<T> &a, const T b) {
     a.s   *= b;
     a.e23 *= b;
     a.e31 *= b;
@@ -217,7 +216,7 @@ namespace kmath {
 
 
   template<typename T>
-  KMATH_FUNC _Rotor3<T> operator/(const _Rotor3<T> &a, const T b) {
+  inline _Rotor3<T> operator/(const _Rotor3<T> &a, const T b) {
     _Rotor3<T> r(a);
     r /= b;
     return r;
@@ -225,7 +224,7 @@ namespace kmath {
 
 
   template<typename T>
-  KMATH_FUNC _Rotor3<T> &operator/=(_Rotor3<T> &a, const T b) {
+  inline _Rotor3<T> &operator/=(_Rotor3<T> &a, const T b) {
     a.s   /= b;
     a.e23 /= b;
     a.e31 /= b;
@@ -235,7 +234,7 @@ namespace kmath {
 
 
   template<typename T>
-  KMATH_FUNC _Rotor3<T> operator*(const _Rotor3<T> &a, const _Rotor3<T> &b) {
+  inline _Rotor3<T> operator*(const _Rotor3<T> &a, const _Rotor3<T> &b) {
     return _Rotor3<T>(
       b.s * a.s - b.e23 * a.e23 - a.e31 * b.e31 - b.e12 * a.e12,
       a.s * b.e23 + b.s * a.e23 - a.e31 * b.e12 + b.e31 * a.e12,
@@ -246,7 +245,7 @@ namespace kmath {
 
 
   template<typename T>
-  KMATH_FUNC _Rotor3<T> &operator*=(_Rotor3<T> &a, const _Rotor3<T> &b) {
+  inline _Rotor3<T> &operator*=(_Rotor3<T> &a, const _Rotor3<T> &b) {
     a = a * b;
     return a;
   }
@@ -258,7 +257,7 @@ namespace kmath {
 
 
   template<typename T>
-  KMATH_FUNC _Vec3<T> get_x_basis_vector(const _Rotor3<T> &r) {
+  inline _Vec3<T> get_x_basis_vector(const _Rotor3<T> &r) {
     return _Vec3<T>(
       r.e23 * r.e23 - r.e31 * r.e31 - r.e12 * r.e12 + r.s * r.s,
       (T)2.0 * (r.e23 * r.e31 - r.e12 * r.s),
@@ -268,7 +267,7 @@ namespace kmath {
 
 
   template<typename T>
-  KMATH_FUNC _Vec3<T> get_y_basis_vector(const _Rotor3<T> &r) {
+  inline _Vec3<T> get_y_basis_vector(const _Rotor3<T> &r) {
     return _Vec3<T>(
       (T)2.0 * (r.e23 * r.e31 + r.e12 * r.s),
       -r.e23 * r.e23 + r.e31 * r.e31 - r.e12 * r.e12 + r.s * r.s,
@@ -278,7 +277,7 @@ namespace kmath {
 
 
   template<typename T>
-  KMATH_FUNC _Vec3<T> get_z_basis_vector(const _Rotor3<T> &r) {
+  inline _Vec3<T> get_z_basis_vector(const _Rotor3<T> &r) {
     return _Vec3<T>(
       (T)2.0 * (r.e23 * r.e12 - r.e31 * r.s),
       (T)2.0 * (r.e31 * r.e12 + r.e23 * r.s),
@@ -288,7 +287,7 @@ namespace kmath {
 
 
   template<typename T>
-  KMATH_FUNC _Mat3<T> as_basis(const _Rotor3<T> &r) {
+  inline _Mat3<T> as_basis(const _Rotor3<T> &r) {
     return _Mat3<T>(
       get_x_basis_vec(r),
       get_y_basis_vec(r),
@@ -298,7 +297,7 @@ namespace kmath {
 
 
   template<typename T>
-  KMATH_FUNC _Mat3<T> as_transform(const _Rotor3<T> &rotor, const _Vec3<T> &translation) {
+  inline _Mat3<T> as_transform(const _Rotor3<T> &rotor, const _Vec3<T> &translation) {
     _Mat3<T> m = as_basis(rotor);
     return _Mat4<T>(
       _Vec4<T>(m.x.x        , m.x.y        , m.x.z        , 0.0),
@@ -315,19 +314,19 @@ namespace kmath {
   
 
   template<typename T>
-  KMATH_FUNC _Plane3<T> transform(const _Plane3<T> &a, const _Rotor3<T> &r);
+  inline _Plane3<T> transform(const _Plane3<T> &a, const _Rotor3<T> &r);
   
 
   template<typename T>
-  KMATH_FUNC _Line3<T> transform(const _Line3<T> &a, const _Rotor3<T> &r);
+  inline _Line3<T> transform(const _Line3<T> &a, const _Rotor3<T> &r);
 
 
   template<typename T>
-  KMATH_FUNC _Point3<T> transform(const _Point3<T> &a, const _Rotor3<T> &r);
+  inline _Point3<T> transform(const _Point3<T> &a, const _Rotor3<T> &r);
 
 
   template<typename T>
-  KMATH_FUNC _Vec3<T> transform(const _Vec3<T> &a, const _Rotor3<T> &r) {
+  inline _Vec3<T> transform(const _Vec3<T> &a, const _Rotor3<T> &r) {
     return _Vec3<T>(
       2 * r.e23 * r.e31 * a.y + 2 * a.y * r.e12 * r.s + 2 * a.z * r.e23 * r.e12 - a.x * r.e31 * r.e31 - 2 * a.z * r.e31 * r.s + r.e23 * r.e23 * a.x - a.x * r.e12 * r.e12 + a.x * r.s * r.s,
       - r.e23 * r.e23 * a.y + 2 * a.z * r.e23 * r.s + 2 * a.z * r.e31 * r.e12 + r.e31 * r.e31 * a.y - a.y * r.e12 * r.e12 - 2 * a.x * r.e12 * r.s + a.y * r.s * r.s + 2 * r.e23 * a.x * r.e31,

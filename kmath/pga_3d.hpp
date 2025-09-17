@@ -22,7 +22,6 @@
 #pragma once
 
 
-#include "defines.hpp"
 #include "vector.hpp"
 
 #include <cmath>
@@ -52,7 +51,7 @@ namespace kmath {
 
   
   public:
-    KMATH_FUNC _Mvec3<T> grade(const int g) const {
+    inline _Mvec3<T> grade(const int g) const {
       _Mvec3<T> res;
       switch (g) {
       case 0:
@@ -87,7 +86,7 @@ namespace kmath {
 
 
     // Hodge dual
-    KMATH_FUNC _Mvec3<T> hdual() const {
+    inline _Mvec3<T> hdual() const {
       _Mvec3<T> res;
       res[0]  = data[15];
       res[1]  = data[14];
@@ -110,7 +109,7 @@ namespace kmath {
 
 
     // Reverse
-    KMATH_FUNC _Mvec3<T> rev() const {
+    inline _Mvec3<T> rev() const {
       _Mvec3<T> res;
       res[0]  = data[0];
       res[1]  = data[1];
@@ -133,7 +132,7 @@ namespace kmath {
 
 
     // Clifford conjugate
-    KMATH_FUNC _Mvec3<T> conj() const {
+    inline _Mvec3<T> conj() const {
       _Mvec3<T> res;
       res[0]  = data[0];
       res[1]  = -data[1];
@@ -155,53 +154,53 @@ namespace kmath {
     }
 
 
-    KMATH_FUNC T norm() const {
+    inline T norm() const {
       return std::sqrt(norm_squared());
     }
 
 
-    KMATH_FUNC T inorm() const {
+    inline T inorm() const {
       return std::sqrt(inorm_squared());
     }
 
 
-    KMATH_FUNC T norm_squared() const {
+    inline T norm_squared() const {
       return (*this * this->rev())[0];
     }
 
 
-    KMATH_FUNC T inorm_squared() const {
+    inline T inorm_squared() const {
       return hdual().norm_squared();
     }
 
 
-    KMATH_FUNC _Mvec3<T> plane_normalize() const {
+    inline _Mvec3<T> plane_normalize() const {
       T norm = length(kmath::_Vec3<T>((*this)[Basis::e1], (*this)[Basis::e2], (*this)[Basis::e3]));
       return (*this) / norm;
     }
 
 
-    KMATH_FUNC _Mvec3<T> line_normalize() const {
+    inline _Mvec3<T> line_normalize() const {
       T norm = length(kmath::_Vec3<T>((*this)[Basis::e23], (*this)[Basis::e31], (*this)[Basis::e12]));
       return (*this) / norm;
     }
 
 
-    KMATH_FUNC _Mvec3<T> vanishing_line_normalize() const {
+    inline _Mvec3<T> vanishing_line_normalize() const {
       T norm = length(kmath::_Vec3<T>((*this)[Basis::e01], (*this)[Basis::e02], (*this)[Basis::e03]));
       return (*this) / norm;
     }
 
 
-    KMATH_FUNC _Mvec3<T> point_normalize() const {
+    inline _Mvec3<T> point_normalize() const {
       return (*this) / (*this)[Basis::e123];
     }
 
 
-    KMATH_FUNC T &operator[](size_t idx) { return data[idx]; }
-    KMATH_FUNC const T &operator[](size_t idx) const { return data[idx]; }
-    KMATH_FUNC T &operator[](Basis idx) { return data[(size_t)idx]; }
-    KMATH_FUNC const T &operator[](Basis idx) const { return data[(size_t)idx]; }
+    inline T &operator[](size_t idx) { return data[idx]; }
+    inline const T &operator[](size_t idx) const { return data[idx]; }
+    inline T &operator[](Basis idx) { return data[(size_t)idx]; }
+    inline const T &operator[](Basis idx) const { return data[(size_t)idx]; }
 
   public:
     static _Mvec3<T> plane(const T a, const T b, const T c, const T d) {
@@ -409,7 +408,7 @@ namespace kmath {
 
   // Geometric product
   template<typename T>
-  KMATH_FUNC _Mvec3<T> operator*(const _Mvec3<T> &a, const _Mvec3<T> &b) {
+  _Mvec3<T> operator*(const _Mvec3<T> &a, const _Mvec3<T> &b) {
     _Mvec3<T> res;
     res[0]  = b[0]  * a[0] + b[2]  * a[2] + b[3]  * a[3] + b[4]  * a[4] - b[8]  * a[8] - b[9]  * a[9] - b[10] * a[10] - b[14] * a[14];
     res[1]  = b[1]  * a[0] + b[0]  * a[1] - b[5]  * a[2] - b[6]  * a[3] - b[7]  * a[4] + b[2]  * a[5] + b[3]  * a[6]  + b[4]  * a[7] + b[11] * a[8] + b[12] * a[9] + b[13] * a[10] + b[8]  * a[11] + b[9]  * a[12] + b[10] * a[13] + b[15] * a[14] - b[14] * a[15];
@@ -433,7 +432,7 @@ namespace kmath {
 
   // Outer product
   template<typename T>
-  KMATH_FUNC _Mvec3<T> operator&(const _Mvec3<T> &a, const _Mvec3<T> &b) {
+  _Mvec3<T> operator&(const _Mvec3<T> &a, const _Mvec3<T> &b) {
     _Mvec3<T> res;
     res[0]  = b[0]  * a[0];
     res[1]  = b[1]  * a[0] + b[0]  * a[1];
@@ -457,7 +456,7 @@ namespace kmath {
 
   // Regressive product
   template<typename T>
-  KMATH_FUNC _Mvec3<T> operator|(const _Mvec3<T> &a, const _Mvec3<T> &b) {
+  _Mvec3<T> operator|(const _Mvec3<T> &a, const _Mvec3<T> &b) {
     _Mvec3<T> res;    
     res[15] = 1 * (a[15] * b[15]);
     res[14] = a[14] * b[15] + a[15] * b[14];
@@ -481,7 +480,7 @@ namespace kmath {
 
   // Inner product
   template<typename T>
-  KMATH_FUNC _Mvec3<T> operator||(const _Mvec3<T> &a, const _Mvec3<T> &b) {
+  _Mvec3<T> operator||(const _Mvec3<T> &a, const _Mvec3<T> &b) {
     _Mvec3<T> res;
     res[0]  = b[0]  * a[0] + b[2]  * a[2] + b[3]  * a[3]  + b[4]  * a[4] - b[8]  * a[8]  - b[9]  * a[9]  - b[10] * a[10] - b[14] * a[14];
     res[1]  = b[1]  * a[0] + b[0]  * a[1] - b[5]  * a[2]  - b[6]  * a[3] - b[7]  * a[4]  + b[2]  * a[5]  + b[3]  * a[6]  + b[4]  * a[7] + b[11] * a[8] + b[12] * a[9] + b[13] * a[10] + b[8] * a[11] + b[9] * a[12] + b[10] * a[13] + b[15] * a[14] - b[14] * a[15];
@@ -505,7 +504,7 @@ namespace kmath {
 
   // Multivector addition
   template<typename T>
-  KMATH_FUNC _Mvec3<T> operator+(const _Mvec3<T> &a, const _Mvec3<T> &b) {
+  inline _Mvec3<T> operator+(const _Mvec3<T> &a, const _Mvec3<T> &b) {
     _Mvec3<T> res;
     res[0]  = a[0]  + b[0];
     res[1]  = a[1]  + b[1];
@@ -529,7 +528,7 @@ namespace kmath {
 
   // Multivector subtraction
   template<typename T>
-  KMATH_FUNC _Mvec3<T> operator-(const _Mvec3<T> &a, const _Mvec3<T> &b) {
+  inline _Mvec3<T> operator-(const _Mvec3<T> &a, const _Mvec3<T> &b) {
     _Mvec3<T> res;
     res[0]  = a[0]  - b[0];
     res[1]  = a[1]  - b[1];
@@ -553,7 +552,7 @@ namespace kmath {
 
   // Multivector opposite
   template<typename T>
-  KMATH_FUNC _Mvec3<T> operator-(const _Mvec3<T> &a) {
+  inline _Mvec3<T> operator-(const _Mvec3<T> &a) {
     _Mvec3<T> res;
     res[0]  = -a[0];
     res[1]  = -a[1];
@@ -577,7 +576,7 @@ namespace kmath {
 
   // Scalar/multivector multiplication
   template<typename T>
-  KMATH_FUNC _Mvec3<T> operator*(const T a, const _Mvec3<T> &b) {
+  inline _Mvec3<T> operator*(const T a, const _Mvec3<T> &b) {
     _Mvec3<T> res;
     res[0]  = a * b[0];
     res[1]  = a * b[1];
@@ -601,7 +600,7 @@ namespace kmath {
 
   // Multivector/scalar multiplication
   template<typename T>
-  KMATH_FUNC _Mvec3<T> operator*(const _Mvec3<T> &a, const T b) {
+  inline _Mvec3<T> operator*(const _Mvec3<T> &a, const T b) {
     _Mvec3<T> res;
     res[0]  = b * a[0];
     res[1]  = b * a[1];
@@ -625,7 +624,7 @@ namespace kmath {
 
   // Multivector/scalar division
   template<typename T>
-  KMATH_FUNC _Mvec3<T> operator/(const _Mvec3<T> &a, const T b) {
+  inline _Mvec3<T> operator/(const _Mvec3<T> &a, const T b) {
     _Mvec3<T> res;
     res[0]  = a[0]  / b;
     res[1]  = a[1]  / b;
@@ -649,7 +648,7 @@ namespace kmath {
 
   // Scalar/multivector addition
   template<typename T>
-  KMATH_FUNC _Mvec3<T> operator+(const T a, const _Mvec3<T> &b) {
+  inline _Mvec3<T> operator+(const T a, const _Mvec3<T> &b) {
     _Mvec3<T> res;
     res[0]  = a + b[0];
     res[1]  = b[1];
@@ -673,7 +672,7 @@ namespace kmath {
 
   // Multivector/scalar addition
   template<typename T>
-  KMATH_FUNC _Mvec3<T> operator+(const _Mvec3<T> &a, const T b) {
+  inline _Mvec3<T> operator+(const _Mvec3<T> &a, const T b) {
     _Mvec3<T> res;
     res[0]  = b + a[0];
     res[1]  = a[1];
@@ -697,7 +696,7 @@ namespace kmath {
 
   // Scalar/multivector subtraction
   template<typename T>
-  KMATH_FUNC _Mvec3<T> operator-(const T a, const _Mvec3<T> &b) {
+  inline _Mvec3<T> operator-(const T a, const _Mvec3<T> &b) {
     _Mvec3<T> res;
     res[0]  = a - b[0];
     res[1]  = - b[1];
@@ -721,7 +720,7 @@ namespace kmath {
 
   // Multivector/scalar subtraction
   template<typename T>
-  KMATH_FUNC _Mvec3<T> operator-(const _Mvec3<T> &a, const T b) {
+  inline _Mvec3<T> operator-(const _Mvec3<T> &a, const T b) {
     _Mvec3<T> res;
     res[0]  = a[0] - b;
     res[1]  = a[1];

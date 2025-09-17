@@ -22,7 +22,7 @@
 #pragma once
 
 
-#include "kmath/utils.hpp"
+#include "utils.hpp"
 #include "vector.hpp"
 #include <cmath>
 
@@ -44,17 +44,17 @@ namespace kmath {
     _Plane3(T e1, T e2, T e3, T e0): e1(e1), e2(e2), e3(e3), e0(e0) {}
 
 
-    static KMATH_FUNC _Plane3<T> plane(const T a, const T b, const T c, const T d) {
+    static inline _Plane3<T> plane(const T a, const T b, const T c, const T d) {
       return _Plane3<T>(a, b, c, -d);
     }
 
 
-    static KMATH_FUNC _Plane3<T> plane(const _Vec3<T> &normal, const T distance) {
+    static inline _Plane3<T> plane(const _Vec3<T> &normal, const T distance) {
       return _Plane3<T>(normal.x, normal.y, normal.z, -distance);
     }
 
 
-    static KMATH_FUNC _Plane3<T> vanishing_plane(const T delta) {
+    static inline _Plane3<T> vanishing_plane(const T delta) {
       return _Plane3<T>((T)0.0, (T)0.0, (T)0.0, -delta);
     }
 
@@ -82,7 +82,7 @@ namespace kmath {
     _Line3(const T e23, const T e31, const T e12, const T e01, const T e02, const T e03): e23(e23), e31(e31), e12(e12), e01(e01), e02(e02), e03(e03) {}
 
 
-    static KMATH_FUNC _Line3<T> line(const _Vec3<T> direction, const _Vec3<T> point) {
+    static inline _Line3<T> line(const _Vec3<T> direction, const _Vec3<T> point) {
       return _Line3<T>(
         direction.x,
         direction.y,
@@ -94,7 +94,7 @@ namespace kmath {
     }
 
 
-    static KMATH_FUNC _Line3<T> line(const T dx, const T dy, const T dz, const T px, const T py, const T pz) {
+    static inline _Line3<T> line(const T dx, const T dy, const T dz, const T px, const T py, const T pz) {
       return _Line3<T>(
         dx,
         dy,
@@ -106,7 +106,7 @@ namespace kmath {
     }
 
 
-    static KMATH_FUNC _Line3<T> vanishing_line(const _Vec3<T> direction) {
+    static inline _Line3<T> vanishing_line(const _Vec3<T> direction) {
       return _Line3<T>(
         (T)0.0, (T)0.0, (T)0.0,
         direction.x, direction.y, direction.z
@@ -114,7 +114,7 @@ namespace kmath {
     }
 
 
-    static KMATH_FUNC _Line3<T> vanishing_line(const T dx, const T dy, const T dz) {
+    static inline _Line3<T> vanishing_line(const T dx, const T dy, const T dz) {
       return _Line3<T>(
         (T)0.0, (T)0.0, (T)0.0,
         dx, dy, dz
@@ -122,7 +122,7 @@ namespace kmath {
     }
 
     
-    static KMATH_FUNC _Line3<T> from_plucker(const _Vec3<T> direction, const _Vec3<T> moment) {
+    static inline _Line3<T> from_plucker(const _Vec3<T> direction, const _Vec3<T> moment) {
       return _Line3<T>(
         direction.x, direction.y, direction.z,
         moment.x, moment.y, moment.z      
@@ -130,7 +130,7 @@ namespace kmath {
     }
 
     
-    static KMATH_FUNC _Line3<T> from_plucker(const T dx, const T dy, const T dz, const T mx, const T my, const T mz) {
+    static inline _Line3<T> from_plucker(const T dx, const T dy, const T dz, const T mx, const T my, const T mz) {
       return _Line3<T>(
         dx, dy, dz,
         mx, my, mz      
@@ -144,28 +144,28 @@ namespace kmath {
     T e032, e013, e021, e123;
 
   public:
-    static KMATH_FUNC _Point3<T> point(const _Vec3<T> &p) {
+    static inline _Point3<T> point(const _Vec3<T> &p) {
       return _Point3<T>(
         p.x, p.y, p.z, (T)1.0
       );
     }
 
 
-    static KMATH_FUNC _Point3<T> point(const T x, const T y, const T z) {
+    static inline _Point3<T> point(const T x, const T y, const T z) {
       return _Point3<T>(
         x, y, z, (T)1.0
       );
     }
 
 
-    static KMATH_FUNC _Point3<T> direction(const _Vec3<T> &d) {
+    static inline _Point3<T> direction(const _Vec3<T> &d) {
       return _Point3<T>(
         d.x, d.y, d.z, (T)0.0
       );
     }
 
 
-    static KMATH_FUNC _Point3<T> direction(const T x, const T y, const T z) {
+    static inline _Point3<T> direction(const T x, const T y, const T z) {
       return _Point3<T>(
         x, y, z, (T)0.0
       );
@@ -198,14 +198,14 @@ namespace kmath {
   
 
   template<typename T>
-  KMATH_FUNC _Point3<T> meet(const _Plane3<T> &plane, const _Line3<T> &line);
+  inline _Point3<T> meet(const _Plane3<T> &plane, const _Line3<T> &line);
   template<typename T>
-  KMATH_FUNC _Point3<T> meet(const _Line3<T> &line, const _Plane3<T> &plane);
+  inline _Point3<T> meet(const _Line3<T> &line, const _Plane3<T> &plane);
 
   template<typename T>
-  KMATH_FUNC _Plane3<T> join(const _Line3<T> &line, const _Point3<T> &point);
+  inline _Plane3<T> join(const _Line3<T> &line, const _Point3<T> &point);
   template<typename T>
-  KMATH_FUNC _Plane3<T> join(const _Point3<T> &point, const _Line3<T> &line);
+  inline _Plane3<T> join(const _Point3<T> &point, const _Line3<T> &line);
 
 
   // ===================
@@ -214,37 +214,37 @@ namespace kmath {
   
 
   template<typename T>
-  KMATH_FUNC bool is_vanishing(const _Plane3<T> &a) {
+  inline bool is_vanishing(const _Plane3<T> &a) {
     return is_square_approx_zero(magnitude_squared(a));
   }
 
 
   template<typename T>
-  KMATH_FUNC T magnitude_squared(const _Plane3<T> &a) {
+  inline T magnitude_squared(const _Plane3<T> &a) {
     return a.e1 * a.e1 + a.e2 * a.e2 + a.e3 * a.e3;
   }
   
 
   template<typename T>
-  KMATH_FUNC T vanishing_magnitude_squared(const _Plane3<T> &a) {
+  inline T vanishing_magnitude_squared(const _Plane3<T> &a) {
     return a.e0 * a.e0;
   }
 
 
   template<typename T>
-  KMATH_FUNC T magnitude(const _Plane3<T> &a) {
+  inline T magnitude(const _Plane3<T> &a) {
     return std::sqrt(magnitude_squared(a));
   }
   
 
   template<typename T>
-  KMATH_FUNC T vanishing_magnitude(const _Plane3<T> &a) {
+  inline T vanishing_magnitude(const _Plane3<T> &a) {
     return std::abs(a.e0);
   }
 
 
   template<typename T>
-  KMATH_FUNC _Plane3<T> normalized(const _Plane3<T> &a) {
+  inline _Plane3<T> normalized(const _Plane3<T> &a) {
     if (!is_vanishing(a)) {
       return a / magnitude(a);
     } else {
@@ -256,7 +256,7 @@ namespace kmath {
 
 
   template<typename T>
-  KMATH_FUNC _Line3<T> meet(const _Plane3<T> &a, const _Plane3<T> &b) {
+  inline _Line3<T> meet(const _Plane3<T> &a, const _Plane3<T> &b) {
     return _Line3<T>(
       a.e2 * b.e3 - a.e3 * b.e2,
       a.e3 * b.e1 - a.e1 * b.e3,
@@ -269,31 +269,31 @@ namespace kmath {
 
 
   template<typename T>
-  KMATH_FUNC _Point3<T> meet(const _Plane3<T> &a, const _Plane3<T> &b, const _Plane3<T> &c) {
+  inline _Point3<T> meet(const _Plane3<T> &a, const _Plane3<T> &b, const _Plane3<T> &c) {
     return meet(meet(a, b), c);
   }
 
 
   template<typename T>
-  KMATH_FUNC T inner(const _Plane3<T> &a, const _Plane3<T> &b) {
+  inline T inner(const _Plane3<T> &a, const _Plane3<T> &b) {
     return a.e1 * b.e1 + a.e2 * b.e2 + a.e3 * b.e3;
   }
 
 
   template<typename T>
-  KMATH_FUNC _Point3<T> dual(const _Plane3<T> &p) {
+  inline _Point3<T> dual(const _Plane3<T> &p) {
     return _Point3<T>::direction(p.e1, p.e2, p.e3);
   }
 
 
   template<typename T>
-  KMATH_FUNC _Plane3<T> reverse(const _Plane3<T> &p) {
+  inline _Plane3<T> reverse(const _Plane3<T> &p) {
     return p;
   }
 
 
   template<typename T>
-  KMATH_FUNC _Plane3<T> inverse(const _Plane3<T> &p) {
+  inline _Plane3<T> inverse(const _Plane3<T> &p) {
     return reverse(p) / magnitude_squared(p);
   }
 
@@ -304,7 +304,7 @@ namespace kmath {
 
 
   template<typename T>
-  KMATH_FUNC _Plane3<T> operator+(const _Plane3<T> &a, const _Plane3<T> &b) {
+  inline _Plane3<T> operator+(const _Plane3<T> &a, const _Plane3<T> &b) {
     _Plane3<T> res(a);
     res += b;
     return res;
@@ -312,7 +312,7 @@ namespace kmath {
 
 
   template<typename T>
-  KMATH_FUNC _Plane3<T> &operator+=(_Plane3<T> &a, const _Plane3<T> &b) {
+  inline _Plane3<T> &operator+=(_Plane3<T> &a, const _Plane3<T> &b) {
     a.e1 += b.e1;
     a.e2 += b.e2;
     a.e3 += b.e3;
@@ -322,7 +322,7 @@ namespace kmath {
 
 
   template<typename T>
-  KMATH_FUNC _Plane3<T> operator-(const _Plane3<T> &a, const _Plane3<T> &b) {
+  inline _Plane3<T> operator-(const _Plane3<T> &a, const _Plane3<T> &b) {
     _Plane3<T> res(a);
     res -= b;
     return res;
@@ -330,7 +330,7 @@ namespace kmath {
 
 
   template<typename T>
-  KMATH_FUNC _Plane3<T> &operator-=(_Plane3<T> &a, const _Plane3<T> &b) {
+  inline _Plane3<T> &operator-=(_Plane3<T> &a, const _Plane3<T> &b) {
     a.e1 -= b.e1;
     a.e2 -= b.e2;
     a.e3 -= b.e3;
@@ -340,7 +340,7 @@ namespace kmath {
 
 
   template<typename T>
-  KMATH_FUNC _Plane3<T> operator-(const _Plane3<T> &a){
+  inline _Plane3<T> operator-(const _Plane3<T> &a){
     return _Plane3<T>(
       -a.e1,
       -a.e2,
@@ -351,7 +351,7 @@ namespace kmath {
 
 
   template<typename T>
-  KMATH_FUNC _Plane3<T> operator*(const T a, const _Plane3<T> &b) {
+  inline _Plane3<T> operator*(const T a, const _Plane3<T> &b) {
     _Plane3<T> res(b);
     res.e1 = a * res.e1;
     res.e2 = a * res.e2;
@@ -362,7 +362,7 @@ namespace kmath {
 
 
   template<typename T>
-  KMATH_FUNC _Plane3<T> operator*(const _Plane3<T> &a, const T b) {
+  inline _Plane3<T> operator*(const _Plane3<T> &a, const T b) {
     _Plane3<T> res(a);
     res.e1 = res.e1 * b;
     res.e2 = res.e2 * b;
@@ -373,14 +373,14 @@ namespace kmath {
 
 
   template<typename T>
-  KMATH_FUNC _Plane3<T> &operator*=(_Plane3<T> &a, const T b) {
+  inline _Plane3<T> &operator*=(_Plane3<T> &a, const T b) {
     a = a * b;
     return a;
   }
 
 
   template<typename T>
-  KMATH_FUNC _Plane3<T> operator/(const _Plane3<T> &a, const T b) {
+  inline _Plane3<T> operator/(const _Plane3<T> &a, const T b) {
     _Plane3<T> res(a);
     res /= b;
     return res;
@@ -388,7 +388,7 @@ namespace kmath {
 
 
   template<typename T>
-  KMATH_FUNC _Plane3<T> &operator/=(_Plane3<T> &a, const T b) {
+  inline _Plane3<T> &operator/=(_Plane3<T> &a, const T b) {
     a.e1 /= b;
     a.e2 /= b;
     a.e3 /= b;
@@ -403,37 +403,37 @@ namespace kmath {
 
 
   template<typename T>
-  KMATH_FUNC bool is_vanishing(const _Line3<T> &a) {
+  inline bool is_vanishing(const _Line3<T> &a) {
     return is_square_approx_zero(magnitude_squared(a));
   }
   
 
   template<typename T>
-  KMATH_FUNC T magnitude_squared(const _Line3<T> &a) {
+  inline T magnitude_squared(const _Line3<T> &a) {
     return a.e23 * a.e23 + a.e31 * a.e31 + a.e12 * a.e12;
   }
   
 
   template<typename T>
-  KMATH_FUNC T vanishing_magnitude_squared(const _Line3<T> &a) {
+  inline T vanishing_magnitude_squared(const _Line3<T> &a) {
     return a.e01 * a.e01 + a.e02 * a.e02 + a.e03 * a.e03;
   }
 
 
   template<typename T>
-  KMATH_FUNC T magnitude(const _Line3<T> &a) {
+  inline T magnitude(const _Line3<T> &a) {
     return std::sqrt(magnitude_squared(a));
   }
   
 
   template<typename T>
-  KMATH_FUNC T vanishing_magnitude(const _Line3<T> &a) {
+  inline T vanishing_magnitude(const _Line3<T> &a) {
     return std::sqrt(vanishing_magnitude_squared(a));
   }
 
 
   template<typename T>
-  KMATH_FUNC _Line3<T> normalized(const _Line3<T> &a) {
+  inline _Line3<T> normalized(const _Line3<T> &a) {
     if (!is_vanishing(a)) {
       return a / magnitude(a);
     } else {
@@ -443,13 +443,13 @@ namespace kmath {
 
 
   template<typename T>
-  KMATH_FUNC T inner(const _Line3<T> &a, const _Line3<T> &b) {
+  inline T inner(const _Line3<T> &a, const _Line3<T> &b) {
     return -(a.e23 * b.e23 + a.e31 * b.e31 + a.e12 * b.e12);
   }
 
 
   template<typename T>
-  KMATH_FUNC T join(const _Line3<T> &a, const _Line3<T> &b) {
+  inline T join(const _Line3<T> &a, const _Line3<T> &b) {
     return (
       a.e23 * b.e01
       + a.e31 * b.e02
@@ -462,7 +462,7 @@ namespace kmath {
 
 
   template<typename T>
-  KMATH_FUNC T meet(const _Line3<T> &a, const _Line3<T> &b) {
+  inline T meet(const _Line3<T> &a, const _Line3<T> &b) {
     return (
       a.e23 * b.e01
       + a.e31 * b.e02
@@ -475,19 +475,19 @@ namespace kmath {
 
 
   template<typename T>
-  KMATH_FUNC _Line3<T> reverse(const _Line3<T> &l) {
+  inline _Line3<T> reverse(const _Line3<T> &l) {
     return -l;
   }
 
 
   template<typename T>
-  KMATH_FUNC _Line3<T> inverse(const _Line3<T> &l) {
+  inline _Line3<T> inverse(const _Line3<T> &l) {
     return reverse(l) / magnitude_squared(l);
   }
 
 
   // template<typename T>
-  // KMATH_FUNC T get_angle(const _Line3<T> &a);
+  // inline T get_angle(const _Line3<T> &a);
 
 
   // ==================
@@ -496,7 +496,7 @@ namespace kmath {
 
 
   template<typename T>
-  KMATH_FUNC _Line3<T> operator+(const _Line3<T> &a, const _Line3<T> &b) {
+  inline _Line3<T> operator+(const _Line3<T> &a, const _Line3<T> &b) {
     _Line3<T> res(a);
     res += b;
     return res;
@@ -504,7 +504,7 @@ namespace kmath {
 
 
   template<typename T>
-  KMATH_FUNC _Line3<T> &operator+=(_Line3<T> &a, const _Line3<T> &b) {
+  inline _Line3<T> &operator+=(_Line3<T> &a, const _Line3<T> &b) {
     a.e23 += b.e23;
     a.e31 += b.e31;
     a.e12 += b.e12;
@@ -516,7 +516,7 @@ namespace kmath {
 
 
   template<typename T>
-  KMATH_FUNC _Line3<T> operator-(const _Line3<T> &a, const _Line3<T> &b) {
+  inline _Line3<T> operator-(const _Line3<T> &a, const _Line3<T> &b) {
     _Line3<T> res(a);
     res -= b;
     return res;
@@ -524,7 +524,7 @@ namespace kmath {
 
 
   template<typename T>
-  KMATH_FUNC _Line3<T> &operator-=(_Line3<T> &a, const _Line3<T> &b) {
+  inline _Line3<T> &operator-=(_Line3<T> &a, const _Line3<T> &b) {
     a.e23 -= b.e23;
     a.e31 -= b.e31;
     a.e12 -= b.e12;
@@ -536,7 +536,7 @@ namespace kmath {
 
 
   template<typename T>
-  KMATH_FUNC _Line3<T> operator-(const _Line3<T> &a){
+  inline _Line3<T> operator-(const _Line3<T> &a){
     return _Line3<T>(
       -a.e23,
       -a.e31,
@@ -549,7 +549,7 @@ namespace kmath {
 
 
   template<typename T>
-  KMATH_FUNC _Line3<T> operator*(const T a, const _Line3<T> &b) {
+  inline _Line3<T> operator*(const T a, const _Line3<T> &b) {
     _Line3<T> res(b);
     res.e23 = a * res.e23;
     res.e31 = a * res.e31;
@@ -562,7 +562,7 @@ namespace kmath {
 
 
   template<typename T>
-  KMATH_FUNC _Line3<T> operator*(const _Line3<T> &a, const T b) {
+  inline _Line3<T> operator*(const _Line3<T> &a, const T b) {
     _Line3<T> res(a);
     res.e23 = res.e23 * b;
     res.e31 = res.e31 * b;
@@ -575,14 +575,14 @@ namespace kmath {
 
 
   template<typename T>
-  KMATH_FUNC _Line3<T> &operator*=(_Line3<T> &a, const T b) {
+  inline _Line3<T> &operator*=(_Line3<T> &a, const T b) {
     a = a * b;
     return a;
   }
 
 
   template<typename T>
-  KMATH_FUNC _Line3<T> operator/(const _Line3<T> &a, const T b) {
+  inline _Line3<T> operator/(const _Line3<T> &a, const T b) {
     _Line3<T> res(a);
     res /= b;
     return res;
@@ -590,7 +590,7 @@ namespace kmath {
 
 
   template<typename T>
-  KMATH_FUNC _Line3<T> &operator/=(_Line3<T> &a, const T b) {
+  inline _Line3<T> &operator/=(_Line3<T> &a, const T b) {
     a.e23 /= b;
     a.e31 /= b;
     a.e12 /= b;
@@ -607,7 +607,7 @@ namespace kmath {
 
 
   template<typename T>
-  KMATH_FUNC _Vec3<T> as_vector(const _Point3<T> &a) {
+  inline _Vec3<T> as_vector(const _Point3<T> &a) {
     if (!is_vanishing(a)) {
       return _Vec3<T>(
         a.e032 / a.e123,
@@ -625,37 +625,37 @@ namespace kmath {
   
 
   template<typename T>
-  KMATH_FUNC T magnitude_squared(const _Point3<T> &a) {
+  inline T magnitude_squared(const _Point3<T> &a) {
     return a.e123 * a.e123;
   }
   
 
   template<typename T>
-  KMATH_FUNC T vanishing_magnitude_squared(const _Point3<T> &a) {
+  inline T vanishing_magnitude_squared(const _Point3<T> &a) {
     return a.e032 * a.e032 + a.e013 * a.e013 + a.e021 * a.e021;
   }
 
 
   template<typename T>
-  KMATH_FUNC T magnitude(const _Point3<T> &a) {
+  inline T magnitude(const _Point3<T> &a) {
     return std::abs(a.e123);
   }
   
 
   template<typename T>
-  KMATH_FUNC T vanishing_magnitude(const _Point3<T> &a) {
+  inline T vanishing_magnitude(const _Point3<T> &a) {
     return std::sqrt(vanishing_magnitude_squared(a));
   }
 
 
   template<typename T>
-  KMATH_FUNC bool is_vanishing(const _Point3<T> &a) {
+  inline bool is_vanishing(const _Point3<T> &a) {
     return is_approx_zero(a.e123);
   }
 
 
   template<typename T>
-  KMATH_FUNC _Point3<T> normalized(const _Point3<T> &a) {
+  inline _Point3<T> normalized(const _Point3<T> &a) {
     if (!is_vanishing(a)) {
       return a / a.e123;
     } else {
@@ -665,7 +665,7 @@ namespace kmath {
 
 
   template<typename T>
-  KMATH_FUNC _Line3<T> join(const _Point3<T> &a, const _Point3<T> &b) {
+  inline _Line3<T> join(const _Point3<T> &a, const _Point3<T> &b) {
     return _Line3<T>(
       a.e032 * b.e123 - a.e123 * b.e032,
       a.e013 * b.e123 - a.e123 * b.e013,
@@ -678,25 +678,25 @@ namespace kmath {
 
 
   template<typename T>
-  KMATH_FUNC _Plane3<T> join(const _Point3<T> &a, const _Point3<T> &b, const _Point3<T> &c) {
+  inline _Plane3<T> join(const _Point3<T> &a, const _Point3<T> &b, const _Point3<T> &c) {
     return join(join(a, b), c);
   }
 
 
   template<typename T>
-  KMATH_FUNC T inner(const _Point3<T> &a, const _Point3<T> &b) {
+  inline T inner(const _Point3<T> &a, const _Point3<T> &b) {
     return - a.e123 * b.e123;
   }
 
 
   template<typename T>
-  KMATH_FUNC _Point3<T> reverse(const _Point3<T> &p) {
+  inline _Point3<T> reverse(const _Point3<T> &p) {
     return -p;
   }
 
 
   template<typename T>
-  KMATH_FUNC _Point3<T> inverse(const _Point3<T> &p) {
+  inline _Point3<T> inverse(const _Point3<T> &p) {
     return reverse(p) / magnitude_squared(p);
   }
 
@@ -707,7 +707,7 @@ namespace kmath {
 
 
   template<typename T>
-  KMATH_FUNC _Point3<T> operator+(const _Point3<T> &a, const _Point3<T> &b) {
+  inline _Point3<T> operator+(const _Point3<T> &a, const _Point3<T> &b) {
     _Point3<T> res(a);
     res += b;
     return res;
@@ -715,7 +715,7 @@ namespace kmath {
 
 
   template<typename T>
-  KMATH_FUNC _Point3<T> &operator+=(_Point3<T> &a, const _Point3<T> &b) {
+  inline _Point3<T> &operator+=(_Point3<T> &a, const _Point3<T> &b) {
     a.e123 += b.e123;
     a.e032 += b.e032;
     a.e013 += b.e013;
@@ -725,7 +725,7 @@ namespace kmath {
 
 
   template<typename T>
-  KMATH_FUNC _Point3<T> operator-(const _Point3<T> &a, const _Point3<T> &b) {
+  inline _Point3<T> operator-(const _Point3<T> &a, const _Point3<T> &b) {
     _Point3<T> res(a);
     res -= b;
     return res;
@@ -733,7 +733,7 @@ namespace kmath {
 
 
   template<typename T>
-  KMATH_FUNC _Point3<T> &operator-=(_Point3<T> &a, const _Point3<T> &b) {
+  inline _Point3<T> &operator-=(_Point3<T> &a, const _Point3<T> &b) {
     a.e123 -= b.e123;
     a.e032 -= b.e032;
     a.e013 -= b.e013;
@@ -743,7 +743,7 @@ namespace kmath {
 
 
   template<typename T>
-  KMATH_FUNC _Point3<T> operator-(const _Point3<T> &a){
+  inline _Point3<T> operator-(const _Point3<T> &a){
     return _Point3<T>(
       -a.e032,
       -a.e013,
@@ -754,7 +754,7 @@ namespace kmath {
 
 
   template<typename T>
-  KMATH_FUNC _Point3<T> operator*(const T a, const _Point3<T> &b) {
+  inline _Point3<T> operator*(const T a, const _Point3<T> &b) {
     _Point3<T> res(b);
     res.e123 = a * res.e123;
     res.e032 = a * res.e032;
@@ -765,7 +765,7 @@ namespace kmath {
 
 
   template<typename T>
-  KMATH_FUNC _Point3<T> operator*(const _Point3<T> &a, const T b) {
+  inline _Point3<T> operator*(const _Point3<T> &a, const T b) {
     _Point3<T> res(a);
     res.e123 = res.e123 * b;
     res.e032 = res.e032 * b;
@@ -776,14 +776,14 @@ namespace kmath {
 
 
   template<typename T>
-  KMATH_FUNC _Point3<T> &operator*=(_Point3<T> &a, const T b) {
+  inline _Point3<T> &operator*=(_Point3<T> &a, const T b) {
     a = a * b;
     return a;
   }
 
 
   template<typename T>
-  KMATH_FUNC _Point3<T> operator/(const _Point3<T> &a, const T b) {
+  inline _Point3<T> operator/(const _Point3<T> &a, const T b) {
     _Point3<T> res(a);
     res /= b;
     return res;
@@ -791,7 +791,7 @@ namespace kmath {
 
 
   template<typename T>
-  KMATH_FUNC _Point3<T> &operator/=(_Point3<T> &a, const T b) {
+  inline _Point3<T> &operator/=(_Point3<T> &a, const T b) {
     a.e123 /= b;
     a.e032 /= b;
     a.e013 /= b;
@@ -806,7 +806,7 @@ namespace kmath {
   
 
   template<typename T>
-  KMATH_FUNC _Point3<T> meet(const _Plane3<T> &plane, const _Line3<T> &line) {
+  inline _Point3<T> meet(const _Plane3<T> &plane, const _Line3<T> &line) {
     return _Point3<T>(
       plane.e2 * line.e03 - plane.e3 * line.e02 - plane.e0 * line.e23,
       plane.e3 * line.e01 - plane.e1 * line.e03 - plane.e0 * line.e31,
@@ -817,13 +817,13 @@ namespace kmath {
 
 
   template<typename T>
-  KMATH_FUNC _Point3<T> meet(const _Line3<T> &line, const _Plane3<T> &plane) {
+  inline _Point3<T> meet(const _Line3<T> &line, const _Plane3<T> &plane) {
     return meet(plane, line);
   }
 
 
   template<typename T>
-  KMATH_FUNC _Plane3<T> inner(const _Plane3<T> &plane, const _Line3<T> &line) {
+  inline _Plane3<T> inner(const _Plane3<T> &plane, const _Line3<T> &line) {
     return _Plane3<T>(
       plane.e3 * line.e31 - plane.e2 * line.e12,
       plane.e1 * line.e12 - plane.e3 * line.e23,
@@ -834,13 +834,13 @@ namespace kmath {
 
 
   template<typename T>
-  KMATH_FUNC _Plane3<T> inner(const _Line3<T> &line, const _Plane3<T> &plane) {
+  inline _Plane3<T> inner(const _Line3<T> &line, const _Plane3<T> &plane) {
     return -inner(plane, line);
   }
 
 
   template<typename T>
-  KMATH_FUNC bool is_on(const _Line3<T> &line, const _Plane3<T> &plane) {
+  inline bool is_on(const _Line3<T> &line, const _Plane3<T> &plane) {
     return is_approx_zero(inner(plane, line)); // TODO: check
   }
 
@@ -851,7 +851,7 @@ namespace kmath {
 
 
   template<typename T>
-  KMATH_FUNC _Plane3<T> join(const _Line3<T> &line, const _Point3<T> &point) {
+  inline _Plane3<T> join(const _Line3<T> &line, const _Point3<T> &point) {
     return _Plane3<T>(
       line.e01 * point.e123 + line.e31 * point.e021 - line.e12 * point.e013,
       line.e02 * point.e123 + line.e12 * point.e032 - line.e23 * point.e021,
@@ -862,13 +862,13 @@ namespace kmath {
 
 
   template<typename T>
-  KMATH_FUNC _Plane3<T> join(const _Point3<T> &point, const _Line3<T> &line) {
+  inline _Plane3<T> join(const _Point3<T> &point, const _Line3<T> &line) {
     return join(line, point);
   }
 
 
   template<typename T>
-  KMATH_FUNC _Plane3<T> inner(const _Line3<T> &line, const _Point3<T> &point) {
+  inline _Plane3<T> inner(const _Line3<T> &line, const _Point3<T> &point) {
     return _Plane3<T>(
        - line.e23 * point.e123,
        - line.e31 * point.e123,
@@ -879,13 +879,13 @@ namespace kmath {
 
 
   template<typename T>
-  KMATH_FUNC _Plane3<T> inner(const _Point3<T> &point, const _Line3<T> &line) {
+  inline _Plane3<T> inner(const _Point3<T> &point, const _Line3<T> &line) {
     return inner(line, point);
   }
 
 
   template<typename T>
-  KMATH_FUNC bool is_on(const _Point3<T> &point, const _Line3<T> &line) {
+  inline bool is_on(const _Point3<T> &point, const _Line3<T> &line) {
     return is_approx_zero(inner(line, point));
   }
 
@@ -896,7 +896,7 @@ namespace kmath {
 
 
   template<typename T>
-  KMATH_FUNC T meet(const _Plane3<T> &plane, const _Point3<T> &point) {
+  inline T meet(const _Plane3<T> &plane, const _Point3<T> &point) {
     return (
       plane.e0 * point.e123
       + plane.e1 * point.e032
@@ -907,13 +907,13 @@ namespace kmath {
 
 
   template<typename T>
-  KMATH_FUNC T meet(const _Point3<T> &point, const _Plane3<T> &plane) {
+  inline T meet(const _Point3<T> &point, const _Plane3<T> &plane) {
     return -meet(plane, point);
   }
   
 
   template<typename T>
-  KMATH_FUNC T join(const _Plane3<T> &plane, const _Point3<T> &point) {
+  inline T join(const _Plane3<T> &plane, const _Point3<T> &point) {
     return (
       - plane.e0 * point.e123
       - plane.e1 * point.e032
@@ -924,13 +924,13 @@ namespace kmath {
 
 
   template<typename T>
-  KMATH_FUNC T join(const _Point3<T> &point, const _Plane3<T> &plane) {
+  inline T join(const _Point3<T> &point, const _Plane3<T> &plane) {
     return -join(plane, point);
   }
   
 
   template<typename T>
-  KMATH_FUNC _Line3<T> inner(const _Plane3<T> &plane, const _Point3<T> &point) {
+  inline _Line3<T> inner(const _Plane3<T> &plane, const _Point3<T> &point) {
     return _Line3<T>(
       plane.e1 * point.e123,
       plane.e2 * point.e123,
@@ -943,14 +943,14 @@ namespace kmath {
 
 
   template<typename T>
-  KMATH_FUNC _Line3<T> inner(const _Point3<T> &point, const _Plane3<T> &plane) {
+  inline _Line3<T> inner(const _Point3<T> &point, const _Plane3<T> &plane) {
     return inner(plane, point);
   }
 
 
 
   template<typename T>
-  KMATH_FUNC bool is_on(const _Point3<T> &point, const _Plane3<T> &plane) {
+  inline bool is_on(const _Point3<T> &point, const _Plane3<T> &plane) {
     return is_approx_zero(inner(plane, point));
   }
 
@@ -962,156 +962,156 @@ namespace kmath {
 
   // Fast projection gives a projection modulo a positive factor
   template<typename T>
-  KMATH_FUNC _Plane3<T> fast_project(const _Plane3<T> &a, const _Point3<T> &b) {
+  inline _Plane3<T> fast_project(const _Plane3<T> &a, const _Point3<T> &b) {
     return inner(inner(a, b), b);
   }
 
 
   // Fast projection gives a projection modulo a positive factor
   template<typename T>
-  KMATH_FUNC _Line3<T> fast_project(const _Line3<T> &a, const _Point3<T> &b) {
+  inline _Line3<T> fast_project(const _Line3<T> &a, const _Point3<T> &b) {
     return inner(inner(a, b), b);
   }
 
 
   // Fast projection gives a projection modulo a positive factor
   template<typename T>
-  KMATH_FUNC _Line3<T> fast_project(const _Line3<T> &a, const _Plane3<T> &b) {
+  inline _Line3<T> fast_project(const _Line3<T> &a, const _Plane3<T> &b) {
     return meet(inner(a, b), b);
   }
 
 
   // Fast projection gives a projection modulo a positive factor
   template<typename T>
-  KMATH_FUNC _Line3<T> fast_project(const _Plane3<T> &a, const _Line3<T> &b) {
+  inline _Line3<T> fast_project(const _Plane3<T> &a, const _Line3<T> &b) {
     return inner(inner(a, b), b);
   }
 
 
   // Fast projection gives a projection modulo a positive factor
   template<typename T>
-  KMATH_FUNC _Point3<T> fast_project(const _Point3<T> &a, const _Plane3<T> &b) {
+  inline _Point3<T> fast_project(const _Point3<T> &a, const _Plane3<T> &b) {
     return meet(inner(a, b), b);
   }
 
 
   // Fast projection gives a projection modulo a positive factor
   template<typename T>
-  KMATH_FUNC _Point3<T> fast_project(const _Point3<T> &a, const _Line3<T> &b) {
+  inline _Point3<T> fast_project(const _Point3<T> &a, const _Line3<T> &b) {
     return meet(inner(a, b), b);
   }
 
 
   template<typename T>
-  KMATH_FUNC _Plane3<T> project(const _Plane3<T> &a, const _Point3<T> &b) {
+  inline _Plane3<T> project(const _Plane3<T> &a, const _Point3<T> &b) {
     return inner(inner(a, b), inverse(b));
   }
 
 
   template<typename T>
-  KMATH_FUNC _Line3<T> project(const _Line3<T> &a, const _Point3<T> &b) {
+  inline _Line3<T> project(const _Line3<T> &a, const _Point3<T> &b) {
     return inner(inner(a, b), inverse(b));
   }
 
 
   template<typename T>
-  KMATH_FUNC _Line3<T> project(const _Line3<T> &a, const _Plane3<T> &b) {
+  inline _Line3<T> project(const _Line3<T> &a, const _Plane3<T> &b) {
     return meet(inner(a, b), inverse(b));
   }
 
 
   template<typename T>
-  KMATH_FUNC _Line3<T> project(const _Plane3<T> &a, const _Line3<T> &b) {
+  inline _Line3<T> project(const _Plane3<T> &a, const _Line3<T> &b) {
     return inner(inner(a, b), inverse(b));
   }
 
 
   template<typename T>
-  KMATH_FUNC _Point3<T> project(const _Point3<T> &a, const _Plane3<T> &b) {
+  inline _Point3<T> project(const _Point3<T> &a, const _Plane3<T> &b) {
     return meet(inner(a, b), inverse(b));
   }
 
 
   template<typename T>
-  KMATH_FUNC _Point3<T> project(const _Point3<T> &a, const _Line3<T> &b) {
+  inline _Point3<T> project(const _Point3<T> &a, const _Line3<T> &b) {
     return meet(inner(a, b), inverse(b));
   }
 
 
   // Fast rejection gives a rejection modulo a positive factor
   template<typename T>
-  KMATH_FUNC _Plane3<T> fast_reject(const _Plane3<T> &a, const _Point3<T> &b) {
+  inline _Plane3<T> fast_reject(const _Plane3<T> &a, const _Point3<T> &b) {
     return inner(inner(a, b), a);
   }
 
 
   // Fast rejection gives a rejection modulo a positive factor
   template<typename T>
-  KMATH_FUNC _Line3<T> fast_reject(const _Line3<T> &a, const _Point3<T> &b) {
+  inline _Line3<T> fast_reject(const _Line3<T> &a, const _Point3<T> &b) {
     return inner(inner(a, b), a);
   }
 
 
   // Fast rejection gives a rejection modulo a positive factor
   template<typename T>
-  KMATH_FUNC _Line3<T> fast_reject(const _Line3<T> &a, const _Plane3<T> &b) {
+  inline _Line3<T> fast_reject(const _Line3<T> &a, const _Plane3<T> &b) {
     return meet(inner(a, b), a);
   }
 
 
   // Fast rejection gives a rejection modulo a positive factor
   template<typename T>
-  KMATH_FUNC _Line3<T> fast_reject(const _Plane3<T> &a, const _Line3<T> &b) {
+  inline _Line3<T> fast_reject(const _Plane3<T> &a, const _Line3<T> &b) {
     return inner(inner(a, b), a);
   }
 
 
   // Fast rejection gives a rejection modulo a positive factor
   template<typename T>
-  KMATH_FUNC _Point3<T> fast_reject(const _Point3<T> &a, const _Plane3<T> &b) {
+  inline _Point3<T> fast_reject(const _Point3<T> &a, const _Plane3<T> &b) {
     return meet(inner(a, b), a);
   }
 
 
   // Fast rejection gives a rejection modulo a positive factor
   template<typename T>
-  KMATH_FUNC _Point3<T> fast_reject(const _Point3<T> &a, const _Line3<T> &b) {
+  inline _Point3<T> fast_reject(const _Point3<T> &a, const _Line3<T> &b) {
     return meet(inner(a, b), a);
   }
 
 
   template<typename T>
-  KMATH_FUNC _Plane3<T> reject(const _Plane3<T> &a, const _Point3<T> &b) {
+  inline _Plane3<T> reject(const _Plane3<T> &a, const _Point3<T> &b) {
     return inner(inner(a, b), inverse(a));
   }
 
 
   template<typename T>
-  KMATH_FUNC _Line3<T> reject(const _Line3<T> &a, const _Point3<T> &b) {
+  inline _Line3<T> reject(const _Line3<T> &a, const _Point3<T> &b) {
     return inner(inner(a, b), inverse(a));
   }
 
 
   template<typename T>
-  KMATH_FUNC _Line3<T> reject(const _Line3<T> &a, const _Plane3<T> &b) {
+  inline _Line3<T> reject(const _Line3<T> &a, const _Plane3<T> &b) {
     return meet(inner(a, b), inverse(a));
   }
 
 
   template<typename T>
-  KMATH_FUNC _Line3<T> reject(const _Plane3<T> &a, const _Line3<T> &b) {
+  inline _Line3<T> reject(const _Plane3<T> &a, const _Line3<T> &b) {
     return inner(inner(a, b), inverse(a));
   }
 
 
   template<typename T>
-  KMATH_FUNC _Point3<T> reject(const _Point3<T> &a, const _Plane3<T> &b) {
+  inline _Point3<T> reject(const _Point3<T> &a, const _Plane3<T> &b) {
     return meet(inner(a, b), inverse(a));
   }
 
 
   template<typename T>
-  KMATH_FUNC _Point3<T> reject(const _Point3<T> &a, const _Line3<T> &b) {
+  inline _Point3<T> reject(const _Point3<T> &a, const _Line3<T> &b) {
     return meet(inner(a, b), inverse(a));
   }
 
@@ -1122,7 +1122,7 @@ namespace kmath {
 
 
   template<typename T>
-  KMATH_FUNC _Point3<T> fast_reflect(const _Point3<T> &a, const _Plane3<T> &b) {
+  _Point3<T> fast_reflect(const _Point3<T> &a, const _Plane3<T> &b) {
     return _Point3<T>(
       b.e1 * b.e1 * a.e032 + (T)2.0 * a.e013 * b.e2 * b.e1 + (T)2.0 * a.e021 * b.e1 * b.e3 + (T)2.0 * a.e123 * b.e0 * b.e1 - a.e032 * b.e2 * b.e2 - a.e032 * b.e3 * b.e3,
       a.e013 * b.e2 * b.e2 + (T)2.0 * a.e032 * b.e2 * b.e1 + (T)2.0 * a.e021 * b.e3 * b.e2 + (T)2.0 * a.e123 * b.e2 * b.e0 - a.e013 * b.e3 * b.e3 - a.e013 * b.e1 * b.e1,
@@ -1133,7 +1133,7 @@ namespace kmath {
 
 
   template<typename T>
-  KMATH_FUNC _Point3<T> fast_reflect(const _Point3<T> &a, const _Line3<T> &b) {
+  _Point3<T> fast_reflect(const _Point3<T> &a, const _Line3<T> &b) {
     return _Point3<T>(
       - a.e032 * b.e31 * b.e31 - a.e032 * b.e12 * b.e12 + a.e032 * b.e23 * b.e23 + (T)2.0 * a.e013 * b.e23 * b.e31 + (T)2.0 * a.e021 * b.e23 * b.e12 - (T)2.0 * a.e123 * b.e02 * b.e12 + (T)2.0 * a.e123 * b.e03 * b.e31,
       - a.e013 * b.e23 * b.e23 - a.e013 * b.e12 * b.e12 + a.e013 * b.e31 * b.e31 + (T)2.0 * a.e032 * b.e23 * b.e31 + (T)2.0 * a.e021 * b.e12 * b.e31 + (T)2.0 * a.e123 * b.e12 * b.e01 - (T)2.0 * a.e123 * b.e23 * b.e03,
@@ -1144,7 +1144,7 @@ namespace kmath {
 
 
   template<typename T>
-  KMATH_FUNC _Point3<T> fast_reflect(const _Point3<T> &a, const _Point3<T> &b) {
+  _Point3<T> fast_reflect(const _Point3<T> &a, const _Point3<T> &b) {
     return _Point3<T>(
       a.e032 * b.e123 * b.e123 - (T)2.0 * a.e123 * b.e123 * b.e032,
       a.e013 * b.e123 * b.e123 - (T)2.0 * a.e123 * b.e123 * b.e013,
@@ -1155,7 +1155,7 @@ namespace kmath {
 
 
   template<typename T>
-  KMATH_FUNC _Line3<T> fast_reflect(const _Line3<T> &a, const _Plane3<T> &b) {
+  _Line3<T> fast_reflect(const _Line3<T> &a, const _Plane3<T> &b) {
     return _Line3<T>(
       - a.e23 * b.e2 * b.e2 - a.e23 * b.e3 * b.e3 + a.e23 * b.e1 * b.e1 + (T)2.0 * a.e12 * b.e3 * b.e1 + (T)2.0 * a.e31 * b.e2 * b.e1,
       - a.e31 * b.e3 * b.e3 - a.e31 * b.e1 * b.e1 + a.e31 * b.e2 * b.e2 + (T)2.0 * a.e12 * b.e2 * b.e3 + (T)2.0 * a.e23 * b.e2 * b.e1,
@@ -1168,7 +1168,7 @@ namespace kmath {
 
 
   template<typename T>
-  KMATH_FUNC _Line3<T> fast_reflect(const _Line3<T> &a, const _Line3<T> &b) {
+  _Line3<T> fast_reflect(const _Line3<T> &a, const _Line3<T> &b) {
     return _Line3<T>(
        - a.e23 * b.e31 * b.e31 - a.e23 * b.e12 * b.e12 + a.e23 * b.e23 * b.e23 + (T)2.0 * a.e12 * b.e12 * b.e23 + (T)2.0 * a.e31 * b.e31 * b.e23,
        - a.e31 * b.e23 * b.e23 - a.e31 * b.e12 * b.e12 + a.e31 * b.e31 * b.e31 + (T)2.0 * a.e23 * b.e31 * b.e23 + (T)2.0 * a.e12 * b.e31 * b.e12,
@@ -1181,7 +1181,7 @@ namespace kmath {
 
 
   template<typename T>
-  KMATH_FUNC _Line3<T> fast_reflect(const _Line3<T> &a, const _Point3<T> &b) {
+  _Line3<T> fast_reflect(const _Line3<T> &a, const _Point3<T> &b) {
     return _Line3<T>(
       a.e23 * b.e123 * b.e123,
       a.e31 * b.e123 * b.e123,
@@ -1194,7 +1194,7 @@ namespace kmath {
 
 
   template<typename T>
-  KMATH_FUNC _Plane3<T> fast_reflect(const _Plane3<T> &a, const _Plane3<T> &b) {
+  _Plane3<T> fast_reflect(const _Plane3<T> &a, const _Plane3<T> &b) {
     return _Plane3<T>(
       a.e1 * b.e2 * b.e2 + a.e1 * b.e3 * b.e3 - a.e1 * b.e1 * b.e1 - (T)2.0 * a.e3 * b.e1 * b.e3 - (T)2.0 * a.e2 * b.e1 * b.e2,
       a.e2 * b.e1 * b.e1 + a.e2 * b.e3 * b.e3 - a.e2 * b.e2 * b.e2 - (T)2.0 * a.e3 * b.e2 * b.e3 - (T)2.0 * a.e1 * b.e1 * b.e2,
@@ -1205,7 +1205,7 @@ namespace kmath {
 
 
   template<typename T>
-  KMATH_FUNC _Plane3<T> fast_reflect(const _Plane3<T> &a, const _Line3<T> &b) {
+  _Plane3<T> fast_reflect(const _Plane3<T> &a, const _Line3<T> &b) {
     return _Plane3<T>(
       + a.e1 * b.e31 * b.e31 - a.e1 * b.e12 * b.e12 + a.e1 * b.e23 * b.e23 + (T)2.0 * a.e2 * b.e23 * b.e31 + (T)2.0 * a.e3 * b.e23 * b.e12,
       + a.e2 * b.e23 * b.e23 - a.e2 * b.e12 * b.e12 + a.e2 * b.e31 * b.e31 + (T)2.0 * a.e3 * b.e31 * b.e12 + (T)2.0 * a.e1 * b.e23 * b.e31,
@@ -1216,7 +1216,7 @@ namespace kmath {
 
 
   template<typename T>
-  KMATH_FUNC _Plane3<T> fast_reflect(const _Plane3<T> &a, const _Point3<T> &b) {
+  _Plane3<T> fast_reflect(const _Plane3<T> &a, const _Point3<T> &b) {
     return _Plane3<T>(
       - a.e1 * b.e123 * b.e123,
       - a.e2 * b.e123 * b.e123,
@@ -1227,7 +1227,7 @@ namespace kmath {
 
 
   template<typename A, typename B>
-  KMATH_FUNC A reflect(const A &a, const B &b) {
+  inline A reflect(const A &a, const B &b) {
     return fast_reflect(a, b) / magnitude_squared(b);
   }
 

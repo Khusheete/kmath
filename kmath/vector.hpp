@@ -22,7 +22,6 @@
 #pragma once
 
 
-#include "kmath/defines.hpp"
 #include <cmath>
 
 
@@ -69,25 +68,25 @@ namespace kmath {
 
 
   template<typename T>
-  KMATH_FUNC T length_squared(const _Vec2<T> &v) {
+  inline T length_squared(const _Vec2<T> &v) {
     return v.x * v.x + v.y * v.y;
   }
   
 
   template<typename T>
-  KMATH_FUNC T length(const _Vec2<T> &v) {
+  inline T length(const _Vec2<T> &v) {
     return std::sqrt(length_squared(v));
   }
   
 
   template<typename T>
-  KMATH_FUNC _Vec2<T> normalized(const _Vec2<T> &v) {
+  inline _Vec2<T> normalized(const _Vec2<T> &v) {
     return v / length(v);
   }
     
 
   template<typename T>
-  KMATH_FUNC T dot(const _Vec2<T> &a, const _Vec2<T> &b) {
+  inline T dot(const _Vec2<T> &a, const _Vec2<T> &b) {
     return a.x * b.x + a.y * b.y;
   }
   
@@ -98,7 +97,7 @@ namespace kmath {
 
 
   template<typename T>
-  KMATH_FUNC _Vec2<T> operator+(const _Vec2<T> &a, const _Vec2<T> &b) {
+  inline _Vec2<T> operator+(const _Vec2<T> &a, const _Vec2<T> &b) {
     _Vec2<T> res(a);
     res += b;
     return res;
@@ -106,7 +105,7 @@ namespace kmath {
 
 
   template<typename T>
-  KMATH_FUNC _Vec2<T> &operator+=(_Vec2<T> &a, const _Vec2<T> &b) {
+  inline _Vec2<T> &operator+=(_Vec2<T> &a, const _Vec2<T> &b) {
     a.x += b.x;
     a.y += b.y;
     return a;
@@ -114,7 +113,7 @@ namespace kmath {
 
 
   template<typename T>
-  KMATH_FUNC _Vec2<T> operator-(const _Vec2<T> &a, const _Vec2<T> &b) {
+  inline _Vec2<T> operator-(const _Vec2<T> &a, const _Vec2<T> &b) {
     _Vec2<T> res(a);
     res -= b;
     return res;
@@ -122,7 +121,7 @@ namespace kmath {
 
 
   template<typename T>
-  KMATH_FUNC _Vec2<T> &operator-=(_Vec2<T> &a, const _Vec2<T> &b) {
+  inline _Vec2<T> &operator-=(_Vec2<T> &a, const _Vec2<T> &b) {
     a.x -= b.x;
     a.y -= b.y;
     return a;
@@ -130,7 +129,7 @@ namespace kmath {
 
 
   template<typename T>
-  KMATH_FUNC _Vec2<T> operator-(const _Vec2<T> &a) {
+  inline _Vec2<T> operator-(const _Vec2<T> &a) {
     return _Vec2<T>(
       -a.x, -a.y
     );
@@ -138,7 +137,7 @@ namespace kmath {
 
 
   template<typename T>
-  KMATH_FUNC _Vec2<T> operator*(const T s, const _Vec2<T> &v) {
+  inline _Vec2<T> operator*(const T s, const _Vec2<T> &v) {
     return _Vec2<T>(
       s * v.x,
       s * v.y
@@ -147,7 +146,7 @@ namespace kmath {
 
 
   template<typename T>
-  KMATH_FUNC _Vec2<T> operator*(const _Vec2<T> &v, const T s) {
+  inline _Vec2<T> operator*(const _Vec2<T> &v, const T s) {
     return _Vec2<T>(
       v.x * s,
       v.y * s    
@@ -156,14 +155,14 @@ namespace kmath {
 
 
   template<typename T>
-  KMATH_FUNC _Vec2<T> &operator*=(_Vec2<T> &v, const T s) {
+  inline _Vec2<T> &operator*=(_Vec2<T> &v, const T s) {
     v = v * s;
     return v;
   }
 
 
   template<typename T>
-  KMATH_FUNC _Vec2<T> operator/(const _Vec2<T> &v, const T s) {
+  inline _Vec2<T> operator/(const _Vec2<T> &v, const T s) {
     _Vec2<T> res(v);
     res /= s;
     return res;
@@ -171,7 +170,7 @@ namespace kmath {
 
 
   template<typename T>
-  KMATH_FUNC _Vec2<T> &operator/=(_Vec2<T> &v, const T s) {
+  inline _Vec2<T> &operator/=(_Vec2<T> &v, const T s) {
     v.x /= s;
     v.y /= s;
     return v;
@@ -221,31 +220,31 @@ namespace kmath {
 
 
   template<typename T>
-  KMATH_FUNC T length_squared(const _Vec3<T> &v) {
+  inline T length_squared(const _Vec3<T> &v) {
     return v.x * v.x + v.y * v.y + v.z * v.z;
   }
   
 
   template<typename T>
-  KMATH_FUNC T length(const _Vec3<T> &v) {
+  inline T length(const _Vec3<T> &v) {
     return std::sqrt(length_squared(v));
   }
   
 
   template<typename T>
-  KMATH_FUNC _Vec3<T> normalized(const _Vec3<T> &v) {
+  inline _Vec3<T> normalized(const _Vec3<T> &v) {
     return v / length(v);
   }
     
 
   template<typename T>
-  KMATH_FUNC T dot(const _Vec3<T> &a, const _Vec3<T> &b) {
+  inline T dot(const _Vec3<T> &a, const _Vec3<T> &b) {
     return a.x * b.x + a.y * b.y + a.z * b.z;
   }
 
 
   template<typename T>
-  KMATH_FUNC _Vec3<T> cross(const _Vec3<T> &a, const _Vec3<T> &b) {
+  inline _Vec3<T> cross(const _Vec3<T> &a, const _Vec3<T> &b) {
     return _Vec3<T>(
       a.y * b.z - a.z * b.y,
       a.z * b.x - a.x * b.z,
@@ -260,7 +259,7 @@ namespace kmath {
 
 
   template<typename T>
-  KMATH_FUNC _Vec3<T> operator+(const _Vec3<T> &a, const _Vec3<T> &b) {
+  inline _Vec3<T> operator+(const _Vec3<T> &a, const _Vec3<T> &b) {
     _Vec3<T> res(a);
     res += b;
     return res;
@@ -268,7 +267,7 @@ namespace kmath {
 
 
   template<typename T>
-  KMATH_FUNC _Vec3<T> &operator+=(_Vec3<T> &a, const _Vec3<T> &b) {
+  inline _Vec3<T> &operator+=(_Vec3<T> &a, const _Vec3<T> &b) {
     a.x += b.x;
     a.y += b.y;
     a.z += b.z;
@@ -277,7 +276,7 @@ namespace kmath {
 
 
   template<typename T>
-  KMATH_FUNC _Vec3<T> operator-(const _Vec3<T> &a, const _Vec3<T> &b) {
+  inline _Vec3<T> operator-(const _Vec3<T> &a, const _Vec3<T> &b) {
     _Vec3<T> res(a);
     res -= b;
     return res;
@@ -285,7 +284,7 @@ namespace kmath {
 
 
   template<typename T>
-  KMATH_FUNC _Vec3<T> &operator-=(_Vec3<T> &a, const _Vec3<T> &b) {
+  inline _Vec3<T> &operator-=(_Vec3<T> &a, const _Vec3<T> &b) {
     a.x -= b.x;
     a.y -= b.y;
     a.z -= b.z;
@@ -294,7 +293,7 @@ namespace kmath {
 
 
   template<typename T>
-  KMATH_FUNC _Vec3<T> operator-(const _Vec3<T> &a) {
+  inline _Vec3<T> operator-(const _Vec3<T> &a) {
     return _Vec3<T>(
       -a.x, -a.y, -a.z    
     );
@@ -302,7 +301,7 @@ namespace kmath {
 
 
   template<typename T>
-  KMATH_FUNC _Vec3<T> operator*(const T s, const _Vec3<T> &v) {
+  inline _Vec3<T> operator*(const T s, const _Vec3<T> &v) {
     return _Vec3<T>(
       s * v.x,
       s * v.y,
@@ -312,7 +311,7 @@ namespace kmath {
 
 
   template<typename T>
-  KMATH_FUNC _Vec3<T> operator*(const _Vec3<T> &v, const T s) {
+  inline _Vec3<T> operator*(const _Vec3<T> &v, const T s) {
     return _Vec3<T>(
       v.x * s,
       v.y * s,
@@ -322,14 +321,14 @@ namespace kmath {
 
 
   template<typename T>
-  KMATH_FUNC _Vec3<T> &operator*=(_Vec3<T> &v, const T s) {
+  inline _Vec3<T> &operator*=(_Vec3<T> &v, const T s) {
     v = v * s;
     return v;
   }
 
 
   template<typename T>
-  KMATH_FUNC _Vec3<T> operator/(const _Vec3<T> &v, const T s) {
+  inline _Vec3<T> operator/(const _Vec3<T> &v, const T s) {
     _Vec3<T> res(v);
     res /= s;
     return res;
@@ -337,7 +336,7 @@ namespace kmath {
 
 
   template<typename T>
-  KMATH_FUNC _Vec3<T> &operator/=(_Vec3<T> &v, const T s) {
+  inline _Vec3<T> &operator/=(_Vec3<T> &v, const T s) {
     v.x /= s;
     v.y /= s;
     v.z /= s;
@@ -391,25 +390,25 @@ namespace kmath {
 
 
   template<typename T>
-  KMATH_FUNC T length_squared(const _Vec4<T> &v) {
+  inline T length_squared(const _Vec4<T> &v) {
     return v.x * v.x + v.y * v.y + v.z * v.z + v.w * v.w;
   }
   
 
   template<typename T>
-  KMATH_FUNC T length(const _Vec4<T> &v) {
+  inline T length(const _Vec4<T> &v) {
     return std::sqrt(length_squared(v));
   }
   
 
   template<typename T>
-  KMATH_FUNC _Vec4<T> normalized(const _Vec4<T> &v) {
+  inline _Vec4<T> normalized(const _Vec4<T> &v) {
     return v / length(v);
   }
     
 
   template<typename T>
-  KMATH_FUNC T dot(const _Vec4<T> &a, const _Vec4<T> &b) {
+  inline T dot(const _Vec4<T> &a, const _Vec4<T> &b) {
     return a.x * b.x + a.y * b.y + a.z * b.z + a.w * b.w;
   }
   
@@ -420,7 +419,7 @@ namespace kmath {
 
 
   template<typename T>
-  KMATH_FUNC _Vec4<T> operator+(const _Vec4<T> &a, const _Vec4<T> &b) {
+  inline _Vec4<T> operator+(const _Vec4<T> &a, const _Vec4<T> &b) {
     _Vec4<T> res(a);
     res += b;
     return res;
@@ -428,7 +427,7 @@ namespace kmath {
 
 
   template<typename T>
-  KMATH_FUNC _Vec4<T> &operator+=(_Vec4<T> &a, const _Vec4<T> &b) {
+  inline _Vec4<T> &operator+=(_Vec4<T> &a, const _Vec4<T> &b) {
     a.x += b.x;
     a.y += b.y;
     a.z += b.z;
@@ -438,7 +437,7 @@ namespace kmath {
 
 
   template<typename T>
-  KMATH_FUNC _Vec4<T> operator-(const _Vec4<T> &a, const _Vec4<T> &b) {
+  inline _Vec4<T> operator-(const _Vec4<T> &a, const _Vec4<T> &b) {
     _Vec4<T> res(a);
     res -= b;
     return res;
@@ -446,7 +445,7 @@ namespace kmath {
 
 
   template<typename T>
-  KMATH_FUNC _Vec4<T> &operator-=(_Vec4<T> &a, const _Vec4<T> &b) {
+  inline _Vec4<T> &operator-=(_Vec4<T> &a, const _Vec4<T> &b) {
     a.x -= b.x;
     a.y -= b.y;
     a.z -= b.z;
@@ -456,7 +455,7 @@ namespace kmath {
 
 
   template<typename T>
-  KMATH_FUNC _Vec4<T> operator-(const _Vec4<T> &a) {
+  inline _Vec4<T> operator-(const _Vec4<T> &a) {
     return _Vec4<T>(
       -a.x, -a.y, -a.z, -a.w    
     );
@@ -464,7 +463,7 @@ namespace kmath {
 
 
   template<typename T>
-  KMATH_FUNC _Vec4<T> operator*(const T s, const _Vec4<T> &v) {
+  inline _Vec4<T> operator*(const T s, const _Vec4<T> &v) {
     return _Vec4<T>(
       s * v.x,
       s * v.y,
@@ -475,7 +474,7 @@ namespace kmath {
 
 
   template<typename T>
-  KMATH_FUNC _Vec4<T> operator*(const _Vec4<T> &v, const T s) {
+  inline _Vec4<T> operator*(const _Vec4<T> &v, const T s) {
     return _Vec4<T>(
       v.x * s,
       v.y * s,
@@ -486,14 +485,14 @@ namespace kmath {
 
 
   template<typename T>
-  KMATH_FUNC _Vec4<T> &operator*=(_Vec4<T> &v, const T s) {
+  inline _Vec4<T> &operator*=(_Vec4<T> &v, const T s) {
     v = v * s;
     return v;
   }
 
 
   template<typename T>
-  KMATH_FUNC _Vec4<T> operator/(const _Vec4<T> &v, const T s) {
+  inline _Vec4<T> operator/(const _Vec4<T> &v, const T s) {
     _Vec4<T> res(v);
     res /= s;
     return res;
@@ -501,7 +500,7 @@ namespace kmath {
 
 
   template<typename T>
-  KMATH_FUNC _Vec4<T> &operator/=(_Vec4<T> &v, const T s) {
+  inline _Vec4<T> &operator/=(_Vec4<T> &v, const T s) {
     v.x /= s;
     v.y /= s;
     v.z /= s;

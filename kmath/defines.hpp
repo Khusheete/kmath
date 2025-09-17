@@ -22,25 +22,6 @@
 #pragma once
 
 
-// ========================
-// = Functions qualifiers =
-// ========================
-
-
-#define KMATH_INLINE inline
-
-
-#ifndef KMATH_FUNC
-
-#ifndef KMATH_FORCE_INLINE
-#define KMATH_FUNC
-#else
-#define KMATH_FUNC KMATH_INLINE
-#endif
-
-#endif // #ifndef KMATH_FUNC
-
-
 // =======================
 // = Precision constants =
 // =======================

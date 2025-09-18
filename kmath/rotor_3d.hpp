@@ -94,7 +94,7 @@ namespace kmath {
 
   template<typename T>
   inline _Rotor3<T> inverse(const _Rotor3<T> &r) {
-    return r / length_squared(r);
+    return reverse(r) / length_squared(r);
   }
 
 

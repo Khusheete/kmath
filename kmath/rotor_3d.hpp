@@ -297,7 +297,7 @@ namespace kmath {
 
 
   template<typename T>
-  inline _Mat3<T> as_transform(const _Rotor3<T> &rotor, const _Vec3<T> &translation) {
+  inline _Mat4<T> as_transform(const _Rotor3<T> &rotor, const _Vec3<T> &translation) {
     _Mat3<T> m = as_basis(rotor);
     return _Mat4<T>(
       _Vec4<T>(m.x.x        , m.x.y        , m.x.z        , 0.0),

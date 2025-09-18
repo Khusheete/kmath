@@ -196,7 +196,7 @@ namespace kmath {
 
 
   inline OkHsl lrgb_to_okhsl(const Lrgb &rgb) {
-    return oklab_to_lrgb(lrgb_to_oklab(rgb));
+    return oklab_to_okhsl(lrgb_to_oklab(rgb));
   }
 
 

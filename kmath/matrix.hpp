@@ -150,6 +150,18 @@ namespace kmath {
     _Vec4<T> x, y, z, w;
 
   public:
+
+    inline static _Mat4<T> from_basis(const _Mat3<T> &basis, const _Vec3<T> &position = _Vec3<T>::ZERO) {
+      return _Mat4<T>(
+      _Vec4<T>(basis.x.x , basis.x.y , basis.x.z , (T)0.0),
+      _Vec4<T>(basis.y.x , basis.y.y , basis.y.z , (T)0.0),
+      _Vec4<T>(basis.z.x , basis.z.y , basis.z.z , (T)0.0),
+      _Vec4<T>(position.x, position.y, position.z, (T)1.0)
+      );
+    }
+
+
+  public:
     // Creates an orthogonal projection matrix with a right handed ndc that goes from negative one to one.
     // Note that the near plane is mapped to -1 and the far plane is mapped to 1.
     static inline _Mat4<T> orthogonal_rh_no_ndc(const T near, const T far, const T width, const T height) {

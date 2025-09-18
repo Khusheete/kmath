@@ -37,8 +37,6 @@ void draw_plane(const Vec3 &p_next_to, const Mvec3 &p_plane, const Color &p_colo
   float rotation_angle = std::acos(rotation_axis.norm());
   rotation_axis = rotation_axis.line_normalize();
 
-  std::cout << pos << std::endl;
-
   Vector3 pos_vector = Vector3(
     pos[Mvec3::Basis::e032],
     pos[Mvec3::Basis::e013],

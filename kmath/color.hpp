@@ -142,6 +142,16 @@ namespace kmath {
   OkLab lrgb_to_oklab(const Lrgb &rgb);
   
 
+  inline Rgb oklab_to_rgb(const OkLab &lab) {
+    return lrgb_to_rgb(oklab_to_lrgb(lab));
+  }
+
+
+  inline OkLab rgb_to_oklab(const Rgb &rgb) {
+    return lrgb_to_oklab(lrgb_to_rgb(rgb));
+  }
+
+
   // ===================
   // = OkHSV functions =
   // ===================

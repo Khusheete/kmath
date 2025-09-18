@@ -289,9 +289,9 @@ namespace kmath {
   template<typename T>
   inline _Mat3<T> as_basis(const _Rotor3<T> &r) {
     return _Mat3<T>(
-      get_x_basis_vec(r),
-      get_y_basis_vec(r),
-      get_z_basis_vec(r)
+      get_x_basis_vector(r),
+      get_y_basis_vector(r),
+      get_z_basis_vector(r)
     );
   }
 

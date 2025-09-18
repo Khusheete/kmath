@@ -111,7 +111,7 @@ namespace kmath {
 
   inline LC find_cusp(const float a, const float b) {
     float S_cusp = compute_max_saturation(a, b);
-    Lsrgb rgb_at_max = oklab_to_lrgb(OkLab(1.0, S_cusp * a, S_cusp * b));
+    Lrgb rgb_at_max = oklab_to_lrgb(OkLab(1.0, S_cusp * a, S_cusp * b));
     float L_cusp = std::cbrt(1.0f / std::max(std::max(rgb_at_max.x, rgb_at_max.y), rgb_at_max.z));
     float C_cusp = L_cusp * S_cusp;
     return LC(L_cusp, C_cusp);
@@ -280,7 +280,7 @@ namespace kmath {
   }
   
 
-  Lsrgb oklab_to_lrgb(const OkLab &lab) {
+  Lrgb oklab_to_lrgb(const OkLab &lab) {
     const Mat3 M2(
       Vec3(+1.0000000000f, +1.0000000000f, +1.0000000000f),
       Vec3(+0.3963377774f, -0.1055613458f, -0.0894841775f),
@@ -297,7 +297,7 @@ namespace kmath {
   }
 
 
-  OkLab lrgb_to_oklab(const Lsrgb &rgb) {
+  OkLab lrgb_to_oklab(const Lrgb &rgb) {
     const Mat3 M1(
       Vec3(+0.4122214708f, +0.2119034982f, +0.0883024619f),
       Vec3(+0.5363325363f, +0.6806995451f, +0.2817188376f),
@@ -355,7 +355,7 @@ namespace kmath {
   	C = C * L_new / L;
   	L = L_new;
 
-  	Lsrgb rgb_scale = oklab_to_lrgb(Lsrgb(L_vt, a_ * C_vt, b_ * C_vt));
+  	Lrgb rgb_scale = oklab_to_lrgb(Lrgb(L_vt, a_ * C_vt, b_ * C_vt));
   	float scale_L = std::cbrt(1.0f / std::max(std::max(rgb_scale.x, rgb_scale.y), std::max(rgb_scale.z, 0.0f)));
 
   	L = L * scale_L;
@@ -390,7 +390,7 @@ namespace kmath {
   	float C_vt = C_v * L_vt / L_v;
 
   	// we can then use these to invert the step that compensates for the toe and the curved top part of the triangle:
-  	Lsrgb rgb_scale = oklab_to_lrgb(Lsrgb(L_vt, a_ * C_vt, b_ * C_vt));
+  	Lrgb rgb_scale = oklab_to_lrgb(Lrgb(L_vt, a_ * C_vt, b_ * C_vt));
   	float scale_L = std::cbrt(1.0f / std::max(std::max(rgb_scale.x, rgb_scale.y), std::max(rgb_scale.z, 0.0f)));
 
   	L = L / scale_L;

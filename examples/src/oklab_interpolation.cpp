@@ -63,12 +63,12 @@ void oklab_interpolation_run(void *p_data) {
   DrawGrid(20, 1.0);
 
   static const std::array<kmath::OkLab, 6> colors = {
-    /* white  */ kmath::lrgb_to_oklab(kmath::Lsrgb(1.0, 1.0, 1.0)),
-    /* black  */ kmath::lrgb_to_oklab(kmath::Lsrgb(0.0, 0.0, 0.0)),
-    /* purple */ kmath::lrgb_to_oklab(kmath::Lsrgb(0.5, 0.05, 0.5)),
-    /* red    */ kmath::lrgb_to_oklab(kmath::Lsrgb(1.0, 0.0, 0.0)),
-    /* green  */ kmath::lrgb_to_oklab(kmath::Lsrgb(0.0, 1.0, 0.0)),
-    /* blue   */ kmath::lrgb_to_oklab(kmath::Lsrgb(0.0, 0.0, 1.0))
+    /* white  */ kmath::lrgb_to_oklab(kmath::Lrgb(1.0, 1.0, 1.0)),
+    /* black  */ kmath::lrgb_to_oklab(kmath::Lrgb(0.0, 0.0, 0.0)),
+    /* purple */ kmath::lrgb_to_oklab(kmath::Lrgb(0.5, 0.05, 0.5)),
+    /* red    */ kmath::lrgb_to_oklab(kmath::Lrgb(1.0, 0.0, 0.0)),
+    /* green  */ kmath::lrgb_to_oklab(kmath::Lrgb(0.0, 1.0, 0.0)),
+    /* blue   */ kmath::lrgb_to_oklab(kmath::Lrgb(0.0, 0.0, 1.0))
   };
 
   static const std::array<kmath::Vec3, 6> col_positions = {

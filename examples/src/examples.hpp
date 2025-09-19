@@ -45,3 +45,7 @@ void *oklab_interpolation_init();
 void oklab_interpolation_run(void *p_data);
 void oklab_interpolation_cleanup(void *p_data);
 
+
+void *ease_function_init();
+void ease_function_run(void *p_data);
+void ease_function_cleanup(void *p_data);

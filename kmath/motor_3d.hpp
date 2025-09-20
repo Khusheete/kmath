@@ -486,7 +486,73 @@ namespace kmath {
   }
 
 
-  // TODO: add flats multiplication
+  // ========================
+  // = Flat multiplications =
+  // ========================
+
+
+  template<Number T>
+  _Motor3<T> operator*(const _Plane3<T> &a, const _Plane3<T> &b) {
+    return _Motor3<T>(
+      b.e1 * a.e1 + b.e2 * a.e2 + b.e3 * a.e3,
+      a.e2 * b.e3 - b.e2 * a.e3,
+      b.e1 * a.e3 - b.e3 * a.e1,
+      b.e2 * a.e1 - a.e2 * b.e1,
+      (T)0.0,
+      a.e0 * b.e1 - a.e1 * b.e0,
+      a.e0 * b.e2 - a.e2 * b.e0,
+      a.e0 * b.e3 - b.e0 * a.e3
+    );
+  }
+
+
+  template<Number T>
+  _Motor3<T> operator*(const _Line3<T> &a, const _Line3<T> &b) {
+    return _Motor3<T>(
+      - a.e31 * b.e31 - b.e23 * a.e23 - a.e12 * b.e12,
+      a.e12 * b.e31 - a.e31 * b.e12,
+      b.e12 * a.e23 - a.e12 * b.e23,
+      b.e23 * a.e31 - a.e23 * b.e31,
+      a.e12 * b.e03 + b.e23 * a.e01 + a.e02 * b.e31 + a.e31 * b.e02 + b.e01 * a.e23 + a.e03 * b.e12,
+      a.e12 * b.e02 + a.e03 * b.e31 - a.e02 * b.e12 - b.e03 * a.e31,
+      b.e12 * a.e01 + b.e03 * a.e23 - a.e12 * b.e01 - a.e03 * b.e23,
+      b.e23 * a.e02 + b.e01 * a.e31 - a.e01 * b.e31 - b.e02 * a.e23
+    );
+  }
+
+
+  template<Number T>
+  _Motor3<T> operator*(const _Point3<T> &a, const _Point3<T> &b) {
+    return _Motor3<T>(
+      - a.e123 * b.e123,
+      (T)0.0,
+      (T)0.0,
+      (T)0.0,
+      (T)0.0,
+      a.e032 * b.e123 - b.e032 * a.e123,
+      a.e013 * b.e123 - a.e123 * b.e013,
+      a.e021 * b.e123 - b.e021 * a.e123
+    );
+  }
+
+
+  template<Number T>
+  inline _Motor3<T> operator/(const _Plane3<T> &a, const _Plane3<T> &b) {
+    return a * reverse(b);
+  }
+
+
+  template<Number T>
+  inline _Motor3<T> operator/(const _Line3<T> &a, const _Line3<T> &b) {
+    return a * reverse(b);
+  }
+
+
+  template<Number T>
+  inline _Motor3<T> operator/(const _Point3<T> &a, const _Point3<T> &b) {
+    return a * reverse(b);
+  }
+
   // TODO: add log and exp
   
 

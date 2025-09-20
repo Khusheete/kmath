@@ -32,7 +32,7 @@
 
 namespace kmath {
 
-  template<typename T>
+  template<Number T>
   struct _Motor3 {
     T s, e23, e31, e12, e0123, e01, e02, e03;
 
@@ -95,9 +95,9 @@ namespace kmath {
   };
 
 
-  template<typename T>
+  template<Number T>
   const _Motor3<T> _Motor3<T>::ZERO = _Motor3<T>(_Rotor3<T>::ZERO, _Rotor3<T>::ZERO);
-  template<typename T>
+  template<Number T>
   const _Motor3<T> _Motor3<T>::IDENTITY = _Motor3<T>(_Rotor3<T>::IDENTITY, _Rotor3<T>::ZERO);
 
 
@@ -106,25 +106,25 @@ namespace kmath {
   // ===========================
 
 
-  template<typename T>
+  template<Number T>
   inline const _Rotor3<T> &get_real_part(const _Motor3<T> &m) {
     return *reinterpret_cast<const _Rotor3<T>*>(&m);
   }
 
 
-  template<typename T>
+  template<Number T>
   inline const _Rotor3<T> &get_dual_part(const _Motor3<T> &m) {
     return *(1 + reinterpret_cast<const _Rotor3<T>*>(&m));
   }
 
 
-  template<typename T>
+  template<Number T>
   inline _Rotor3<T> get_rotor(const _Motor3<T> &m) {
     return get_real_part(m);
   }
 
 
-  template<typename T>
+  template<Number T>
   inline _Vec3<T> get_translation(const _Motor3<T> &m) {
     const _Rotor3<T> &real = get_real_part(m);
     const _Rotor3<T> &dual = get_dual_part(m);
@@ -134,14 +134,14 @@ namespace kmath {
 
 
   // A motor is simple when its grade 4 part is null
-  template<typename T>
+  template<Number T>
   inline bool is_simple(const _Motor3<T> &m) {
     return is_approx_zero(m.e0132);
   }
 
 
   // The fast square root returns the motor that does half the transformation as `m` modulo a positive factor
-  template<typename T>
+  template<Number T>
   inline _Motor3<T> fast_sqrt(const _Motor3<T> &m) {
     T scaling = (T)1.0 + m.s;
     T half_g4 = (T)0.5 * m.e0123;
@@ -158,7 +158,7 @@ namespace kmath {
   }
 
 
-  template<typename T>
+  template<Number T>
   _Motor3<T> sqrt(const _Motor3<T> &m) {
     if (m.s >= 0.0) {
       T num = (T)2.0 * ((T)1.0 + m.s);
@@ -190,7 +190,7 @@ namespace kmath {
   }
 
 
-  template<typename T>
+  template<Number T>
   void to_screw_coordinates(const _Motor3<T> &m, _Vec3<T> &direction, _Vec3<T> &moment, T &angle, T &translation) {
     angle = 2.0 * std::acos(m.s);
     if (!is_approx_zero(angle)) {
@@ -211,7 +211,7 @@ namespace kmath {
   }
 
 
-  template<typename T>
+  template<Number T>
   inline _Motor3<T> reverse(const _Motor3<T> &m) {
     return _Motor3<T>(
       m.s    , -m.e23, -m.e31, -m.e12,
@@ -220,31 +220,31 @@ namespace kmath {
   }
 
 
-  template<typename T>
+  template<Number T>
   inline T magnitude_squared(const _Motor3<T> &m) {
     return m.s * m.s + m.e23 * m.e23 + m.e31 * m.e31 + m.e12 * m.e12;
   }
 
 
-  template<typename T>
+  template<Number T>
   inline T magnitude(const _Motor3<T> &m) {
     return std::sqrt(magnitude_squared(m));
   }
   
 
-  template<typename T>
+  template<Number T>
   inline _Motor3<T> inverse(const _Motor3<T> &m) {
     return reverse(m) / magnitude_squared(m);
   }
 
 
-  template<typename T>
+  template<Number T>
   inline _Motor3<T> normalized(const _Motor3<T> &m) {
     return m / magnitude(m);
   }
 
 
-  template<typename T>
+  template<Number T>
   inline _Motor3<T> pow(const _Motor3<T> &m, T t) {
     _Vec3<T> direction, moment;
     T angle, translation;
@@ -253,7 +253,7 @@ namespace kmath {
   }
 
 
-  template<typename T>
+  template<Number T>
   inline _Mat4<T> as_transform(const _Motor3<T> &m) {
     _Rotor3<T> rotor = get_rotor(m);
     _Vec3<T> translation = get_translation(m);
@@ -266,7 +266,7 @@ namespace kmath {
   // ===================
 
 
-  template<typename T>
+  template<Number T>
   inline _Motor3<T> operator+(const _Motor3<T> &a, const _Motor3<T> &b) {
     _Motor3<T> r(a);
     r += b;
@@ -274,7 +274,7 @@ namespace kmath {
   }
 
 
-  template<typename T>
+  template<Number T>
   inline _Motor3<T> &operator+=(_Motor3<T> &a, const _Motor3<T> &b) {
     a.s     += b.s;
     a.e23   += b.e23;
@@ -288,7 +288,7 @@ namespace kmath {
   }
 
 
-  template<typename T>
+  template<Number T>
   inline _Motor3<T> operator-(const _Motor3<T> &a, const _Motor3<T> &b) {
     _Motor3<T> r(a);
     r -= b;
@@ -296,7 +296,7 @@ namespace kmath {
   }
 
 
-  template<typename T>
+  template<Number T>
   inline _Motor3<T> &operator-=(_Motor3<T> &a, const _Motor3<T> &b) {
     a.s     -= b.s;
     a.e23   -= b.e23;
@@ -310,7 +310,7 @@ namespace kmath {
   }
 
 
-  template<typename T>
+  template<Number T>
   inline _Motor3<T> operator-(const _Motor3<T> &a) {
     return _Motor3<T>(
       -a.s, -a.e23, -a.e31, -a.e12, -a.e0123, -a.e01, -a.e02, -a.e03
@@ -318,7 +318,7 @@ namespace kmath {
   }
 
 
-  template<typename T>
+  template<Number T>
   inline _Motor3<T> operator*(const T a, const _Motor3<T> &b) {
     _Motor3<T> r(b);
     r *= a;
@@ -326,13 +326,13 @@ namespace kmath {
   }
 
 
-  template<typename T>
+  template<Number T>
   inline _Motor3<T> operator*(const _Motor3<T> &b, const T a) {
     return a * b;
   }
 
 
-  template<typename T>
+  template<Number T>
   inline _Motor3<T> &operator*=(_Motor3<T> &a, const T b) {
     a.s     *= b;
     a.e23   *= b;
@@ -346,7 +346,7 @@ namespace kmath {
   }
 
 
-  template<typename T>
+  template<Number T>
   inline _Motor3<T> operator/(const _Motor3<T> &a, const T b) {
     _Motor3<T> r(a);
     r /= b;
@@ -354,7 +354,7 @@ namespace kmath {
   }
 
 
-  template<typename T>
+  template<Number T>
   inline _Motor3<T> &operator/=(_Motor3<T> &a, const T b) {
     a.s     /= b;
     a.e23   /= b;
@@ -368,7 +368,7 @@ namespace kmath {
   }
 
 
-  template<typename T>
+  template<Number T>
   inline _Motor3<T> operator*(const _Motor3<T> &a, const _Motor3<T> &b) {
     return _Motor3<T>(
       b.s * a.s - b.e23 * a.e23 - a.e31 * b.e31 - b.e12 * a.e12,
@@ -384,7 +384,7 @@ namespace kmath {
   }
 
 
-  template<typename T>
+  template<Number T>
   inline _Motor3<T> &operator*=(_Motor3<T> &a, const _Motor3<T> &b) {
     a = a * b;
     return a;
@@ -396,7 +396,7 @@ namespace kmath {
   // ===========================
 
 
-  template<typename T>
+  template<Number T>
   _Motor3<T> seplerp(const _Motor3<T> &a, const _Motor3<T> &b, const T t) {
     _Vec3<T> a_trans = get_translation(a);
     _Vec3<T> b_trans = get_translation(b);
@@ -406,14 +406,14 @@ namespace kmath {
   }
 
 
-  template<typename T>
+  template<Number T>
   _Motor3<T> sclerp(const _Motor3<T> &a, const _Motor3<T> &b, const T t) {
     _Motor3<T> delta = reverse(a) * b;
     return a * pow(delta, t);
   }
 
 
-  template<typename T>
+  template<Number T>
   _Motor3<T> kenlerp(const _Motor3<T> &a, const _Motor3<T> &b, const T t, const T beta) {
     _Motor3<T> sc_res = sclerp(a, b, t);
     _Rotor3<T> sc_rot = get_rotor(sc_res);
@@ -430,7 +430,7 @@ namespace kmath {
   // ===================
 
 
-  template<typename T>
+  template<Number T>
   _Plane3<T> transform(const _Plane3<T> &a, const _Motor3<T> &m) {
     return _Plane3<T>(
       - (T)2.0 * a.e1 * m.e02 * m.e12 - (T)2.0 * a.e2 * m.e03 * m.e23 - (T)2.0 * a.e3 * m.e01 * m.e31 + a.e0 * m.s * m.s + a.e0 * m.e23 * m.e23 + a.e0 * m.e31 * m.e31 + a.e0 * m.e12 * m.e12 + (T)2.0 * a.e1 * m.s * m.e01 + (T)2.0 * a.e2 * m.s * m.e02 + (T)2.0 * a.e3 * m.s * m.e03 + (T)2.0 * a.e1 * m.e0123 * m.e23 + (T)2.0 * a.e2 * m.e0123 * m.e31 + (T)2.0 * a.e3 * m.e0123 * m.e12 + (T)2.0 * a.e1 * m.e03 * m.e31 + (T)2.0 * a.e2 * m.e12 * m.e01 + (T)2.0 * a.e3 * m.e02 * m.e23,
@@ -441,7 +441,7 @@ namespace kmath {
   }
   
 
-  template<typename T>
+  template<Number T>
   _Line3<T> transform(const _Line3<T> &a, const _Motor3<T> &m) {
     return _Line3<T>(
       - a.e23 * m.e31 * m.e31 - a.e23 * m.e12 * m.e12 + a.e23 * m.e23 * m.e23 + a.e23 * m.s * m.s + (T)2.0 * a.e31 * m.s * m.e12 - (T)2.0 * a.e12 * m.s * m.e31 + (T)2.0 * a.e31 * m.e23 * m.e31 + (T)2.0 * a.e12 * m.e12 * m.e23,
@@ -454,7 +454,7 @@ namespace kmath {
   }
 
 
-  template<typename T>
+  template<Number T>
   _Point3<T> transform(const _Point3<T> &a, const _Motor3<T> &m) {
     return _Point3<T>(
       - a.e032 * m.e31 * m.e31 - a.e032 * m.e12 * m.e12 + a.e032 * m.e23 * m.e23 + a.e032 * m.s * m.s - (T)2.0 * a.e021 * m.e31 * m.s - (T)2.0 * a.e123 * m.e01 * m.s - (T)2.0 * a.e123 * m.e02 * m.e12 - (T)2.0 * a.e123 * m.e0123 * m.e23 + (T)2.0 * a.e013 * m.e12 * m.s + (T)2.0 * a.e021 * m.e23 * m.e12 + (T)2.0 * a.e013 * m.e23 * m.e31 + (T)2.0 * a.e123 * m.e31 * m.e03,
@@ -465,7 +465,7 @@ namespace kmath {
   }
 
 
-  template<typename T>
+  template<Number T>
   _Vec3<T> transform_point(const _Vec3<T> &a, const _Motor3<T> &m) {
     T norm = m.s * m.s + m.e23 * m.e23 + m.e31 * m.e31 + m.e12 * m.e12;
     return _Vec3<T>(
@@ -476,7 +476,7 @@ namespace kmath {
   }
 
 
-  template<typename T>
+  template<Number T>
   _Vec3<T> transform_direction(const _Vec3<T> &a, const _Motor3<T> &m) {
     return _Vec3<T>(
       + a.x * m.e23 * m.e23 - a.x * m.e31 * m.e31 - a.x * m.e12 * m.e12 + a.x * m.s * m.s + (T)2.0 * a.y * m.e31 * m.e23 + (T)2.0 * a.y * m.e12 * m.s - (T)2.0 * a.z * m.e31 * m.s + (T)2.0 * a.z * m.e12 * m.e23,
@@ -484,6 +484,10 @@ namespace kmath {
       - a.z * m.e23 * m.e23 - a.z * m.e31 * m.e31 + a.z * m.e12 * m.e12 + a.z * m.s * m.s + (T)2.0 * a.x * m.e12 * m.e23 + (T)2.0 * a.x * m.s * m.e31 - (T)2.0 * a.y * m.s * m.e23 + (T)2.0 * a.y * m.e31 * m.e12
     );
   }
+
+
+  // TODO: add flats multiplication
+  // TODO: add log and exp
   
 
   // ================

@@ -22,13 +22,14 @@
 #pragma once
 
 
-#include "defines.hpp"
+#include "concepts.hpp"
+#include "private/defines.hpp"
+#include "vector.hpp"
 
 #include <cmath>
 
 
 namespace kmath {
-
 
   template<typename T>
   inline bool is_approx_zero(const T &a) {
@@ -60,7 +61,8 @@ namespace kmath {
   }
 
 
-  template<typename T>
+  template<Number T>
+  requires Orderable<T>
   inline bool is_square_approx_zero(const T &a) {
     return std::abs(a) < KMATH_EPSILON2;
   }
@@ -84,13 +86,13 @@ namespace kmath {
   }
 
 
-  template<typename T>
+  template<Number T>
   inline T inv_lerp(const T a, const T b, const T x) {
     return (x - a) / (b - a);
   }
 
 
-  template<typename T, typename S>
+  template<Number S, Vector<S> T>
   inline T lerp(const T &a, const T &b, const S &t) {
     return (S)(1.0 - t) * a + t * b;
   }

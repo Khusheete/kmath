@@ -33,13 +33,13 @@ namespace kmath {
   // ========
 
 
-  template<typename T>
+  template<Number T>
   struct _Mat2 {
     _Vec2<T> x, y;
   };
 
 
-  template<typename T>
+  template<Number T>
   inline _Mat2<T> transpose(const _Mat2<T> &m) {
     return _Mat2<T>(
       _Vec2<T>(m.x.x, m.y.x),
@@ -48,7 +48,7 @@ namespace kmath {
   }
 
   
-  template<typename T>
+  template<Number T>
   inline _Vec2<T> operator*(const _Mat2<T> &a, const _Vec2<T> &b) {
     return _Vec2<T>(
       a.x.x * b.x + a.y.x * b.y,
@@ -57,7 +57,7 @@ namespace kmath {
   }
 
 
-  template<typename T>
+  template<Number T>
   inline _Vec2<T> operator*(const _Vec2<T> &a, const _Mat2<T> &b) {
     return _Vec2<T>(
       kmath::dot(a.x, b),
@@ -66,7 +66,7 @@ namespace kmath {
   }
 
 
-  template<typename T>
+  template<Number T>
   inline _Mat2<T> operator*(const _Mat2<T> &a, const _Mat2<T> &b) {
     return _Mat2<T>(
       a * b.x,
@@ -75,7 +75,7 @@ namespace kmath {
   }
 
 
-  template<typename T>
+  template<Number T>
   inline _Mat2<T> &operator*=(_Mat2<T> &a, const _Mat2<T> &b) {
     a = a * b;
     return a;
@@ -87,13 +87,13 @@ namespace kmath {
   // ========
 
 
-  template<typename T>
+  template<Number T>
   struct _Mat3 {
     _Vec3<T> x, y, z;
   };
 
 
-  template<typename T>
+  template<Number T>
   inline _Mat3<T> transpose(const _Mat3<T> &m) {
     return _Mat3<T>(
       _Vec3<T>(m.x.x, m.y.x, m.z.x),
@@ -103,7 +103,7 @@ namespace kmath {
   }
   
 
-  template<typename T>
+  template<Number T>
   inline _Vec3<T> operator*(const _Mat3<T> &a, const _Vec3<T> &b) {
     return _Vec3<T>(
       a.x.x * b.x + a.y.x * b.y + a.z.x * b.z,
@@ -113,7 +113,7 @@ namespace kmath {
   }
 
 
-  template<typename T>
+  template<Number T>
   inline _Vec3<T> operator*(const _Vec3<T> &a, const _Mat3<T> &b) {
     return _Vec3<T>(
       kmath::dot(a, b.x),
@@ -123,7 +123,7 @@ namespace kmath {
   }
 
 
-  template<typename T>
+  template<Number T>
   inline _Mat3<T> operator*(const _Mat3<T> &a, const _Mat3<T> &b) {
     return _Mat3<T>(
       a * b.x,
@@ -133,7 +133,7 @@ namespace kmath {
   }
 
 
-  template<typename T>
+  template<Number T>
   inline _Mat3<T> &operator*=(_Mat3<T> &a, const _Mat3<T> &b) {
     a = a * b;
     return a;
@@ -145,7 +145,7 @@ namespace kmath {
   // ========
 
 
-  template<typename T>
+  template<Number T>
   struct _Mat4 {
     _Vec4<T> x, y, z, w;
 
@@ -325,7 +325,7 @@ namespace kmath {
   };
 
 
-  template<typename T>
+  template<Number T>
   inline _Mat4<T> transpose(const _Mat4<T> &m) {
     return _Mat4<T>(
       _Vec4<T>(m.x.x, m.y.x, m.z.x, m.w.x),
@@ -336,7 +336,7 @@ namespace kmath {
   }
 
 
-  template<typename T>
+  template<Number T>
   inline _Vec4<T> operator*(const _Mat4<T> &a, const _Vec4<T> &b) {
     return _Vec4(
       a.x.x * b.x + a.y.x * b.y + a.z.x * b.z + a.w.x * b.w,
@@ -347,7 +347,7 @@ namespace kmath {
   }
 
 
-  template<typename T>
+  template<Number T>
   inline _Vec4<T> operator*(const _Vec4<T> &a, const _Mat4<T> &b) {
     return _Vec4(
       kmath::dot(a, b.x),
@@ -358,7 +358,7 @@ namespace kmath {
   }
 
 
-  template<typename T>
+  template<Number T>
   inline _Mat4<T> operator*(const _Mat4<T> &a, const _Mat4<T> &b) {
     return _Mat4<T>(
       a * b.x,
@@ -369,7 +369,7 @@ namespace kmath {
   }
 
 
-  template<typename T>
+  template<Number T>
   inline _Mat4<T> &operator*=(_Mat4<T> &a, const _Mat4<T> &b) {
     a = a * b;
     return a;

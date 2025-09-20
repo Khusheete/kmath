@@ -29,65 +29,65 @@
 
 
 namespace kmath::ease {
-  template<typename T>
+  template<Number T>
   using EasingFunction = T (*)(const T);
 
 
   namespace out {
-    template<typename T>
+    template<Number T>
     inline T quad(const T t) {
       const T u = (T)1.0 - t;
       return (T)1.0 - u * u;
     }
 
 
-    template<typename T>
+    template<Number T>
     inline T cubic(const T t) {
       const T u = (T)1.0 - t;
       return (T)1.0 - u * u * u;
     }
 
 
-    template<typename T>
+    template<Number T>
     inline T quart(const T t) {
       T u = (T)1.0 - t;
       return (T)1.0 - (u * u) * (u * u);
     }
 
 
-    template<typename T>
+    template<Number T>
     inline T quint(const T t) {
       T u = (T)1.0 - t;
       return (T)1.0 - (u * u) * (u * u) * u;
     }
 
 
-    template<typename T>
+    template<Number T>
     inline T sine(const T t) {
       return std::sin((T)0.5 * (T)PI * t);
     }
 
 
-    template<typename T>
+    template<Number T>
     inline T circ(const T t) {
       T u = (T)1.0 - t;
       return std::sqrt((T)1.0 - u * u);
     }
 
 
-    template<typename T>
+    template<Number T>
     inline T elastic(const T t) {
       return (t == (T)1.0)? 1.0 : std::pow((T)2.0, (T)-10.0 * t) * std::sin((t * (T)10.0 - (T)0.75) * TAU / (T)3.0) + (T)1.0;
     }
 
 
-    template<typename T>
+    template<Number T>
     inline T expo(const T t) {
       return (t == (T)1.0)? (T)1.0 : (T)1.0 - std::pow((T)2.0, (T)-10.0 * t);
     }
 
 
-    template<typename T>
+    template<Number T>
     inline T back(const T t) {
       const T a = (T)1.70158;
       const T b = a + (T)1.0;
@@ -96,7 +96,7 @@ namespace kmath::ease {
     }
 
 
-    template<typename T>
+    template<Number T>
     inline T bounce(const T t) {
       const T n = (T)7.5625;
 
@@ -117,55 +117,55 @@ namespace kmath::ease {
 
 
   namespace in {
-    template<typename T>
+    template<Number T>
     inline T quad(const T t) {
       return t * t;
     }
 
 
-    template<typename T>
+    template<Number T>
     inline T cubic(const T t) {
       return t * t * t;
     }
 
 
-    template<typename T>
+    template<Number T>
     inline T quart(const T t) {
       return (t * t) * (t * t);
     }
 
 
-    template<typename T>
+    template<Number T>
     inline T quint(const T t) {
       return (t * t) * (t * t) * t;
     }
 
 
-    template<typename T>
+    template<Number T>
     inline T sine(const T t) {
       return (T)1.0 - std::cos((T)0.5 * (T)PI * t);
     }
 
 
-    template<typename T>
+    template<Number T>
     inline T circ(const T t) {
       return (T)1.0 - std::sqrt((T)1.0 - t * t);
     }
 
 
-    template<typename T>
+    template<Number T>
     inline T elastic(const T t) {
       return (t == (T)0.0)? 0.0 : -std::pow((T)2.0, (T)10.0 * t - (T)10.0) * std::sin((t * (T)10.0 - (T)10.75) * TAU / 3);
     }
 
 
-    template<typename T>
+    template<Number T>
     inline T expo(const T t) {
       return (t == (T)0.0)? 0.0 : std::pow((T)2.0, (T)10.0 * t - (T)10.0);
     }
 
 
-    template<typename T>
+    template<Number T>
     inline T back(const T t) {
       const T a = (T)1.70158;
       const T b = a + (T)1.0;
@@ -173,7 +173,7 @@ namespace kmath::ease {
     }
 
 
-    template<typename T>
+    template<Number T>
     inline T bounce(const T t) {
       return (T)1.0 - out::bounce((T)1.0 - t);
     }
@@ -183,14 +183,14 @@ namespace kmath::ease {
   namespace in_out {
 
     namespace {
-      template<typename T>
+      template<Number T>
       inline T _p1(const T t) {
         return (T)-2.0 * t + (T)2.0;
       }
     }
 
 
-    template<typename T>
+    template<Number T>
     inline T quad(const T t) {
       return (t < (T)0.5)?
         (T)2.0 * t * t
@@ -198,7 +198,7 @@ namespace kmath::ease {
     }
 
 
-    template<typename T>
+    template<Number T>
     inline T cubic(const T t) {
       return (t < (T)0.5)?
         (T)4.0 * t * t * t
@@ -206,7 +206,7 @@ namespace kmath::ease {
     }
 
 
-    template<typename T>
+    template<Number T>
     inline T quart(const T t) {
       return (t < (T)0.5)?
       (T)8.0 * (t * t) * (t * t)
@@ -214,7 +214,7 @@ namespace kmath::ease {
     }
 
 
-    template<typename T>
+    template<Number T>
     inline T quint(const T t) {
       return (t < (T)0.5f)?
         (T)16.0 * (t * t) * (t * t) * t
@@ -222,13 +222,13 @@ namespace kmath::ease {
     }
 
 
-    template<typename T>
+    template<Number T>
     inline T sine(const T t) {
       return (T)-0.5 * (std::cos(PI * t) - 1.0);
     }
 
 
-    template<typename T>
+    template<Number T>
     inline T circ(const T t) {
       return (t < (T)0.5)?
       (T)0.5 - (T)0.5 * std::sqrt((T)1.0 - (T)4.0 * t * t)
@@ -236,7 +236,7 @@ namespace kmath::ease {
     }
 
 
-    template<typename T>
+    template<Number T>
     inline T elastic(const T t) {
       const T omega = TAU / (T)4.5;
       return
@@ -247,7 +247,7 @@ namespace kmath::ease {
     }
 
 
-    template<typename T>
+    template<Number T>
     inline T expo(const T t) {
       return (t == (T)0.0)? 0.0 : (t == (T)1.0)? 1.0
         : (t < (T)0.5)?
@@ -256,7 +256,7 @@ namespace kmath::ease {
     }
 
 
-    template<typename T>
+    template<Number T>
     inline T back(const T t) {
       const T a = (T)1.70158;
       const T b = a + (T)1.0;
@@ -266,7 +266,7 @@ namespace kmath::ease {
     }
 
 
-    template<typename T>
+    template<Number T>
     inline T bounce(const T t) {
       return (t < (T)0.5)?
         (T)0.5 - (T)0.5 * out::bounce((T)1.0 - (T)2.0 * t)
@@ -277,7 +277,7 @@ namespace kmath::ease {
 
 
 namespace kmath {
-  template<typename T, typename S>
+  template<Number T, Number S>
   inline T interpolate(const T &a, const T &b, const S &t, ease::EasingFunction<S> easing) {
     return lerp(a, b, easing(t));
   }

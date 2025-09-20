@@ -22,20 +22,47 @@
 #pragma once
 
 
-#define KMATH_FORCE_INLINE
-#include "private/defines.hpp"
+namespace kmath {
+
+  template<typename N>
+  concept Number = requires(N n1, N n2) {
+    n1 += n2;
+    n1 -= n2;
+    n1 *= n2;
+    n1 /= n2;
+    n1 + n2;
+    n1 - n2;
+    n1 * n2;
+    n1 / n2;
+  };
 
 
-#include "utils.hpp"
-#include "vector.hpp"
-#include "matrix.hpp"
-#include "euclidian_flat_3d.hpp"
-#include "motor_3d.hpp"
-#include "rotor_3d.hpp"
+  template<typename S>
+  concept Orderable = requires(S a, S b) {
+    a == b;
+    a < b;
+    a > b;
+    a >= b;
+    a <= b;
+  };
 
 
-#include "color.hpp"
+  template<typename V, typename K>
+  concept Vector = requires(V v1, V v2, K l) {
+    v1 += v2;
+    v1 -= v2;
+    v1 *= l;
+    v1 /= l;
+    v1 + v2;
+    v1 - v2;
+    l * v1;
+    v1 * l;
+    v1 / l;
+  };
 
 
-#include "pga_3d.hpp"
-
+  template<typename A, typename B>
+  concept Castable = requires(A a, B b) {
+    b = a;
+  };
+}

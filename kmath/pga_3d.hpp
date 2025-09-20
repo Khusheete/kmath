@@ -38,7 +38,7 @@ namespace kmath {
   };
 
 
-  template<typename T>
+  template<Number T>
   class _Mvec3 {
   public:
     enum class Basis : size_t {
@@ -365,49 +365,49 @@ namespace kmath {
 
 
   // Constants
-  template<typename T>
+  template<Number T>
   const _Mvec3<T> _Mvec3<T>::ZERO = _Mvec3<T>();
-  template<typename T>
+  template<Number T>
   const _Mvec3<T> _Mvec3<T>::PSEUDOSCALAR = _Mvec3<T>((T)1.0, 0);
-  template<typename T>
+  template<Number T>
   const _Mvec3<T> _Mvec3<T>::INF_PLANE = _Mvec3<T>(-(T)1.0, 0);
 
-  template<typename T>
+  template<Number T>
   const _Mvec3<T> _Mvec3<T>::ONE = _Mvec3<T>((T)1.0, 0);
-  template<typename T>
+  template<Number T>
   const _Mvec3<T> _Mvec3<T>::e0 = _Mvec3<T>((T)1.0, 1);
-  template<typename T>
+  template<Number T>
   const _Mvec3<T> _Mvec3<T>::e1 = _Mvec3<T>((T)1.0, 2);
-  template<typename T>
+  template<Number T>
   const _Mvec3<T> _Mvec3<T>::e2 = _Mvec3<T>((T)1.0, 3);
-  template<typename T>
+  template<Number T>
   const _Mvec3<T> _Mvec3<T>::e3 = _Mvec3<T>((T)1.0, 4);
-  template<typename T>
+  template<Number T>
   const _Mvec3<T> _Mvec3<T>::e01 = _Mvec3<T>((T)1.0, 5);
-  template<typename T>
+  template<Number T>
   const _Mvec3<T> _Mvec3<T>::e02 = _Mvec3<T>((T)1.0, 6);
-  template<typename T>
+  template<Number T>
   const _Mvec3<T> _Mvec3<T>::e03 = _Mvec3<T>((T)1.0, 7);
-  template<typename T>
+  template<Number T>
   const _Mvec3<T> _Mvec3<T>::e12 = _Mvec3<T>((T)1.0, 8);
-  template<typename T>
+  template<Number T>
   const _Mvec3<T> _Mvec3<T>::e31 = _Mvec3<T>((T)1.0, 9);
-  template<typename T>
+  template<Number T>
   const _Mvec3<T> _Mvec3<T>::e23 = _Mvec3<T>((T)1.0, 10);
-  template<typename T>
+  template<Number T>
   const _Mvec3<T> _Mvec3<T>::e021 = _Mvec3<T>((T)1.0, 11);
-  template<typename T>
+  template<Number T>
   const _Mvec3<T> _Mvec3<T>::e013 = _Mvec3<T>((T)1.0, 12);
-  template<typename T>
+  template<Number T>
   const _Mvec3<T> _Mvec3<T>::e032 = _Mvec3<T>((T)1.0, 13);
-  template<typename T>
+  template<Number T>
   const _Mvec3<T> _Mvec3<T>::e123 = _Mvec3<T>((T)1.0, 14);
-  template<typename T>
+  template<Number T>
   const _Mvec3<T> _Mvec3<T>::e0123 = _Mvec3<T>((T)1.0, 15);
 
 
   // Geometric product
-  template<typename T>
+  template<Number T>
   _Mvec3<T> operator*(const _Mvec3<T> &a, const _Mvec3<T> &b) {
     _Mvec3<T> res;
     res[0]  = b[0]  * a[0] + b[2]  * a[2] + b[3]  * a[3] + b[4]  * a[4] - b[8]  * a[8] - b[9]  * a[9] - b[10] * a[10] - b[14] * a[14];
@@ -431,7 +431,7 @@ namespace kmath {
 
 
   // Outer product
-  template<typename T>
+  template<Number T>
   _Mvec3<T> operator&(const _Mvec3<T> &a, const _Mvec3<T> &b) {
     _Mvec3<T> res;
     res[0]  = b[0]  * a[0];
@@ -455,7 +455,7 @@ namespace kmath {
 
 
   // Regressive product
-  template<typename T>
+  template<Number T>
   _Mvec3<T> operator|(const _Mvec3<T> &a, const _Mvec3<T> &b) {
     _Mvec3<T> res;    
     res[15] = 1 * (a[15] * b[15]);
@@ -479,7 +479,7 @@ namespace kmath {
 
 
   // Inner product
-  template<typename T>
+  template<Number T>
   _Mvec3<T> operator||(const _Mvec3<T> &a, const _Mvec3<T> &b) {
     _Mvec3<T> res;
     res[0]  = b[0]  * a[0] + b[2]  * a[2] + b[3]  * a[3]  + b[4]  * a[4] - b[8]  * a[8]  - b[9]  * a[9]  - b[10] * a[10] - b[14] * a[14];
@@ -503,7 +503,7 @@ namespace kmath {
 
 
   // Multivector addition
-  template<typename T>
+  template<Number T>
   inline _Mvec3<T> operator+(const _Mvec3<T> &a, const _Mvec3<T> &b) {
     _Mvec3<T> res;
     res[0]  = a[0]  + b[0];
@@ -527,7 +527,7 @@ namespace kmath {
 
 
   // Multivector subtraction
-  template<typename T>
+  template<Number T>
   inline _Mvec3<T> operator-(const _Mvec3<T> &a, const _Mvec3<T> &b) {
     _Mvec3<T> res;
     res[0]  = a[0]  - b[0];
@@ -551,7 +551,7 @@ namespace kmath {
 
 
   // Multivector opposite
-  template<typename T>
+  template<Number T>
   inline _Mvec3<T> operator-(const _Mvec3<T> &a) {
     _Mvec3<T> res;
     res[0]  = -a[0];
@@ -575,7 +575,7 @@ namespace kmath {
 
 
   // Scalar/multivector multiplication
-  template<typename T>
+  template<Number T>
   inline _Mvec3<T> operator*(const T a, const _Mvec3<T> &b) {
     _Mvec3<T> res;
     res[0]  = a * b[0];
@@ -599,7 +599,7 @@ namespace kmath {
 
 
   // Multivector/scalar multiplication
-  template<typename T>
+  template<Number T>
   inline _Mvec3<T> operator*(const _Mvec3<T> &a, const T b) {
     _Mvec3<T> res;
     res[0]  = b * a[0];
@@ -623,7 +623,7 @@ namespace kmath {
 
 
   // Multivector/scalar division
-  template<typename T>
+  template<Number T>
   inline _Mvec3<T> operator/(const _Mvec3<T> &a, const T b) {
     _Mvec3<T> res;
     res[0]  = a[0]  / b;
@@ -647,7 +647,7 @@ namespace kmath {
 
 
   // Scalar/multivector addition
-  template<typename T>
+  template<Number T>
   inline _Mvec3<T> operator+(const T a, const _Mvec3<T> &b) {
     _Mvec3<T> res;
     res[0]  = a + b[0];
@@ -671,7 +671,7 @@ namespace kmath {
 
 
   // Multivector/scalar addition
-  template<typename T>
+  template<Number T>
   inline _Mvec3<T> operator+(const _Mvec3<T> &a, const T b) {
     _Mvec3<T> res;
     res[0]  = b + a[0];
@@ -695,7 +695,7 @@ namespace kmath {
 
 
   // Scalar/multivector subtraction
-  template<typename T>
+  template<Number T>
   inline _Mvec3<T> operator-(const T a, const _Mvec3<T> &b) {
     _Mvec3<T> res;
     res[0]  = a - b[0];
@@ -719,7 +719,7 @@ namespace kmath {
 
 
   // Multivector/scalar subtraction
-  template<typename T>
+  template<Number T>
   inline _Mvec3<T> operator-(const _Mvec3<T> &a, const T b) {
     _Mvec3<T> res;
     res[0]  = a[0] - b;

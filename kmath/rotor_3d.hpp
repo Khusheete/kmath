@@ -308,15 +308,38 @@ namespace kmath {
   
 
   template<Number T>
-  inline _Plane3<T> transform(const _Plane3<T> &a, const _Rotor3<T> &r);
+  inline _Plane3<T> transform(const _Plane3<T> &a, const _Rotor3<T> &r) {
+    return _Plane3<T>(
+      - r.e12 * r.e12 * a.e1 + (T)2.0 * r.e12 * r.s * a.e2 + r.s * r.s * a.e1 + (T)2.0 * a.e3 * r.e12 * r.e23 - r.e31 * r.e31 * a.e1 + (T)2.0 * a.e2 * r.e31 * r.e23 - (T)2.0 * a.e3 * r.s * r.e31 + a.e1 * r.e23 * r.e23,
+      (T)2.0 * r.e31 * a.e1 * r.e23 - r.e12 * r.e12 * a.e2 - a.e2 * r.e23 * r.e23 - (T)2.0 * r.e12 * r.s * a.e1 + (T)2.0 * a.e3 * r.s * r.e23 + r.s * r.s * a.e2 + (T)2.0 * a.e3 * r.e12 * r.e31 + a.e2 * r.e31 * r.e31,
+      (T)2.0 * r.e12 * a.e1 * r.e23 + (T)2.0 * r.e12 * a.e2 * r.e31 - a.e3 * r.e31 * r.e31 + (T)2.0 * r.s * r.e31 * a.e1 + a.e3 * r.s * r.s + a.e3 * r.e12 * r.e12 - a.e3 * r.e23 * r.e23 - (T)2.0 * r.s * a.e2 * r.e23,
+      a.e0 * r.e23 * r.e23 + a.e0 * r.s * r.s + a.e0 * r.e12 * r.e12 + a.e0 * r.e31 * r.e31
+    );
+  }
   
 
   template<Number T>
-  inline _Line3<T> transform(const _Line3<T> &a, const _Rotor3<T> &r);
+  inline _Line3<T> transform(const _Line3<T> &a, const _Rotor3<T> &r) {
+    return _Line3<T>(
+      r.s  * r.s * a.e23 + (T)2.0 * r.e12 * a.e12 * r.e23 - r.e12  * r.e12 * a.e23 + (T)2.0 * r.e12 * a.e31 * r.s - (T)2.0 * r.s * r.e31 * a.e12 + (T)2.0 * a.e31 * r.e31 * r.e23 + a.e23 * r.e23  * r.e23 - r.e31  * r.e31 * a.e23,
+      - (T)2.0 * r.e12 * r.s * a.e23 - a.e31 * r.e23  * r.e23 + (T)2.0 * r.e31 * a.e23 * r.e23 + (T)2.0 * r.e12 * r.e31 * a.e12 - r.e12  * r.e12 * a.e31 + (T)2.0 * r.s * a.e12 * r.e23 + a.e31 * r.e31  * r.e31 + a.e31 * r.s  * r.s,
+      (T)2.0 * r.e12 * a.e31 * r.e31 + (T)2.0 * r.e12 * a.e23 * r.e23 - r.e31  * r.e31 * a.e12 + r.s  * r.s * a.e12 - a.e12 * r.e23  * r.e23 + r.e12  * r.e12 * a.e12 - (T)2.0 * a.e31 * r.s * r.e23 + (T)2.0 * r.s * r.e31 * a.e23,
+      a.e01 * r.e23  * r.e23 + (T)2.0 * a.e02 * r.e31 * r.e23 + (T)2.0 * r.e12 * a.e03 * r.e23 - (T)2.0 * r.s * r.e31 * a.e03 + (T)2.0 * a.e02 * r.e12 * r.s - a.e01 * r.e31  * r.e31 + r.s  * r.s * a.e01 - r.e12  * r.e12 * a.e01,
+      (T)2.0 * r.e12 * r.e31 * a.e03 + (T)2.0 * r.s * a.e03 * r.e23 + (T)2.0 * a.e01 * r.e31 * r.e23 + a.e02 * r.e31  * r.e31 - a.e02 * r.e12  * r.e12 + a.e02 * r.s  * r.s - a.e02 * r.e23  * r.e23 - (T)2.0 * r.e12 * r.s * a.e01,
+      - r.e31  * r.e31 * a.e03 + (T)2.0 * a.e02 * r.e12 * r.e31 + (T)2.0 * r.s * a.e01 * r.e31 + r.e12  * r.e12 * a.e03 - (T)2.0 * a.e02 * r.s * r.e23 + r.s  * r.s * a.e03 + (T)2.0 * r.e12 * a.e01 * r.e23 - a.e03 * r.e23  * r.e23
+    );
+  }
 
 
   template<Number T>
-  inline _Point3<T> transform(const _Point3<T> &a, const _Rotor3<T> &r);
+  inline _Point3<T> transform(const _Point3<T> &a, const _Rotor3<T> &r) {
+    return _Point3<T>(
+      a.e032 * r.e23 * r.e23 - (T)2.0 * r.e31 * a.e021 * r.s + (T)2.0 * a.e021 * r.e23 * r.e12 - a.e032 * r.e31 * r.e31 + (T)2.0 * a.e013 * r.e12 * r.s - a.e032 * r.e12 * r.e12 + a.e032 * r.s * r.s + (T)2.0 * r.e31 * r.e23 * a.e013,
+      (T)2.0 * a.e032 * r.e31 * r.e23 + (T)2.0 * a.e021 * r.e23 * r.s - a.e013 * r.e12 * r.e12 + a.e013 * r.s * r.s + r.e31 * r.e31 * a.e013 - (T)2.0 * a.e032 * r.e12 * r.s + (T)2.0 * r.e31 * a.e021 * r.e12 - r.e23 * r.e23 * a.e013,
+      - a.e021 * r.e23 * r.e23 - (T)2.0 * r.e23 * a.e013 * r.s + (T)2.0 * a.e032 * r.e23 * r.e12 - r.e31 * r.e31 * a.e021 + a.e021 * r.e12 * r.e12 + a.e021 * r.s * r.s + (T)2.0 * a.e032 * r.e31 * r.s + (T)2.0 * r.e31 * a.e013 * r.e12,
+      r.e23 * r.e23 * a.e123 + r.e12 * r.e12 * a.e123 + r.s * r.s * a.e123 + r.e31 * r.e31 * a.e123
+    );
+  }
 
 
   template<Number T>

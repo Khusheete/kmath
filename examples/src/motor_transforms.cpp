@@ -114,7 +114,7 @@ void motor_transforms_run(void *p_data) {
     std::fmod(0.5f * time, 1.0f)
   );
 
-  for (int i = 0; i < data->reference_points.size(); ++i) {
+  for (size_t i = 0; i < data->reference_points.size(); ++i) {
     kmath::Vec3 transformed = kmath::transform_point(data->reference_points[i], current_transform);
     transformed.y += 5.0f;
 

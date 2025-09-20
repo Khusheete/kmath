@@ -41,6 +41,9 @@ end
 
 -- Default build configurations
 function _build_config()
+  -- Enable warnings
+  warnings "Extra"
+  
   -- Include
   includedirs { "%{wks.location}" }
   libdirs { "%{wks.location}/lib", "%{wks.location}/lib/%{cfg.platform}/%{cfg.buildcfg}" }

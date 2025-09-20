@@ -64,7 +64,7 @@ void _draw_easing_func(const kmath::Vec2 &p_pos, kmath::ease::EasingFunction<dou
 }
 
 
-void ease_function_run(void *_p_data) {
+void ease_function_run([[maybe_unused]] void *_p_data) {
   using namespace kmath;
   using namespace kmath::ease;
   
@@ -106,4 +106,4 @@ void ease_function_run(void *_p_data) {
 }
 
 
-void ease_function_cleanup(void *_p_data) { }
+void ease_function_cleanup([[maybe_unused]] void *_p_data) { }

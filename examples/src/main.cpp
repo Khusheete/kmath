@@ -91,9 +91,7 @@ void test_selection_menu() {
 
   int render_width = GetRenderWidth();
 
-  Vector2 mouse_pos = GetMousePosition();
-
-  for (int i = 0; i < TESTS.size(); i++) {
+  for (size_t i = 0; i < TESTS.size(); i++) {
     const Test &test = TESTS[i];
 
     if (button(

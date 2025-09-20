@@ -29,7 +29,7 @@
 
 namespace kmath {
 
-  static const char* PGA3D_BASIS[] = {
+  constexpr const char* PGA3D_BASIS[] = {
     "1"   ,
     "e0"  , "e1"  , "e2"  , "e3"  ,
     "e01" , "e02" , "e03" , "e12" , "e31", "e23",

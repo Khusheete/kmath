@@ -32,6 +32,20 @@
 namespace kmath {
 
 
+  // Technically, this struct does not represent all rotor, since it can only
+  // represent real rotations around the origin, ie. a rotation arount a line
+  // going through the origin. A general rotor represents a rotation around a
+  // general line. When this line is a vanishing line, the rotation around it
+  // is actually a translation. The representation of a general rotor would
+  // need to be represented in a basis such as:
+  // 
+  // (1, e23, e31, e12, e0123, e01, e02, e03)
+  //
+  // Which is exactly the basis of a general motor. Furthermore translations are
+  // easely represented by a _Vec3, so this is the object you should use to
+  // store a translation transformation. If you need a PGA object to represent
+  // a general rotor, you should use the _Motor3 type (which is a bit more
+  // general as it may be any rigid transformation).
   template<Number T>
   struct _Rotor3 {
     T s, e23, e31, e12;

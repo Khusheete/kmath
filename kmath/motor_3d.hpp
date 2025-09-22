@@ -27,6 +27,7 @@
 #include "vector.hpp"
 #include "matrix.hpp"
 #include "rotor_3d.hpp"
+
 #include <cmath>
 
 
@@ -230,6 +231,18 @@ namespace kmath {
   inline T magnitude(const _Motor3<T> &m) {
     return std::sqrt(magnitude_squared(m));
   }
+
+
+  template<Number T>
+  inline T vanishing_magnitude_squared(const _Motor3<T> &m) {
+    return m.e0123 * m.e0123 + m.e01 * m.e01 + m.e02 * m.e02 + m.e03 * m.e03;
+  }
+
+
+  template<Number T>
+  inline T vanishing_magnitude(const _Motor3<T> &m) {
+    return std::sqrt(vanishing_magnitude_squared(m));
+  }
   
 
   template<Number T>
@@ -244,12 +257,164 @@ namespace kmath {
   }
 
 
+  // Exponentiate a line/screw to create a motor to which it is invariant.
   template<Number T>
-  inline _Motor3<T> pow(const _Motor3<T> &m, T t) {
-    _Vec3<T> direction, moment;
-    T angle, translation;
-    to_screw_coordinates(m, direction, moment, angle, translation);
-    return _Motor3<T>::from_screw_coordinates(direction, moment, t * angle, t * translation);
+  _Motor3<T> exp(const _Line3<T> &b) {
+    const T r = magnitude_squared(b);
+    if (is_square_approx_zero(r)) {
+      // When the bivector is ideal, the degree 2 and higher are null
+      return _Motor3<T>(
+        _Rotor3<T>::IDENTITY,
+        _Rotor3<T>((T)0.0, b.e01, b.e02, b.e03)
+      );
+    }
+
+    // A general bivector times it's reverse is a sturdy number:
+    // 
+    // S = b23^2 + b31^2 + b12^2 - 2 ( b23 * b01 + b31 * b02 + b12 * b03 ) e0123
+    // 
+    // We've already got the real part (r), and (half) the pseudo-scalar part is:
+    const T ps = - b.e23 * b.e01 - b.e31 * b.e02 - b.e12 * b.e03;
+
+    // This sturdy number allows for normalizing the bivector so that we can
+    // express it as the sum of two commutating bivectors b = alpha l + beta lL.
+    // With this, we'll have: exp(b) = exp(alpha L) exp(beta IL).
+    //
+    // Let's take the square root of S:
+    //
+    // S^0.5 = sqrt(r) + ps / sqrt(r) e0123
+    //
+    // (This formula is why we calculated half the pseudo-scalar part of S)
+    //
+    // Let's call the real part u and the pseudo-scalar part v:
+    const T u = std::sqrt(r);
+    const T v = ps / u;
+
+    // And to normalize the bivector, we need the inverse square root of S:
+    //
+    // S^-0.5 = 1 / sqrt(r) - ps / r^(3/2) e0123
+    const T inv_u = (T)1.0 / u;
+    const T inv_v = -v / r;
+
+    // Here is b normalized: l = sqrt(S) \ b
+    const _Line3<T> l = _Line3<T>(
+      inv_u * b.e23,
+      inv_u * b.e31,
+      inv_u * b.e12,
+      inv_u * b.e01 - inv_v * b.e23,
+      inv_u * b.e02 - inv_v * b.e31,
+      inv_u * b.e03 - inv_v * b.e12
+    );
+
+    // Now, there's why we've done all this. We know that:
+    //
+    // b = S l = (u + vI) l = u l + v lI
+    //
+    // And l dot lI = 0 since lI is on the ideal plane. Therefore l and lI commute.
+    // Moreover, l * reverse(l) = -1 since it has been normalized. We thus have:
+    //
+    // exp(b) = exp(ul) exp(vlI)
+    //        = (cos u + sin u l) (1 + vlI)
+    //        = cos u + sin u l + v cos u l I - v sin u I
+    const T cosu = std::cos(u);
+    const T sinu = std::sin(u);
+    const T vcosu = v * cosu;
+
+    return _Motor3<T>(
+      cosu,
+      sinu * l.e23,
+      sinu * l.e31,
+      sinu * l.e12,
+      - v * sinu,
+      sinu * l.e01 - vcosu * l.e23,
+      sinu * l.e02 - vcosu * l.e31,
+      sinu * l.e03 - vcosu * l.e12
+    );
+  }
+
+
+  // Take the log map of m to create the corresponding screw from the Lie group.
+  // Note that we don't have exp(log(m)) = m. But exp(log(m)) represents the same transformation as m.
+  template<Number T>
+  _Line3<T> log(const _Motor3<T> &m) {
+    const T r = length(_Vec3<T>(m.e23, m.e31, m.e12));
+    if (is_approx_zero(r)) {
+      // When this motor is a pure translation, the line is a vanishing line that is easy to compute
+      return _Line3<T>(
+        (T)0.0,
+        (T)0.0,
+        (T)0.0,
+        m.e01,
+        m.e02,
+        m.e03
+      );
+    }
+
+    // Extract the norm of the bivector part of m. We'll normalize <m>2 in the same way
+    // we normalized the bivector in the exponential. This decompositions gives the
+    // logarithm almost directly, as it's exp will be this versor.
+    const T ps = - m.e23 * m.e01 - m.e31 * m.e02 - m.e12 * m.e03;
+
+    // S^0.5 = u + vI
+    const T u = std::sqrt(r);
+    const T v = ps / u;
+
+    // S^(-0.5) = inv_u + inv_v I
+    const T inv_u = (T)1.0 / u;
+    const T inv_v = -v / r;
+
+    // Writing m, we have:
+    //
+    // m = alpha exp(B)                        ; B is the bivector that we are searching for, let's say it's normalization gives: (a + bI)l
+    //   = alpha ( cos a + sin a l + b cos a l I - b sin a I )
+    //   = alpha cos a + alpha (sin a + b cos a I) l - alpha b sin a I
+    //
+    // And since the normalized part of <m>2 is invariant:
+    // 
+    // m = s + alpha <m>2 + m0123 I
+    //   = s + (u + vI)l + m0123 I
+    //
+    // So by identification:
+    //
+    // s     = alpha cos a
+    // m0123 = - alpha b sin a
+    // u     = alpha sin a
+    // v     = alpha b cos a
+    //
+    // Therefore (provided that it is defined):
+    //
+    // a = atan2(u, s) = &tan2(-m0123, v)
+    // b = v / s = -m0123 / u
+    //
+    // Though m0123 and v might be both null (in which case, the result might be incorrect)
+
+    // Here is <m>2 normalized: l = sqrt(S) \ m
+    const _Line3<T> l = _Line3<T>(
+      inv_u * m.e23,
+      inv_u * m.e31,
+      inv_u * m.e12,
+      inv_u * m.e01 - inv_v * m.e23,
+      inv_u * m.e02 - inv_v * m.e31,
+      inv_u * m.e03 - inv_v * m.e12
+    );
+
+    const T a = std::atan2(u, m.s);
+    const T b = (is_approx_zero(m.s))? -m.e0123 / u : v / m.s;
+
+    return _Line3<T>(
+      a * l.e23,
+      a * l.e31,
+      a * l.e12,
+      a * l.e01 - b * l.e23,
+      a * l.e02 - b * l.e31,
+      a * l.e03 - b * l.e12
+    );
+  }
+
+
+  template<Number T>
+  inline _Motor3<T> pow(const _Motor3<T> &m, T power) {
+    return exp(power * log(m));
   }
 
 
@@ -409,7 +574,16 @@ namespace kmath {
   template<Number T>
   _Motor3<T> sclerp(const _Motor3<T> &a, const _Motor3<T> &b, const T t) {
     _Motor3<T> delta = reverse(a) * b;
-    return a * pow(delta, t);
+    _Vec3<T> direction, moment;
+    T angle, translation;
+    to_screw_coordinates(delta, direction, moment, angle, translation);
+    return a * _Motor3<T>::from_screw_coordinates(direction, moment, t * angle, t * translation);
+  }
+
+
+  template<Number T>
+  _Motor3<T> lielerp(const _Motor3<T> &a, const _Motor3<T> &b, const T t) {
+    return a * pow(reverse(a) * b, t);
   }
 
 
@@ -553,8 +727,6 @@ namespace kmath {
     return a * reverse(b);
   }
 
-  // TODO: add log and exp
-  
 
   // ================
   // = Type aliases =

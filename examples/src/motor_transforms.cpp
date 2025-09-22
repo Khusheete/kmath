@@ -19,9 +19,13 @@
 // SOFTWARE.
 
 
+#include "kmath/color.hpp"
 #include "kmath/kmath.hpp"
+#include "kmath/motor_3d.hpp"
+#include "kmath/print.hpp"
 #include "examples.hpp"
 
+#include "kmath/vector.hpp"
 #include "utils/freecam.hpp"
 #include "utils/math.hpp"
 #include "thirdparty/raylib/raylib.h"
@@ -45,9 +49,9 @@ struct TestData {
 
 kmath::Motor3 get_transformation(TransformId p_trans) {
   switch (p_trans) {
-  case TransformId::I: return kmath::Motor3::from_axis_angle(kmath::Vec3::X, 0.5 * PI);
-  case TransformId::J: return kmath::Motor3::from_axis_angle(kmath::Vec3::Y, 0.5 * PI);
-  case TransformId::K: return kmath::Motor3::from_axis_angle(kmath::Vec3::Z, 0.5 * PI);
+  case TransformId::I: return kmath::Motor3::from_axis_angle(kmath::Vec3::X, PI);
+  case TransformId::J: return kmath::Motor3::from_axis_angle(kmath::Vec3::Y, PI);
+  case TransformId::K: return kmath::Motor3::from_axis_angle(kmath::Vec3::Z, PI);
   case TransformId::IE: return kmath::Motor3::from_translation(4.0f * kmath::Vec3::X);
   case TransformId::JE: return kmath::Motor3::from_translation(4.0f * kmath::Vec3::Y);
   case TransformId::KE: return kmath::Motor3::from_translation(4.0f * kmath::Vec3::Z);
@@ -108,17 +112,28 @@ void motor_transforms_run(void *p_data) {
 
   DrawGrid(20, 1.0);
 
-  kmath::Motor3 current_transform = kmath::seplerp(
-    kmath::Motor3::IDENTITY,
-    get_transformation(data->current_transform),
+  kmath::Motor3 a = kmath::Motor3::IDENTITY; // kmath::Motor3::from_translation(4.0f * kmath::Vec3::X);
+  kmath::Motor3 b = get_transformation(data->current_transform);
+
+  kmath::Motor3 current_transform = kmath::lielerp(
+    a, b,
     std::fmod(0.5f * time, 1.0f)
   );
 
+  const kmath::Vec3 cube_size = 0.05f * kmath::Vec3::ONE;
   for (size_t i = 0; i < data->reference_points.size(); ++i) {
     kmath::Vec3 transformed = kmath::transform_point(data->reference_points[i], current_transform);
     transformed.y += 5.0f;
 
-    DrawPoint3D(reinterpret_cast<Vector3&>(transformed), WHITE);
+    const kmath::Lrgb c = (data->reference_points[i] + 5.0f * kmath::Vec3::ONE) / 10.0f;
+    const kmath::RgbU8 cu8 = kmath::as_rgbu8(c);
+
+    // const kmath::Vec3 draw_pos = transformed - 0.5f * cube_size;
+    DrawCubeV(
+      reinterpret_cast<const Vector3&>(transformed),
+      reinterpret_cast<const Vector3&>(cube_size),
+      {cu8.x, cu8.y, cu8.z, 255}
+    );
   }
 
   EndMode3D();

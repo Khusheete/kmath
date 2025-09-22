@@ -73,6 +73,15 @@ namespace kmath {
   template<Number T> const _Plane3<T> _Plane3<T>::XY = _Plane3<T>((T)0.0, (T)0.0, (T)1.0, (T)0.0);
   
 
+  // Note that this type is meant to represent a geometric line.
+  // But it is in fact a bivector, which in general in 3D represents a screw.
+  // Operations on lines in this header always result in a line, but other operations
+  // (such as a motor logarithm) may result in a value of type _Line3<T> that represents
+  // such a general bivector.
+  //
+  // The set of general bivectors forms the Lie group of the motor Lie algebra (ie. rigid euclidian
+  // motions). The exponential and logarithm maps are used to to and from the Lie group and algebra.
+  // The Lie bracket is the commutator product between two lines.
   template<Number T>
   struct _Line3 {
     T e23, e31, e12, e01, e02, e03;

@@ -133,7 +133,7 @@ namespace kmath {
 
 
   template<Number T>
-  _Rotor3<T> ln(const _Rotor3<T> &r) {
+  _Rotor3<T> log(const _Rotor3<T> &r) {
     T len = length(r);
     T len_v = length(_Vec3<T>(r.e23, r.e31, r.e12));
 
@@ -148,7 +148,7 @@ namespace kmath {
 
   template<Number T>
   inline _Rotor3<T> pow(const _Rotor3<T> &r, const T power) {
-    return exp(power * ln(r));
+    return exp(power * log(r));
   }
 
 

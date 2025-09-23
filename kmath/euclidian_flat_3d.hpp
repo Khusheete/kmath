@@ -193,14 +193,14 @@ namespace kmath {
 
     static inline _Point3<T> direction(const _Vec3<T> &d) {
       return _Point3<T>(
-        d.x, d.y, d.z, (T)0.0
+        -d.x, -d.y, -d.z, (T)0.0
       );
     }
 
 
     static inline _Point3<T> direction(const T x, const T y, const T z) {
       return _Point3<T>(
-        x, y, z, (T)0.0
+        -x, -y, -z, (T)0.0
       );
     }
 
@@ -655,9 +655,9 @@ namespace kmath {
       );
     } else {
       return _Vec3<T>(
-        a.e032,
-        a.e013,
-        a.e021
+        -a.e032,
+        -a.e013,
+        -a.e021
       );
     }
   }
@@ -1265,7 +1265,7 @@ namespace kmath {
   }
 
 
-  template<Number A, Number B>
+  template<typename A, typename B>
   inline A reflect(const A &a, const B &b) {
     return fast_reflect(a, b) / magnitude_squared(b);
   }

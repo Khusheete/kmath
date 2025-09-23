@@ -70,7 +70,7 @@ namespace kmath {
     }
 
 
-    static _Motor3<T> from_axis_angle_translation(const _Vec3<T> &axis, const T angle, const _Vec3<T> translation) {
+    static _Motor3<T> from_axis_angle_translation(const _Vec3<T> &axis, const T angle, const _Vec3<T> &translation) {
       _Rotor3<T> rot = _Rotor3<T>::from_axis_angle(axis, angle);
       _Rotor3<T> trans((T)0.0, -((T)0.5) * translation);
       return _Motor3<T>(rot, trans * rot);

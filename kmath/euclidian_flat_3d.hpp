@@ -142,7 +142,7 @@ namespace kmath {
     static inline _Line3<T> vanishing_line(const _Vec3<T> direction) {
       return _Line3<T>(
         (T)0.0, (T)0.0, (T)0.0,
-        direction.x, direction.y, direction.z
+        -direction.x, -direction.y, -direction.z
       );
     }
 
@@ -150,7 +150,7 @@ namespace kmath {
     static inline _Line3<T> vanishing_line(const T dx, const T dy, const T dz) {
       return _Line3<T>(
         (T)0.0, (T)0.0, (T)0.0,
-        dx, dy, dz
+        -dx, -dy, -dz
       );
     }
 

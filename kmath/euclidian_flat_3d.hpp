@@ -115,6 +115,30 @@ namespace kmath {
     }
 
 
+    static inline _Line3<T> line(const _Vec3<T> direction) {
+      return _Line3<T>(
+        direction.x,
+        direction.y,
+        direction.z,
+        (T)0.0,
+        (T)0.0,
+        (T)0.0
+      );
+    }
+
+
+    static inline _Line3<T> line(const T dx, const T dy, const T dz) {
+      return _Line3<T>(
+        dx,
+        dy,
+        dz,
+        (T)0.0,
+        (T)0.0,
+        (T)0.0
+      );
+    }
+
+
     static inline _Line3<T> vanishing_line(const _Vec3<T> direction) {
       return _Line3<T>(
         (T)0.0, (T)0.0, (T)0.0,
@@ -441,12 +465,18 @@ namespace kmath {
   }
 
 
+  // This normalization usually normalizes the translation part of the screw represented by
+  // this _Line3 object. If it is a line through the origin (meaning that it represents a
+  // rotation around the origin), the rotation part will be normalized.
+  //
+  // TODO: check if this makes sense
   template<Number T>
   inline _Line3<T> normalized(const _Line3<T> &a) {
-    if (!is_vanishing(a)) {
-      return a / magnitude(a);
+    const T vm2 = vanishing_magnitude_squared(a);
+    if (!is_square_approx_zero(vm2)) {
+      return a / std::sqrt(vm2);
     } else {
-      return a / vanishing_magnitude(a);
+      return a / magnitude(a);
     }
   }
 

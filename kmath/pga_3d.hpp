@@ -304,7 +304,7 @@ namespace kmath {
     }
 
 
-    _Mvec3(): data({}) {}
+    _Mvec3() {}
 
     _Mvec3(const T values[16]) {
       data[0]  = values[0];
@@ -325,14 +325,12 @@ namespace kmath {
       data[15] = values[15];
     }
 
-    _Mvec3(const T val, const size_t idx)
-    : data({}) {
+    _Mvec3(const T val, const size_t idx) {
       data[idx] = val;
     }
 
 
-    _Mvec3(const T val, const Basis idx)
-    : data({}) {
+    _Mvec3(const T val, const Basis idx) {
       data[idx] = val;
     }
 
@@ -360,7 +358,7 @@ namespace kmath {
     static const _Mvec3<T> e0123;
 
   private:
-      T data[16];
+      T data[16] = {0};
   };
 
 

@@ -26,7 +26,14 @@
 
 
 namespace kmath {
-  
+  // =========================
+  // = Struct predeclaration =
+  // =========================
+
+
+  template<Number T>
+  struct _Mat4;
+
 
   // ========
   // = Mat2 =
@@ -126,6 +133,15 @@ namespace kmath {
     _Vec3<T> x, y, z;
 
   public:
+    static inline _Mat3<T> from_mat4(const _Mat4<T> &mat4) {
+      return _Mat3<T>(
+        _Vec3<T>(mat4.x.x, mat4.x.y, mat4.x.z),
+        _Vec3<T>(mat4.y.x, mat4.y.y, mat4.y.z),
+        _Vec3<T>(mat4.z.x, mat4.z.y, mat4.z.z)
+      );
+    }
+
+
     static inline _Mat3<T> scale(const T scale) {
       return scale * _Mat3<T>::IDENTITY;
     }
@@ -193,6 +209,24 @@ namespace kmath {
       _Vec3<T>(m.x.y, m.y.y, m.z.y),
       _Vec3<T>(m.x.z, m.y.z, m.z.z)
     );
+  }
+
+
+  // The inverse for a Matrice representing a rigid transformation. (Orthogonal matrix).
+  // If the matrice has non-uniform scaling, use fast_inverse_non_uniform.
+  template<Number T>
+  inline _Mat3<T> fast_inverse(const _Mat3<T> &m) {
+    return transpose(m);
+  }
+
+
+  template<Number T>
+  inline _Mat3<T> fast_inverse_non_uniform(const _Mat3<T> &m) {
+    _Mat3<T> res(m);
+    res.x /= length_squared(res.x);
+    res.y /= length_squared(res.y);
+    res.z /= length_squared(res.z);
+    return transpose(res);
   }
   
 

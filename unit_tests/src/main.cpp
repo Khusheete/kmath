@@ -207,12 +207,12 @@ int main(void) {
       TEST_EQ_APPROX("normalize b", normalized(b), Plane3(0.0, 0.0, 0.0, -1.0));
     });
     UNIT_TEST("Meet 2", {
-      TEST_EQ_APPROX("meet(a, b)", meet(a, b), Line3::vanishing_line(Vec3(-2.0, 4.0, -6.0)));
+      TEST_EQ_APPROX("meet(a, b)", meet(a, b), Line3::vanishing_line(Vec3(2.0, -4.0, 6.0)));
       TEST_EQ_APPROX("meet(a, c)", meet(a, c), Line3::from_plucker(Vec3(-4.0, 13.0, 10.0), Vec3(-22.0, -6.0, -1.0)));
       TEST_EQ_APPROX("meet(c, a)", meet(c, a), Line3::from_plucker(Vec3(4.0, -13.0, -10.0), Vec3(22.0, 6.0, 1.0)));
     });
     UNIT_TEST("Meet 3", {
-      TEST_EQ_APPROX("meet(a, b, c)", meet(a, b, c), Point3::direction(Vec3(-8.0, 26.0, 20.0)));
+      TEST_EQ_APPROX("meet(a, b, c)", meet(a, b, c), Point3::direction(Vec3(8.0, -26.0, -20.0)));
       TEST_EQ_APPROX("meet(a, c, d)", meet(a, c, d), Point3(-49.0, 156.0, 142.0, 13.0));
     });
     UNIT_TEST("Inner", {
@@ -237,7 +237,7 @@ int main(void) {
 
   UNIT_TEST_SECTION("Line3", {
     const Line3 a = Line3::line(Vec3(2.0, 1.0, 0.0), Vec3(1.0, 3.0, -2.0));
-    const Line3 b = Line3::vanishing_line(Vec3(-1.0, 0.0, 2.0));
+    const Line3 b = Line3::vanishing_line(Vec3(1.0, 0.0, -2.0));
 
     UNIT_TEST("Addition", {
       Line3 c(a);
@@ -276,7 +276,8 @@ int main(void) {
     });
     UNIT_TEST("Normalized", {
       float sqrt5 = std::sqrt(5.0);
-      TEST_EQ_APPROX("normalize a", normalized(a), Line3::from_plucker(Vec3(2.0, 1.0, 0.0) / sqrt5, Vec3(2.0, -4.0, -5.0) / sqrt5));
+      float sqrt45 = std::sqrt(45.0f);
+      TEST_EQ_APPROX("normalize a", normalized(a), Line3::from_plucker(Vec3(2.0, 1.0, 0.0) / sqrt45, Vec3(2.0, -4.0, -5.0) / sqrt45));
       TEST_EQ_APPROX("normalize b", normalized(b), Line3::from_plucker(Vec3::ZERO, Vec3(-1.0, 0.0, 2.0) / sqrt5));
     });
     UNIT_TEST("Inner", {
@@ -326,7 +327,7 @@ int main(void) {
     });
     UNIT_TEST("As vector", {
       TEST_EQ_APPROX("vec a", as_vector(a), Vec3(0.5, 1.0, 1.5));
-      TEST_EQ_APPROX("vec c", as_vector(c), Vec3(-3.0, -1.0, 0.0));
+      TEST_EQ_APPROX("vec c", as_vector(c), Vec3(3.0, 1.0, 0.0));
     });
     UNIT_TEST("Magnitude", {
       TEST_EQ_APPROX("||a||^2", magnitude_squared(a), 4.0f);
@@ -373,9 +374,9 @@ int main(void) {
     Plane3 p = Plane3::plane(-1.0, 6.0, 2.0, -4.0);
     Plane3 vp = Plane3::vanishing_plane(-4.0);
     Line3 l = Line3::line(7.0, -4.0, 1.0, 1.0, 6.0, -2.0);
-    Line3 vl = Line3::vanishing_line(-4.0, 3.0, -1.0);
+    Line3 vl = Line3::vanishing_line(4.0, -3.0, 1.0);
     Point3 x = Point3::point(2.0, 5.0, -1.0);
-    Point3 v = Point3::direction(-1.0, 2.0, 4.0);
+    Point3 v = Point3::direction(1.0, -2.0, -4.0);
 
     UNIT_TEST("Plane-line meet", {
       TEST_EQ_APPROX("meet(p, l)", meet(p, l), Point3(-274.0, -34.0, 23.0, -29.0));

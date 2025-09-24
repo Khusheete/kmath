@@ -22,8 +22,7 @@
 #include "examples.hpp"
 
 #include "kmath/color.hpp"
-#include "kmath/kmath.hpp"
-#include "kmath/print.hpp"
+#include "kmath/color.hpp"
 #include "utils/freecam.hpp"
 
 #include "thirdparty/raylib/raylib.h"

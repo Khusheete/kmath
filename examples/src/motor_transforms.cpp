@@ -20,16 +20,13 @@
 
 
 #include "kmath/color.hpp"
-#include "kmath/kmath.hpp"
+#include "kmath/vector.hpp"
 #include "kmath/motor_3d.hpp"
-#include "kmath/print.hpp"
 #include "examples.hpp"
 
 #include "kmath/vector.hpp"
 #include "utils/freecam.hpp"
-#include "utils/math.hpp"
 #include "thirdparty/raylib/raylib.h"
-#include <iostream>
 #include <vector>
 
 

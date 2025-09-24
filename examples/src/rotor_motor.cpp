@@ -21,7 +21,8 @@
 
 #include "examples.hpp"
 
-#include "kmath/kmath.hpp"
+#include "kmath/vector.hpp"
+#include "kmath/motor_3d.hpp"
 #include "utils/math.hpp"
 
 #include <cstdlib>

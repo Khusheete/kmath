@@ -23,7 +23,7 @@
 #include "utils/freecam.hpp"
 #include "utils/pga.hpp"
 
-#include "kmath/kmath.hpp"
+#include "kmath/pga_3d.hpp"
 
 #include "thirdparty/raylib/raylib.h"
 #include <cstdlib>

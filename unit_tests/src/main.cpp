@@ -1,8 +1,14 @@
 #include "kmath/color.hpp"
 #include "testing.hpp"
 
-#include "kmath/kmath.hpp"
-#include "kmath/print.hpp"
+#include "kmath/color.hpp"
+#include "kmath/euclidian_flat_3d.hpp"
+#include "kmath/interpolation_functions.hpp"
+#include "kmath/matrix.hpp"
+#include "kmath/motor_3d.hpp"
+#include "kmath/rotor_3d.hpp"
+#include "kmath/vector.hpp"
+#include "kmath/utils.hpp"
 
 #include <cmath>
 #include <cstdlib>

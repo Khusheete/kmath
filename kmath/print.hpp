@@ -22,7 +22,12 @@
 #pragma once
 
 
-#include "kmath.hpp"
+#include "matrix.hpp"
+#include "vector.hpp"
+#include "euclidian_flat_3d.hpp"
+#include "rotor_3d.hpp"
+#include "motor_3d.hpp"
+#include "pga_3d.hpp"
 
 #include <ostream>
 

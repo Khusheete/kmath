@@ -22,7 +22,8 @@
 #pragma once
 
 
-#include "kmath/kmath.hpp"
+#include "kmath/vector.hpp"
+#include "kmath/rotor_3d.hpp"
 #include "thirdparty/raylib/raylib.h"
 
 

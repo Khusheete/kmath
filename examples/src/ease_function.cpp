@@ -21,7 +21,6 @@
 
 #include "examples.hpp"
 
-#include "kmath/kmath.hpp"
 #include "kmath/interpolation_functions.hpp"
 
 #include "thirdparty/raylib/raylib.h"

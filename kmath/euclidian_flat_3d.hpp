@@ -315,7 +315,7 @@ namespace kmath {
 
   template<Number T>
   inline _Point3<T> dual(const _Plane3<T> &p) {
-    return _Point3<T>::direction(p.e1, p.e2, p.e3);
+    return _Point3<T>(p.e1, p.e2, p.e3, (T)0.0);
   }
 
 

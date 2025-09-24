@@ -65,21 +65,21 @@ namespace kmath {
 
 
     static inline _Motor3<T> from_rotor_translation(const _Rotor3<T> &rotation, const _Vec3<T> &translation) {
-      _Rotor3<T> trans((T)0.0, -((T)0.5) * translation);
+      _Rotor3<T> trans((T)0.0, (T)0.5 * translation);
       // If we call I the pseudoscalar e0123:
       // M = Motor_translation * Motor_rotation
-      //   = (1 - I trans) * rotation
-      //   = rotation - I trans * rotation
+      //   = (1 + I trans) * rotation
+      //   = rotation + I trans * rotation
       //
-      // The grade 2 elements of trans * rotation are unchanged, but the sign of the scalar part is flipped.
-      return _Motor3<T>(rotation, -reverse(trans * rotation));
+      // The grade 2 elements of trans * rotation have a sign flip and the scalar part does not.
+      return _Motor3<T>(rotation, reverse(trans * rotation));
     }
 
 
     static _Motor3<T> from_axis_angle_translation(const _Vec3<T> &axis, const T angle, const _Vec3<T> &translation) {
       _Rotor3<T> rot = _Rotor3<T>::from_axis_angle(axis, angle);
-      _Rotor3<T> trans((T)0.0, -((T)0.5) * translation);
-      return _Motor3<T>(rot, -reverse(trans * rot));
+      _Rotor3<T> trans((T)0.0, (T)0.5 * translation);
+      return _Motor3<T>(rot, reverse(trans * rot));
     }
 
 

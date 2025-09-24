@@ -66,17 +66,23 @@ namespace kmath {
 
     static inline _Motor3<T> from_rotor_translation(const _Rotor3<T> &rotation, const _Vec3<T> &translation) {
       _Rotor3<T> trans((T)0.0, -((T)0.5) * translation);
-      return _Motor3<T>(rotation, trans * rotation);
+      // If we call I the pseudoscalar e0123:
+      // M = Motor_translation * Motor_rotation
+      //   = (1 - I trans) * rotation
+      //   = rotation - I trans * rotation
+      //
+      // The grade 2 elements of trans * rotation are unchanged, but the sign of the scalar part is flipped.
+      return _Motor3<T>(rotation, -reverse(trans * rotation));
     }
 
 
     static _Motor3<T> from_axis_angle_translation(const _Vec3<T> &axis, const T angle, const _Vec3<T> &translation) {
       _Rotor3<T> rot = _Rotor3<T>::from_axis_angle(axis, angle);
       _Rotor3<T> trans((T)0.0, -((T)0.5) * translation);
-      return _Motor3<T>(rot, trans * rot);
+      return _Motor3<T>(rot, -reverse(trans * rot));
     }
 
-    
+
     static _Motor3<T> from_screw_coordinates(const _Vec3<T> &direction, const _Vec3<T> &moment, const T angle, const T translation) {
       if (!is_approx_zero(angle)) {
         T cos_a = std::cos(angle / 2.0);
@@ -129,8 +135,9 @@ namespace kmath {
   inline _Vec3<T> get_translation(const _Motor3<T> &m) {
     const _Rotor3<T> &real = get_real_part(m);
     const _Rotor3<T> &dual = get_dual_part(m);
-    _Rotor3<T> translation = ((T)2.0) * dual * reverse(real);
-    return -_Vec3<T>(translation.e23, translation.e31, translation.e12);
+    _Rotor3<T> translation = (T)2.0 * reverse(dual) * reverse(real); // See _Motor3<T>::from_rotor_translation
+    // Don't negate the vanishing part, as it was already negated by not doing -reverse(dual)
+    return _Vec3<T>(translation.e23, translation.e31, translation.e12);
   }
 
 

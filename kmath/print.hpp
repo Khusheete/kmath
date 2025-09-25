@@ -101,7 +101,7 @@ namespace kmath {
 
   template<Number T>
   ostream &operator<<(ostream &stream, const _Plane3<T> &o) {
-    stream << o.e0 << " e0 + " << o.e1 << " e1 + " << o.e2 << " e2 + " << o.e3 << " e3";
+    stream << o.e1 << " e1 + " << o.e2 << " e2 + " << o.e3 << " e3 + " << o.e0 << " e0";
     return stream;
   }
 

@@ -21,11 +21,10 @@ using namespace kmath;
 int main(void) {
   Testing::init_singleton();
 
-  // TODO: test operations between flats
-  // TODO: test projections
-  // TODO: test rejections
-  // TODO: test reflections
   // TODO: add more tests for colors
+  // TODO: test operations on rotors
+  // TODO: test operations on motors
+  // TODO: test operations on matrices
 
   UNIT_TEST_SECTION("Vector2", {
     const _Vec2<float> a(1.0, 2.0);

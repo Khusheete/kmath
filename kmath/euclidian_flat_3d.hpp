@@ -1022,7 +1022,7 @@ namespace kmath {
 
   // Fast projection gives a projection modulo a positive factor
   template<Number T>
-  inline _Line3<T> fast_project(const _Plane3<T> &a, const _Line3<T> &b) {
+  inline _Plane3<T> fast_project(const _Plane3<T> &a, const _Line3<T> &b) {
     return inner(inner(a, b), b);
   }
 
@@ -1080,78 +1080,52 @@ namespace kmath {
   // Fast rejection gives a rejection modulo a positive factor
   template<Number T>
   inline _Plane3<T> fast_reject(const _Plane3<T> &a, const _Point3<T> &b) {
-    return inner(inner(a, b), a);
-  }
-
-
-  // Fast rejection gives a rejection modulo a positive factor
-  template<Number T>
-  inline _Line3<T> fast_reject(const _Line3<T> &a, const _Point3<T> &b) {
-    return inner(inner(a, b), a);
+    return _Plane3<T>((T)0.0, (T)0.0, (T)0.0, -meet(a, b) * b.e123);
   }
 
 
   // Fast rejection gives a rejection modulo a positive factor
   template<Number T>
   inline _Line3<T> fast_reject(const _Line3<T> &a, const _Plane3<T> &b) {
-    return meet(inner(a, b), a);
+    return inner(meet(a, b), b);
   }
 
 
   // Fast rejection gives a rejection modulo a positive factor
   template<Number T>
-  inline _Line3<T> fast_reject(const _Plane3<T> &a, const _Line3<T> &b) {
-    return inner(inner(a, b), a);
+  inline _Plane3<T> fast_reject(const _Plane3<T> &a, const _Line3<T> &b) {
+    return inner(meet(a, b), b);
   }
 
 
   // Fast rejection gives a rejection modulo a positive factor
   template<Number T>
   inline _Point3<T> fast_reject(const _Point3<T> &a, const _Plane3<T> &b) {
-    return meet(inner(a, b), a);
-  }
-
-
-  // Fast rejection gives a rejection modulo a positive factor
-  template<Number T>
-  inline _Point3<T> fast_reject(const _Point3<T> &a, const _Line3<T> &b) {
-    return meet(inner(a, b), a);
+    return (-meet(a, b)) * _Point3<T>(b.e1, b.e2, b.e3, (T)0.0);
   }
 
 
   template<Number T>
   inline _Plane3<T> reject(const _Plane3<T> &a, const _Point3<T> &b) {
-    return inner(inner(a, b), inverse(a));
-  }
-
-
-  template<Number T>
-  inline _Line3<T> reject(const _Line3<T> &a, const _Point3<T> &b) {
-    return inner(inner(a, b), inverse(a));
+    return inner(meet(a, b), inverse(b));
   }
 
 
   template<Number T>
   inline _Line3<T> reject(const _Line3<T> &a, const _Plane3<T> &b) {
-    return meet(inner(a, b), inverse(a));
+    return inner(meet(a, b), inverse(b));
   }
 
 
   template<Number T>
-  inline _Line3<T> reject(const _Plane3<T> &a, const _Line3<T> &b) {
-    return inner(inner(a, b), inverse(a));
+  inline _Plane3<T> reject(const _Plane3<T> &a, const _Line3<T> &b) {
+    return inner(meet(a, b), inverse(b));
   }
 
 
   template<Number T>
   inline _Point3<T> reject(const _Point3<T> &a, const _Plane3<T> &b) {
-    return meet(inner(a, b), inverse(a));
-  }
-
-
-  template<Number T>
-  inline _Point3<T> reject(const _Point3<T> &a, const _Line3<T> &b) {
-    return meet(inner(a, b), inverse(a));
+    return meet(meet(a, b), inverse(b));
   }
 
 

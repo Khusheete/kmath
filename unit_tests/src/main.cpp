@@ -9,6 +9,7 @@
 #include "kmath/rotor_3d.hpp"
 #include "kmath/vector.hpp"
 #include "kmath/utils.hpp"
+#include "kmath/print.hpp"
 
 #include <cmath>
 #include <cstdlib>
@@ -24,6 +25,7 @@ int main(void) {
   // TODO: test projections
   // TODO: test rejections
   // TODO: test reflections
+  // TODO: add more tests for colors
 
   UNIT_TEST_SECTION("Vector2", {
     const _Vec2<float> a(1.0, 2.0);
@@ -474,6 +476,71 @@ int main(void) {
 
       TEST_EQ_APPROX("inner(v, vp)", inner(v, vp), Line3(0.0, 0.0, 0.0, 0.0, 0.0, 0.0));
       TEST_EQ_APPROX("inner(vp, v)", inner(vp, v), Line3(0.0, 0.0, 0.0, 0.0, 0.0, 0.0));
+    });
+    UNIT_TEST("Plane-point projection", {
+      TEST_EQ_APPROX("fast_project(x, p)", fast_project(x, p), Point3(112.0, 25.0, -101.0, 41.0));
+      TEST_EQ_APPROX("fast_project(p, x)", fast_project(p, x), Plane3(1.0, -6.0, -2.0, 26.0));
+
+      TEST_EQ_APPROX("fast_project(x, vp)", fast_project(x, vp), Point3());
+      TEST_EQ_APPROX("fast_project(vp, x)", fast_project(vp, x), Plane3());
+
+      TEST_EQ_APPROX("fast_project(v, p)", fast_project(v, p), Point3(-20.0, -44.0, 122.0, 0.0));
+      TEST_EQ_APPROX("fast_project(p, v)", fast_project(p, v), Plane3());
+
+      TEST_EQ_APPROX("fast_project(v, vp)", fast_project(v, vp), Point3());
+      TEST_EQ_APPROX("fast_project(vp, v)", fast_project(vp, v), Plane3());
+    });
+    UNIT_TEST("Line-point project", {
+      TEST_EQ_APPROX("fast_project(x, l)", fast_project(x, l), Point3(-150.0, -348.0, 120.0, -66.0));
+      TEST_EQ_APPROX("fast_project(l, x)", fast_project(l, x), Line3(-7.0, 4.0, -1.0, -1.0, 9.0, 43.0));
+
+      TEST_EQ_APPROX("fast_project(x, vl)", fast_project(x, vl), Point3());
+      TEST_EQ_APPROX("fast_project(vl, x)", fast_project(vl, x), Line3());
+
+      TEST_EQ_APPROX("fast_project(v, l)", fast_project(v, l), Point3(77.0, -44.0, 11.0, 0.0));
+      TEST_EQ_APPROX("fast_project(l, v)", fast_project(l, v), Line3());
+
+      TEST_EQ_APPROX("fast_project(v, vl)", fast_project(v, vl), Point3());
+      TEST_EQ_APPROX("fast_project(vl, v)", fast_project(vl, v), Line3());
+    });
+    UNIT_TEST("Plane-line fast_project", {
+      TEST_EQ_APPROX("fast_project(p, l)", fast_project(p, l), Plane3(-137.0, -280.0, -161.0, 1495.0));
+      TEST_EQ_APPROX("fast_project(l, p)", fast_project(l, p), Line3(258.0, 10.0, 99.0, 124.0, -1140.0, -208.0));
+
+      TEST_EQ_APPROX("fast_project(p, vl)", fast_project(p, vl), Plane3());
+      TEST_EQ_APPROX("fast_project(vl, p)", fast_project(vl, p), Line3(0.0, 0.0, 0.0, -20.0, 120.0, 40.0));
+
+      TEST_EQ_APPROX("fast_project(vp, l)", fast_project(vp, l), Plane3());
+      TEST_EQ_APPROX("fast_project(l, vp)", fast_project(l, vp), Line3());
+
+      TEST_EQ_APPROX("fast_project(vp, vl)", fast_project(vp, vl), Plane3());
+      TEST_EQ_APPROX("fast_project(vl, vp)", fast_project(vl, vp), Line3());
+    });
+    UNIT_TEST("Plane-point rejection", {
+      TEST_EQ_APPROX("fast_reject(x, p)", fast_reject(x, p), Point3(-30.0, 180.0, 60.0, 0.0));
+      TEST_EQ_APPROX("fast_reject(p, x)", fast_reject(p, x), Plane3(0.0, 0.0, 0.0, -30.0));
+
+      TEST_EQ_APPROX("fast_reject(x, vp)", fast_reject(x, vp), Point3());
+      TEST_EQ_APPROX("fast_reject(vp, x)", fast_reject(vp, x), Plane3(0.0, 0.0, 0.0, -4.0));
+
+      TEST_EQ_APPROX("fast_reject(v, p)", fast_reject(v, p), Point3(-21.0, 126.0, 42.0, 0.0));
+      TEST_EQ_APPROX("fast_reject(p, v)", fast_reject(p, v), Plane3());
+
+      TEST_EQ_APPROX("fast_reject(v, vp)", fast_reject(v, vp), Point3());
+      TEST_EQ_APPROX("fast_reject(vp, v)", fast_reject(vp, v), Plane3());
+    });
+    UNIT_TEST("Plane-line fast_reject", {
+      TEST_EQ_APPROX("fast_reject(l, p)", fast_reject(l, p), Line3(29.0, -174.0, -58.0, -206.0, 525.0, -1678.0));
+      TEST_EQ_APPROX("fast_reject(p, l)", fast_reject(p, l), Plane3(203.0, -116.0, 29.0, -1759.0));
+
+      TEST_EQ_APPROX("fast_reject(vl, p)", fast_reject(vl, p), Line3(0.0, 0.0, 0.0, -144.0, 3.0, -81.0));
+      TEST_EQ_APPROX("fast_reject(p, vl)", fast_reject(p, vl), Plane3());
+
+      TEST_EQ_APPROX("fast_reject(l, vp)", fast_reject(l, vp), Line3());
+      TEST_EQ_APPROX("fast_reject(vp, l)", fast_reject(vp, l), Plane3(0.0, 0.0, 0.0, -264.0));
+
+      TEST_EQ_APPROX("fast_reject(vl, vp)", fast_reject(vl, vp), Line3());
+      TEST_EQ_APPROX("fast_reject(vp, vl)", fast_reject(vp, vl), Plane3());
     });
   })
 

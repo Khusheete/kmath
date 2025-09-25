@@ -50,19 +50,23 @@ private:
 
 
 
-#define UNIT_TEST_SECTION(p_section_name, p_section) {                                \
+#define UNIT_TEST_SECTION(p_section_name, p_section) {                                          \
   std::cout << "\n\n" << Testing::get_singleton()->change_section(p_section_name) << std::endl; \
-  p_section                                                                           \
-  std::cout << "\n" << Testing::get_singleton()->get_section_report() << std::endl;           \
+  p_section                                                                                     \
+  std::cout << "\n" << Testing::get_singleton()->get_section_report() << std::endl;             \
 }
 
 
-#define UNIT_TEST(p_test_name, p_test) {                                        \
-  std::cout << "\n" << Testing::get_singleton()->change_test(p_test_name) << std::endl; \
-  p_test                                                                        \
-  std::cout << Testing::get_singleton()->get_test_report() << std::endl;        \
+#define UNIT_TEST(p_test_name, p_test) {                                                \
+  std::cout << Testing::get_singleton()->change_test(p_test_name) << std::endl; \
+  p_test                                                                                \
+  std::cout << Testing::get_singleton()->get_test_report() << std::endl;                \
 }
 
-#define TEST(p_title, p_success) std::cout << Testing::get_singleton()->assert(p_title, p_success) << std::endl
+#define TEST(p_title, p_success) {                                        \
+  bool success = p_success;                                               \
+  std::string res = Testing::get_singleton()->assert(p_title, success); \
+  if (!success) { std::cout << res << std::endl; }                    \
+}
 #define TEST_EQ_APPROX(p_title, p_expr1, p_expr2) TEST(p_title, kmath::is_approx(p_expr1, p_expr2))
 #define TEST_EQ(p_title, p_expr1, p_expr2) TEST(p_title, p_expr1 == p_expr2)

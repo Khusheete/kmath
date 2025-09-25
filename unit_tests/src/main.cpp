@@ -512,7 +512,7 @@ int main(void) {
       TEST_EQ_APPROX("fast_project(v, vp)", fast_project(v, vp), Point3());
       TEST_EQ_APPROX("fast_project(vp, v)", fast_project(vp, v), Plane3());
     });
-    UNIT_TEST("Line-point project", {
+    UNIT_TEST("Line-point projection", {
       TEST_EQ_APPROX("fast_project(x, l)", fast_project(x, l), Point3(-150.0, -348.0, 120.0, -66.0));
       TEST_EQ_APPROX("fast_project(l, x)", fast_project(l, x), Line3(-7.0, 4.0, -1.0, -1.0, 9.0, 43.0));
 
@@ -525,7 +525,7 @@ int main(void) {
       TEST_EQ_APPROX("fast_project(v, vl)", fast_project(v, vl), Point3());
       TEST_EQ_APPROX("fast_project(vl, v)", fast_project(vl, v), Line3());
     });
-    UNIT_TEST("Plane-line fast_project", {
+    UNIT_TEST("Plane-line projection", {
       TEST_EQ_APPROX("fast_project(p, l)", fast_project(p, l), Plane3(-137.0, -280.0, -161.0, 1495.0));
       TEST_EQ_APPROX("fast_project(l, p)", fast_project(l, p), Line3(258.0, 10.0, 99.0, 124.0, -1140.0, -208.0));
 
@@ -551,7 +551,7 @@ int main(void) {
       TEST_EQ_APPROX("fast_reject(v, vp)", fast_reject(v, vp), Point3());
       TEST_EQ_APPROX("fast_reject(vp, v)", fast_reject(vp, v), Plane3());
     });
-    UNIT_TEST("Plane-line fast_reject", {
+    UNIT_TEST("Plane-line rejection", {
       TEST_EQ_APPROX("fast_reject(l, p)", fast_reject(l, p), Line3(29.0, -174.0, -58.0, -206.0, 525.0, -1678.0));
       TEST_EQ_APPROX("fast_reject(p, l)", fast_reject(p, l), Plane3(203.0, -116.0, 29.0, -1759.0));
 

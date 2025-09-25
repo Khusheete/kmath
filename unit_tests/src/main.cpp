@@ -240,12 +240,20 @@ int main(void) {
       TEST_EQ_APPROX("dual a", dual(a), Point3(1.0, -2.0, 3.0, 0.0));
       TEST_EQ_APPROX("dual b", dual(b), Point3::ZERO);
     });
+    UNIT_TEST("Reflection", {
+      TEST_EQ_APPROX("fast_reflect(a, b)", fast_reflect(a, b), Plane3());
+      TEST_EQ_APPROX("fast_reflect(b, a)", fast_reflect(b, a), Plane3(0.0, 0.0, 0.0, 28.0));
+
+      TEST_EQ_APPROX("fast_reflect(a, c)", fast_reflect(a, c), Plane3(45.0, -30.0, 57.0, -93.0));
+      TEST_EQ_APPROX("fast_reflect(c, a)", fast_reflect(c, a), Plane3(62.0, 16.0, 4.0, -2.0));
+    });
   })
 
 
   UNIT_TEST_SECTION("Line3", {
     const Line3 a = Line3::line(Vec3(2.0, 1.0, 0.0), Vec3(1.0, 3.0, -2.0));
     const Line3 b = Line3::vanishing_line(Vec3(1.0, 0.0, -2.0));
+    const Line3 d = Line3::line(Vec3(-2.0, 2.0, -3.0), Vec3(4.0, 1.0, -5.0));
 
     UNIT_TEST("Addition", {
       Line3 c(a);
@@ -303,6 +311,13 @@ int main(void) {
       TEST_EQ_APPROX("meet(b, a)", meet(b, a), -2.0f);
       TEST_EQ_APPROX("join(a, b)", join(a, b), -2.0f);
       TEST_EQ_APPROX("join(b, a)", join(b, a), -2.0f);
+    });
+    UNIT_TEST("Reflection", {
+      TEST_EQ_APPROX("fast_reflect(a, b)", fast_reflect(a, b), Line3());
+      TEST_EQ_APPROX("fast_reflect(b, a)", fast_reflect(b, a), Line3(0.0, 0.0, 0.0, 3.0, 4.0, 10.0));
+
+      TEST_EQ_APPROX("fast_reflect(a, d)", fast_reflect(a, d), Line3(26.0, 25.0, -12.0, 218.0, -136.0, 189.0));
+      TEST_EQ_APPROX("fast_reflect(d, a)", fast_reflect(d, a), Line3(-2.0, 14.0, -15.0, -113.0, 16.0, 30.0));
     });
   })
 
@@ -374,6 +389,13 @@ int main(void) {
     });
     UNIT_TEST("Inverse", {
       TEST_EQ_APPROX("inverse(a)", inverse(a), Point3(-1.0 / 4.0, -2.0 / 4.0, -3.0 / 4.0, -2.0 / 4.0));
+    });
+    UNIT_TEST("Reflection", {
+      TEST_EQ_APPROX("fast_reflect(a, b)", fast_reflect(a, b), Point3(-9.0, 2.0, 9.0, 2.0));
+      TEST_EQ_APPROX("fast_reflect(b, a)", fast_reflect(b, a), Point3(12.0, 4.0, 0.0, 4.0));
+
+      TEST_EQ_APPROX("fast_reflect(a, c)", fast_reflect(a, c), Point3());
+      TEST_EQ_APPROX("fast_reflect(c, a)", fast_reflect(c, a), Point3(12.0, 4.0, 0.0, 0.0));
     });
   })
 
@@ -541,6 +563,45 @@ int main(void) {
 
       TEST_EQ_APPROX("fast_reject(vl, vp)", fast_reject(vl, vp), Line3());
       TEST_EQ_APPROX("fast_reject(vp, vl)", fast_reject(vp, vl), Plane3());
+    });
+    UNIT_TEST("Plane-point reflection", {
+      TEST_EQ_APPROX("fast_reflect(x, p)", fast_reflect(x, p), Point3(-142.0, 155.0, 161.0, -41.0));
+      TEST_EQ_APPROX("fast_reflect(p, x)", fast_reflect(p, x), Plane3(-1.0, 6.0, 2.0, -56.0));
+
+      TEST_EQ_APPROX("fast_reflect(x, vp)", fast_reflect(x, vp), Point3());
+      TEST_EQ_APPROX("fast_reflect(vp, x)", fast_reflect(vp, x), Plane3(0.0, 0.0, 0.0, -4.0));
+
+      TEST_EQ_APPROX("fast_reflect(v, p)", fast_reflect(v, p), Point3(-1.0, 170.0, -80.0, 0.0));
+      TEST_EQ_APPROX("fast_reflect(p, v)", fast_reflect(p, v), Plane3());
+
+      TEST_EQ_APPROX("fast_reflect(v, vp)", fast_reflect(v, vp), Point3());
+      TEST_EQ_APPROX("fast_reflect(vp, v)", fast_reflect(vp, v), Plane3());
+    });
+    UNIT_TEST("Line-point reflection", {
+      TEST_EQ_APPROX("fast_reflect(x, l)", fast_reflect(x, l), Point3(-168.0, -366.0, 174.0, -66.0));
+      TEST_EQ_APPROX("fast_reflect(l, x)", fast_reflect(l, x), Line3(-7.0, 4.0, -1.0, -4.0, 3.0, 40.0));
+
+      TEST_EQ_APPROX("fast_reflect(x, vl)", fast_reflect(x, vl), Point3());
+      TEST_EQ_APPROX("fast_reflect(vl, x)", fast_reflect(vl, x), Line3(0.0, 0.0, 0.0, -4.0, 3.0, -1.0));
+
+      TEST_EQ_APPROX("fast_reflect(v, l)", fast_reflect(v, l), Point3(88.0, 44.0, 286.0, 0.0));
+      TEST_EQ_APPROX("fast_reflect(l, v)", fast_reflect(l, v), Line3());
+
+      TEST_EQ_APPROX("fast_reflect(v, vl)", fast_reflect(v, vl), Point3());
+      TEST_EQ_APPROX("fast_reflect(vl, v)", fast_reflect(vl, v), Line3());
+    });
+    UNIT_TEST("Plane-line reflection", {
+      TEST_EQ_APPROX("fast_reflect(l, p)", fast_reflect(l, p), Line3(-229.0, -184.0, -157.0, -330.0, 1665.0, -1470.0));
+      TEST_EQ_APPROX("fast_reflect(p, l)", fast_reflect(p, l), Plane3(340.0, 164.0, 190.0, -3254.0));
+
+      TEST_EQ_APPROX("fast_reflect(vl, p)", fast_reflect(vl, p), Line3(0.0, 0.0, 0.0, -124.0, -117.0, -121.0));
+      TEST_EQ_APPROX("fast_reflect(p, vl)", fast_reflect(p, vl), Plane3());
+
+      TEST_EQ_APPROX("fast_reflect(l, vp)", fast_reflect(l, vp), Line3());
+      TEST_EQ_APPROX("fast_reflect(vp, l)", fast_reflect(vp, l), Plane3(0.0, 0.0, 0.0, -264.0));
+
+      TEST_EQ_APPROX("fast_reflect(vl, vp)", fast_reflect(vl, vp), Line3());
+      TEST_EQ_APPROX("fast_reflect(vp, vl)", fast_reflect(vp, vl), Plane3());
     });
   })
 

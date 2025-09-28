@@ -2,6 +2,7 @@
 bin/
 obj/
 lib/
+build/
 .cache/
 compile_commands.json
 **/Makefile

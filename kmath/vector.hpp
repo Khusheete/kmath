@@ -341,6 +341,12 @@ namespace kmath {
 
 
   template<Number T>
+  inline _Vec2<T> homogeneous_projection(const _Vec3<T> &v) {
+    return _Vec2<T>(v.x, v.y, v.z) / v.w;
+  }
+
+
+  template<Number T>
   inline _Vec3<T> apply(const _Vec3<T> &a, T (*op)(const T)) {
     return _Vec3<T>(
       op(a.x),
@@ -574,6 +580,12 @@ namespace kmath {
   template<Number T>
   inline T dot(const _Vec4<T> &a, const _Vec4<T> &b) {
     return a.x * b.x + a.y * b.y + a.z * b.z + a.w * b.w;
+  }
+
+
+  template<Number T>
+  inline _Vec3<T> homogeneous_projection(const _Vec4<T> &v) {
+    return _Vec3<T>(v.x, v.y, v.z) / v.w;
   }
 
 

@@ -606,6 +606,14 @@ int main(void) {
   })
 
 
+  UNIT_TEST_SECTION("Matrix 4", {
+    UNIT_TEST("inverse", {
+      Mat4 a = Mat4::perspective_rh_no_ndc_hfov(0.3, 50.0, 0.8 * PI, 1.0);
+      TEST_EQ_APPROX("a * a^(-1)", a * inverse(a), Mat4::IDENTITY);
+    });
+  });
+
+
   UNIT_TEST_SECTION("Color", {
     auto round = [](const Vec3 &v, const int dec = 3){
       const int scale = std::pow(10, dec);

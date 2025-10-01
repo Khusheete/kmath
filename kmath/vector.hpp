@@ -200,9 +200,8 @@ namespace kmath {
 
   template<Number T>
   inline _Vec2<T> &operator/=(_Vec2<T> &v, const T s) {
-    v.x /= s;
-    v.y /= s;
-    return v;
+    const T scale = (T)1.0 / s;
+    return v *= scale;
   }
 
 
@@ -397,10 +396,8 @@ namespace kmath {
 
   template<Number T>
   inline _Vec3<T> &operator/=(_Vec3<T> &v, const T s) {
-    v.x /= s;
-    v.y /= s;
-    v.z /= s;
-    return v;
+    const T scale = (T)1.0 / s;
+    return v *= scale;
   }
 
 
@@ -597,11 +594,8 @@ namespace kmath {
 
   template<Number T>
   inline _Vec4<T> &operator/=(_Vec4<T> &v, const T s) {
-    v.x /= s;
-    v.y /= s;
-    v.z /= s;
-    v.w /= s;
-    return v;
+    const T scale = (T)1.0 / s;
+    return v *= scale;
   }
 
 

@@ -41,7 +41,11 @@ namespace kmath {
   public:
     _Vec2(): _Vec2(ZERO) {}
     _Vec2(const T x, const T y): x(x), y(y) {}
-    
+
+  public:
+    inline T &operator[](const size_t index) { return reinterpret_cast<T*>(this)[index]; }
+    inline const T &operator[](const size_t index) const { return reinterpret_cast<const T*>(this)[index]; }
+
   public:
     static const _Vec2<T> ZERO;
     static const _Vec2<T> ONE;
@@ -256,7 +260,11 @@ namespace kmath {
     _Vec3(const T x, const T y, const T z): x(x), y(y), z(z) {}
     _Vec3(const _Vec2<T> &a, const T b): x(a.x), y(a.y), z(b) {}
     _Vec3(const T a, const _Vec2<T> &b): x(a), y(b.x), z(b.y) {}
-    
+
+  public:
+    inline T &operator[](const size_t index) { return reinterpret_cast<T*>(this)[index]; }
+    inline const T &operator[](const size_t index) const { return reinterpret_cast<const T*>(this)[index]; }
+
   public:
     static const _Vec3<T> ZERO;
     static const _Vec3<T> ONE;
@@ -496,7 +504,11 @@ namespace kmath {
     _Vec4(const _Vec2<T> &a, const _Vec2<T> &b): x(a.x), y(a.y), z(b.x), w(b.y) {}
     _Vec4(const _Vec3<T> &a, const T b): x(a.x), y(a.y), z(a.z), w(b) {}
     _Vec4(const T a, const _Vec3<T> &b): x(a), y(b.x), z(b.y), w(b.z) {}
-    
+
+  public:
+    inline T &operator[](const size_t index) { return reinterpret_cast<T*>(this)[index]; }
+    inline const T &operator[](const size_t index) const { return reinterpret_cast<const T*>(this)[index]; }
+
   public:
     static const _Vec4<T> ZERO;
     static const _Vec4<T> ONE;

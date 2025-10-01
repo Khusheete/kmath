@@ -9,6 +9,7 @@
 #include "kmath/rotor_3d.hpp"
 #include "kmath/vector.hpp"
 #include "kmath/utils.hpp"
+#include "kmath/angles.hpp"
 #include "kmath/print.hpp"
 
 #include <cmath>
@@ -629,6 +630,29 @@ int main(void) {
     });
   })
 
+
+  UNIT_TEST_SECTION("Angles", {
+    Vec3 sph_1(1.0f, 0.0, 0.0);
+    Vec3 sph_2(1.0f, 0.0, 0.5f * PI);
+    Vec3 sph_3(1.0f, 0.5f * PI, 0.0);
+    Vec3 sph_4(1.0f, 0.5f * PI, PI);
+    
+    UNIT_TEST("cartesian to spherical", {
+      TEST_EQ_APPROX("(1, 0, 0)" , cartesian_to_spherical(Vec3(1.0, 0.0, 0.0)) , Vec3(1.0, 0.5 * PI, 0.0));
+      TEST_EQ_APPROX("(0, 1, 0)" , cartesian_to_spherical(Vec3(0.0, 2.0, 0.0)) , Vec3(2.0, 0.0, 0.0));
+      TEST_EQ_APPROX("(0, 0, 1)" , cartesian_to_spherical(Vec3(0.0, 0.0, 1.0)) , Vec3(1.0, 0.5 * PI, 0.5 * PI));
+      TEST_EQ_APPROX("(-1, 0, 0)", cartesian_to_spherical(Vec3(-2.0, 0.0, 0.0)), Vec3(2.0, 0.5 * PI, PI));
+      TEST_EQ_APPROX("(0, -1, 0)", cartesian_to_spherical(Vec3(0.0, -1.0, 0.0)), Vec3(1.0, PI, 0.0));
+      TEST_EQ_APPROX("(0, 0, -1)", cartesian_to_spherical(Vec3(0.0, 0.0, -3.0)), Vec3(3.0, 0.5 * PI, -0.5 * PI));
+    });
+    UNIT_TEST("spherical to cartesian", {
+      TEST_EQ_APPROX("(0, PI, PI / 2)", spherical_to_cartesian(Vec3(0.0, PI, 0.5 * PI)), Vec3::ZERO);
+      TEST_EQ_APPROX("(1, PI, PI / 2)", spherical_to_cartesian(Vec3(1.0, PI, 0.5 * PI)), Vec3(0.0, -1.0, 0.0));
+      TEST_EQ_APPROX("(1, PI / 2, PI / 2)", spherical_to_cartesian(Vec3(1.0, 0.5 * PI, 0.5 * PI)), Vec3(0.0, 0.0, 1.0));
+      TEST_EQ_APPROX("(2, PI / 2, 0)", spherical_to_cartesian(Vec3(2.0, 0.5 * PI, 0.0)), Vec3(2.0, 0.0, 0.0));
+    });
+  });
+  
 
   std::cout << "\n" << Testing::get_singleton()->get_final_report() << std::endl;
   bool success = Testing::get_singleton()->has_succeeded();

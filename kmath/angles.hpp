@@ -24,9 +24,33 @@
 
 #include "concepts.hpp"
 #include "constants.hpp"
+#include "vector.hpp"
 
 
 namespace kmath {
+
+  // Turns a vector in spherical coordinates (radius, polar, azimuth) to cartesian coordinates (Y up).
+  template<Number T>
+  _Vec3<T> spherical_to_cartesian(const _Vec3<T> &p_spherical) {
+    return p_spherical.x * _Vec3<T>(
+      std::cos(p_spherical.z) * std::sin(p_spherical.y),
+      std::cos(p_spherical.y),
+      std::sin(p_spherical.z) * std::sin(p_spherical.y)
+    );
+  }
+
+
+  // Turns a vector in cartesian coordinates (Y up) to spherical coordinates (radius, polar, azimuth).
+  template<Number T>
+  _Vec3<T> cartesian_to_spherical(const _Vec3<T> &p_cartesian) {
+    const T radius = length(p_cartesian);
+    const _Vec3<T> unit = p_cartesian / radius;
+    const T polar = std::acos(unit.y);
+    const T azimuth = std::atan2(unit.z, unit.x);
+    return _Vec3<T>(radius, polar, azimuth);
+  }
+
+
   template<Number T>
   inline T degrees_to_radians(const T p_degree) {
     constexpr T conversion_coef = PI / 180.0;

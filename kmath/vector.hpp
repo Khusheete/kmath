@@ -102,7 +102,44 @@ namespace kmath {
   inline T dot(const _Vec2<T> &a, const _Vec2<T> &b) {
     return a.x * b.x + a.y * b.y;
   }
-  
+
+
+  // TOOD: FIXME
+  template<Number T>
+  inline _Vec2<T> apply(const _Vec2<T> &a, T (*op)(const T)) {
+    return _Vec2<T>(
+      op(a.x),
+      op(a.y)
+    );
+  }
+
+
+  template<Number T>
+  inline _Vec2<T> apply(const _Vec2<T> &a, const _Vec2<T> &b, T (*op)(const T, const T)) {
+    return _Vec2<T>(
+      op(a.x, b.x),
+      op(a.y, b.y)
+    );
+  }
+
+
+  template<Number T>
+  inline _Vec2<T> min(const _Vec2<T> &a, const _Vec2<T> &b) {
+    return _Vec2<T>(
+      std::min(a.x, b.x),
+      std::min(a.y, b.y)
+    );
+  }
+
+
+  template<Number T>
+  inline _Vec2<T> max(const _Vec2<T> &a, const _Vec2<T> &b) {
+    return _Vec2<T>(
+      std::max(a.x, b.x),
+      std::max(a.y, b.y)
+    );
+  }
+
 
   // =====================
   // = Vector2 Operators =
@@ -291,6 +328,46 @@ namespace kmath {
       a.y * b.z - a.z * b.y,
       a.z * b.x - a.x * b.z,
       a.x * b.y - a.y * b.x    
+    );
+  }
+
+
+  template<Number T>
+  inline _Vec3<T> apply(const _Vec3<T> &a, T (*op)(const T)) {
+    return _Vec3<T>(
+      op(a.x),
+      op(a.y),
+      op(a.z)
+    );
+  }
+
+
+  template<Number T>
+  inline _Vec3<T> apply(const _Vec3<T> &a, const _Vec3<T> &b, T (*op)(const T, const T)) {
+    return _Vec3<T>(
+      op(a.x, b.x),
+      op(a.y, b.y),
+      op(a.z, b.z)
+    );
+  }
+
+
+  template<Number T>
+  inline _Vec3<T> min(const _Vec3<T> &a, const _Vec3<T> &b) {
+    return _Vec3<T>(
+      std::min(a.x, b.x),
+      std::min(a.y, b.y),
+      std::min(a.z, b.z)
+    );
+  }
+
+
+  template<Number T>
+  inline _Vec3<T> max(const _Vec3<T> &a, const _Vec3<T> &b) {
+    return _Vec3<T>(
+      std::max(a.x, b.x),
+      std::max(a.y, b.y),
+      std::max(a.z, b.z)
     );
   }
   
@@ -485,6 +562,50 @@ namespace kmath {
   template<Number T>
   inline T dot(const _Vec4<T> &a, const _Vec4<T> &b) {
     return a.x * b.x + a.y * b.y + a.z * b.z + a.w * b.w;
+  }
+
+
+  template<Number T>
+  inline _Vec4<T> apply(const _Vec4<T> &a, T (*op)(const T)) {
+    return _Vec4<T>(
+      op(a.x),
+      op(a.y),
+      op(a.z),
+      op(a.w)
+    );
+  }
+
+
+  template<Number T>
+  inline _Vec4<T> apply(const _Vec4<T> &a, const _Vec4<T> &b, T (*op)(const T, const T)) {
+    return _Vec4<T>(
+      op(a.x, b.x),
+      op(a.y, b.y),
+      op(a.z, b.z),
+      op(a.w, b.w)
+    );
+  }
+
+
+  template<Number T>
+  inline _Vec4<T> min(const _Vec4<T> &a, const _Vec4<T> &b) {
+    return _Vec4<T>(
+      std::min(a.x, b.x),
+      std::min(a.y, b.y),
+      std::min(a.z, b.z),
+      std::min(a.w, b.w)
+    );
+  }
+
+
+  template<Number T>
+  inline _Vec4<T> max(const _Vec4<T> &a, const _Vec4<T> &b) {
+    return _Vec4<T>(
+      std::max(a.x, b.x),
+      std::max(a.y, b.y),
+      std::max(a.z, b.z),
+      std::max(a.w, b.w)
+    );
   }
   
 

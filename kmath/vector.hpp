@@ -207,6 +207,22 @@ namespace kmath {
 
 
   template<Number T>
+  inline _Vec2<T> operator/(const _Vec2<T> &a, const _Vec2<T> &b) {
+    _Vec2<T> res(a);
+    res /= b;
+    return res;
+  }
+
+
+  template<Number T>
+  inline _Vec2<T> &operator/=(_Vec2<T> &a, const _Vec2<T> &b) {
+    a.x /= b.x;
+    a.y /= b.y;
+    return a;
+  }
+
+
+  template<Number T>
   inline _Vec2<T> operator*(const T s, const _Vec2<T> &v) {
     return _Vec2<T>(
       s * v.x,
@@ -446,6 +462,23 @@ namespace kmath {
     a.x *= b.x;
     a.y *= b.y;
     a.z *= b.z;
+    return a;
+  }
+
+
+  template<Number T>
+  inline _Vec3<T> operator/(const _Vec3<T> &a, const _Vec3<T> &b) {
+    _Vec3<T> res(a);
+    res /= b;
+    return res;
+  }
+
+
+  template<Number T>
+  inline _Vec3<T> &operator/=(_Vec3<T> &a, const _Vec3<T> &b) {
+    a.x /= b.x;
+    a.y /= b.y;
+    a.z /= b.z;
     return a;
   }
 
@@ -696,6 +729,24 @@ namespace kmath {
     a.y *= b.y;
     a.z *= b.z;
     a.w *= b.w;
+    return a;
+  }
+
+
+  template<Number T>
+  inline _Vec4<T> operator/(const _Vec4<T> &a, const _Vec4<T> &b) {
+    _Vec4<T> res(a);
+    res /= b;
+    return res;
+  }
+
+
+  template<Number T>
+  inline _Vec4<T> &operator/=(_Vec4<T> &a, const _Vec4<T> &b) {
+    a.x /= b.x;
+    a.y /= b.y;
+    a.z /= b.z;
+    a.w /= b.w;
     return a;
   }
 

@@ -108,9 +108,8 @@ namespace kmath {
   }
 
 
-  // TOOD: FIXME
-  template<Number T>
-  inline _Vec2<T> apply(const _Vec2<T> &a, T (*op)(const T)) {
+  template<Number T, Function<T, T> F>
+  inline _Vec2<T> apply(const _Vec2<T> &a, F op) {
     return _Vec2<T>(
       op(a.x),
       op(a.y)
@@ -118,8 +117,8 @@ namespace kmath {
   }
 
 
-  template<Number T>
-  inline _Vec2<T> apply(const _Vec2<T> &a, const _Vec2<T> &b, T (*op)(const T, const T)) {
+  template<Number T, Function<T, T, T> F>
+  inline _Vec2<T> apply(const _Vec2<T> &a, const _Vec2<T> &b, F op) {
     return _Vec2<T>(
       op(a.x, b.x),
       op(a.y, b.y)
@@ -362,8 +361,8 @@ namespace kmath {
   }
 
 
-  template<Number T>
-  inline _Vec3<T> apply(const _Vec3<T> &a, T (*op)(const T)) {
+  template<Number T, Function<T, T> F>
+  inline _Vec3<T> apply(const _Vec3<T> &a, F op) {
     return _Vec3<T>(
       op(a.x),
       op(a.y),
@@ -372,8 +371,8 @@ namespace kmath {
   }
 
 
-  template<Number T>
-  inline _Vec3<T> apply(const _Vec3<T> &a, const _Vec3<T> &b, T (*op)(const T, const T)) {
+  template<Number T, Function<T, T, T> F>
+  inline _Vec3<T> apply(const _Vec3<T> &a, const _Vec3<T> &b, F op) {
     return _Vec3<T>(
       op(a.x, b.x),
       op(a.y, b.y),
@@ -622,8 +621,8 @@ namespace kmath {
   }
 
 
-  template<Number T>
-  inline _Vec4<T> apply(const _Vec4<T> &a, T (*op)(const T)) {
+  template<Number T, Function<T, T> F>
+  inline _Vec4<T> apply(const _Vec4<T> &a, F op) {
     return _Vec4<T>(
       op(a.x),
       op(a.y),
@@ -633,8 +632,8 @@ namespace kmath {
   }
 
 
-  template<Number T>
-  inline _Vec4<T> apply(const _Vec4<T> &a, const _Vec4<T> &b, T (*op)(const T, const T)) {
+  template<Number T, Function<T, T, T> F>
+  inline _Vec4<T> apply(const _Vec4<T> &a, const _Vec4<T> &b, F op) {
     return _Vec4<T>(
       op(a.x, b.x),
       op(a.y, b.y),

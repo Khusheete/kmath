@@ -574,7 +574,32 @@ namespace kmath {
     a = a * b;
     return a;
   }
-  
+
+
+  template<Number T>
+  inline _Motor3<T> operator*(const _Rotor3<T> &a, const _Motor3<T> &b) {
+    return _Motor3<T>(
+      a * get_real_part(b),
+      a * get_dual_part(b)
+    );
+  }
+
+
+  template<Number T>
+  inline _Motor3<T> operator*(const _Motor3<T> &a, const _Rotor3<T> &b) {
+    return _Motor3<T>(
+      get_real_part(a) * b,
+      get_dual_part(a) * b
+    );
+  }
+
+
+  template<Number T>
+  inline _Motor3<T> &operator*=(_Motor3<T> &a, const _Rotor3<T> &b) {
+    a = a * b;
+    return a;
+  }
+
 
   // ===========================
   // = Interpolation functions =

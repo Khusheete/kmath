@@ -525,6 +525,14 @@ namespace kmath {
   }
 
 
+  template<Number T>
+  inline _Vec3<T> get_direction(const _Line3<T> &l) {
+    return (is_vanishing(l))?
+      -_Vec3<T>(l.e01, l.e02, l.e03)
+      : _Vec3<T>(l.e23, l.e31, l.e12);
+  }
+
+
   // template<Number T>
   // inline T get_angle(const _Line3<T> &a);
 

@@ -25,6 +25,7 @@
 #include "kmath/pga_3d.hpp"
 #include "kmath/vector.hpp"
 #include "thirdparty/raylib/raylib.h"
+#undef PI
 
 
 void draw_plane(const kmath::Vec3 &p_next_to, const kmath::Mvec3 &p_plane, const Color &p_color);

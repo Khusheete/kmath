@@ -20,9 +20,8 @@
 
 
 #include "pga.hpp"
-#include "kmath/print.hpp"
+#include "kmath/constants.hpp"
 #include "thirdparty/raylib/raylib.h"
-#include <iostream>
 
 
 using namespace kmath;

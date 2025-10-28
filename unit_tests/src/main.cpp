@@ -216,8 +216,8 @@ int main(void) {
     });
     UNIT_TEST("Meet 2", {
       TEST_EQ_APPROX("meet(a, b)", meet(a, b), Line3::vanishing_line(Vec3(-2.0, 4.0, -6.0)));
-      TEST_EQ_APPROX("meet(a, c)", meet(a, c), Line3::from_plucker(Vec3(-4.0, 13.0, 10.0), Vec3(22.0, 6.0, 1.0)));
-      TEST_EQ_APPROX("meet(c, a)", meet(c, a), Line3::from_plucker(Vec3(4.0, -13.0, -10.0), Vec3(-22.0, -6.0, -1.0)));
+      TEST_EQ_APPROX("meet(a, c)", meet(a, c), Line3::from_plucker(Vec3(-4.0, 13.0, 10.0), Vec3(-22.0, -6.0, -1.0)));
+      TEST_EQ_APPROX("meet(c, a)", meet(c, a), Line3::from_plucker(Vec3(4.0, -13.0, -10.0), Vec3(22.0, 6.0, 1.0)));
     });
     UNIT_TEST("Meet 3", {
       TEST_EQ_APPROX("meet(a, b, c)", meet(a, b, c), Point3::direction(Vec3(-8.0, 26.0, 20.0)));
@@ -257,24 +257,24 @@ int main(void) {
 
     UNIT_TEST("Addition", {
       Line3 c(a);
-      TEST_EQ_APPROX("a + b", a + b, Line3(2.0, 1.0, 0.0, -1.0, 4.0, 3.0));
-      TEST_EQ_APPROX("c += b", c += b, Line3(2.0, 1.0, 0.0, -1.0, 4.0, 3.0));
+      TEST_EQ_APPROX("a + b", a + b, Line3(2.0, 1.0, 0.0, 3.0, -4.0, -7.0));
+      TEST_EQ_APPROX("c += b", c += b, Line3(2.0, 1.0, 0.0, 3.0, -4.0, -7.0));
     });
     UNIT_TEST("Subtraction", {
       Line3 c(b);
-      TEST_EQ_APPROX("b - a", b - a, Line3(-2.0, -1.0, 0.0, 3.0, -4.0, -7.0));
-      TEST_EQ_APPROX("c -= a", c -= a, Line3(-2.0, -1.0, 0.0, 3.0, -4.0, -7.0));
+      TEST_EQ_APPROX("b - a", b - a, Line3(-2.0, -1.0, 0.0, -1.0, 4.0, 3.0));
+      TEST_EQ_APPROX("c -= a", c -= a, Line3(-2.0, -1.0, 0.0, -1.0, 4.0, 3.0));
     });
     UNIT_TEST("Scalar multiplication", {
       Line3 c(a);
-      TEST_EQ_APPROX("a * 2.0", a * 2.0f, Line3(4.0, 2.0, 0.0, -4.0, 8.0, 10.0));
-      TEST_EQ_APPROX("2.0 * a", 2.0f * a, Line3(4.0, 2.0, 0.0, -4.0, 8.0, 10.0));
-      TEST_EQ_APPROX("c *= 2.0", c *= 2.0f, Line3(4.0, 2.0, 0.0, -4.0, 8.0, 10.0));
+      TEST_EQ_APPROX("a * 2.0", a * 2.0f, Line3(4.0, 2.0, 0.0, 4.0, -8.0, -10.0));
+      TEST_EQ_APPROX("2.0 * a", 2.0f * a, Line3(4.0, 2.0, 0.0, 4.0, -8.0, -10.0));
+      TEST_EQ_APPROX("c *= 2.0", c *= 2.0f, Line3(4.0, 2.0, 0.0, 4.0, -8.0, -10.0));
     });
     UNIT_TEST("Scalar division", {
       Line3 c(a);
-      TEST_EQ_APPROX("a / 0.5", a / 0.5f, Line3(4.0, 2.0, 0.0, -4.0, 8.0, 10.0));
-      TEST_EQ_APPROX("c /= 0.5", c /= 0.5f, Line3(4.0, 2.0, 0.0, -4.0, 8.0, 10.0));
+      TEST_EQ_APPROX("a / 0.5", a / 0.5f, Line3(4.0, 2.0, 0.0, 4.0, -8.0, -10.0));
+      TEST_EQ_APPROX("c /= 0.5", c /= 0.5f, Line3(4.0, 2.0, 0.0, 4.0, -8.0, -10.0));
     });
     UNIT_TEST("Is vanishing", {
       TEST_EQ("a", is_vanishing(a), false);
@@ -294,17 +294,17 @@ int main(void) {
       float sqrt5 = std::sqrt(5.0);
       float sqrt45 = std::sqrt(45.0f);
       TEST_EQ_APPROX("normalize a", normalized(a), Line3::from_plucker(Vec3(2.0, 1.0, 0.0) / sqrt45, Vec3(2.0, -4.0, -5.0) / sqrt45));
-      TEST_EQ_APPROX("normalize b", normalized(b), Line3::from_plucker(Vec3::ZERO, Vec3(-1.0, 0.0, 2.0) / sqrt5));
+      TEST_EQ_APPROX("normalize b", normalized(b), Line3::from_plucker(Vec3::ZERO, Vec3(1.0, 0.0, -2.0) / sqrt5));
     });
     UNIT_TEST("Inner", {
       TEST_EQ_APPROX("inner(a, b)", inner(a, b), 0.0f);
       TEST_EQ_APPROX("inner(a, a)", inner(a, a), -5.0f);
     });
     UNIT_TEST("Reverse", {
-      TEST_EQ_APPROX("reverse(a)", reverse(a), Line3(-2.0, -1.0, -0.0, 2.0, -4.0, -5.0));
+      TEST_EQ_APPROX("reverse(a)", reverse(a), Line3(-2.0, -1.0, -0.0, -2.0, 4.0, 5.0));
     });
     UNIT_TEST("Inverse", {
-      TEST_EQ_APPROX("inverse(a)", inverse(a), Line3(-2.0 / 5.0, -1.0 / 5.0, 0.0, 2.0 / 5.0, -4.0 / 5.0, -5.0 / 5.0));
+      TEST_EQ_APPROX("inverse(a)", inverse(a), Line3(-2.0 / 5.0, -1.0 / 5.0, 0.0, -2.0 / 5.0, 4.0 / 5.0, 5.0 / 5.0));
     });
     UNIT_TEST("meet & join", {
       TEST_EQ_APPROX("meet(a, b)", meet(a, b), 2.0f);
@@ -316,8 +316,8 @@ int main(void) {
       TEST_EQ_APPROX("fast_reflect(a, b)", fast_reflect(a, b), Line3());
       TEST_EQ_APPROX("fast_reflect(b, a)", fast_reflect(b, a), Line3(0.0, 0.0, 0.0, -3.0, -4.0, -10.0));
 
-      TEST_EQ_APPROX("fast_reflect(a, d)", fast_reflect(a, d), Line3(26.0, 25.0, -12.0, -218.0, 136.0, -189.0));
-      TEST_EQ_APPROX("fast_reflect(d, a)", fast_reflect(d, a), Line3(-2.0, 14.0, -15.0, 113.0, -16.0, -30.0));
+      TEST_EQ_APPROX("fast_reflect(a, d)", fast_reflect(a, d), Line3(26.0, 25.0, -12.0, 218.0, -136.0, 189.0));
+      TEST_EQ_APPROX("fast_reflect(d, a)", fast_reflect(d, a), Line3(-2.0, 14.0, -15.0, -113.0, 16.0, 30.0));
     });
   })
 
@@ -403,7 +403,7 @@ int main(void) {
   UNIT_TEST_SECTION("Operations between Euclidian Flat 3D", {
     Plane3 p = Plane3::plane(-1.0, 6.0, 2.0, -4.0);
     Plane3 vp = Plane3::vanishing_plane(-4.0);
-    Line3 l = Line3::line(7.0, -4.0, 1.0, -1.0, -6.0, 2.0);
+    Line3 l = Line3::line(7.0, -4.0, 1.0, 1.0, 6.0, -2.0);
     Line3 vl = Line3::vanishing_line(-4.0, 3.0, -1.0);
     Point3 x = Point3::point(2.0, 5.0, -1.0);
     Point3 v = Point3::direction(-1.0, 2.0, 4.0);

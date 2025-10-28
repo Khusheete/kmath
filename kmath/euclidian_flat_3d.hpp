@@ -96,9 +96,9 @@ namespace kmath {
         direction.x,
         direction.y,
         direction.z,
-        - point.y * direction.z + point.z * direction.y,
-        - point.z * direction.x + point.x * direction.z,
-        - point.x * direction.y + point.y * direction.x
+        point.y * direction.z - point.z * direction.y,
+        point.z * direction.x - point.x * direction.z,
+        point.x * direction.y - point.y * direction.x
       );
     }
 
@@ -108,9 +108,9 @@ namespace kmath {
         dx,
         dy,
         dz,
-        - py * dz + pz * dy,
-        - pz * dx + px * dz,
-        - px * dy + py * dx
+        py * dz - pz * dy,
+        pz * dx - px * dz,
+        px * dy - py * dx
       );
     }
 
@@ -158,7 +158,7 @@ namespace kmath {
     static inline _Line3<T> from_plucker(const _Vec3<T> direction, const _Vec3<T> moment) {
       return _Line3<T>(
         direction.x, direction.y, direction.z,
-        -moment.x, -moment.y, -moment.z
+        moment.x, moment.y, moment.z
       );
     }
 
@@ -166,7 +166,7 @@ namespace kmath {
     static inline _Line3<T> from_plucker(const T dx, const T dy, const T dz, const T mx, const T my, const T mz) {
       return _Line3<T>(
         dx, dy, dz,
-        -mx, -my, -mz
+        mx, my, mz
       );
     }
   };

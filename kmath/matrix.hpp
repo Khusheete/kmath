@@ -233,7 +233,7 @@ namespace kmath {
 
 
     static inline _Mat3<T> scale(const T s) {
-      return scale(s, s, s, 1.0f);
+      return scale(s, s, s);
     }
 
 

@@ -84,21 +84,25 @@ namespace kmath {
   // ======================
 
 
+  // This is a widely used function to go from the lRGB color space to the sRGB space.
+  inline float srgb_standard_gamma(const float value, const float gamma = 2.2f) {
+    return (value >= 0.0f)? std::pow(value, 1.0f / gamma) : -std::pow(-value, 1.0f / gamma);
+  }
+
+
+  // This is a widely used function to go from the sRGB color space to the lRGB space.
+  inline float srgb_standard_inv_gamma(const float value, const float gamma = 2.2f) {
+    return (value >= 0.0f)? std::pow(value, gamma) : -std::pow(-value, gamma);
+  }
+
+
   inline Rgb lrgb_to_rgb(const Lrgb &rgb, const float gamma = 2.2f) {
-    return Rgb(
-      (rgb.x >= 0.0f)? std::pow(rgb.x, 1.0f / gamma) : -std::pow(-rgb.x, 1.0f / gamma),
-      (rgb.y >= 0.0f)? std::pow(rgb.y, 1.0f / gamma) : -std::pow(-rgb.y, 1.0f / gamma),
-      (rgb.z >= 0.0f)? std::pow(rgb.z, 1.0f / gamma) : -std::pow(-rgb.z, 1.0f / gamma)
-    );
+    return apply(rgb, [&](const float x) -> float { return srgb_standard_gamma(x, gamma); });
   }
 
 
   inline Lrgb rgb_to_lrgb(const Rgb &rgb, const float gamma = 2.2f) {
-    return Lrgb(
-      (rgb.x >= 0.0f)? std::pow(rgb.x, gamma) : -std::pow(-rgb.x, gamma),
-      (rgb.y >= 0.0f)? std::pow(rgb.y, gamma) : -std::pow(-rgb.y, gamma),
-      (rgb.z >= 0.0f)? std::pow(rgb.z, gamma) : -std::pow(-rgb.z, gamma)
-    );
+    return apply(rgb, [&](const float x) -> float { return srgb_standard_inv_gamma(x, gamma); });
   }
 
 

@@ -47,6 +47,13 @@ namespace kmath {
 
   // See: https://bottosson.github.io/posts/colorpicker/ and https://bottosson.github.io/posts/oklab/
   // Code for Ok color spaces is adapted from Björn Ottosson's blog
+  // 
+  // In the following functions, OkHsl and OkHsv vectors are normalized between 0 and 1.
+  // 
+  // Technically speaking, OkLab vectors can be any arbitrary vector, though the lightness
+  // value is usually between 0 and 1, and the ab values are between -0.5 and 0.5.
+  // a is a range from green to red
+  // b is a range from blue to yellow
   typedef _Vec3<float> OkLab;
   typedef _Vec3<float> OkHsl;
   typedef _Vec4<float> OkHsla;

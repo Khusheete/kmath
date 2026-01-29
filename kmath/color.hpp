@@ -219,4 +219,51 @@ namespace kmath {
   inline OkHsl rgb_to_okhsl(const Rgb &rgb) {
     return lrgb_to_okhsl(rgb_to_lrgb(rgb));
   }
+
+
+  // ================================
+  // = YCrCb/YCbCr Lab color spaces =
+  // ================================
+
+
+  // An implementation of the ITU-R BT 2020 (aka. Rec 2020) YCbCr standard.
+  // See: https://www.itu.int/dms_pubrec/itu-r/rec/bt/R-REC-BT.2020-2-201510-I!!PDF-E.pdf
+  namespace itu_bt_2020 {
+    // Usual Y'CbCr with non-constant luminance
+    typedef _Vec3<float> YCbCr;
+    // Y'CrCb with non-constant luminance
+    typedef _Vec3<float> YcCbcCrc;
+
+
+    float gamma(const float value);
+    float inv_gamma(const float value);
+
+
+    Lrgb ycbcr_to_lrgb(const YCbCr &ycbcr);
+    YCbCr lrgb_to_ycbcr(const Lrgb &lrgb);
+
+
+    inline Rgb ycbcr_to_rgb(const YCbCr &ycbcr) {
+      return lrgb_to_rgb(ycbcr_to_lrgb(ycbcr));
+    }
+
+
+    inline YCbCr rgb_to_ycbcr(const Rgb &rgb) {
+      return lrgb_to_ycbcr(rgb_to_lrgb(rgb));
+    }
+
+
+    Lrgb yccbccrc_to_lrgb(const YcCbcCrc &ycbcr);
+    YcCbcCrc lrgb_to_yccbccrc(const Lrgb &lrgb);
+
+
+    inline Rgb yccbccrc_to_rgb(const YcCbcCrc &yccbccrc) {
+      return lrgb_to_rgb(yccbccrc_to_lrgb(yccbccrc));
+    }
+
+
+    inline YcCbcCrc rgb_to_yccbccrc(const Rgb &rgb) {
+      return lrgb_to_yccbccrc(rgb_to_lrgb(rgb));
+    }
+  }
 }

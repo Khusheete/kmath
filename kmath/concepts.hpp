@@ -22,6 +22,7 @@
 #pragma once
 
 
+#include <concepts>
 namespace kmath {
 
   template<typename N>
@@ -69,6 +70,6 @@ namespace kmath {
 
   template<typename F, typename R, typename ...Ts>
   concept Function = requires(F f, R r, Ts ...ts) {
-    r = f(ts...);
+    { f(ts...) } -> std::same_as<R>;
   };
 }

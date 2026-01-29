@@ -25,7 +25,6 @@
 #include "kmath/motor_3d.hpp"
 #include "utils/math.hpp"
 
-#include <cstdlib>
 #include <iostream>
 #include <thirdparty/raylib/raylib.h>
 #include <array>
@@ -67,14 +66,14 @@ void rotor_motor_run(void *p_data) {
   
   kmath::Rotor3 rot = kmath::slerp<float>(kmath::Rotor3::IDENTITY, data->camera_rotation, 0.2 * std::numbers::pi * time);
   kmath::Vec3 pos = kmath::transform(kmath::Vec3(0.0, 0.0, 5.0), rot);
-  data->camera.position = reinterpret_cast<Vector3&>(pos);
+  data->camera.position = Vector3(pos.x, pos.y, pos.z);
   
   kmath::Motor3 transform = kmath::seplerp<float>(data->triangle_start, data->triangle_end, ping_pong(time));
   std::array<Vector3, 3> transformed_triangle = {};
 
   for (int i = 0; i < 3; i++) {
     kmath::Vec3 vertex = kmath::transform_point(data->triangle[i], transform);
-    transformed_triangle[i] = reinterpret_cast<Vector3&>(vertex);
+    transformed_triangle[i] = Vector3(vertex.x, vertex.y, vertex.z);
   }
 
 

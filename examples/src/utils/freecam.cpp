@@ -87,10 +87,10 @@ void FreeCam::update(float p_delta) {
   }
 
   // Update camera internals
-  rl_camera.position = reinterpret_cast<Vector3&>(position);
+  rl_camera.position = Vector3(position.x, position.y, position.z);
   kmath::Vec3 camera_target = position + forward;
-  rl_camera.target = reinterpret_cast<Vector3&>(camera_target);
-  rl_camera.up = reinterpret_cast<Vector3&>(up);
+  rl_camera.target = Vector3(camera_target.x, camera_target.y, camera_target.z);
+  rl_camera.up = Vector3(up.x, up.y, up.z);
 }
 
 

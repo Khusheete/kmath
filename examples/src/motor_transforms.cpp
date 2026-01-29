@@ -127,8 +127,8 @@ void motor_transforms_run(void *p_data) {
 
     // const kmath::Vec3 draw_pos = transformed - 0.5f * cube_size;
     DrawCubeV(
-      reinterpret_cast<const Vector3&>(transformed),
-      reinterpret_cast<const Vector3&>(cube_size),
+      Vector3(transformed.x, transformed.y, transformed.z),
+      Vector3(cube_size.x, cube_size.y, cube_size.z),
       {cu8.x, cu8.y, cu8.z, 255}
     );
   }

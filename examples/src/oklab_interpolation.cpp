@@ -97,7 +97,7 @@ void oklab_interpolation_run(void *p_data) {
           color += colors[index] * (weights[index] / total_weight);
         }
 
-        kmath::RgbU8 lsrgb_color = kmath::as_rgbu8(kmath::lrgb_to_rgb(kmath::oklab_to_lrgb(color)));
+        kmath::RgbU8 lsrgb_color = kmath::rgb_to_rgbu8(kmath::lrgb_to_rgb(kmath::oklab_to_lrgb(color)));
 
         DrawPoint3D(
           Vector3(pos.x, pos.y, pos.z),

@@ -129,14 +129,30 @@ namespace kmath {
   }
 
 
-  inline RgbU8 as_rgbu8(const _Vec3<float> &rgb) {
-    auto clamp = [](const float val){
-      return (val >= 0.0)? (val < 256.0)? val : 255.0 : 0.0;
-    };
+  inline uint8_t float_to_u8(const float f) {
+    return (f > 0.0f)? (f < 1.0f)? uint8_t(256.0f * f) : 255 : 0;
+  }
+
+
+  inline float u8_to_float(const uint8_t u8) {
+    return float(u8) / 255.0f;
+  }
+
+
+  inline RgbU8 rgb_to_rgbu8(const Rgb &rgb) {
     return RgbU8(
-      (uint8_t)clamp(256.0 * rgb.x),
-      (uint8_t)clamp(256.0 * rgb.y),
-      (uint8_t)clamp(256.0 * rgb.z)
+      float_to_u8(rgb.x),
+      float_to_u8(rgb.y),
+      float_to_u8(rgb.z)
+    );
+  }
+
+
+  inline Rgb rgbu8_to_rgb(const RgbU8 &rgb) {
+    return Rgb(
+      u8_to_float(rgb.x),
+      u8_to_float(rgb.y),
+      u8_to_float(rgb.z)
     );
   }
 

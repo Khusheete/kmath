@@ -123,7 +123,7 @@ void motor_transforms_run(void *p_data) {
     transformed.y += 5.0f;
 
     const kmath::Lrgb c = (data->reference_points[i] + 5.0f * kmath::Vec3::ONE) / 10.0f;
-    const kmath::RgbU8 cu8 = kmath::as_rgbu8(c);
+    const kmath::RgbU8 cu8 = kmath::rgb_to_rgbu8(c);
 
     // const kmath::Vec3 draw_pos = transformed - 0.5f * cube_size;
     DrawCubeV(

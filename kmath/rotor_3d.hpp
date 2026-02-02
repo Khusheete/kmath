@@ -22,6 +22,7 @@
 #pragma once
 
 
+#include "kmath/utils.hpp"
 #include "vector.hpp"
 #include "matrix.hpp"
 #include "euclidian_flat_3d.hpp"
@@ -115,6 +116,43 @@ namespace kmath {
   template<Number T>
   inline _Vec3<T> get_direction(const _Rotor3<T> &r) {
     return -_Vec3<T>(r.e23, r.e31, r.e12);
+  }
+
+
+  // This returns the square root of any rotor
+  // When working with normalized rotors, prefer to use sqrt instead
+  template<Number T>
+  inline _Rotor3<T> general_sqrt(const _Rotor3<T> &r) {
+    return sqrt(normalized(r));
+  }
+
+
+  // This returns the square root of a *normalized* rotor
+  // For a non normalized rotor, use general_sqrt
+  template<Number T>
+  inline _Rotor3<T> sqrt(const _Rotor3<T> &r) {
+    _Rotor3<T> t;
+    if (is_approx(r.s, T(-1))) {
+      t = -r;
+    } else {
+      t = r;
+    }
+
+    const T scale = T(1) / std::sqrt(T(2) * (T(1) + t.s));
+    return scale * _Rotor3<T>(
+       T(1) + t.s,
+       t.e23, t.e31, t.e12
+    );
+  }
+
+
+  // Returns the non-normalized square root of a normalized rotor.
+  template<Number T>
+  inline _Rotor3<T> fast_sqrt(const _Rotor3<T> &r) {
+    return _Rotor3<T>(
+      T(1) + r.s,
+      r.e23, r.e31, r.e12
+    );
   }
 
 

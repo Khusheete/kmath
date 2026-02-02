@@ -613,6 +613,14 @@ int main(void) {
     });
   });
 
+  UNIT_TEST_SECTION("Rotor3", {
+    UNIT_TEST("sqrt", {
+      const Rotor3 a = Rotor3::from_axis_angle(normalized(Vec3(1.0, 2.0, -0.2)), PI * 0.1f);
+      const Rotor3 sqrt_a = sqrt(a);
+      std::cout << sqrt_a * sqrt_a << std::endl;
+      TEST_EQ_APPROX("sqrt(a) * sqrt(a)", sqrt_a * sqrt_a, a);
+    });
+  });
 
   UNIT_TEST_SECTION("Color", {
     auto round = [](const Vec3 &v, const int dec = 3){

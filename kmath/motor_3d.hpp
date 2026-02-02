@@ -167,6 +167,7 @@ namespace kmath {
   }
 
 
+  // Returns the square root of a normalized motor
   template<Number T>
   _Motor3<T> sqrt(const _Motor3<T> &m) {
     if (m.s >= (T)0.0) {

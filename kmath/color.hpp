@@ -175,7 +175,7 @@ namespace kmath {
 
 
   inline OkLab rgb_to_oklab(const Rgb &rgb) {
-    return lrgb_to_oklab(lrgb_to_rgb(rgb));
+    return lrgb_to_oklab(rgb_to_lrgb(rgb));
   }
 
 

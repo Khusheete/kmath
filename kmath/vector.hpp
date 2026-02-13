@@ -40,6 +40,7 @@ namespace kmath {
 
   public:
     _Vec2(): _Vec2(ZERO) {}
+    _Vec2(const T v): x(v), y(v) {}
     _Vec2(const T x, const T y): x(x), y(y) {}
 
   public:
@@ -278,6 +279,7 @@ namespace kmath {
 
   public:
     _Vec3(): _Vec3(ZERO) {}
+    _Vec3(const T v): x(v), y(v), z(v) {}
     _Vec3(const T x, const T y, const T z): x(x), y(y), z(z) {}
     _Vec3(const _Vec2<T> &a, const T b): x(a.x), y(a.y), z(b) {}
     _Vec3(const T a, const _Vec2<T> &b): x(a), y(b.x), z(b.y) {}
@@ -580,6 +582,7 @@ namespace kmath {
 
   public:
     _Vec4(): _Vec4(ZERO) {}
+    _Vec4(const T v): x(v), y(v), z(v), w(v) {}
     _Vec4(const T x, const T y, const T z, const T w): x(x), y(y), z(z), w(w) {}
     _Vec4(const _Vec2<T> &a, const T b, const T c): x(a.x), y(a.y), z(b), w(c) {}
     _Vec4(const T a, const _Vec2<T> &b, const T c): x(a), y(b.x), z(b.z), w(c) {}

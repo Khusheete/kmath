@@ -40,7 +40,7 @@ namespace kmath {
     T e1, e2, e3, e0;    
 
   public:
-    _Plane3(): _Plane3((T)0.0, (T)0.0, (T)0.0, (T)0.0) {}
+    _Plane3(): _Plane3(T(0), T(0), T(0), T(0)) {}
     _Plane3(T e1, T e2, T e3, T e0): e1(e1), e2(e2), e3(e3), e0(e0) {}
 
 
@@ -55,7 +55,7 @@ namespace kmath {
 
 
     static inline _Plane3<T> vanishing_plane(const T delta) {
-      return _Plane3<T>((T)0.0, (T)0.0, (T)0.0, -delta);
+      return _Plane3<T>(T(0), T(0), T(0), -delta);
     }
 
 
@@ -67,10 +67,10 @@ namespace kmath {
   };
 
 
-  template<Number T> const _Plane3<T> _Plane3<T>::VANISHING_PLANE = _Plane3<T>((T)0.0, (T)0.0, (T)0.0, (T)1.0);
-  template<Number T> const _Plane3<T> _Plane3<T>::YZ = _Plane3<T>((T)1.0, (T)0.0, (T)0.0, (T)0.0);
-  template<Number T> const _Plane3<T> _Plane3<T>::ZX = _Plane3<T>((T)0.0, (T)1.0, (T)0.0, (T)0.0);
-  template<Number T> const _Plane3<T> _Plane3<T>::XY = _Plane3<T>((T)0.0, (T)0.0, (T)1.0, (T)0.0);
+  template<Number T> const _Plane3<T> _Plane3<T>::VANISHING_PLANE = _Plane3<T>(T(0), T(0), T(0), T(1));
+  template<Number T> const _Plane3<T> _Plane3<T>::YZ = _Plane3<T>(T(1), T(0), T(0), T(0));
+  template<Number T> const _Plane3<T> _Plane3<T>::ZX = _Plane3<T>(T(0), T(1), T(0), T(0));
+  template<Number T> const _Plane3<T> _Plane3<T>::XY = _Plane3<T>(T(0), T(0), T(1), T(0));
   
 
   // Note that this type is meant to represent a geometric line.
@@ -87,7 +87,7 @@ namespace kmath {
     T e23, e31, e12, e01, e02, e03;
 
   public:
-    _Line3(): _Line3((T)0.0, (T)0.0, (T)0.0, (T)0.0, (T)0.0, (T)0.0) {}
+    _Line3(): _Line3(T(0), T(0), T(0), T(0), T(0), T(0)) {}
     _Line3(const T e23, const T e31, const T e12, const T e01, const T e02, const T e03): e23(e23), e31(e31), e12(e12), e01(e01), e02(e02), e03(e03) {}
 
 
@@ -120,9 +120,9 @@ namespace kmath {
         direction.x,
         direction.y,
         direction.z,
-        (T)0.0,
-        (T)0.0,
-        (T)0.0
+        T(0),
+        T(0),
+        T(0)
       );
     }
 
@@ -132,16 +132,16 @@ namespace kmath {
         dx,
         dy,
         dz,
-        (T)0.0,
-        (T)0.0,
-        (T)0.0
+        T(0),
+        T(0),
+        T(0)
       );
     }
 
 
     static inline _Line3<T> vanishing_line(const _Vec3<T> direction) {
       return _Line3<T>(
-        (T)0.0, (T)0.0, (T)0.0,
+        T(0), T(0), T(0),
         direction.x, direction.y, direction.z
       );
     }
@@ -149,7 +149,7 @@ namespace kmath {
 
     static inline _Line3<T> vanishing_line(const T dx, const T dy, const T dz) {
       return _Line3<T>(
-        (T)0.0, (T)0.0, (T)0.0,
+        T(0), T(0), T(0),
         dx, dy, dz
       );
     }
@@ -179,28 +179,28 @@ namespace kmath {
   public:
     static inline _Point3<T> point(const _Vec3<T> &p) {
       return _Point3<T>(
-        p.x, p.y, p.z, (T)1.0
+        p.x, p.y, p.z, T(1)
       );
     }
 
 
     static inline _Point3<T> point(const T x, const T y, const T z) {
       return _Point3<T>(
-        x, y, z, (T)1.0
+        x, y, z, T(1)
       );
     }
 
 
     static inline _Point3<T> direction(const _Vec3<T> &d) {
       return _Point3<T>(
-        d.x, d.y, d.z, (T)0.0
+        d.x, d.y, d.z, T(0)
       );
     }
 
 
     static inline _Point3<T> direction(const T x, const T y, const T z) {
       return _Point3<T>(
-        x, y, z, (T)0.0
+        x, y, z, T(0)
       );
     }
 
@@ -214,15 +214,15 @@ namespace kmath {
 
 
   template<Number T>
-  const _Point3<T> _Point3<T>::ZERO   = _Point3<T>((T)0.0, (T)0.0, (T)0.0, (T)0.0);
+  const _Point3<T> _Point3<T>::ZERO   = _Point3<T>(T(0), T(0), T(0), T(0));
   template<Number T>
-  const _Point3<T> _Point3<T>::ORIGIN = _Point3<T>((T)0.0, (T)0.0, (T)0.0, (T)1.0);
+  const _Point3<T> _Point3<T>::ORIGIN = _Point3<T>(T(0), T(0), T(0), T(1));
   template<Number T>
-  const _Point3<T> _Point3<T>::X_DIR  = _Point3<T>((T)1.0, (T)0.0, (T)0.0, (T)0.0);
+  const _Point3<T> _Point3<T>::X_DIR  = _Point3<T>(T(1), T(0), T(0), T(0));
   template<Number T>
-  const _Point3<T> _Point3<T>::Y_DIR  = _Point3<T>((T)0.0, (T)1.0, (T)0.0, (T)0.0);
+  const _Point3<T> _Point3<T>::Y_DIR  = _Point3<T>(T(0), T(1), T(0), T(0));
   template<Number T>
-  const _Point3<T> _Point3<T>::Z_DIR  = _Point3<T>((T)0.0, (T)0.0, (T)1.0, (T)0.0);
+  const _Point3<T> _Point3<T>::Z_DIR  = _Point3<T>(T(0), T(0), T(1), T(0));
 
 
   // =============================
@@ -282,7 +282,7 @@ namespace kmath {
       return a / magnitude(a);
     } else {
       return _Plane3<T>(
-        0.0, 0.0, 0.0, -1.0
+        T(0), T(0), T(0), T(-1)
       );
     }
   }
@@ -315,7 +315,7 @@ namespace kmath {
 
   template<Number T>
   inline _Point3<T> dual(const _Plane3<T> &p) { // FIXME: Implement Hodge dual
-    return _Point3<T>(p.e1, p.e2, p.e3, (T)0.0);
+    return _Point3<T>(p.e1, p.e2, p.e3, T(0));
   }
 
 
@@ -1088,7 +1088,7 @@ namespace kmath {
   // Fast rejection gives a rejection modulo a positive factor
   template<Number T>
   inline _Plane3<T> fast_reject(const _Plane3<T> &a, const _Point3<T> &b) {
-    return _Plane3<T>((T)0.0, (T)0.0, (T)0.0, -meet(a, b) * b.e123);
+    return _Plane3<T>(T(0), T(0), T(0), -meet(a, b) * b.e123);
   }
 
 
@@ -1109,7 +1109,7 @@ namespace kmath {
   // Fast rejection gives a rejection modulo a positive factor
   template<Number T>
   inline _Point3<T> fast_reject(const _Point3<T> &a, const _Plane3<T> &b) {
-    return (-meet(a, b)) * _Point3<T>(b.e1, b.e2, b.e3, (T)0.0);
+    return (-meet(a, b)) * _Point3<T>(b.e1, b.e2, b.e3, T(0));
   }
 
 
@@ -1145,9 +1145,9 @@ namespace kmath {
   template<Number T>
   _Point3<T> fast_reflect(const _Point3<T> &a, const _Plane3<T> &b) {
     return _Point3<T>(
-      b.e1 * b.e1 * a.e032 + (T)2.0 * a.e013 * b.e2 * b.e1 + (T)2.0 * a.e021 * b.e1 * b.e3 + (T)2.0 * a.e123 * b.e0 * b.e1 - a.e032 * b.e2 * b.e2 - a.e032 * b.e3 * b.e3,
-      a.e013 * b.e2 * b.e2 + (T)2.0 * a.e032 * b.e2 * b.e1 + (T)2.0 * a.e021 * b.e3 * b.e2 + (T)2.0 * a.e123 * b.e2 * b.e0 - a.e013 * b.e3 * b.e3 - a.e013 * b.e1 * b.e1,
-      a.e021 * b.e3 * b.e3 + (T)2.0 * a.e032 * b.e1 * b.e3 + (T)2.0 * a.e013 * b.e2 * b.e3 + (T)2.0 * a.e123 * b.e3 * b.e0 - a.e021 * b.e1 * b.e1 - a.e021 * b.e2 * b.e2,
+      b.e1 * b.e1 * a.e032 + T(2) * a.e013 * b.e2 * b.e1 + T(2) * a.e021 * b.e1 * b.e3 + T(2) * a.e123 * b.e0 * b.e1 - a.e032 * b.e2 * b.e2 - a.e032 * b.e3 * b.e3,
+      a.e013 * b.e2 * b.e2 + T(2) * a.e032 * b.e2 * b.e1 + T(2) * a.e021 * b.e3 * b.e2 + T(2) * a.e123 * b.e2 * b.e0 - a.e013 * b.e3 * b.e3 - a.e013 * b.e1 * b.e1,
+      a.e021 * b.e3 * b.e3 + T(2) * a.e032 * b.e1 * b.e3 + T(2) * a.e013 * b.e2 * b.e3 + T(2) * a.e123 * b.e3 * b.e0 - a.e021 * b.e1 * b.e1 - a.e021 * b.e2 * b.e2,
       - a.e123 * (b.e1 * b.e1 + b.e2 * b.e2 + b.e3 * b.e3)
     );
   }
@@ -1156,9 +1156,9 @@ namespace kmath {
   template<Number T>
   _Point3<T> fast_reflect(const _Point3<T> &a, const _Line3<T> &b) {
     return _Point3<T>(
-      - (T)2.0 * a.e021 * b.e23 * b.e12 - a.e032 * b.e23 * b.e23 + (T)2.0 * b.e02 * b.e12 * a.e123 + a.e032 * b.e12 * b.e12 + a.e032 * b.e31 * b.e31 - (T)2.0 * b.e31 * b.e03 * a.e123 - (T)2.0 * b.e31 * b.e23 * a.e013,
-      - (T)2.0 * a.e032 * b.e31 * b.e23 + b.e23 * b.e23 * a.e013 + a.e013 * b.e12 * b.e12 - (T)2.0 * b.e01 * b.e12 * a.e123 - b.e31 * b.e31 * a.e013 + (T)2.0 * b.e23 * b.e03 * a.e123 - (T)2.0 * b.e31 * a.e021 * b.e12,
-      a.e021 * b.e23 * b.e23 - (T)2.0 * a.e032 * b.e23 * b.e12 - (T)2.0 * b.e02 * b.e23 * a.e123 + b.e31 * b.e31 * a.e021 - (T)2.0 * b.e31 * a.e013 * b.e12 - a.e021 * b.e12 * b.e12 + (T)2.0 * b.e31 * b.e01 * a.e123,
+      - T(2) * a.e021 * b.e23 * b.e12 - a.e032 * b.e23 * b.e23 + T(2) * b.e02 * b.e12 * a.e123 + a.e032 * b.e12 * b.e12 + a.e032 * b.e31 * b.e31 - T(2) * b.e31 * b.e03 * a.e123 - T(2) * b.e31 * b.e23 * a.e013,
+      - T(2) * a.e032 * b.e31 * b.e23 + b.e23 * b.e23 * a.e013 + a.e013 * b.e12 * b.e12 - T(2) * b.e01 * b.e12 * a.e123 - b.e31 * b.e31 * a.e013 + T(2) * b.e23 * b.e03 * a.e123 - T(2) * b.e31 * a.e021 * b.e12,
+      a.e021 * b.e23 * b.e23 - T(2) * a.e032 * b.e23 * b.e12 - T(2) * b.e02 * b.e23 * a.e123 + b.e31 * b.e31 * a.e021 - T(2) * b.e31 * a.e013 * b.e12 - a.e021 * b.e12 * b.e12 + T(2) * b.e31 * b.e01 * a.e123,
       - b.e31 * b.e31 * a.e123 - b.e23 * b.e23 * a.e123 - b.e12 * b.e12 * a.e123
     );
   }
@@ -1167,9 +1167,9 @@ namespace kmath {
   template<Number T>
   _Point3<T> fast_reflect(const _Point3<T> &a, const _Point3<T> &b) {
     return _Point3<T>(
-      + (T)2.0 * a.e123 * b.e123 * b.e032 - a.e032 * b.e123 * b.e123,
-      + (T)2.0 * a.e123 * b.e123 * b.e013 - a.e013 * b.e123 * b.e123,
-      + (T)2.0 * a.e123 * b.e123 * b.e021 - a.e021 * b.e123 * b.e123,
+      + T(2) * a.e123 * b.e123 * b.e032 - a.e032 * b.e123 * b.e123,
+      + T(2) * a.e123 * b.e123 * b.e013 - a.e013 * b.e123 * b.e123,
+      + T(2) * a.e123 * b.e123 * b.e021 - a.e021 * b.e123 * b.e123,
       + a.e123 * b.e123 * b.e123
     );
   }
@@ -1178,12 +1178,12 @@ namespace kmath {
   template<Number T>
   _Line3<T> fast_reflect(const _Line3<T> &a, const _Plane3<T> &b) {
     return _Line3<T>(
-      - b.e3 * b.e3 * a.e23 + (T)2.0 * b.e3 * b.e1 * a.e12 - a.e23 * b.e2 * b.e2 + (T)2.0 * b.e1 * b.e2 * a.e31 + b.e1 * b.e1 * a.e23,
-      + b.e2 * b.e2 * a.e31 + (T)2.0 * b.e3 * a.e12 * b.e2 - b.e3 * b.e3 * a.e31 + (T)2.0 * b.e1 * a.e23 * b.e2 - b.e1 * b.e1 * a.e31,
-      (T)2.0 * b.e3 * b.e2 * a.e31 - b.e1 * b.e1 * a.e12 + b.e3 * b.e3 * a.e12 - a.e12 * b.e2 * b.e2 + (T)2.0 * b.e3 * b.e1 * a.e23,
-      - (T)2.0 * b.e3 * b.e0 * a.e31 - (T)2.0 * b.e1 * a.e02 * b.e2 - a.e01 * b.e1 * b.e1 - (T)2.0 * b.e3 * b.e1 * a.e03 + b.e3 * b.e3 * a.e01 + a.e01 * b.e2 * b.e2 + (T)2.0 * a.e12 * b.e0 * b.e2,
-      - (T)2.0 * b.e1 * a.e12 * b.e0 + b.e1 * b.e1 * a.e02 - a.e02 * b.e2 * b.e2 - (T)2.0 * b.e3 * a.e03 * b.e2 - (T)2.0 * a.e01 * b.e1 * b.e2 + (T)2.0 * b.e3 * a.e23 * b.e0 + b.e3 * b.e3 * a.e02,
-      + a.e03 * b.e2 * b.e2 - b.e3 * b.e3 * a.e03 + b.e1 * b.e1 * a.e03 - (T)2.0 * b.e3 * a.e02 * b.e2 + (T)2.0 * b.e1 * b.e0 * a.e31 - (T)2.0 * b.e3 * a.e01 * b.e1 - (T)2.0 * a.e23 * b.e0 * b.e2
+      - b.e3 * b.e3 * a.e23 + T(2) * b.e3 * b.e1 * a.e12 - a.e23 * b.e2 * b.e2 + T(2) * b.e1 * b.e2 * a.e31 + b.e1 * b.e1 * a.e23,
+      + b.e2 * b.e2 * a.e31 + T(2) * b.e3 * a.e12 * b.e2 - b.e3 * b.e3 * a.e31 + T(2) * b.e1 * a.e23 * b.e2 - b.e1 * b.e1 * a.e31,
+      T(2) * b.e3 * b.e2 * a.e31 - b.e1 * b.e1 * a.e12 + b.e3 * b.e3 * a.e12 - a.e12 * b.e2 * b.e2 + T(2) * b.e3 * b.e1 * a.e23,
+      - T(2) * b.e3 * b.e0 * a.e31 - T(2) * b.e1 * a.e02 * b.e2 - a.e01 * b.e1 * b.e1 - T(2) * b.e3 * b.e1 * a.e03 + b.e3 * b.e3 * a.e01 + a.e01 * b.e2 * b.e2 + T(2) * a.e12 * b.e0 * b.e2,
+      - T(2) * b.e1 * a.e12 * b.e0 + b.e1 * b.e1 * a.e02 - a.e02 * b.e2 * b.e2 - T(2) * b.e3 * a.e03 * b.e2 - T(2) * a.e01 * b.e1 * b.e2 + T(2) * b.e3 * a.e23 * b.e0 + b.e3 * b.e3 * a.e02,
+      + a.e03 * b.e2 * b.e2 - b.e3 * b.e3 * a.e03 + b.e1 * b.e1 * a.e03 - T(2) * b.e3 * a.e02 * b.e2 + T(2) * b.e1 * b.e0 * a.e31 - T(2) * b.e3 * a.e01 * b.e1 - T(2) * a.e23 * b.e0 * b.e2
     );
   }
 
@@ -1191,12 +1191,12 @@ namespace kmath {
   template<Number T>
   _Line3<T> fast_reflect(const _Line3<T> &a, const _Line3<T> &b) {
     return _Line3<T>(
-       + a.e23 * b.e31 * b.e31 + a.e23 * b.e12 * b.e12 - a.e23 * b.e23 * b.e23 - (T)2.0 * a.e12 * b.e12 * b.e23 - (T)2.0 * a.e31 * b.e31 * b.e23,
-       + a.e31 * b.e23 * b.e23 + a.e31 * b.e12 * b.e12 - a.e31 * b.e31 * b.e31 - (T)2.0 * a.e23 * b.e31 * b.e23 - (T)2.0 * a.e12 * b.e31 * b.e12,
-       + a.e12 * b.e23 * b.e23 + a.e12 * b.e31 * b.e31 - a.e12 * b.e12 * b.e12 - (T)2.0 * a.e31 * b.e31 * b.e12 - (T)2.0 * a.e23 * b.e12 * b.e23,
-       + b.e31 * b.e31 * a.e01 + b.e12 * b.e12 * a.e01 - a.e01 * b.e23 * b.e23 - (T)2.0 * a.e23 * b.e01 * b.e23 - (T)2.0 * a.e31 * b.e01 * b.e31 - (T)2.0 * a.e12 * b.e01 * b.e12 - (T)2.0 * a.e31 * b.e02 * b.e23 + (T)2.0 * a.e23 * b.e02 * b.e31 - (T)2.0 * a.e12 * b.e03 * b.e23 + (T)2.0 * a.e23 * b.e03 * b.e12 - (T)2.0 * a.e02 * b.e31 * b.e23 - (T)2.0 * a.e03 * b.e12 * b.e23,
-       + a.e02 * b.e23 * b.e23 + a.e02 * b.e12 * b.e12 - a.e02 * b.e31 * b.e31 - (T)2.0 * a.e23 * b.e01 * b.e31 + (T)2.0 * a.e31 * b.e01 * b.e23 - (T)2.0 * a.e31 * b.e02 * b.e31 - (T)2.0 * a.e12 * b.e02 * b.e12 - (T)2.0 * a.e23 * b.e02 * b.e23 + (T)2.0 * a.e31 * b.e03 * b.e12 - (T)2.0 * a.e12 * b.e03 * b.e31 - (T)2.0 * a.e01 * b.e31 * b.e23 - (T)2.0 * a.e03 * b.e31 * b.e12,
-       + a.e03 * b.e23 * b.e23 + a.e03 * b.e31 * b.e31 - a.e03 * b.e12 * b.e12 + (T)2.0 * a.e12 * b.e01 * b.e23 - (T)2.0 * a.e23 * b.e01 * b.e12 + (T)2.0 * a.e12 * b.e02 * b.e31 - (T)2.0 * a.e31 * b.e02 * b.e12 - (T)2.0 * a.e23 * b.e03 * b.e23 - (T)2.0 * a.e31 * b.e03 * b.e31 - (T)2.0 * a.e12 * b.e03 * b.e12 - (T)2.0 * a.e01 * b.e12 * b.e23 - (T)2.0 * a.e02 * b.e31 * b.e12
+       + a.e23 * b.e31 * b.e31 + a.e23 * b.e12 * b.e12 - a.e23 * b.e23 * b.e23 - T(2) * a.e12 * b.e12 * b.e23 - T(2) * a.e31 * b.e31 * b.e23,
+       + a.e31 * b.e23 * b.e23 + a.e31 * b.e12 * b.e12 - a.e31 * b.e31 * b.e31 - T(2) * a.e23 * b.e31 * b.e23 - T(2) * a.e12 * b.e31 * b.e12,
+       + a.e12 * b.e23 * b.e23 + a.e12 * b.e31 * b.e31 - a.e12 * b.e12 * b.e12 - T(2) * a.e31 * b.e31 * b.e12 - T(2) * a.e23 * b.e12 * b.e23,
+       + b.e31 * b.e31 * a.e01 + b.e12 * b.e12 * a.e01 - a.e01 * b.e23 * b.e23 - T(2) * a.e23 * b.e01 * b.e23 - T(2) * a.e31 * b.e01 * b.e31 - T(2) * a.e12 * b.e01 * b.e12 - T(2) * a.e31 * b.e02 * b.e23 + T(2) * a.e23 * b.e02 * b.e31 - T(2) * a.e12 * b.e03 * b.e23 + T(2) * a.e23 * b.e03 * b.e12 - T(2) * a.e02 * b.e31 * b.e23 - T(2) * a.e03 * b.e12 * b.e23,
+       + a.e02 * b.e23 * b.e23 + a.e02 * b.e12 * b.e12 - a.e02 * b.e31 * b.e31 - T(2) * a.e23 * b.e01 * b.e31 + T(2) * a.e31 * b.e01 * b.e23 - T(2) * a.e31 * b.e02 * b.e31 - T(2) * a.e12 * b.e02 * b.e12 - T(2) * a.e23 * b.e02 * b.e23 + T(2) * a.e31 * b.e03 * b.e12 - T(2) * a.e12 * b.e03 * b.e31 - T(2) * a.e01 * b.e31 * b.e23 - T(2) * a.e03 * b.e31 * b.e12,
+       + a.e03 * b.e23 * b.e23 + a.e03 * b.e31 * b.e31 - a.e03 * b.e12 * b.e12 + T(2) * a.e12 * b.e01 * b.e23 - T(2) * a.e23 * b.e01 * b.e12 + T(2) * a.e12 * b.e02 * b.e31 - T(2) * a.e31 * b.e02 * b.e12 - T(2) * a.e23 * b.e03 * b.e23 - T(2) * a.e31 * b.e03 * b.e31 - T(2) * a.e12 * b.e03 * b.e12 - T(2) * a.e01 * b.e12 * b.e23 - T(2) * a.e02 * b.e31 * b.e12
     );
   }
 
@@ -1207,9 +1207,9 @@ namespace kmath {
       - a.e23 * b.e123 * b.e123,
       - a.e31 * b.e123 * b.e123,
       - a.e12 * b.e123 * b.e123,
-      + a.e01 * b.e123 * b.e123 + (T)2.0 * a.e31 * b.e021 * b.e123 - (T)2.0 * a.e12 * b.e123 * b.e013,
-      + a.e02 * b.e123 * b.e123 + (T)2.0 * a.e12 * b.e123 * b.e032 - (T)2.0 * a.e23 * b.e021 * b.e123,
-      + a.e03 * b.e123 * b.e123 + (T)2.0 * a.e23 * b.e123 * b.e013 - (T)2.0 * a.e31 * b.e123 * b.e032
+      + a.e01 * b.e123 * b.e123 + T(2) * a.e31 * b.e021 * b.e123 - T(2) * a.e12 * b.e123 * b.e013,
+      + a.e02 * b.e123 * b.e123 + T(2) * a.e12 * b.e123 * b.e032 - T(2) * a.e23 * b.e021 * b.e123,
+      + a.e03 * b.e123 * b.e123 + T(2) * a.e23 * b.e123 * b.e013 - T(2) * a.e31 * b.e123 * b.e032
     );
   }
 
@@ -1217,10 +1217,10 @@ namespace kmath {
   template<Number T>
   _Plane3<T> fast_reflect(const _Plane3<T> &a, const _Plane3<T> &b) {
     return _Plane3<T>(
-      a.e1 * b.e2 * b.e2 + a.e1 * b.e3 * b.e3 - a.e1 * b.e1 * b.e1 - (T)2.0 * a.e3 * b.e1 * b.e3 - (T)2.0 * a.e2 * b.e1 * b.e2,
-      a.e2 * b.e1 * b.e1 + a.e2 * b.e3 * b.e3 - a.e2 * b.e2 * b.e2 - (T)2.0 * a.e3 * b.e2 * b.e3 - (T)2.0 * a.e1 * b.e1 * b.e2,
-      a.e3 * b.e2 * b.e2 + a.e3 * b.e1 * b.e1 - a.e3 * b.e3 * b.e3 - (T)2.0 * a.e2 * b.e2 * b.e3 - (T)2.0 * a.e1 * b.e1 * b.e3,
-      a.e0 * b.e1 * b.e1 + a.e0 * b.e2 * b.e2 + a.e0 * b.e3 * b.e3 - (T)2.0 * a.e2 * b.e2 * b.e0 - (T)2.0 * a.e3 * b.e3 * b.e0 - (T)2.0 * a.e1 * b.e1 * b.e0
+      a.e1 * b.e2 * b.e2 + a.e1 * b.e3 * b.e3 - a.e1 * b.e1 * b.e1 - T(2) * a.e3 * b.e1 * b.e3 - T(2) * a.e2 * b.e1 * b.e2,
+      a.e2 * b.e1 * b.e1 + a.e2 * b.e3 * b.e3 - a.e2 * b.e2 * b.e2 - T(2) * a.e3 * b.e2 * b.e3 - T(2) * a.e1 * b.e1 * b.e2,
+      a.e3 * b.e2 * b.e2 + a.e3 * b.e1 * b.e1 - a.e3 * b.e3 * b.e3 - T(2) * a.e2 * b.e2 * b.e3 - T(2) * a.e1 * b.e1 * b.e3,
+      a.e0 * b.e1 * b.e1 + a.e0 * b.e2 * b.e2 + a.e0 * b.e3 * b.e3 - T(2) * a.e2 * b.e2 * b.e0 - T(2) * a.e3 * b.e3 * b.e0 - T(2) * a.e1 * b.e1 * b.e0
     );
   }
 
@@ -1228,10 +1228,10 @@ namespace kmath {
   template<Number T>
   _Plane3<T> fast_reflect(const _Plane3<T> &a, const _Line3<T> &b) {
     return _Plane3<T>(
-      - (T)2.0 * a.e3 * b.e23 * b.e12 - b.e23 * b.e23 * a.e1 + b.e12 * b.e12 * a.e1 - (T)2.0 * b.e23 * a.e2 * b.e31 + b.e31 * b.e31 * a.e1,
-      b.e23 * b.e23 * a.e2 + b.e12 * b.e12 * a.e2 - (T)2.0 * b.e23 * b.e31 * a.e1 - (T)2.0 * a.e3 * b.e12 * b.e31 - a.e2 * b.e31 * b.e31,
-      a.e3 * b.e23 * b.e23 + a.e3 * b.e31 * b.e31 - a.e3 * b.e12 * b.e12 - (T)2.0 * b.e23 * b.e12 * a.e1 - (T)2.0 * b.e12 * a.e2 * b.e31,
-      - a.e0 * b.e31 * b.e31 - (T)2.0 * b.e12 * a.e2 * b.e01 - a.e0 * b.e23 * b.e23 + (T)2.0 * b.e23 * b.e03 * a.e2 + (T)2.0 * b.e12 * b.e02 * a.e1 - (T)2.0 * b.e03 * b.e31 * a.e1 - (T)2.0 * a.e3 * b.e23 * b.e02 - a.e0 * b.e12 * b.e12 + (T)2.0 * a.e3 * b.e31 * b.e01
+      - T(2) * a.e3 * b.e23 * b.e12 - b.e23 * b.e23 * a.e1 + b.e12 * b.e12 * a.e1 - T(2) * b.e23 * a.e2 * b.e31 + b.e31 * b.e31 * a.e1,
+      b.e23 * b.e23 * a.e2 + b.e12 * b.e12 * a.e2 - T(2) * b.e23 * b.e31 * a.e1 - T(2) * a.e3 * b.e12 * b.e31 - a.e2 * b.e31 * b.e31,
+      a.e3 * b.e23 * b.e23 + a.e3 * b.e31 * b.e31 - a.e3 * b.e12 * b.e12 - T(2) * b.e23 * b.e12 * a.e1 - T(2) * b.e12 * a.e2 * b.e31,
+      - a.e0 * b.e31 * b.e31 - T(2) * b.e12 * a.e2 * b.e01 - a.e0 * b.e23 * b.e23 + T(2) * b.e23 * b.e03 * a.e2 + T(2) * b.e12 * b.e02 * a.e1 - T(2) * b.e03 * b.e31 * a.e1 - T(2) * a.e3 * b.e23 * b.e02 - a.e0 * b.e12 * b.e12 + T(2) * a.e3 * b.e31 * b.e01
     );
   }
 

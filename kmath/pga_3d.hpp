@@ -277,7 +277,7 @@ namespace kmath {
 
     static _Mvec3<T> point(const T x, const T y, const T z) {
       _Mvec3<T> res;
-      res[Basis::e123] = (T)1.0;
+      res[Basis::e123] = T(1);
       res[Basis::e032] = x;
       res[Basis::e013] = y;
       res[Basis::e021] = z;
@@ -366,42 +366,42 @@ namespace kmath {
   template<Number T>
   const _Mvec3<T> _Mvec3<T>::ZERO = _Mvec3<T>();
   template<Number T>
-  const _Mvec3<T> _Mvec3<T>::PSEUDOSCALAR = _Mvec3<T>((T)1.0, 0);
+  const _Mvec3<T> _Mvec3<T>::PSEUDOSCALAR = _Mvec3<T>(T(1), 0);
   template<Number T>
-  const _Mvec3<T> _Mvec3<T>::INF_PLANE = _Mvec3<T>(-(T)1.0, 0);
+  const _Mvec3<T> _Mvec3<T>::INF_PLANE = _Mvec3<T>(-T(1), 0);
 
   template<Number T>
-  const _Mvec3<T> _Mvec3<T>::ONE = _Mvec3<T>((T)1.0, 0);
+  const _Mvec3<T> _Mvec3<T>::ONE = _Mvec3<T>(T(1), 0);
   template<Number T>
-  const _Mvec3<T> _Mvec3<T>::e0 = _Mvec3<T>((T)1.0, 1);
+  const _Mvec3<T> _Mvec3<T>::e0 = _Mvec3<T>(T(1), 1);
   template<Number T>
-  const _Mvec3<T> _Mvec3<T>::e1 = _Mvec3<T>((T)1.0, 2);
+  const _Mvec3<T> _Mvec3<T>::e1 = _Mvec3<T>(T(1), 2);
   template<Number T>
-  const _Mvec3<T> _Mvec3<T>::e2 = _Mvec3<T>((T)1.0, 3);
+  const _Mvec3<T> _Mvec3<T>::e2 = _Mvec3<T>(T(1), 3);
   template<Number T>
-  const _Mvec3<T> _Mvec3<T>::e3 = _Mvec3<T>((T)1.0, 4);
+  const _Mvec3<T> _Mvec3<T>::e3 = _Mvec3<T>(T(1), 4);
   template<Number T>
-  const _Mvec3<T> _Mvec3<T>::e01 = _Mvec3<T>((T)1.0, 5);
+  const _Mvec3<T> _Mvec3<T>::e01 = _Mvec3<T>(T(1), 5);
   template<Number T>
-  const _Mvec3<T> _Mvec3<T>::e02 = _Mvec3<T>((T)1.0, 6);
+  const _Mvec3<T> _Mvec3<T>::e02 = _Mvec3<T>(T(1), 6);
   template<Number T>
-  const _Mvec3<T> _Mvec3<T>::e03 = _Mvec3<T>((T)1.0, 7);
+  const _Mvec3<T> _Mvec3<T>::e03 = _Mvec3<T>(T(1), 7);
   template<Number T>
-  const _Mvec3<T> _Mvec3<T>::e12 = _Mvec3<T>((T)1.0, 8);
+  const _Mvec3<T> _Mvec3<T>::e12 = _Mvec3<T>(T(1), 8);
   template<Number T>
-  const _Mvec3<T> _Mvec3<T>::e31 = _Mvec3<T>((T)1.0, 9);
+  const _Mvec3<T> _Mvec3<T>::e31 = _Mvec3<T>(T(1), 9);
   template<Number T>
-  const _Mvec3<T> _Mvec3<T>::e23 = _Mvec3<T>((T)1.0, 10);
+  const _Mvec3<T> _Mvec3<T>::e23 = _Mvec3<T>(T(1), 10);
   template<Number T>
-  const _Mvec3<T> _Mvec3<T>::e021 = _Mvec3<T>((T)1.0, 11);
+  const _Mvec3<T> _Mvec3<T>::e021 = _Mvec3<T>(T(1), 11);
   template<Number T>
-  const _Mvec3<T> _Mvec3<T>::e013 = _Mvec3<T>((T)1.0, 12);
+  const _Mvec3<T> _Mvec3<T>::e013 = _Mvec3<T>(T(1), 12);
   template<Number T>
-  const _Mvec3<T> _Mvec3<T>::e032 = _Mvec3<T>((T)1.0, 13);
+  const _Mvec3<T> _Mvec3<T>::e032 = _Mvec3<T>(T(1), 13);
   template<Number T>
-  const _Mvec3<T> _Mvec3<T>::e123 = _Mvec3<T>((T)1.0, 14);
+  const _Mvec3<T> _Mvec3<T>::e123 = _Mvec3<T>(T(1), 14);
   template<Number T>
-  const _Mvec3<T> _Mvec3<T>::e0123 = _Mvec3<T>((T)1.0, 15);
+  const _Mvec3<T> _Mvec3<T>::e0123 = _Mvec3<T>(T(1), 15);
 
 
   // Geometric product

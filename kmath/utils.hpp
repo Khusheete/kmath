@@ -61,9 +61,9 @@ namespace kmath {
   }
 
 
-  template<Number T>
-  requires Orderable<T>
-  inline bool is_square_approx_zero(const T &a) {
+  template<Number N>
+  requires Orderable<N>
+  inline bool is_square_approx_zero(const N &a) {
     return std::abs(a) < KMATH_EPSILON2;
   }
 
@@ -86,21 +86,21 @@ namespace kmath {
   }
 
 
-  template<Number T>
-  inline T inv_lerp(const T a, const T b, const T x) {
+  template<Number N>
+  inline N inv_lerp(const N a, const N b, const N x) {
     return (x - a) / (b - a);
   }
 
 
-  template<Number S, Vector<S> T>
-  inline T inv_lerp(const T a, const T b, const S &x) {
-    return (x - T(a)) / (b - a);
+  template<Number N, Vector<N> V>
+  inline V inv_lerp(const V a, const V b, const N &x) {
+    return (x - V(a)) / (b - a);
   }
 
 
-  template<Number S, Vector<S> T>
-  inline T lerp(const T &a, const T &b, const S &t) {
-    return (S)(1.0 - t) * a + t * b;
+  template<Number N, Vector<N> V>
+  inline V lerp(const V &a, const V &b, const N &t) {
+    return (N)(1.0 - t) * a + t * b;
   }
 
 
@@ -116,14 +116,14 @@ namespace kmath {
   }
 
 
-  template<Number T>
-  inline T sign(const T a) {
-    return ((T)0.0 < a) - ((T)0.0 > a);
+  template<Number N>
+  inline N sign(const N a) {
+    return (N(0) < a) - (N(0) > a);
   }
 
 
-  template<Number T>
-  inline T possign(const T a) {
-    return ((T)0.0 <= a) - ((T)0.0 > a);
+  template<Number N>
+  inline N possign(const N a) {
+    return (N(0) <= a) - (N(0) > a);
   }
 }

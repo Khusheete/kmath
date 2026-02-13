@@ -53,8 +53,8 @@ namespace kmath {
 
     static inline _Mat2<T> scale(const T x, const T y) {
       return _Mat2<T>(
-        _Vec2<T>(x     , (T)0.0),
-        _Vec2<T>((T)0.0, y     )
+        _Vec2<T>(x     , T(0)),
+        _Vec2<T>(T(0), y     )
       );
     }
     
@@ -80,8 +80,8 @@ namespace kmath {
 
   template<Number T>
   const _Mat2<T> _Mat2<T>::IDENTITY = _Mat2<T>(
-    _Vec2<T>((T)1.0, (T)0.0),
-    _Vec2<T>((T)0.0, (T)1.0)
+    _Vec2<T>(T(1), T(0)),
+    _Vec2<T>(T(0), T(1))
   );
 
 
@@ -201,7 +201,7 @@ namespace kmath {
 
   template<Number T>
   inline _Mat2<T> operator/(const _Mat2<T> &a, const T b) {
-    const T scale = (T)1.0 / b;
+    const T scale = T(1) / b;
     return scale * a;
   }
 
@@ -239,9 +239,9 @@ namespace kmath {
 
     static inline _Mat3<T> scale(const T x, const T y, const T z) {
       return _Mat3<T>(
-        _Vec3<T>(x     , (T)0.0, (T)0.0),
-        _Vec3<T>((T)0.0, y     , (T)0.0),
-        _Vec3<T>((T)0.0, (T)0.0, z     )
+        _Vec3<T>(x     , T(0), T(0)),
+        _Vec3<T>(T(0), y     , T(0)),
+        _Vec3<T>(T(0), T(0), z     )
       );
     }
 
@@ -250,9 +250,9 @@ namespace kmath {
       const T cos = std::cos(angle);
       const T sin = std::sin(angle);
       return _Mat3<T>(
-        _Vec3<T>((T)1.0, (T)0.0, (T)0.0),
-        _Vec3<T>((T)0.0, cos   , sin   ),
-        _Vec3<T>((T)0.0, -sin  , cos   )
+        _Vec3<T>(T(1), T(0), T(0)),
+        _Vec3<T>(T(0), cos   , sin   ),
+        _Vec3<T>(T(0), -sin  , cos   )
       );
     }
 
@@ -261,9 +261,9 @@ namespace kmath {
       const T cos = std::cos(angle);
       const T sin = std::sin(angle);
       return _Mat3<T>(
-        _Vec3<T>(cos   , (T)0.0, -sin  ),
-        _Vec3<T>((T)0.0, (T)1.0, (T)0.0),
-        _Vec3<T>(sin   , (T)0.0, cos   )
+        _Vec3<T>(cos   , T(0), -sin  ),
+        _Vec3<T>(T(0), T(1), T(0)),
+        _Vec3<T>(sin   , T(0), cos   )
       );
     }
 
@@ -272,9 +272,9 @@ namespace kmath {
       const T cos = std::cos(angle);
       const T sin = std::sin(angle);
       return _Mat3<T>(
-        _Vec3<T>(cos   , sin   , (T)0.0),
-        _Vec3<T>(-sin  , cos   , (T)0.0),
-        _Vec3<T>((T)0.0, (T)0.0, (T)1.0)
+        _Vec3<T>(cos   , sin   , T(0)),
+        _Vec3<T>(-sin  , cos   , T(0)),
+        _Vec3<T>(T(0), T(0), T(1))
       );
     }
 
@@ -290,9 +290,9 @@ namespace kmath {
 
   template<Number T>
   const _Mat3<T> _Mat3<T>::IDENTITY = _Mat3<T>(
-    _Vec3<T>((T)1.0, (T)0.0, (T)0.0),
-    _Vec3<T>((T)0.0, (T)1.0, (T)0.0),
-    _Vec3<T>((T)0.0, (T)0.0, (T)1.0)
+    _Vec3<T>(T(1), T(0), T(0)),
+    _Vec3<T>(T(0), T(1), T(0)),
+    _Vec3<T>(T(0), T(0), T(1))
   );
 
 
@@ -436,7 +436,7 @@ namespace kmath {
 
   template<Number T>
   inline _Mat3<T> operator/(const _Mat3<T> &a, const T b) {
-    const T scale = (T)1.0 / b;
+    const T scale = T(1) / b;
     return scale * a;
   }
 
@@ -461,10 +461,10 @@ namespace kmath {
 
     inline static _Mat4<T> from_basis(const _Mat3<T> &basis, const _Vec3<T> &position = _Vec3<T>::ZERO) {
       return _Mat4<T>(
-      _Vec4<T>(basis.x.x , basis.x.y , basis.x.z , (T)0.0),
-      _Vec4<T>(basis.y.x , basis.y.y , basis.y.z , (T)0.0),
-      _Vec4<T>(basis.z.x , basis.z.y , basis.z.z , (T)0.0),
-      _Vec4<T>(position.x, position.y, position.z, (T)1.0)
+      _Vec4<T>(basis.x.x , basis.x.y , basis.x.z , T(0)),
+      _Vec4<T>(basis.y.x , basis.y.y , basis.y.z , T(0)),
+      _Vec4<T>(basis.z.x , basis.z.y , basis.z.z , T(0)),
+      _Vec4<T>(position.x, position.y, position.z, T(1))
       );
     }
 
@@ -475,12 +475,12 @@ namespace kmath {
     }
 
 
-    static inline _Mat4<T> scale(const T x, const T y, const T z, const T w = (T)1.0) {
+    static inline _Mat4<T> scale(const T x, const T y, const T z, const T w = T(1)) {
       return _Mat4<T>(
-        _Vec4<T>(x     , (T)0.0, (T)0.0, (T)0.0),
-        _Vec4<T>((T)0.0, y     , (T)0.0, (T)0.0),
-        _Vec4<T>((T)0.0, (T)0.0, z     , (T)0.0),
-        _Vec4<T>((T)0.0, (T)0.0, (T)0.0, w     )
+        _Vec4<T>(x     , T(0), T(0), T(0)),
+        _Vec4<T>(T(0), y     , T(0), T(0)),
+        _Vec4<T>(T(0), T(0), z     , T(0)),
+        _Vec4<T>(T(0), T(0), T(0), w     )
       );
     }
 
@@ -489,10 +489,10 @@ namespace kmath {
       const T cos = std::cos(angle);
       const T sin = std::sin(angle);
       return _Mat4<T>(
-        _Vec4<T>((T)1.0, (T)0.0, (T)0.0, (T)0.0),
-        _Vec4<T>((T)0.0, cos   , sin   , (T)0.0),
-        _Vec4<T>((T)0.0, -sin  , cos   , (T)0.0),
-        _Vec4<T>((T)0.0, (T)0.0, (T)0.0, (T)1.0)
+        _Vec4<T>(T(1), T(0), T(0), T(0)),
+        _Vec4<T>(T(0), cos   , sin   , T(0)),
+        _Vec4<T>(T(0), -sin  , cos   , T(0)),
+        _Vec4<T>(T(0), T(0), T(0), T(1))
       );
     }
 
@@ -501,10 +501,10 @@ namespace kmath {
       const T cos = std::cos(angle);
       const T sin = std::sin(angle);
       return _Mat4<T>(
-        _Vec4<T>(cos   , (T)0.0, -sin  , (T)0.0),
-        _Vec4<T>((T)0.0, (T)1.0, (T)0.0, (T)0.0),
-        _Vec4<T>(sin   , (T)0.0, cos   , (T)0.0),
-        _Vec4<T>((T)0.0, (T)0.0, (T)0.0, (T)1.0)
+        _Vec4<T>(cos   , T(0), -sin  , T(0)),
+        _Vec4<T>(T(0), T(1), T(0), T(0)),
+        _Vec4<T>(sin   , T(0), cos   , T(0)),
+        _Vec4<T>(T(0), T(0), T(0), T(1))
       );
     }
 
@@ -513,20 +513,20 @@ namespace kmath {
       const T cos = std::cos(angle);
       const T sin = std::sin(angle);
       return _Mat4<T>(
-        _Vec4<T>(cos   , sin   , (T)0.0, (T)0.0),
-        _Vec4<T>(-sin  , cos   , (T)0.0, (T)0.0),
-        _Vec4<T>((T)0.0, (T)0.0, (T)1.0, (T)0.0),
-        _Vec4<T>((T)0.0, (T)0.0, (T)0.0, (T)1.0)
+        _Vec4<T>(cos   , sin   , T(0), T(0)),
+        _Vec4<T>(-sin  , cos   , T(0), T(0)),
+        _Vec4<T>(T(0), T(0), T(1), T(0)),
+        _Vec4<T>(T(0), T(0), T(0), T(1))
       );
     }
 
 
     static inline _Mat4<T> translation(const _Vec3<T> &translation) {
       return _Mat4<T>(
-        _Vec4<T>((T)1.0, (T)0.0, (T)0.0, (T)0.0),
-        _Vec4<T>((T)0.0, (T)1.0, (T)0.0, (T)0.0),
-        _Vec4<T>((T)0.0, (T)0.0, (T)1.0, (T)0.0),
-        _Vec4<T>(translation           , (T)1.0)
+        _Vec4<T>(T(1), T(0), T(0), T(0)),
+        _Vec4<T>(T(0), T(1), T(0), T(0)),
+        _Vec4<T>(T(0), T(0), T(1), T(0)),
+        _Vec4<T>(translation           , T(1))
       );
     }
 
@@ -534,12 +534,12 @@ namespace kmath {
     // Creates an orthogonal projection matrix with a right handed ndc that goes from negative one to one.
     // Note that the near plane is mapped to -1 and the far plane is mapped to 1.
     static inline _Mat4<T> orthogonal_rh_no_ndc(const T near, const T far, const T width, const T height) {
-      const T inv_nf_dist = (T)1.0 / (far - near);
+      const T inv_nf_dist = T(1) / (far - near);
       return _Mat4<T>(
-        _Vec4<T>((T)2.0 / width, (T)0.0         , (T)0.0                    , (T)0.0                           ),
-        _Vec4<T>((T)0.0        , (T)2.0 / height, (T)0.0                    , (T)0.0                           ),
-        _Vec4<T>((T)0.0        , (T)0.0         , (far + near) * inv_nf_dist, (T)2.0 * near * far * inv_nf_dist),
-        _Vec4<T>((T)0.0        , (T)0.0         , (T)0.0                    , (T)1.0                           )
+        _Vec4<T>(T(2) / width, T(0)         , T(0)                    , T(0)                           ),
+        _Vec4<T>(T(0)        , T(2) / height, T(0)                    , T(0)                           ),
+        _Vec4<T>(T(0)        , T(0)         , (far + near) * inv_nf_dist, T(2) * near * far * inv_nf_dist),
+        _Vec4<T>(T(0)        , T(0)         , T(0)                    , T(1)                           )
       );
     }
 
@@ -547,12 +547,12 @@ namespace kmath {
     // Creates an orthogonal projection matrix with a left handed ndc that goes from negative one to one.
     // Note that the near plane is mapped to -1 and the far plane is mapped to 1.
     static inline _Mat4<T> orthogonal_lh_no_ndc(const T near, const T far, const T width, const T height) {
-      const T inv_nf_dist = (T)1.0 / (far - near);
+      const T inv_nf_dist = T(1) / (far - near);
       return _Mat4<T>(
-        _Vec4<T>((T)2.0 / width, (T)0.0         , (T)0.0                , (T)0.0                      ),
-        _Vec4<T>((T)0.0        , (T)2.0 / height, (T)0.0                , (T)0.0                      ),
-        _Vec4<T>((T)0.0        , (T)0.0         , - (T)2.0 * inv_nf_dist, - (far + near) * inv_nf_dist),
-        _Vec4<T>((T)0.0        , (T)0.0         , (T)0.0                , (T)1.0                      )
+        _Vec4<T>(T(2) / width, T(0)         , T(0)                , T(0)                      ),
+        _Vec4<T>(T(0)        , T(2) / height, T(0)                , T(0)                      ),
+        _Vec4<T>(T(0)        , T(0)         , - T(2) * inv_nf_dist, - (far + near) * inv_nf_dist),
+        _Vec4<T>(T(0)        , T(0)         , T(0)                , T(1)                      )
       );
     }
 
@@ -561,15 +561,15 @@ namespace kmath {
     // Note that the near plane is mapped to 1 and the far plane is mapped to 0.
     // v_fov is the vertical field of view in rad.
     static inline _Mat4<T> perspective_rh_zo_ndc_vfov(const T near, const T far, const T v_fov, const T aspect_ratio) {
-      const T half_fov = (T)0.5 * v_fov;
+      const T half_fov = T(0.5) * v_fov;
       const T iw_v = std::cos(half_fov) / std::sin(half_fov);
       const T iw_h = iw_v / aspect_ratio;
-      const T inv_nf_dist = (T)1.0 / (far - near);
+      const T inv_nf_dist = T(1) / (far - near);
       return _Mat4<T>(
-        _Vec4<T>(iw_h  , (T)0.0,   (T)0.0                  , (T)0.0),
-        _Vec4<T>((T)0.0, iw_v  ,   (T)0.0                  , (T)0.0),
-        _Vec4<T>((T)0.0, (T)0.0, - near * inv_nf_dist      , (T)1.0),
-        _Vec4<T>((T)0.0, (T)0.0, - near * far * inv_nf_dist, (T)0.0)
+        _Vec4<T>(iw_h  , T(0),   T(0)                  , T(0)),
+        _Vec4<T>(T(0), iw_v  ,   T(0)                  , T(0)),
+        _Vec4<T>(T(0), T(0), - near * inv_nf_dist      , T(1)),
+        _Vec4<T>(T(0), T(0), - near * far * inv_nf_dist, T(0))
       );
     }
 
@@ -578,15 +578,15 @@ namespace kmath {
     // Note that the near plane is mapped to 1 and the far plane is mapped to 0.
     // h_fov is the horizontal field of view in rad.
     static inline _Mat4<T> perspective_rh_zo_ndc_hfov(const T near, const T far, const T v_fov, const T aspect_ratio) {
-      const T half_fov = (T)0.5 * v_fov;
+      const T half_fov = T(0.5) * v_fov;
       const T iw_h = std::cos(half_fov) / std::sin(half_fov);
       const T iw_v = iw_h * aspect_ratio;
-      const T inv_nf_dist = (T)1.0 / (far - near);
+      const T inv_nf_dist = T(1) / (far - near);
       return _Mat4<T>(
-        _Vec4<T>(iw_h  , (T)0.0,   (T)0.0                  , (T)0.0),
-        _Vec4<T>((T)0.0, iw_v  ,   (T)0.0                  , (T)0.0),
-        _Vec4<T>((T)0.0, (T)0.0, - near * inv_nf_dist      , (T)1.0),
-        _Vec4<T>((T)0.0, (T)0.0, - near * far * inv_nf_dist, (T)0.0)
+        _Vec4<T>(iw_h  , T(0),   T(0)                  , T(0)),
+        _Vec4<T>(T(0), iw_v  ,   T(0)                  , T(0)),
+        _Vec4<T>(T(0), T(0), - near * inv_nf_dist      , T(1)),
+        _Vec4<T>(T(0), T(0), - near * far * inv_nf_dist, T(0))
       );
     }
 
@@ -595,15 +595,15 @@ namespace kmath {
     // Note that the near plane is mapped to 1 and the far plane is mapped to 0.
     // v_fov is the vertical field of view in rad.
     static inline _Mat4<T> perspective_lh_zo_ndc_vfov(const T near, const T far, const T v_fov, const T aspect_ratio) {
-      const T half_fov = (T)0.5 * v_fov;
+      const T half_fov = T(0.5) * v_fov;
       const T iw_v = std::cos(half_fov) / std::sin(half_fov);
       const T iw_h = iw_v / aspect_ratio;
-      const T inv_nf_dist = (T)1.0 / (far - near);
+      const T inv_nf_dist = T(1) / (far - near);
       return _Mat4<T>(
-        _Vec4<T>(iw_h  , (T)0.0,   (T)0.0                , (T)0.0  ),
-        _Vec4<T>((T)0.0, iw_v  ,   (T)0.0                , (T)0.0  ),
-        _Vec4<T>((T)0.0, (T)0.0, near * inv_nf_dist      , - (T)1.0),
-        _Vec4<T>((T)0.0, (T)0.0, near * far * inv_nf_dist, (T)0.0  )
+        _Vec4<T>(iw_h  , T(0),   T(0)                , T(0)  ),
+        _Vec4<T>(T(0), iw_v  ,   T(0)                , T(0)  ),
+        _Vec4<T>(T(0), T(0), near * inv_nf_dist      , - T(1)),
+        _Vec4<T>(T(0), T(0), near * far * inv_nf_dist, T(0)  )
       );
     }
 
@@ -612,15 +612,15 @@ namespace kmath {
     // Note that the near plane is mapped to 1 and the far plane is mapped to 0.
     // h_fov is the horizontal field of view in rad.
     static inline _Mat4<T> perspective_lh_zo_ndc_hfov(const T near, const T far, const T v_fov, const T aspect_ratio) {
-      const T half_fov = (T)0.5 * v_fov;
+      const T half_fov = T(0.5) * v_fov;
       const T iw_h = std::cos(half_fov) / std::sin(half_fov);
       const T iw_v = iw_h * aspect_ratio;
-      const T inv_nf_dist = (T)1.0 / (far - near);
+      const T inv_nf_dist = T(1) / (far - near);
       return _Mat4<T>(
-        _Vec4<T>(iw_h  , (T)0.0,   (T)0.0                , (T)0.0  ),
-        _Vec4<T>((T)0.0, iw_v  ,   (T)0.0                , (T)0.0  ),
-        _Vec4<T>((T)0.0, (T)0.0, near * inv_nf_dist      , - (T)1.0),
-        _Vec4<T>((T)0.0, (T)0.0, near * far * inv_nf_dist, (T)0.0  )
+        _Vec4<T>(iw_h  , T(0),   T(0)                , T(0)  ),
+        _Vec4<T>(T(0), iw_v  ,   T(0)                , T(0)  ),
+        _Vec4<T>(T(0), T(0), near * inv_nf_dist      , - T(1)),
+        _Vec4<T>(T(0), T(0), near * far * inv_nf_dist, T(0)  )
       );
     }
 
@@ -629,15 +629,15 @@ namespace kmath {
     // Note that the near plane is mapped to -1 and the far plane is mapped to 1.
     // v_fov is the vertical field of view in rad.
     static inline _Mat4<T> perspective_rh_no_ndc_vfov(const T near, const T far, const T v_fov, const T aspect_ratio) {
-      const T half_fov = (T)0.5 * v_fov;
+      const T half_fov = T(0.5) * v_fov;
       const T iw_v = std::cos(half_fov) / std::sin(half_fov);
       const T iw_h = iw_v / aspect_ratio;
-      const T inv_nf_dist = (T)1.0 / (far - near);
+      const T inv_nf_dist = T(1) / (far - near);
       return _Mat4<T>(
-        _Vec4<T>(iw_h  , (T)0.0,   (T)0.0                           , (T)0.0),
-        _Vec4<T>((T)0.0, iw_v  ,   (T)0.0                           , (T)0.0),
-        _Vec4<T>((T)0.0, (T)0.0, (far + near) * inv_nf_dist         , (T)1.0),
-        _Vec4<T>((T)0.0, (T)0.0, - (T)2.0 * near * far * inv_nf_dist, (T)0.0)
+        _Vec4<T>(iw_h  , T(0),   T(0)                           , T(0)),
+        _Vec4<T>(T(0), iw_v  ,   T(0)                           , T(0)),
+        _Vec4<T>(T(0), T(0), (far + near) * inv_nf_dist         , T(1)),
+        _Vec4<T>(T(0), T(0), - T(2) * near * far * inv_nf_dist, T(0))
       );
     }
 
@@ -646,15 +646,15 @@ namespace kmath {
     // Note that the near plane is mapped to -1 and the far plane is mapped to 1.
     // h_fov is the horizontal field of view in rad.
     static inline _Mat4<T> perspective_rh_no_ndc_hfov(const T near, const T far, const T h_fov, const T aspect_ratio) {
-      const T half_fov = (T)0.5 * h_fov;
+      const T half_fov = T(0.5) * h_fov;
       const T iw_h = std::cos(half_fov) / std::sin(half_fov);
       const T iw_v = iw_h * aspect_ratio;
-      const T inv_nf_dist = (T)1.0 / (far - near);
+      const T inv_nf_dist = T(1) / (far - near);
       return _Mat4<T>(
-        _Vec4<T>(iw_h  , (T)0.0,   (T)0.0                           , (T)0.0),
-        _Vec4<T>((T)0.0, iw_v  ,   (T)0.0                           , (T)0.0),
-        _Vec4<T>((T)0.0, (T)0.0, (far + near) * inv_nf_dist         , (T)1.0),
-        _Vec4<T>((T)0.0, (T)0.0, - (T)2.0 * near * far * inv_nf_dist, (T)0.0)
+        _Vec4<T>(iw_h  , T(0),   T(0)                           , T(0)),
+        _Vec4<T>(T(0), iw_v  ,   T(0)                           , T(0)),
+        _Vec4<T>(T(0), T(0), (far + near) * inv_nf_dist         , T(1)),
+        _Vec4<T>(T(0), T(0), - T(2) * near * far * inv_nf_dist, T(0))
       );
     }
 
@@ -663,15 +663,15 @@ namespace kmath {
     // Note that the near plane is mapped to -1 and the far plane is mapped to 1.
     // v_fov is the vertical field of view in rad.
     static inline _Mat4<T> perspective_lh_no_ndc_vfov(const T near, const T far, const T v_fov, const T aspect_ratio) {
-      const T half_fov = (T)0.5 * v_fov;
+      const T half_fov = T(0.5) * v_fov;
       const T iw_v = std::cos(half_fov) / std::sin(half_fov);
       const T iw_h = iw_v / aspect_ratio;
-      const T inv_nf_dist = (T)1.0 / (far - near);
+      const T inv_nf_dist = T(1) / (far - near);
       return _Mat4<T>(
-        _Vec4<T>(iw_h  , (T)0.0,   (T)0.0                           , (T)0.0  ),
-        _Vec4<T>((T)0.0, iw_v  ,   (T)0.0                           , (T)0.0  ),
-        _Vec4<T>((T)0.0, (T)0.0, - (far + near) * inv_nf_dist       , - (T)1.0),
-        _Vec4<T>((T)0.0, (T)0.0, - (T)2.0 * near * far * inv_nf_dist, (T)0.0  )
+        _Vec4<T>(iw_h  , T(0),   T(0)                           , T(0)  ),
+        _Vec4<T>(T(0), iw_v  ,   T(0)                           , T(0)  ),
+        _Vec4<T>(T(0), T(0), - (far + near) * inv_nf_dist       , - T(1)),
+        _Vec4<T>(T(0), T(0), - T(2) * near * far * inv_nf_dist, T(0)  )
       );
     }
 
@@ -680,15 +680,15 @@ namespace kmath {
     // Note that the near plane is mapped to -1 and the far plane is mapped to 1.
     // h_fov is the horizontal field of view in rad.
     static inline _Mat4<T> perspective_lh_no_ndc_hfov(const T near, const T far, const T h_fov, const T aspect_ratio) {
-      const T half_fov = (T)0.5 * h_fov;
+      const T half_fov = T(0.5) * h_fov;
       const T iw_h = std::cos(half_fov) / std::sin(half_fov);
       const T iw_v = iw_h * aspect_ratio;
-      const T inv_nf_dist = (T)1.0 / (far - near);
+      const T inv_nf_dist = T(1) / (far - near);
       return _Mat4<T>(
-        _Vec4<T>(iw_h  , (T)0.0,   (T)0.0                           , (T)0.0  ),
-        _Vec4<T>((T)0.0, iw_v  ,   (T)0.0                           , (T)0.0  ),
-        _Vec4<T>((T)0.0, (T)0.0, - (far + near) * inv_nf_dist       , - (T)1.0),
-        _Vec4<T>((T)0.0, (T)0.0, - (T)2.0 * near * far * inv_nf_dist, (T)0.0  )
+        _Vec4<T>(iw_h  , T(0),   T(0)                           , T(0)  ),
+        _Vec4<T>(T(0), iw_v  ,   T(0)                           , T(0)  ),
+        _Vec4<T>(T(0), T(0), - (far + near) * inv_nf_dist       , - T(1)),
+        _Vec4<T>(T(0), T(0), - T(2) * near * far * inv_nf_dist, T(0)  )
       );
     }
 
@@ -704,10 +704,10 @@ namespace kmath {
 
   template<Number T>
   const _Mat4<T> _Mat4<T>::IDENTITY = _Mat4<T>(
-    _Vec4<T>((T)1.0, (T)0.0, (T)0.0, (T)0.0),
-    _Vec4<T>((T)0.0, (T)1.0, (T)0.0, (T)0.0),
-    _Vec4<T>((T)0.0, (T)0.0, (T)1.0, (T)0.0),
-    _Vec4<T>((T)0.0, (T)0.0, (T)0.0, (T)1.0)
+    _Vec4<T>(T(1), T(0), T(0), T(0)),
+    _Vec4<T>(T(0), T(1), T(0), T(0)),
+    _Vec4<T>(T(0), T(0), T(1), T(0)),
+    _Vec4<T>(T(0), T(0), T(0), T(1))
   );
 
 
@@ -839,7 +839,7 @@ namespace kmath {
 
   template<Number T>
   inline _Mat4<T> operator/(const _Mat4<T> &a, const T b) {
-    const T scale = (T)1.0 / b;
+    const T scale = T(1) / b;
     return scale * a;
   }
 
@@ -898,7 +898,7 @@ namespace kmath {
       + m(0, 3) * inv(3, 0)
     );
 
-    if (det == (T)0.0) { // Test for equality since matrices that are almost non-invertible may have a det veeeery close to zero.
+    if (det == T(0)) { // Test for equality since matrices that are almost non-invertible may have a det veeeery close to zero.
       return _Mat4<T>::ZERO;
     }
 

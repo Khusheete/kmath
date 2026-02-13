@@ -59,8 +59,8 @@ namespace kmath {
 
     static _Rotor3<T> from_axis_angle(const _Vec3<T> &axis, const T angle) {
       return _Rotor3<T>(
-        (T)std::cos((T)0.5 * angle),
-        - (T)std::sin((T)0.5 * angle) * axis
+        T(std::cos(T(0) * angle)),
+        - T(std::sin(T(0) * angle)) * axis
       );
     }
 
@@ -71,9 +71,9 @@ namespace kmath {
 
 
   template<Number T>
-  const _Rotor3<T> _Rotor3<T>::ZERO = _Rotor3<T>((T)0.0, (T)0.0, (T)0.0, (T)0.0);
+  const _Rotor3<T> _Rotor3<T>::ZERO = _Rotor3<T>(T(0), T(0), T(0), T(0));
   template<Number T>
-  const _Rotor3<T> _Rotor3<T>::IDENTITY = _Rotor3<T>((T)1.0, (T)0.0, (T)0.0, (T)0.0);
+  const _Rotor3<T> _Rotor3<T>::IDENTITY = _Rotor3<T>(T(1), T(0), T(0), T(0));
 
 
   // ===========================
@@ -312,8 +312,8 @@ namespace kmath {
   inline _Vec3<T> get_x_basis_vector(const _Rotor3<T> &r) {
     return _Vec3<T>(
       r.e23 * r.e23 - r.e31 * r.e31 - r.e12 * r.e12 + r.s * r.s,
-      (T)2.0 * (r.e23 * r.e31 - r.e12 * r.s),
-      (T)2.0 * (r.e23 * r.e12 + r.e31 * r.s)
+      T(2) * (r.e23 * r.e31 - r.e12 * r.s),
+      T(2) * (r.e23 * r.e12 + r.e31 * r.s)
     );
   }
 
@@ -321,9 +321,9 @@ namespace kmath {
   template<Number T>
   inline _Vec3<T> get_y_basis_vector(const _Rotor3<T> &r) {
     return _Vec3<T>(
-      (T)2.0 * (r.e23 * r.e31 + r.e12 * r.s),
+      T(2) * (r.e23 * r.e31 + r.e12 * r.s),
       -r.e23 * r.e23 + r.e31 * r.e31 - r.e12 * r.e12 + r.s * r.s,
-      (T)2.0 * (r.e31 * r.e12 - r.e23 * r.s)
+      T(2) * (r.e31 * r.e12 - r.e23 * r.s)
     );
   }
 
@@ -331,8 +331,8 @@ namespace kmath {
   template<Number T>
   inline _Vec3<T> get_z_basis_vector(const _Rotor3<T> &r) {
     return _Vec3<T>(
-      (T)2.0 * (r.e23 * r.e12 - r.e31 * r.s),
-      (T)2.0 * (r.e31 * r.e12 + r.e23 * r.s),
+      T(2) * (r.e23 * r.e12 - r.e31 * r.s),
+      T(2) * (r.e31 * r.e12 + r.e23 * r.s),
       -r.e23 * r.e23 - r.e31 * r.e31 + r.e12 * r.e12 + r.s * r.s
     );
   }
@@ -362,9 +362,9 @@ namespace kmath {
   template<Number T>
   inline _Plane3<T> transform(const _Plane3<T> &a, const _Rotor3<T> &r) {
     return _Plane3<T>(
-      - r.e12 * r.e12 * a.e1 + (T)2.0 * r.e12 * r.s * a.e2 + r.s * r.s * a.e1 + (T)2.0 * a.e3 * r.e12 * r.e23 - r.e31 * r.e31 * a.e1 + (T)2.0 * a.e2 * r.e31 * r.e23 - (T)2.0 * a.e3 * r.s * r.e31 + a.e1 * r.e23 * r.e23,
-      (T)2.0 * r.e31 * a.e1 * r.e23 - r.e12 * r.e12 * a.e2 - a.e2 * r.e23 * r.e23 - (T)2.0 * r.e12 * r.s * a.e1 + (T)2.0 * a.e3 * r.s * r.e23 + r.s * r.s * a.e2 + (T)2.0 * a.e3 * r.e12 * r.e31 + a.e2 * r.e31 * r.e31,
-      (T)2.0 * r.e12 * a.e1 * r.e23 + (T)2.0 * r.e12 * a.e2 * r.e31 - a.e3 * r.e31 * r.e31 + (T)2.0 * r.s * r.e31 * a.e1 + a.e3 * r.s * r.s + a.e3 * r.e12 * r.e12 - a.e3 * r.e23 * r.e23 - (T)2.0 * r.s * a.e2 * r.e23,
+      - r.e12 * r.e12 * a.e1 + T(2) * r.e12 * r.s * a.e2 + r.s * r.s * a.e1 + T(2) * a.e3 * r.e12 * r.e23 - r.e31 * r.e31 * a.e1 + T(2) * a.e2 * r.e31 * r.e23 - T(2) * a.e3 * r.s * r.e31 + a.e1 * r.e23 * r.e23,
+      T(2) * r.e31 * a.e1 * r.e23 - r.e12 * r.e12 * a.e2 - a.e2 * r.e23 * r.e23 - T(2) * r.e12 * r.s * a.e1 + T(2) * a.e3 * r.s * r.e23 + r.s * r.s * a.e2 + T(2) * a.e3 * r.e12 * r.e31 + a.e2 * r.e31 * r.e31,
+      T(2) * r.e12 * a.e1 * r.e23 + T(2) * r.e12 * a.e2 * r.e31 - a.e3 * r.e31 * r.e31 + T(2) * r.s * r.e31 * a.e1 + a.e3 * r.s * r.s + a.e3 * r.e12 * r.e12 - a.e3 * r.e23 * r.e23 - T(2) * r.s * a.e2 * r.e23,
       a.e0 * r.e23 * r.e23 + a.e0 * r.s * r.s + a.e0 * r.e12 * r.e12 + a.e0 * r.e31 * r.e31
     );
   }
@@ -373,12 +373,12 @@ namespace kmath {
   template<Number T>
   inline _Line3<T> transform(const _Line3<T> &a, const _Rotor3<T> &r) {
     return _Line3<T>(
-      r.s  * r.s * a.e23 + (T)2.0 * r.e12 * a.e12 * r.e23 - r.e12  * r.e12 * a.e23 + (T)2.0 * r.e12 * a.e31 * r.s - (T)2.0 * r.s * r.e31 * a.e12 + (T)2.0 * a.e31 * r.e31 * r.e23 + a.e23 * r.e23  * r.e23 - r.e31  * r.e31 * a.e23,
-      - (T)2.0 * r.e12 * r.s * a.e23 - a.e31 * r.e23  * r.e23 + (T)2.0 * r.e31 * a.e23 * r.e23 + (T)2.0 * r.e12 * r.e31 * a.e12 - r.e12  * r.e12 * a.e31 + (T)2.0 * r.s * a.e12 * r.e23 + a.e31 * r.e31  * r.e31 + a.e31 * r.s  * r.s,
-      (T)2.0 * r.e12 * a.e31 * r.e31 + (T)2.0 * r.e12 * a.e23 * r.e23 - r.e31  * r.e31 * a.e12 + r.s  * r.s * a.e12 - a.e12 * r.e23  * r.e23 + r.e12  * r.e12 * a.e12 - (T)2.0 * a.e31 * r.s * r.e23 + (T)2.0 * r.s * r.e31 * a.e23,
-      a.e01 * r.e23  * r.e23 + (T)2.0 * a.e02 * r.e31 * r.e23 + (T)2.0 * r.e12 * a.e03 * r.e23 - (T)2.0 * r.s * r.e31 * a.e03 + (T)2.0 * a.e02 * r.e12 * r.s - a.e01 * r.e31  * r.e31 + r.s  * r.s * a.e01 - r.e12  * r.e12 * a.e01,
-      (T)2.0 * r.e12 * r.e31 * a.e03 + (T)2.0 * r.s * a.e03 * r.e23 + (T)2.0 * a.e01 * r.e31 * r.e23 + a.e02 * r.e31  * r.e31 - a.e02 * r.e12  * r.e12 + a.e02 * r.s  * r.s - a.e02 * r.e23  * r.e23 - (T)2.0 * r.e12 * r.s * a.e01,
-      - r.e31  * r.e31 * a.e03 + (T)2.0 * a.e02 * r.e12 * r.e31 + (T)2.0 * r.s * a.e01 * r.e31 + r.e12  * r.e12 * a.e03 - (T)2.0 * a.e02 * r.s * r.e23 + r.s  * r.s * a.e03 + (T)2.0 * r.e12 * a.e01 * r.e23 - a.e03 * r.e23  * r.e23
+      r.s  * r.s * a.e23 + T(2) * r.e12 * a.e12 * r.e23 - r.e12  * r.e12 * a.e23 + T(2) * r.e12 * a.e31 * r.s - T(2) * r.s * r.e31 * a.e12 + T(2) * a.e31 * r.e31 * r.e23 + a.e23 * r.e23  * r.e23 - r.e31  * r.e31 * a.e23,
+      - T(2) * r.e12 * r.s * a.e23 - a.e31 * r.e23  * r.e23 + T(2) * r.e31 * a.e23 * r.e23 + T(2) * r.e12 * r.e31 * a.e12 - r.e12  * r.e12 * a.e31 + T(2) * r.s * a.e12 * r.e23 + a.e31 * r.e31  * r.e31 + a.e31 * r.s  * r.s,
+      T(2) * r.e12 * a.e31 * r.e31 + T(2) * r.e12 * a.e23 * r.e23 - r.e31  * r.e31 * a.e12 + r.s  * r.s * a.e12 - a.e12 * r.e23  * r.e23 + r.e12  * r.e12 * a.e12 - T(2) * a.e31 * r.s * r.e23 + T(2) * r.s * r.e31 * a.e23,
+      a.e01 * r.e23  * r.e23 + T(2) * a.e02 * r.e31 * r.e23 + T(2) * r.e12 * a.e03 * r.e23 - T(2) * r.s * r.e31 * a.e03 + T(2) * a.e02 * r.e12 * r.s - a.e01 * r.e31  * r.e31 + r.s  * r.s * a.e01 - r.e12  * r.e12 * a.e01,
+      T(2) * r.e12 * r.e31 * a.e03 + T(2) * r.s * a.e03 * r.e23 + T(2) * a.e01 * r.e31 * r.e23 + a.e02 * r.e31  * r.e31 - a.e02 * r.e12  * r.e12 + a.e02 * r.s  * r.s - a.e02 * r.e23  * r.e23 - T(2) * r.e12 * r.s * a.e01,
+      - r.e31  * r.e31 * a.e03 + T(2) * a.e02 * r.e12 * r.e31 + T(2) * r.s * a.e01 * r.e31 + r.e12  * r.e12 * a.e03 - T(2) * a.e02 * r.s * r.e23 + r.s  * r.s * a.e03 + T(2) * r.e12 * a.e01 * r.e23 - a.e03 * r.e23  * r.e23
     );
   }
 
@@ -386,9 +386,9 @@ namespace kmath {
   template<Number T>
   inline _Point3<T> transform(const _Point3<T> &a, const _Rotor3<T> &r) {
     return _Point3<T>(
-      a.e032 * r.e23 * r.e23 - (T)2.0 * r.e31 * a.e021 * r.s + (T)2.0 * a.e021 * r.e23 * r.e12 - a.e032 * r.e31 * r.e31 + (T)2.0 * a.e013 * r.e12 * r.s - a.e032 * r.e12 * r.e12 + a.e032 * r.s * r.s + (T)2.0 * r.e31 * r.e23 * a.e013,
-      (T)2.0 * a.e032 * r.e31 * r.e23 + (T)2.0 * a.e021 * r.e23 * r.s - a.e013 * r.e12 * r.e12 + a.e013 * r.s * r.s + r.e31 * r.e31 * a.e013 - (T)2.0 * a.e032 * r.e12 * r.s + (T)2.0 * r.e31 * a.e021 * r.e12 - r.e23 * r.e23 * a.e013,
-      - a.e021 * r.e23 * r.e23 - (T)2.0 * r.e23 * a.e013 * r.s + (T)2.0 * a.e032 * r.e23 * r.e12 - r.e31 * r.e31 * a.e021 + a.e021 * r.e12 * r.e12 + a.e021 * r.s * r.s + (T)2.0 * a.e032 * r.e31 * r.s + (T)2.0 * r.e31 * a.e013 * r.e12,
+      a.e032 * r.e23 * r.e23 - T(2) * r.e31 * a.e021 * r.s + T(2) * a.e021 * r.e23 * r.e12 - a.e032 * r.e31 * r.e31 + T(2) * a.e013 * r.e12 * r.s - a.e032 * r.e12 * r.e12 + a.e032 * r.s * r.s + T(2) * r.e31 * r.e23 * a.e013,
+      T(2) * a.e032 * r.e31 * r.e23 + T(2) * a.e021 * r.e23 * r.s - a.e013 * r.e12 * r.e12 + a.e013 * r.s * r.s + r.e31 * r.e31 * a.e013 - T(2) * a.e032 * r.e12 * r.s + T(2) * r.e31 * a.e021 * r.e12 - r.e23 * r.e23 * a.e013,
+      - a.e021 * r.e23 * r.e23 - T(2) * r.e23 * a.e013 * r.s + T(2) * a.e032 * r.e23 * r.e12 - r.e31 * r.e31 * a.e021 + a.e021 * r.e12 * r.e12 + a.e021 * r.s * r.s + T(2) * a.e032 * r.e31 * r.s + T(2) * r.e31 * a.e013 * r.e12,
       r.e23 * r.e23 * a.e123 + r.e12 * r.e12 * a.e123 + r.s * r.s * a.e123 + r.e31 * r.e31 * a.e123
     );
   }
@@ -397,9 +397,9 @@ namespace kmath {
   template<Number T>
   inline _Vec3<T> transform(const _Vec3<T> &a, const _Rotor3<T> &r) {
     return _Vec3<T>(
-      (T)2.0 * r.e23 * r.e31 * a.y + (T)2.0 * a.y * r.e12 * r.s + (T)2.0 * a.z * r.e23 * r.e12 - a.x * r.e31 * r.e31 - (T)2.0 * a.z * r.e31 * r.s + r.e23 * r.e23 * a.x - a.x * r.e12 * r.e12 + a.x * r.s * r.s,
-      - r.e23 * r.e23 * a.y + (T)2.0 * a.z * r.e23 * r.s + (T)2.0 * a.z * r.e31 * r.e12 + r.e31 * r.e31 * a.y - a.y * r.e12 * r.e12 - (T)2.0 * a.x * r.e12 * r.s + a.y * r.s * r.s + (T)2.0 * r.e23 * a.x * r.e31,
-      - a.z * r.e23 * r.e23 + (T)2.0 * r.e23 * a.x * r.e12 + a.z * r.e12 * r.e12 - (T)2.0 * r.e23 * a.y * r.s + (T)2.0 * a.x * r.e31 * r.s + a.z * r.s * r.s - a.z * r.e31 * r.e31 + (T)2.0 * r.e31 * a.y * r.e12
+      T(2) * r.e23 * r.e31 * a.y + T(2) * a.y * r.e12 * r.s + T(2) * a.z * r.e23 * r.e12 - a.x * r.e31 * r.e31 - T(2) * a.z * r.e31 * r.s + r.e23 * r.e23 * a.x - a.x * r.e12 * r.e12 + a.x * r.s * r.s,
+      - r.e23 * r.e23 * a.y + T(2) * a.z * r.e23 * r.s + T(2) * a.z * r.e31 * r.e12 + r.e31 * r.e31 * a.y - a.y * r.e12 * r.e12 - T(2) * a.x * r.e12 * r.s + a.y * r.s * r.s + T(2) * r.e23 * a.x * r.e31,
+      - a.z * r.e23 * r.e23 + T(2) * r.e23 * a.x * r.e12 + a.z * r.e12 * r.e12 - T(2) * r.e23 * a.y * r.s + T(2) * a.x * r.e31 * r.s + a.z * r.s * r.s - a.z * r.e31 * r.e31 + T(2) * r.e31 * a.y * r.e12
     );
   }
 

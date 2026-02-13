@@ -55,7 +55,7 @@ namespace kmath {
     static inline _Motor3<T> from_translation(const _Vec3<T> &translation) {
       return _Motor3<T>(
         _Rotor3<T>::IDENTITY,
-        _Rotor3<T>((T)0.0, -((T)0.5) * translation)
+        _Rotor3<T>(T(0), T(-0.5) * translation)
       );
     }
 
@@ -66,7 +66,7 @@ namespace kmath {
 
 
     static inline _Motor3<T> from_rotor_translation(const _Rotor3<T> &rotation, const _Vec3<T> &translation) {
-      _Rotor3<T> trans((T)0.0, (T)0.5 * translation);
+      _Rotor3<T> trans(T(0), T(0.5) * translation);
       // If we call I the pseudoscalar e0123:
       // M = Motor_translation * Motor_rotation
       //   = (1 + I trans) * rotation
@@ -79,18 +79,18 @@ namespace kmath {
 
     static _Motor3<T> from_axis_angle_translation(const _Vec3<T> &axis, const T angle, const _Vec3<T> &translation) {
       _Rotor3<T> rot = _Rotor3<T>::from_axis_angle(axis, angle);
-      _Rotor3<T> trans((T)0.0, (T)0.5 * translation);
+      _Rotor3<T> trans(T(0), T(0.5) * translation);
       return _Motor3<T>(rot, reverse(trans * rot));
     }
 
 
     static _Motor3<T> from_screw_coordinates(const _Vec3<T> &direction, const _Vec3<T> &moment, const T angle, const T translation) {
       if (!is_approx_zero(angle)) {
-        T cos_a = std::cos(angle / 2.0);
-        T sin_a = std::sin(angle / 2.0);
+        T cos_a = std::cos(angle / 2);
+        T sin_a = std::sin(angle / 2);
         return _Motor3<T>(
           _Rotor3<T>(cos_a, sin_a * direction),
-          _Rotor3<T>((T)-0.5 * translation * sin_a, sin_a * moment + (T)(0.5 * translation * cos_a) * direction)
+          _Rotor3<T>(T(-0.5) * translation * sin_a, sin_a * moment + T(0.5) * translation * cos_a * direction)
         );
       } else {
         return _Motor3<T>::from_translation(translation * direction);
@@ -136,7 +136,7 @@ namespace kmath {
   inline _Vec3<T> get_translation(const _Motor3<T> &m) {
     const _Rotor3<T> &real = get_real_part(m);
     const _Rotor3<T> &dual = get_dual_part(m);
-    _Rotor3<T> translation = (T)2.0 * reverse(dual) * reverse(real); // See _Motor3<T>::from_rotor_translation
+    _Rotor3<T> translation = T(2) * reverse(dual) * reverse(real); // See _Motor3<T>::from_rotor_translation
     // Don't negate the vanishing part, as it was already negated by not doing -reverse(dual)
     return _Vec3<T>(translation.e23, translation.e31, translation.e12);
   }
@@ -152,8 +152,8 @@ namespace kmath {
   // The fast square root returns the motor that does half the transformation as `m` modulo a positive factor
   template<Number T>
   inline _Motor3<T> fast_sqrt(const _Motor3<T> &m) {
-    T scaling = (T)1.0 + m.s;
-    T half_g4 = (T)0.5 * m.e0123;
+    T scaling = T(1) + m.s;
+    T half_g4 = T(0.5) * m.e0123;
     return _Motor3<T>(
       scaling * scaling,
       scaling * m.e23,
@@ -170,11 +170,11 @@ namespace kmath {
   // Returns the square root of a normalized motor
   template<Number T>
   _Motor3<T> sqrt(const _Motor3<T> &m) {
-    if (m.s >= (T)0.0) {
-      T num = (T)2.0 * ((T)1.0 + m.s);
+    if (m.s >= T(0)) {
+      T num = T(2) * (T(1) + m.s);
       T g4 = m.e0123 / num;
       return _Motor3<T>(
-        (T)1.0 + m.s,
+        T(1) + m.s,
         m.e23,
         m.e31,
         m.e12,
@@ -184,10 +184,10 @@ namespace kmath {
         m.e03 + m.e12 * g4
       ) / std::sqrt(num);
     } else {
-      T num = (T)2.0 * ((T)1.0 - m.s);
+      T num = T(2) * (T(1) - m.s);
       T g4 = m.e0123 / num;
       return _Motor3<T>(
-        -(T)1.0 + m.s,
+        -T(1) + m.s,
         m.e23,
         m.e31,
         m.e12,
@@ -205,7 +205,7 @@ namespace kmath {
   template<Number T>
   _Motor3<T> oriented_sqrt(const _Motor3<T> &m) {
     _Motor3<T> n = sqrt(m);
-    if (m.s < -0.5) {
+    if (m.s < T(-0.5)) {
       n = Rotor3::from_axis_angle(get_y_basis_vector(get_real_part(n)), PI) * n;
     }
     return n;
@@ -214,12 +214,12 @@ namespace kmath {
 
   template<Number T>
   void to_screw_coordinates(const _Motor3<T> &m, _Vec3<T> &direction, _Vec3<T> &moment, T &angle, T &translation) {
-    angle = 2.0 * std::acos(m.s);
+    angle = T(2) * std::acos(m.s);
     if (!is_approx_zero(angle)) {
-      T inv_sin_a = std::sin(0.5 * angle);
+      T inv_sin_a = std::sin(T(0.5) * angle);
       direction = inv_sin_a * _Vec3<T>(m.e23, m.e31, m.e12);
-      translation = -2.0 * m.s * inv_sin_a;
-      moment = inv_sin_a * _Vec3<T>(m.e01, m.e02, m.e03) - ((T)0.5) * translation * m.s * inv_sin_a * direction;
+      translation = T(-2) * m.s * inv_sin_a;
+      moment = inv_sin_a * _Vec3<T>(m.e01, m.e02, m.e03) - T(0.5) * translation * m.s * inv_sin_a * direction;
     } else {
       direction = get_translation(m);
       translation = length(direction);
@@ -286,7 +286,7 @@ namespace kmath {
       // When the bivector is ideal, the degree 2 and higher are null
       return _Motor3<T>(
         _Rotor3<T>::IDENTITY,
-        _Rotor3<T>((T)0.0, b.e01, b.e02, b.e03)
+        _Rotor3<T>(T(0), b.e01, b.e02, b.e03)
       );
     }
 
@@ -314,7 +314,7 @@ namespace kmath {
     // And to normalize the bivector, we need the inverse square root of S:
     //
     // S^-0.5 = 1 / sqrt(r) - ps / r^(3/2) e0123
-    const T inv_u = (T)1.0 / u;
+    const T inv_u = T(1) / u;
     const T inv_v = -v / r;
 
     // Here is b normalized: l = sqrt(S) \ b
@@ -362,9 +362,9 @@ namespace kmath {
     if (is_approx_zero(r)) {
       // When this motor is a pure translation, the line is a vanishing line that is easy to compute
       return _Line3<T>(
-        (T)0.0,
-        (T)0.0,
-        (T)0.0,
+        T(0),
+        T(0),
+        T(0),
         m.e01,
         m.e02,
         m.e03
@@ -381,7 +381,7 @@ namespace kmath {
     const T v = ps / u;
 
     // S^(-0.5) = inv_u + inv_v I
-    const T inv_u = (T)1.0 / u;
+    const T inv_u = T(1) / u;
     const T inv_v = -v / r;
 
     // Writing m, we have:
@@ -653,10 +653,10 @@ namespace kmath {
   template<Number T>
   _Plane3<T> transform(const _Plane3<T> &a, const _Motor3<T> &m) {
     return _Plane3<T>(
-      - a.e1 * m.e12 * m.e12 - a.e1 * m.e31 * m.e31 + a.e1 * m.s * m.s + a.e1 * m.e23 * m.e23 + (T)2.0 * a.e2 * m.e12 * m.s + (T)2.0 * a.e2 * m.e23 * m.e31 - (T)2.0 * a.e3 * m.s * m.e31 + (T)2.0 * a.e3 * m.e12 * m.e23,
-      - a.e2 * m.e23 * m.e23 - a.e2 * m.e12 * m.e12 + a.e2 * m.s * m.s + a.e2 * m.e31 * m.e31 + (T)2.0 * a.e3 * m.s * m.e23 + (T)2.0 * a.e3 * m.e12 * m.e31 - (T)2.0 * a.e1 * m.s * m.e12 + (T)2.0 * a.e1 * m.e23 * m.e31,
-      - a.e3 * m.e23 * m.e23 - a.e3 * m.e31 * m.e31 + a.e3 * m.s * m.s + a.e3 * m.e12 * m.e12 + (T)2.0 * a.e1 * m.s * m.e31 + (T)2.0 * a.e1 * m.e12 * m.e23 - (T)2.0 * a.e2 * m.s * m.e23 + (T)2.0 * a.e2 * m.e12 * m.e31,
-      - (T)2.0 * a.e1 * m.e02 * m.e12 - (T)2.0 * a.e2 * m.e03 * m.e23 - (T)2.0 * a.e3 * m.e01 * m.e31 + a.e0 * m.s * m.s + a.e0 * m.e23 * m.e23 + a.e0 * m.e31 * m.e31 + a.e0 * m.e12 * m.e12 + (T)2.0 * a.e1 * m.s * m.e01 + (T)2.0 * a.e2 * m.s * m.e02 + (T)2.0 * a.e3 * m.s * m.e03 + (T)2.0 * a.e1 * m.e0123 * m.e23 + (T)2.0 * a.e2 * m.e0123 * m.e31 + (T)2.0 * a.e3 * m.e0123 * m.e12 + (T)2.0 * a.e1 * m.e03 * m.e31 + (T)2.0 * a.e2 * m.e12 * m.e01 + (T)2.0 * a.e3 * m.e02 * m.e23
+      - a.e1 * m.e12 * m.e12 - a.e1 * m.e31 * m.e31 + a.e1 * m.s * m.s + a.e1 * m.e23 * m.e23 + T(2) * a.e2 * m.e12 * m.s + T(2) * a.e2 * m.e23 * m.e31 - T(2) * a.e3 * m.s * m.e31 + T(2) * a.e3 * m.e12 * m.e23,
+      - a.e2 * m.e23 * m.e23 - a.e2 * m.e12 * m.e12 + a.e2 * m.s * m.s + a.e2 * m.e31 * m.e31 + T(2) * a.e3 * m.s * m.e23 + T(2) * a.e3 * m.e12 * m.e31 - T(2) * a.e1 * m.s * m.e12 + T(2) * a.e1 * m.e23 * m.e31,
+      - a.e3 * m.e23 * m.e23 - a.e3 * m.e31 * m.e31 + a.e3 * m.s * m.s + a.e3 * m.e12 * m.e12 + T(2) * a.e1 * m.s * m.e31 + T(2) * a.e1 * m.e12 * m.e23 - T(2) * a.e2 * m.s * m.e23 + T(2) * a.e2 * m.e12 * m.e31,
+      - T(2) * a.e1 * m.e02 * m.e12 - T(2) * a.e2 * m.e03 * m.e23 - T(2) * a.e3 * m.e01 * m.e31 + a.e0 * m.s * m.s + a.e0 * m.e23 * m.e23 + a.e0 * m.e31 * m.e31 + a.e0 * m.e12 * m.e12 + T(2) * a.e1 * m.s * m.e01 + T(2) * a.e2 * m.s * m.e02 + T(2) * a.e3 * m.s * m.e03 + T(2) * a.e1 * m.e0123 * m.e23 + T(2) * a.e2 * m.e0123 * m.e31 + T(2) * a.e3 * m.e0123 * m.e12 + T(2) * a.e1 * m.e03 * m.e31 + T(2) * a.e2 * m.e12 * m.e01 + T(2) * a.e3 * m.e02 * m.e23
     );
   }
   
@@ -664,12 +664,12 @@ namespace kmath {
   template<Number T>
   _Line3<T> transform(const _Line3<T> &a, const _Motor3<T> &m) {
     return _Line3<T>(
-      - a.e23 * m.e31 * m.e31 - a.e23 * m.e12 * m.e12 + a.e23 * m.e23 * m.e23 + a.e23 * m.s * m.s + (T)2.0 * a.e31 * m.s * m.e12 - (T)2.0 * a.e12 * m.s * m.e31 + (T)2.0 * a.e31 * m.e23 * m.e31 + (T)2.0 * a.e12 * m.e12 * m.e23,
-      - a.e31 * m.e23 * m.e23 - m.e12 * m.e12 * a.e31 + a.e31 * m.e31 * m.e31 + m.s * m.s * a.e31 - (T)2.0 * a.e23 * m.s * m.e12 + (T)2.0 * a.e12 * m.s * m.e23 + (T)2.0 * a.e12 * m.e12 * m.e31 + (T)2.0 * a.e23 * m.e23 * m.e31,
-      - a.e12 * m.e23 * m.e23 - a.e12 * m.e31 * m.e31 + a.e12 * m.e12 * m.e12 + a.e12 * m.s * m.s + (T)2.0 * a.e23 * m.s * m.e31 - (T)2.0 * a.e31 * m.s * m.e23 + (T)2.0 * a.e23 * m.e12 * m.e23 + (T)2.0 * a.e31 * m.e12 * m.e31,
-      - a.e01 * m.e31 * m.e31 - a.e01 * m.e12 * m.e12 + a.e01 * m.e23 * m.e23 + a.e01 * m.s * m.s - (T)2.0 * a.e12 * m.s * m.e02 - (T)2.0 * a.e03 * m.s * m.e31 - (T)2.0 * a.e23 * m.s * m.e0123 - (T)2.0 * a.e23 * m.e31 * m.e02 - (T)2.0 * a.e23 * m.e12 * m.e03 - (T)2.0 * a.e31 * m.e12 * m.e0123 + (T)2.0 * a.e31 * m.s * m.e03 + (T)2.0 * a.e02 * m.s * m.e12 + (T)2.0 * a.e03 * m.e12 * m.e23 + (T)2.0 * a.e02 * m.e23 * m.e31 + (T)2.0 * a.e31 * m.e01 * m.e31 + (T)2.0 * a.e31 * m.e23 * m.e02 + (T)2.0 * a.e12 * m.e03 * m.e23 + (T)2.0 * a.e12 * m.e12 * m.e01 + (T)2.0 * a.e23 * m.e23 * m.e01 + (T)2.0 * a.e12 * m.e0123 * m.e31,
-      - a.e02 * m.e23 * m.e23 - a.e02 * m.e12 * m.e12 + a.e02 * m.e31 * m.e31 + a.e02 * m.s * m.s + (T)2.0 * a.e12 * m.s * m.e01 - (T)2.0 * a.e01 * m.s * m.e12 - (T)2.0 * a.e23 * m.s * m.e03 - (T)2.0 * a.e31 * m.e23 * m.e01 - (T)2.0 * a.e31 * m.e12 * m.e03 - (T)2.0 * a.e31 * m.s * m.e0123 - (T)2.0 * a.e12 * m.e0123 * m.e23 + (T)2.0 * a.e03 * m.s * m.e23 + (T)2.0 * a.e12 * m.e12 * m.e02 + (T)2.0 * a.e23 * m.e01 * m.e31 + (T)2.0 * a.e31 * m.e31 * m.e02 + (T)2.0 * a.e03 * m.e12 * m.e31 + (T)2.0 * a.e23 * m.e23 * m.e02 + (T)2.0 * a.e01 * m.e23 * m.e31 + (T)2.0 * a.e12 * m.e03 * m.e31 + (T)2.0 * a.e23 * m.e12 * m.e0123,
-      - a.e03 * m.e23 * m.e23 - a.e03 * m.e31 * m.e31 + a.e03 * m.e12 * m.e12 + a.e03 * m.s * m.s - (T)2.0 * a.e02 * m.s * m.e23 - (T)2.0 * a.e31 * m.s * m.e01 + (T)2.0 * a.e23 * m.s * m.e02 - (T)2.0 * a.e12 * m.e23 * m.e01 - (T)2.0 * a.e12 * m.e31 * m.e02 - (T)2.0 * a.e12 * m.s * m.e0123 - (T)2.0 * a.e23 * m.e0123 * m.e31 + (T)2.0 * a.e01 * m.s * m.e31 + (T)2.0 * a.e23 * m.e12 * m.e01 + (T)2.0 * a.e31 * m.e12 * m.e02 + (T)2.0 * a.e12 * m.e12 * m.e03 + (T)2.0 * a.e01 * m.e12 * m.e23 + (T)2.0 * a.e02 * m.e12 * m.e31 + (T)2.0 * a.e23 * m.e03 * m.e23 + (T)2.0 * a.e31 * m.e03 * m.e31 + (T)2.0 * a.e31 * m.e0123 * m.e23
+      - a.e23 * m.e31 * m.e31 - a.e23 * m.e12 * m.e12 + a.e23 * m.e23 * m.e23 + a.e23 * m.s * m.s + T(2) * a.e31 * m.s * m.e12 - T(2) * a.e12 * m.s * m.e31 + T(2) * a.e31 * m.e23 * m.e31 + T(2) * a.e12 * m.e12 * m.e23,
+      - a.e31 * m.e23 * m.e23 - m.e12 * m.e12 * a.e31 + a.e31 * m.e31 * m.e31 + m.s * m.s * a.e31 - T(2) * a.e23 * m.s * m.e12 + T(2) * a.e12 * m.s * m.e23 + T(2) * a.e12 * m.e12 * m.e31 + T(2) * a.e23 * m.e23 * m.e31,
+      - a.e12 * m.e23 * m.e23 - a.e12 * m.e31 * m.e31 + a.e12 * m.e12 * m.e12 + a.e12 * m.s * m.s + T(2) * a.e23 * m.s * m.e31 - T(2) * a.e31 * m.s * m.e23 + T(2) * a.e23 * m.e12 * m.e23 + T(2) * a.e31 * m.e12 * m.e31,
+      - a.e01 * m.e31 * m.e31 - a.e01 * m.e12 * m.e12 + a.e01 * m.e23 * m.e23 + a.e01 * m.s * m.s - T(2) * a.e12 * m.s * m.e02 - T(2) * a.e03 * m.s * m.e31 - T(2) * a.e23 * m.s * m.e0123 - T(2) * a.e23 * m.e31 * m.e02 - T(2) * a.e23 * m.e12 * m.e03 - T(2) * a.e31 * m.e12 * m.e0123 + T(2) * a.e31 * m.s * m.e03 + T(2) * a.e02 * m.s * m.e12 + T(2) * a.e03 * m.e12 * m.e23 + T(2) * a.e02 * m.e23 * m.e31 + T(2) * a.e31 * m.e01 * m.e31 + T(2) * a.e31 * m.e23 * m.e02 + T(2) * a.e12 * m.e03 * m.e23 + T(2) * a.e12 * m.e12 * m.e01 + T(2) * a.e23 * m.e23 * m.e01 + T(2) * a.e12 * m.e0123 * m.e31,
+      - a.e02 * m.e23 * m.e23 - a.e02 * m.e12 * m.e12 + a.e02 * m.e31 * m.e31 + a.e02 * m.s * m.s + T(2) * a.e12 * m.s * m.e01 - T(2) * a.e01 * m.s * m.e12 - T(2) * a.e23 * m.s * m.e03 - T(2) * a.e31 * m.e23 * m.e01 - T(2) * a.e31 * m.e12 * m.e03 - T(2) * a.e31 * m.s * m.e0123 - T(2) * a.e12 * m.e0123 * m.e23 + T(2) * a.e03 * m.s * m.e23 + T(2) * a.e12 * m.e12 * m.e02 + T(2) * a.e23 * m.e01 * m.e31 + T(2) * a.e31 * m.e31 * m.e02 + T(2) * a.e03 * m.e12 * m.e31 + T(2) * a.e23 * m.e23 * m.e02 + T(2) * a.e01 * m.e23 * m.e31 + T(2) * a.e12 * m.e03 * m.e31 + T(2) * a.e23 * m.e12 * m.e0123,
+      - a.e03 * m.e23 * m.e23 - a.e03 * m.e31 * m.e31 + a.e03 * m.e12 * m.e12 + a.e03 * m.s * m.s - T(2) * a.e02 * m.s * m.e23 - T(2) * a.e31 * m.s * m.e01 + T(2) * a.e23 * m.s * m.e02 - T(2) * a.e12 * m.e23 * m.e01 - T(2) * a.e12 * m.e31 * m.e02 - T(2) * a.e12 * m.s * m.e0123 - T(2) * a.e23 * m.e0123 * m.e31 + T(2) * a.e01 * m.s * m.e31 + T(2) * a.e23 * m.e12 * m.e01 + T(2) * a.e31 * m.e12 * m.e02 + T(2) * a.e12 * m.e12 * m.e03 + T(2) * a.e01 * m.e12 * m.e23 + T(2) * a.e02 * m.e12 * m.e31 + T(2) * a.e23 * m.e03 * m.e23 + T(2) * a.e31 * m.e03 * m.e31 + T(2) * a.e31 * m.e0123 * m.e23
     );
   }
 
@@ -677,9 +677,9 @@ namespace kmath {
   template<Number T>
   _Point3<T> transform(const _Point3<T> &a, const _Motor3<T> &m) {
     return _Point3<T>(
-      - a.e032 * m.e31 * m.e31 - a.e032 * m.e12 * m.e12 + a.e032 * m.e23 * m.e23 + a.e032 * m.s * m.s - (T)2.0 * a.e021 * m.e31 * m.s - (T)2.0 * a.e123 * m.e01 * m.s - (T)2.0 * a.e123 * m.e02 * m.e12 - (T)2.0 * a.e123 * m.e0123 * m.e23 + (T)2.0 * a.e013 * m.e12 * m.s + (T)2.0 * a.e021 * m.e23 * m.e12 + (T)2.0 * a.e013 * m.e23 * m.e31 + (T)2.0 * a.e123 * m.e31 * m.e03,
-      - a.e013 * m.e12 * m.e12 - a.e013 * m.e23 * m.e23 + a.e013 * m.e31 * m.e31 + a.e013 * m.s * m.s - (T)2.0 * a.e032 * m.e12 * m.s - (T)2.0 * a.e123 * m.e02 * m.s - (T)2.0 * a.e123 * m.e23 * m.e03 - (T)2.0 * a.e123 * m.e0123 * m.e31 + (T)2.0 * a.e021 * m.e23 * m.s + (T)2.0 * a.e032 * m.e23 * m.e31 + (T)2.0 * a.e021 * m.e31 * m.e12 + (T)2.0 * a.e123 * m.e01 * m.e12,
-      - a.e021 * m.e23 * m.e23 - a.e021 * m.e31 * m.e31 + a.e021 * m.e12 * m.e12 + a.e021 * m.s * m.s - (T)2.0 * a.e013 * m.e23 * m.s - (T)2.0 * a.e123 * m.e03 * m.s - (T)2.0 * a.e123 * m.e01 * m.e31 - (T)2.0 * a.e123 * m.e0123 * m.e12 + (T)2.0 * a.e032 * m.e31 * m.s + (T)2.0 * a.e032 * m.e23 * m.e12 + (T)2.0 * a.e013 * m.e31 * m.e12 + (T)2.0 * a.e123 * m.e23 * m.e02,
+      - a.e032 * m.e31 * m.e31 - a.e032 * m.e12 * m.e12 + a.e032 * m.e23 * m.e23 + a.e032 * m.s * m.s - T(2) * a.e021 * m.e31 * m.s - T(2) * a.e123 * m.e01 * m.s - T(2) * a.e123 * m.e02 * m.e12 - T(2) * a.e123 * m.e0123 * m.e23 + T(2) * a.e013 * m.e12 * m.s + T(2) * a.e021 * m.e23 * m.e12 + T(2) * a.e013 * m.e23 * m.e31 + T(2) * a.e123 * m.e31 * m.e03,
+      - a.e013 * m.e12 * m.e12 - a.e013 * m.e23 * m.e23 + a.e013 * m.e31 * m.e31 + a.e013 * m.s * m.s - T(2) * a.e032 * m.e12 * m.s - T(2) * a.e123 * m.e02 * m.s - T(2) * a.e123 * m.e23 * m.e03 - T(2) * a.e123 * m.e0123 * m.e31 + T(2) * a.e021 * m.e23 * m.s + T(2) * a.e032 * m.e23 * m.e31 + T(2) * a.e021 * m.e31 * m.e12 + T(2) * a.e123 * m.e01 * m.e12,
+      - a.e021 * m.e23 * m.e23 - a.e021 * m.e31 * m.e31 + a.e021 * m.e12 * m.e12 + a.e021 * m.s * m.s - T(2) * a.e013 * m.e23 * m.s - T(2) * a.e123 * m.e03 * m.s - T(2) * a.e123 * m.e01 * m.e31 - T(2) * a.e123 * m.e0123 * m.e12 + T(2) * a.e032 * m.e31 * m.s + T(2) * a.e032 * m.e23 * m.e12 + T(2) * a.e013 * m.e31 * m.e12 + T(2) * a.e123 * m.e23 * m.e02,
       + a.e123 * (m.e23 * m.e23 + m.e31 * m.e31 + m.e12 * m.e12 + m.s * m.s)
     );
   }
@@ -689,9 +689,9 @@ namespace kmath {
   _Vec3<T> transform_point(const _Vec3<T> &a, const _Motor3<T> &m) {
     T norm = m.s * m.s + m.e23 * m.e23 + m.e31 * m.e31 + m.e12 * m.e12;
     return _Vec3<T>(
-      + a.x * m.e23 * m.e23 - a.x * m.e31 * m.e31 - a.x * m.e12 * m.e12 + a.x * m.s * m.s + (T)2.0 * a.y * m.e23 * m.e31 + (T)2.0 * a.y * m.s * m.e12 + (T)2.0 * a.z * m.e23 * m.e12 - (T)2.0 * a.z * m.s * m.e31 - (T)2.0 * m.e01 * m.s - (T)2.0 * m.e02 * m.e12 + (T)2.0 * m.e03 * m.e31 - (T)2.0 * m.e0123 * m.e23,
-      - a.y * m.e23 * m.e23 + a.y * m.e31 * m.e31 - a.y * m.e12 * m.e12 + a.y * m.s * m.s + (T)2.0 * a.z * m.s * m.e23 + (T)2.0 * a.x * m.e23 * m.e31 + (T)2.0 * a.z * m.e31 * m.e12 - (T)2.0 * a.x * m.s * m.e12 + (T)2.0 * m.e01 * m.e12 - (T)2.0 * m.e02 * m.s - (T)2.0 * m.e03 * m.e23 - (T)2.0 * m.e0123 * m.e31,
-      - a.z * m.e23 * m.e23 - a.z * m.e31 * m.e31 + a.z * m.e12 * m.e12 + a.z * m.s * m.s + (T)2.0 * a.x * m.e23 * m.e12 + (T)2.0 * a.x * m.e31 * m.s - (T)2.0 * a.y * m.e23 * m.s + (T)2.0 * a.y * m.e31 * m.e12 - (T)2.0 * m.e01 * m.e31 + (T)2.0 * m.e02 * m.e23 - (T)2.0 * m.e03 * m.s - (T)2.0 * m.e0123 * m.e12
+      + a.x * m.e23 * m.e23 - a.x * m.e31 * m.e31 - a.x * m.e12 * m.e12 + a.x * m.s * m.s + T(2) * a.y * m.e23 * m.e31 + T(2) * a.y * m.s * m.e12 + T(2) * a.z * m.e23 * m.e12 - T(2) * a.z * m.s * m.e31 - T(2) * m.e01 * m.s - T(2) * m.e02 * m.e12 + T(2) * m.e03 * m.e31 - T(2) * m.e0123 * m.e23,
+      - a.y * m.e23 * m.e23 + a.y * m.e31 * m.e31 - a.y * m.e12 * m.e12 + a.y * m.s * m.s + T(2) * a.z * m.s * m.e23 + T(2) * a.x * m.e23 * m.e31 + T(2) * a.z * m.e31 * m.e12 - T(2) * a.x * m.s * m.e12 + T(2) * m.e01 * m.e12 - T(2) * m.e02 * m.s - T(2) * m.e03 * m.e23 - T(2) * m.e0123 * m.e31,
+      - a.z * m.e23 * m.e23 - a.z * m.e31 * m.e31 + a.z * m.e12 * m.e12 + a.z * m.s * m.s + T(2) * a.x * m.e23 * m.e12 + T(2) * a.x * m.e31 * m.s - T(2) * a.y * m.e23 * m.s + T(2) * a.y * m.e31 * m.e12 - T(2) * m.e01 * m.e31 + T(2) * m.e02 * m.e23 - T(2) * m.e03 * m.s - T(2) * m.e0123 * m.e12
     ) / norm;
   }
 
@@ -699,9 +699,9 @@ namespace kmath {
   template<Number T>
   _Vec3<T> transform_direction(const _Vec3<T> &a, const _Motor3<T> &m) {
     return _Vec3<T>(
-      + a.x * m.e23 * m.e23 - a.x * m.e31 * m.e31 - a.x * m.e12 * m.e12 + a.x * m.s * m.s + (T)2.0 * a.y * m.e31 * m.e23 + (T)2.0 * a.y * m.e12 * m.s - (T)2.0 * a.z * m.e31 * m.s + (T)2.0 * a.z * m.e12 * m.e23,
-      - a.y * m.e23 * m.e23 + a.y * m.e31 * m.e31 - a.y * m.e12 * m.e12 + a.y * m.s * m.s + (T)2.0 * a.z * m.s * m.e23 + (T)2.0 * a.z * m.e31 * m.e12 + (T)2.0 * a.x * m.e31 * m.e23 - (T)2.0 * a.x * m.s * m.e12,
-      - a.z * m.e23 * m.e23 - a.z * m.e31 * m.e31 + a.z * m.e12 * m.e12 + a.z * m.s * m.s + (T)2.0 * a.x * m.e12 * m.e23 + (T)2.0 * a.x * m.s * m.e31 - (T)2.0 * a.y * m.s * m.e23 + (T)2.0 * a.y * m.e31 * m.e12
+      + a.x * m.e23 * m.e23 - a.x * m.e31 * m.e31 - a.x * m.e12 * m.e12 + a.x * m.s * m.s + T(2) * a.y * m.e31 * m.e23 + T(2) * a.y * m.e12 * m.s - T(2) * a.z * m.e31 * m.s + T(2) * a.z * m.e12 * m.e23,
+      - a.y * m.e23 * m.e23 + a.y * m.e31 * m.e31 - a.y * m.e12 * m.e12 + a.y * m.s * m.s + T(2) * a.z * m.s * m.e23 + T(2) * a.z * m.e31 * m.e12 + T(2) * a.x * m.e31 * m.e23 - T(2) * a.x * m.s * m.e12,
+      - a.z * m.e23 * m.e23 - a.z * m.e31 * m.e31 + a.z * m.e12 * m.e12 + a.z * m.s * m.s + T(2) * a.x * m.e12 * m.e23 + T(2) * a.x * m.s * m.e31 - T(2) * a.y * m.s * m.e23 + T(2) * a.y * m.e31 * m.e12
     );
   }
 
@@ -718,7 +718,7 @@ namespace kmath {
       a.e2 * b.e3 - b.e2 * a.e3,
       b.e1 * a.e3 - b.e3 * a.e1,
       b.e2 * a.e1 - a.e2 * b.e1,
-      (T)0.0,
+      T(0),
       a.e0 * b.e1 - a.e1 * b.e0,
       a.e0 * b.e2 - a.e2 * b.e0,
       a.e0 * b.e3 - b.e0 * a.e3
@@ -745,10 +745,10 @@ namespace kmath {
   _Motor3<T> operator*(const _Point3<T> &a, const _Point3<T> &b) {
     return _Motor3<T>(
       - a.e123 * b.e123,
-      (T)0.0,
-      (T)0.0,
-      (T)0.0,
-      (T)0.0,
+      T(0),
+      T(0),
+      T(0),
+      T(0),
       a.e032 * b.e123 - b.e032 * a.e123,
       a.e013 * b.e123 - a.e123 * b.e013,
       a.e021 * b.e123 - b.e021 * a.e123

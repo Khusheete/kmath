@@ -63,15 +63,15 @@ namespace kmath {
 
 
   template<Number T>
-  const _Vec2<T> _Vec2<T>::ZERO = _Vec2<T>((T)0.0, (T)0.0);
+  const _Vec2<T> _Vec2<T>::ZERO = _Vec2<T>(T(0), T(0));
   template<Number T>
-  const _Vec2<T> _Vec2<T>::ONE = _Vec2<T>((T)1.0, (T)1.0);
+  const _Vec2<T> _Vec2<T>::ONE = _Vec2<T>(T(1), T(1));
   template<Number T>
   const _Vec2<T> _Vec2<T>::INF = _Vec2<T>(std::numeric_limits<T>::infinity(), std::numeric_limits<T>::infinity());
   template<Number T>
-  const _Vec2<T> _Vec2<T>::X = _Vec2<T>((T)1.0, (T)0.0);
+  const _Vec2<T> _Vec2<T>::X = _Vec2<T>(T(1), T(0));
   template<Number T>
-  const _Vec2<T> _Vec2<T>::Y = _Vec2<T>((T)0.0, (T)1.0);
+  const _Vec2<T> _Vec2<T>::Y = _Vec2<T>(T(0), T(1));
 
 
   // =====================
@@ -263,7 +263,7 @@ namespace kmath {
 
   template<Number T>
   inline _Vec2<T> &operator/=(_Vec2<T> &v, const T s) {
-    const T scale = (T)1.0 / s;
+    const T scale = T(1) / s;
     return v *= scale;
   }
 
@@ -338,17 +338,17 @@ namespace kmath {
 
 
   template<Number T>
-  const _Vec3<T> _Vec3<T>::ZERO = _Vec3<T>((T)0.0, (T)0.0, (T)0.0);
+  const _Vec3<T> _Vec3<T>::ZERO = _Vec3<T>(T(0), T(0), T(0));
   template<Number T>
-  const _Vec3<T> _Vec3<T>::ONE = _Vec3<T>((T)1.0, (T)1.0, (T)1.0);
+  const _Vec3<T> _Vec3<T>::ONE = _Vec3<T>(T(1), T(1), T(1));
   template<Number T>
   const _Vec3<T> _Vec3<T>::INF = _Vec3<T>(std::numeric_limits<T>::infinity(), std::numeric_limits<T>::infinity(), std::numeric_limits<T>::infinity());
   template<Number T>
-  const _Vec3<T> _Vec3<T>::X = _Vec3<T>((T)1.0, (T)0.0, (T)0.0);
+  const _Vec3<T> _Vec3<T>::X = _Vec3<T>(T(1), T(0), T(0));
   template<Number T>
-  const _Vec3<T> _Vec3<T>::Y = _Vec3<T>((T)0.0, (T)1.0, (T)0.0);
+  const _Vec3<T> _Vec3<T>::Y = _Vec3<T>(T(0), T(1), T(0));
   template<Number T>
-  const _Vec3<T> _Vec3<T>::Z = _Vec3<T>((T)0.0, (T)0.0, (T)1.0);
+  const _Vec3<T> _Vec3<T>::Z = _Vec3<T>(T(0), T(0), T(1));
 
 
   // =====================
@@ -566,7 +566,7 @@ namespace kmath {
 
   template<Number T>
   inline _Vec3<T> &operator/=(_Vec3<T> &v, const T s) {
-    const T scale = (T)1.0 / s;
+    const T scale = T(1) / s;
     return v *= scale;
   }
 
@@ -947,19 +947,19 @@ namespace kmath {
 
 
   template<Number T>
-  const _Vec4<T> _Vec4<T>::ZERO = _Vec4<T>((T)0.0, (T)0.0, (T)0.0, (T)0.0);
+  const _Vec4<T> _Vec4<T>::ZERO = _Vec4<T>(T(0), T(0), T(0), T(0));
   template<Number T>
-  const _Vec4<T> _Vec4<T>::ONE = _Vec4<T>((T)1.0, (T)1.0, (T)1.0, (T)1.0);
+  const _Vec4<T> _Vec4<T>::ONE = _Vec4<T>(T(1), T(1), T(1), T(1));
   template<Number T>
   const _Vec4<T> _Vec4<T>::INF = _Vec4<T>(std::numeric_limits<T>::infinity(), std::numeric_limits<T>::infinity(), std::numeric_limits<T>::infinity(), std::numeric_limits<T>::infinity());
   template<Number T>
-  const _Vec4<T> _Vec4<T>::X = _Vec4<T>((T)1.0, (T)0.0, (T)0.0, (T)0.0);
+  const _Vec4<T> _Vec4<T>::X = _Vec4<T>(T(1), T(0), T(0), T(0));
   template<Number T>
-  const _Vec4<T> _Vec4<T>::Y = _Vec4<T>((T)0.0, (T)1.0, (T)0.0, (T)0.0);
+  const _Vec4<T> _Vec4<T>::Y = _Vec4<T>(T(0), T(1), T(0), T(0));
   template<Number T>
-  const _Vec4<T> _Vec4<T>::Z = _Vec4<T>((T)0.0, (T)0.0, (T)1.0, (T)0.0);
+  const _Vec4<T> _Vec4<T>::Z = _Vec4<T>(T(0), T(0), T(1), T(0));
   template<Number T>
-  const _Vec4<T> _Vec4<T>::W = _Vec4<T>((T)0.0, (T)0.0, (T)0.0, (T)1.0);
+  const _Vec4<T> _Vec4<T>::W = _Vec4<T>(T(0), T(0), T(0), T(1));
 
 
   // =====================
@@ -1177,7 +1177,7 @@ namespace kmath {
 
   template<Number T>
   inline _Vec4<T> &operator/=(_Vec4<T> &v, const T s) {
-    const T scale = (T)1.0 / s;
+    const T scale = T(1) / s;
     return v *= scale;
   }
 

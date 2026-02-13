@@ -93,6 +93,12 @@ namespace kmath {
 
 
   template<Number S, Vector<S> T>
+  inline T inv_lerp(const T a, const T b, const S &x) {
+    return (x - T(a)) / (b - a);
+  }
+
+
+  template<Number S, Vector<S> T>
   inline T lerp(const T &a, const T &b, const S &t) {
     return (S)(1.0 - t) * a + t * b;
   }

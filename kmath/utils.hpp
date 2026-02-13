@@ -110,6 +110,12 @@ namespace kmath {
   }
 
 
+  template<Number N, Vector<N> V>
+  inline N map(const V &val, const N &prev_min, const N &prev_max, const N &new_min, const N &new_max) {
+    return (val - V(prev_min)) / (prev_max - prev_min) * (new_max - new_min) + V(new_min);
+  }
+
+
   template<Number T>
   inline T sign(const T a) {
     return ((T)0.0 < a) - ((T)0.0 > a);

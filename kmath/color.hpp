@@ -92,28 +92,48 @@ namespace kmath {
 
 
   // This is a widely used function to go from the lRGB color space to the sRGB space.
-  inline float srgb_standard_gamma(const float value, const float gamma = 2.2f) {
+  inline float srgb_standard_gamma(const float value, const float gamma) {
     return (value >= 0.0f)? std::pow(value, 1.0f / gamma) : -std::pow(-value, 1.0f / gamma);
-  }
+}
 
 
   // This is a widely used function to go from the sRGB color space to the lRGB space.
-  inline float srgb_standard_inv_gamma(const float value, const float gamma = 2.2f) {
+  inline float srgb_standard_inv_gamma(const float value, const float gamma) {
     return (value >= 0.0f)? std::pow(value, gamma) : -std::pow(-value, gamma);
   }
 
 
-  inline Rgb lrgb_to_rgb(const Lrgb &rgb, const float gamma = 2.2f) {
+  inline float srgb_standard_gamma(const float value) {
+    return srgb_standard_gamma(value, 2.2f);
+  }
+
+
+  inline float srgb_standard_inv_gamma(const float value) {
+    return srgb_standard_inv_gamma(value, 2.2f);
+  }
+
+
+  inline Rgb lrgb_to_rgb(const Lrgb &rgb, const float gamma) {
     return apply(rgb, [&](const float x) -> float { return srgb_standard_gamma(x, gamma); });
   }
 
 
-  inline Lrgb rgb_to_lrgb(const Rgb &rgb, const float gamma = 2.2f) {
+  inline Lrgb rgb_to_lrgb(const Rgb &rgb, const float gamma) {
     return apply(rgb, [&](const float x) -> float { return srgb_standard_inv_gamma(x, gamma); });
   }
 
 
-  inline Rgba lrgba_to_rgba(const Lrgba &rgba, const float gamma = 2.2f) {
+  inline Rgb lrgb_to_rgb(const Lrgb &rgb) {
+    return lrgb_to_rgb(rgb, 2.2f);
+  }
+
+
+  inline Lrgb rgb_to_lrgb(const Rgb &rgb) {
+    return rgb_to_lrgb(rgb, 2.2f);
+  }
+
+
+  inline Rgba lrgba_to_rgba(const Lrgba &rgba, const float gamma) {
     return Rgba(
       lrgb_to_rgb(*reinterpret_cast<const Vec3*>(&rgba), gamma),
       rgba.w
@@ -121,11 +141,21 @@ namespace kmath {
   }
 
 
-  inline Lrgba rgba_to_lrgba(const Rgba &rgba, const float gamma = 2.2f) {
+  inline Lrgba rgba_to_lrgba(const Rgba &rgba, const float gamma) {
     return Lrgba(
       rgb_to_lrgb(*reinterpret_cast<const Vec3*>(&rgba), gamma),
       rgba.w
     );
+  }
+
+
+  inline Rgba lrgba_to_rgba(const Lrgba &rgba) {
+    return lrgba_to_rgba(rgba, 2.2f);
+  }
+
+
+  inline Lrgba rgba_to_lrgba(const Rgba &rgba) {
+    return rgba_to_lrgba(rgba, 2.2f);
   }
 
 

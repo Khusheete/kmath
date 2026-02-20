@@ -22,7 +22,7 @@
 #pragma once
 
 
-#include "kmath/utils.hpp"
+#include "utils.hpp"
 #include "vector.hpp"
 #include "matrix.hpp"
 #include "euclidian_flat_3d.hpp"

@@ -126,4 +126,16 @@ namespace kmath {
   inline N possign(const N a) {
     return (N(0) <= a) - (N(0) > a);
   }
+
+
+  template<Number N, Function<N, N> F>
+  inline N apply(const N a, F op) {
+    return op(a);
+  }
+
+
+  template<Number N, Function<N, N, N> F>
+  inline N apply(const N a, const N b, F op) {
+    return op(a, b);
+  }
 }

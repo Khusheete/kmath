@@ -100,7 +100,7 @@ namespace kmath {
 
   template<Number N, Vector<N> V>
   inline V lerp(const V &a, const V &b, const N &t) {
-    return (N)(1.0 - t) * a + t * b;
+    return (N(1) - t) * a + t * b;
   }
 
 

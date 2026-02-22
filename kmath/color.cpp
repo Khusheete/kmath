@@ -23,6 +23,7 @@
 #include "vector.hpp"
 #include "constants.hpp"
 
+#include <algorithm>
 #include <cmath>
 #include <limits>
 
@@ -367,6 +368,11 @@ namespace kmath {
 
   OkHsv oklab_to_okhsv(const OkLab &lab) {
   	float C = std::sqrt(lab.y * lab.y + lab.z * lab.z);
+  	if (is_approx_zero(C)) {
+  	  // The color is fully desaturated
+  	  return OkHsv(0.0f, 0.0f, toe(lab.x));
+  	}
+
   	float a_ = lab.y / C;
   	float b_ = lab.z / C;
 
@@ -404,7 +410,7 @@ namespace kmath {
   	float v = L / L_v;
   	float s = (S_0 + T_max) * C_v / ((T_max * S_0) + T_max * k * C_v);
 
-  	return OkHsv(h, s, v);
+    return OkHsv(h, s, v);
   }
 
 
@@ -466,6 +472,10 @@ namespace kmath {
 
   OkHsl oklab_to_okhsl(const OkLab &lab) {
   	float C = std::sqrt(lab.y * lab.y + lab.z * lab.z);
+    if (is_approx_zero(C)) {
+      // The color is fully desaturated
+      return OkHsl(0.0f, 0.0f, toe(lab.x));
+    }
   	float a_ = lab.y / C;
   	float b_ = lab.z / C;
 

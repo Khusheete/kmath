@@ -52,7 +52,7 @@ namespace kmath {
   // This is a widely used function to go from the lRGB color space to the sRGB space.
   inline float srgb_standard_gamma(const float value, const float gamma) {
     return (value >= 0.0f)? std::pow(value, 1.0f / gamma) : -std::pow(-value, 1.0f / gamma);
-}
+  }
 
 
   // This is a widely used function to go from the sRGB color space to the lRGB space.

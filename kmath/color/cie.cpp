@@ -19,28 +19,34 @@
 // SOFTWARE.
 
 
-#pragma once
 
+#include "cie.hpp"
 
-#include "base.hpp"
+#include "../matrix.hpp"
 
 
 namespace kmath::cie {
-  // Here are definitions and implementation of color spaces as specified by the Commission Internationale de l'Éclairage (CIE)
-
-
-  // =========
-  // = Types =
-  // =========
-
-  typedef _Vec3<float> XYZD65;
-
-
   // =================
   // = XYZ functions =
   // =================
   
 
-  XYZD65 lrgb_to_xyzd65(const Lrgb &rgb);
-  Lrgb xyzd65_to_lrgb(const XYZD65 &xyz);
+  XYZD65 lrgb_to_xyzd65(const Lrgb &rgb) {
+    static const Mat3 transform(
+      Vec3(0.4124f, 0.2126f, 0.0193f),
+      Vec3(0.3576f, 0.7152f, 0.1192f),
+      Vec3(0.1805f, 0.0722f, 0.9505f)
+    );
+    return transform * rgb;
+  }
+
+
+  Lrgb xyzd65_to_lrgb(const XYZD65 &xyz) {
+    static const Mat3 transform(
+      Vec3(+3.2406f, -0.9689f, +0.0557f),
+      Vec3(-1.5372f, +1.8758f, -0.2040f),
+      Vec3(-0.4986f, +0.0415f, +1.0570f)
+    );
+    return transform * xyz;
+  }
 }

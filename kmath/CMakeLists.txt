@@ -30,8 +30,9 @@ endif()
 
 # == Build library ==
 add_library(kmath STATIC
-  color/itu.cpp
   color/ok.cpp
+  color/itu.cpp
+  color/cie.cpp
 )
 
 # target_include_directories(kmath PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}")

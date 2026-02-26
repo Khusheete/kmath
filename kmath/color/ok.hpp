@@ -55,8 +55,8 @@ namespace kmath::ok {
   // ===================
   
 
-  OkLab xyz_to_oklab(const cie::XYZD65 &xyz);
-  cie::XYZD65 oklab_to_xyz(const OkLab &lab);
+  OkLab xyzd65_to_oklab(const cie::XYZD65 &xyz);
+  cie::XYZD65 oklab_to_xyzd65(const OkLab &lab);
 
   Lrgb oklab_to_lrgb(const OkLab &lab);
   OkLab lrgb_to_oklab(const Lrgb &rgb);

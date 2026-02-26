@@ -19,7 +19,7 @@
 // SOFTWARE.
 
 
-#include "kmath/color.hpp"
+#include "kmath/color/base.hpp"
 #include "kmath/vector.hpp"
 #include "kmath/motor_3d.hpp"
 #include "examples.hpp"

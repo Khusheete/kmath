@@ -21,8 +21,7 @@
 
 #include "examples.hpp"
 
-#include "kmath/color.hpp"
-#include "kmath/color.hpp"
+#include "kmath/color/ok.hpp"
 #include "utils/freecam.hpp"
 
 #include "thirdparty/raylib/raylib.h"
@@ -61,13 +60,13 @@ void oklab_interpolation_run(void *p_data) {
 
   DrawGrid(20, 1.0);
 
-  static const std::array<kmath::OkLab, 6> colors = {
-    /* white  */ kmath::lrgb_to_oklab(kmath::Lrgb(1.0, 1.0, 1.0)),
-    /* black  */ kmath::lrgb_to_oklab(kmath::Lrgb(0.0, 0.0, 0.0)),
-    /* purple */ kmath::lrgb_to_oklab(kmath::Lrgb(0.5, 0.05, 0.5)),
-    /* red    */ kmath::lrgb_to_oklab(kmath::Lrgb(1.0, 0.0, 0.0)),
-    /* green  */ kmath::lrgb_to_oklab(kmath::Lrgb(0.0, 1.0, 0.0)),
-    /* blue   */ kmath::lrgb_to_oklab(kmath::Lrgb(0.0, 0.0, 1.0))
+  static const std::array<kmath::ok::OkLab, 6> colors = {
+    /* white  */ kmath::ok::lrgb_to_oklab(kmath::Lrgb(1.0, 1.0, 1.0)),
+    /* black  */ kmath::ok::lrgb_to_oklab(kmath::Lrgb(0.0, 0.0, 0.0)),
+    /* purple */ kmath::ok::lrgb_to_oklab(kmath::Lrgb(0.5, 0.05, 0.5)),
+    /* red    */ kmath::ok::lrgb_to_oklab(kmath::Lrgb(1.0, 0.0, 0.0)),
+    /* green  */ kmath::ok::lrgb_to_oklab(kmath::Lrgb(0.0, 1.0, 0.0)),
+    /* blue   */ kmath::ok::lrgb_to_oklab(kmath::Lrgb(0.0, 0.0, 1.0))
   };
 
   static const std::array<kmath::Vec3, 6> col_positions = {
@@ -92,12 +91,12 @@ void oklab_interpolation_run(void *p_data) {
           total_weight += weights[index];
         }
 
-        kmath::OkLab color;
+        kmath::ok::OkLab color;
         for (size_t index = 0; index < weights.size(); index++) {
           color += colors[index] * (weights[index] / total_weight);
         }
 
-        kmath::RgbU8 lsrgb_color = kmath::rgb_to_rgbu8(kmath::lrgb_to_rgb(kmath::oklab_to_lrgb(color)));
+        kmath::RgbU8 lsrgb_color = kmath::rgb_to_rgbu8(kmath::lrgb_to_rgb(kmath::ok::oklab_to_lrgb(color)));
 
         DrawPoint3D(
           Vector3(pos.x, pos.y, pos.z),

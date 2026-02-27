@@ -63,8 +63,8 @@ namespace kmath {
 
 
   template<typename A, typename B>
-  concept Castable = requires(A a, B b) {
-    b = a;
+  concept Castable = requires(A a) {
+    B(a);
   };
 
 

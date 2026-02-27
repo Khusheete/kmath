@@ -43,6 +43,9 @@ namespace kmath {
     _Vec2(const T v): x(v), y(v) {}
     _Vec2(const T x, const T y): x(x), y(y) {}
 
+    template<Castable<T> Q>
+    explicit _Vec2(const _Vec2<Q> &v): x(Q(v.x)), y(Q(v.y)) {}
+
   public:
     inline _Vec2<T> xx() const { return _Vec2<T>(x, x); }
     inline _Vec2<T> yy() const { return _Vec2<T>(y, y); }
@@ -283,6 +286,9 @@ namespace kmath {
     _Vec3(const T x, const T y, const T z): x(x), y(y), z(z) {}
     _Vec3(const _Vec2<T> &a, const T b): x(a.x), y(a.y), z(b) {}
     _Vec3(const T a, const _Vec2<T> &b): x(a), y(b.x), z(b.y) {}
+
+    template<Castable<T> Q>
+    explicit _Vec3(const _Vec3<Q> &v): x(Q(v.x)), y(Q(v.y)), z(Q(v.z)) {}
 
   public:
     inline _Vec2<T> xx() const { return _Vec2<T>(x, x); }
@@ -590,6 +596,9 @@ namespace kmath {
     _Vec4(const _Vec2<T> &a, const _Vec2<T> &b): x(a.x), y(a.y), z(b.x), w(b.y) {}
     _Vec4(const _Vec3<T> &a, const T b): x(a.x), y(a.y), z(a.z), w(b) {}
     _Vec4(const T a, const _Vec3<T> &b): x(a), y(b.x), z(b.y), w(b.z) {}
+
+    template<Castable<T> Q>
+    explicit _Vec4(const _Vec4<Q> &v): x(Q(v.x)), y(Q(v.y)), z(Q(v.z)), w(Q(v.w)) {}
 
   public:
     inline _Vec2<T> xx() const { return _Vec2<T>(x, x); }

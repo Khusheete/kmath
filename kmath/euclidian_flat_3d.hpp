@@ -468,8 +468,6 @@ namespace kmath {
   // This normalization usually normalizes the translation part of the screw represented by
   // this _Line3 object. If it is a line through the origin (meaning that it represents a
   // rotation around the origin), the rotation part will be normalized.
-  //
-  // TODO: check if this makes sense
   template<Number T>
   inline _Line3<T> normalized(const _Line3<T> &a) {
     const T vm2 = vanishing_magnitude_squared(a);

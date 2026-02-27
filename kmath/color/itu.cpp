@@ -24,7 +24,6 @@
 
 namespace kmath::itu {
   namespace bt_2020 {
-    // TODO: test
     float gamma(const float value) {
       constexpr float alpha = 1.09929682680944f;
       constexpr float beta  = 0.01805396851080f;
@@ -37,7 +36,6 @@ namespace kmath::itu {
     }
 
 
-    // TODO: test
     float inv_gamma(const float value) {
       constexpr float alpha = 1.09929682680944f;
       constexpr float beta  = 0.01805396851080f;

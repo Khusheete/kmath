@@ -23,7 +23,9 @@
 
 
 #include "concepts.hpp"
+
 #include <cmath>
+#include <algorithm>
 
 
 namespace kmath {

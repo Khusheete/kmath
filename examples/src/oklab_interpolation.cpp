@@ -24,7 +24,7 @@
 #include "kmath/color/ok.hpp"
 #include "utils/freecam.hpp"
 
-#include "thirdparty/raylib/raylib.h"
+#include "raylib.h"
 
 #include <cmath>
 #include <array>

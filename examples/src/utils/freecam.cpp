@@ -21,7 +21,7 @@
 
 #include "freecam.hpp"
 #include "kmath/rotor_3d.hpp"
-#include "thirdparty/raylib/raylib.h"
+#include "raylib.h"
 #include <iostream>
 
 

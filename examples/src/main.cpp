@@ -20,12 +20,12 @@
 
 
 #include <array>
-#include <cmath>
 #include <cstdlib>
 #include <string>
 
 #include "examples.hpp"
-#include "thirdparty/raylib/raylib.h"
+#include "raylib.h"
+#include "raygui.h"
 
 
 struct Test {
@@ -80,26 +80,23 @@ const Test *current_test = nullptr;
 void *current_test_data = nullptr;
 
 
-bool is_inside_rect(const Rectangle &p_rect, const Vector2 &p_point);
-bool button(const char *p_text, const Vector2 &p_position, const float p_font_size, const Vector2 &p_inset);
-
-
 void test_selection_menu() {
-  const int Y_SIZE = 20;
-  const int Y_SPACING = 28;
-  const int FONT_SIZE = 26;
+  const int X_SIZE = 300;
+  const int Y_SIZE = 32;
+  const int Y_SPACING = 12;
 
   int render_width = GetRenderWidth();
 
   for (size_t i = 0; i < TESTS.size(); i++) {
     const Test &test = TESTS[i];
+    const Rectangle button_bounds{
+      .x = 0.5f * (render_width - X_SIZE),
+      .y = float(i) * (Y_SIZE + Y_SPACING) + Y_SPACING,
+      .width = X_SIZE,
+      .height = Y_SIZE,
+    };
 
-    if (button(
-      test.name.c_str(),
-      Vector2(0.5f * render_width, i * (Y_SIZE + Y_SPACING) + Y_SPACING),
-      FONT_SIZE,
-      Vector2(10.0, 5.0))
-    ) {
+    if (GuiButton(button_bounds, test.name.c_str())) {
       current_test = &test;
     }
   }
@@ -113,6 +110,8 @@ int main(void) {
   );
   SetTargetFPS(60.0);
 
+  GuiLoadStyle("thirdparty/raygui/terminal/style_terminal.txt.rgs");
+
   while (!WindowShouldClose()) {
     BeginDrawing();
     ClearBackground(BLACK);
@@ -125,7 +124,7 @@ int main(void) {
 
       current_test->run(current_test_data);
 
-      if (IsKeyDown(KEY_BACKSPACE) || button(" < ", Vector2(16.0, 16.0), 18.0, Vector2(5.0, 5.0))) {
+      if (IsKeyDown(KEY_BACKSPACE) || GuiButton(Rectangle{5.0, 5.0, 24.0, 24.0}, " < ")) {
         current_test->cleanup(current_test_data);
         current_test_data = nullptr;
         current_test = nullptr;
@@ -137,47 +136,4 @@ int main(void) {
 
   CloseWindow();
   return EXIT_SUCCESS;
-}
-
-
-bool is_inside_rect(const Rectangle &p_rect, const Vector2 &p_point) {
-  return p_rect.x <= p_point.x && p_point.x <= p_rect.x + p_rect.width && p_rect.y <= p_point.y && p_point.y <= p_rect.y + p_rect.height;
-}
-
-
-bool button(const char *p_text, const Vector2 &p_position, const float p_font_size, const Vector2 &p_inset) {
-  Font default_font = GetFontDefault();
-  Vector2 text_size = MeasureTextEx(default_font, p_text, p_font_size, 1.0);
-
-  Rectangle button_rect = {
-    p_position.x - 0.5f * text_size.x - p_inset.x,
-    p_position.y - 0.5f * text_size.y - p_inset.y,
-    text_size.x + 2.0f * p_inset.x,
-    text_size.y + 2.0f * p_inset.y,
-  };
-
-  bool pressed = false;
-
-  Color stroke_color = BLUE;
-  Color fill_color = SKYBLUE;
-
-  if (is_inside_rect(button_rect, GetMousePosition())) {
-    if (IsMouseButtonDown(MOUSE_BUTTON_LEFT)) {
-      stroke_color = RED;
-      fill_color = GOLD;
-    } else {
-      stroke_color = LIME;
-      fill_color = GREEN;
-    }
-
-    if (IsMouseButtonReleased(MOUSE_BUTTON_LEFT)) {
-      pressed = true;
-    }
-  }
-
-  DrawRectangleRec(button_rect, fill_color);
-  DrawRectangleLinesEx(button_rect, 2.0, stroke_color);
-  DrawTextEx(default_font, p_text, Vector2(button_rect.x + p_inset.x, button_rect.y + p_inset.y), p_font_size, 1.0, stroke_color);
-
-  return pressed;
 }

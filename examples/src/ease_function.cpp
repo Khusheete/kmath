@@ -23,7 +23,7 @@
 
 #include "kmath/interpolation_functions.hpp"
 
-#include "thirdparty/raylib/raylib.h"
+#include "raylib.h"
 #include <array>
 #include <cmath>
 

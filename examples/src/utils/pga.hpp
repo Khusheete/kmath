@@ -24,7 +24,7 @@
 
 #include "kmath/pga_3d.hpp"
 #include "kmath/vector.hpp"
-#include "thirdparty/raylib/raylib.h"
+#include "raylib.h"
 #undef PI
 
 

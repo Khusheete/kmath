@@ -21,7 +21,7 @@
 
 #include "pga.hpp"
 #include "kmath/constants.hpp"
-#include "thirdparty/raylib/raylib.h"
+#include "raylib.h"
 
 
 using namespace kmath;

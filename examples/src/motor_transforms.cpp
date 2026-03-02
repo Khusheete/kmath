@@ -26,7 +26,7 @@
 
 #include "kmath/vector.hpp"
 #include "utils/freecam.hpp"
-#include "thirdparty/raylib/raylib.h"
+#include "raylib.h"
 #include <vector>
 
 

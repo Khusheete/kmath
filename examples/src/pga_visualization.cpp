@@ -25,7 +25,7 @@
 
 #include "kmath/pga_3d.hpp"
 
-#include "thirdparty/raylib/raylib.h"
+#include "raylib.h"
 #include <cstdlib>
 
 

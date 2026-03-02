@@ -26,7 +26,7 @@
 #include "utils/math.hpp"
 
 #include <iostream>
-#include <thirdparty/raylib/raylib.h>
+#include "raylib.h"
 #include <array>
 
 

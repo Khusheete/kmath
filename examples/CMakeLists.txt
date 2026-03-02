@@ -7,10 +7,11 @@ add_executable(KMathExamples
   src/pga_visualization.cpp
   src/oklab_interpolation.cpp
   src/camera.cpp
+  src/color_spaces.cpp
   # Utils sources
   src/utils/freecam.cpp
   src/utils/math.cpp
   src/utils/pga.cpp
 )
 
-target_link_libraries(KMathExamples kmath raylib kmath_repo_build_options)
+target_link_libraries(KMathExamples kmath raylib raygui kmath_repo_build_options)

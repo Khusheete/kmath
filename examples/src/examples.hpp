@@ -49,3 +49,8 @@ void oklab_interpolation_cleanup(void *p_data);
 void *ease_function_init();
 void ease_function_run(void *p_data);
 void ease_function_cleanup(void *p_data);
+
+
+void *color_spaces_init();
+void color_spaces_run(void *p_data);
+void color_spaces_cleanup(void *p_data);

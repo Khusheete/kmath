@@ -30,6 +30,7 @@ endif()
 
 # == Build library ==
 add_library(kmath STATIC
+  color/base.cpp
   color/ok.cpp
   color/itu.cpp
   color/cie.cpp

@@ -38,6 +38,12 @@ namespace kmath {
   // Non-linear standard RGB (gamma corrected)
   typedef _Vec3<float> Rgb;
   typedef _Vec4<float> Rgba;
+  // HSL, HSV, and HWB color spaces based on RGB color space*s*.
+  // Usually those color spaces are calculated from sRGB color spaces.
+  // In functions implemented bellow, all components are normalized between 0 and 1 (inclusive).
+  typedef _Vec3<float> Hsl;
+  typedef _Vec3<float> Hsv;
+  typedef _Vec3<float> Hwb;
 
   typedef _Vec3<uint8_t> RgbU8;
   typedef _Vec4<uint8_t> RgbaU8;
@@ -142,5 +148,71 @@ namespace kmath {
       u8_to_float(rgb.y),
       u8_to_float(rgb.z)
     );
+  }
+
+
+  // =================
+  // = HSL functions =
+  // =================
+
+  
+  Hsl rgb_to_hsl(const Rgb &rgb);
+  Rgb hsl_to_rgb(const Hsl &hsl);
+
+
+  inline Hsl lrgb_to_hsl(const Lrgb &rgb) {
+    return rgb_to_hsl(lrgb_to_rgb(rgb));
+  }
+
+
+  inline Lrgb hsl_to_lrgb(const Hsl &hsl) {
+    return rgb_to_lrgb(hsl_to_rgb(hsl));
+  }
+
+
+  // =================
+  // = HSV functions =
+  // =================
+
+
+  Hsv rgb_to_hsv(const Rgb &rgb);
+  Rgb hsv_to_rgb(const Hsv &hsv);
+
+  inline Hsv lrgb_to_hsv(const Lrgb &rgb) {
+    return rgb_to_hsv(lrgb_to_rgb(rgb));
+  }
+
+
+  inline Lrgb hsv_to_lrgb(const Hsv &hsv) {
+    return rgb_to_lrgb(hsv_to_rgb(hsv));
+  }
+
+
+  // =================
+  // = HWB functions =
+  // =================
+
+
+  Hwb hsv_to_hwb(const Hsv &hsv);
+  Hsv hwb_to_hsv(const Hwb &hwb);
+
+
+  inline Hwb lrgb_to_hwb(const Lrgb &rgb) {
+    return hsv_to_hwb(lrgb_to_hsv(rgb));
+  }
+
+
+  inline Lrgb hwb_to_lrgb(const Hwb &hwb) {
+    return hsv_to_lrgb(hwb_to_hsv(hwb));
+  }
+
+
+  inline Hwb rgb_to_hwb(const Rgb &rgb) {
+    return hsv_to_hwb(rgb_to_hsv(rgb));
+  }
+
+
+  inline Rgb hwb_to_rgb(const Hwb &hwb) {
+    return hsv_to_rgb(hwb_to_hsv(hwb));
   }
 }

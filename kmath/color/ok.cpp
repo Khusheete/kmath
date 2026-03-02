@@ -23,6 +23,7 @@
 
 #include "../constants.hpp"
 #include "../matrix.hpp"
+#include "base.hpp"
 
 
 namespace kmath::ok {
@@ -507,5 +508,15 @@ namespace kmath::ok {
   	float l = toe(L);
 
   	return OkHsl(h, s, l);
+  }
+
+
+  OkHsv okhwb_to_okhsv(const OkHwb &hwb) {
+    return hwb_to_hsv(hwb);
+  }
+
+
+  OkHwb okhsv_to_okhwb(const OkHsv &hsv) {
+    return hsv_to_hwb(hsv);
   }
 }

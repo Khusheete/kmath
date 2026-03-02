@@ -48,6 +48,7 @@ namespace kmath::ok {
   typedef _Vec4<float> OkHsla;
   typedef _Vec3<float> OkHsv;
   typedef _Vec4<float> OkHsva;
+  typedef _Vec3<float> OkHwb;
 
 
   // ===================
@@ -127,5 +128,44 @@ namespace kmath::ok {
 
   inline OkHsl rgb_to_okhsl(const Rgb &rgb) {
     return lrgb_to_okhsl(rgb_to_lrgb(rgb));
+  }
+
+
+  // ===================
+  // = OkHwb functions =
+  // ===================
+
+
+  OkHsv okhwb_to_okhsv(const OkHwb &hwb);
+  OkHwb okhsv_to_okhwb(const OkHsv &hsv);
+
+
+  inline Lrgb okhwb_to_lrgb(const OkHwb &hwb) {
+    return okhsv_to_lrgb(okhwb_to_okhsv(hwb));
+  }
+
+
+  inline OkHwb lrgb_to_okhwb(const Lrgb &rgb) {
+    return okhsv_to_okhwb(lrgb_to_okhsv(rgb));
+  }
+
+
+  inline Rgb okhwb_to_rgb(const OkHwb &hwb) {
+    return okhsv_to_rgb(okhwb_to_okhsv(hwb));
+  }
+
+
+  inline OkHwb rgb_to_okhwb(const Rgb &rgb) {
+    return okhsv_to_okhwb(rgb_to_okhsv(rgb));
+  }
+
+
+  inline OkLab okhwb_to_oklab(const OkHwb &hwb) {
+    return okhsv_to_oklab(okhwb_to_okhsv(hwb));
+  }
+
+
+  inline OkHwb oklab_to_okhwb(const OkLab &lab) {
+    return okhsv_to_okhwb(oklab_to_okhsv(lab));
   }
 }

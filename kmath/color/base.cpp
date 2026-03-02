@@ -25,6 +25,7 @@
 
 #include <algorithm>
 #include <cmath>
+#include <limits>
 
 
 namespace kmath {
@@ -33,7 +34,7 @@ namespace kmath {
     const float max = std::max(std::max(rgb.x, rgb.y), rgb.z);
     const float min = std::min(std::min(rgb.x, rgb.y), rgb.z);
     Hsl hsl(
-      0.0f, 0.0f, (min + max) * 0.5f
+      std::numeric_limits<float>::quiet_NaN(), 0.0f, (min + max) * 0.5f
     );
     const float range = max - min;
 
@@ -68,6 +69,10 @@ namespace kmath {
 
 
   Rgb hsl_to_rgb(const Hsl &hsl) {
+    if (std::isnan(hsl.x)) {
+      return Rgb(hsl.z);
+    }
+    
     const float a = hsl.y * std::min(hsl.z, 1.0f - hsl.z);
     const float k_r = 12.0f * std::fmod(hsl.x, 1.0f);
     const float k_g = 12.0f * std::fmod(2.0f / 3.0f + hsl.x, 1.0f);
@@ -85,14 +90,14 @@ namespace kmath {
     const float value = std::max(std::max(rgb.x, rgb.y), rgb.z);
 
     if (is_approx_zero(value)) {
-      return Hsl(0.0f, 0.0f, 0.0f);
+      return Hsl(std::numeric_limits<float>::quiet_NaN(), 0.0f, 0.0f);
     }
     
     const float min = std::min(std::min(rgb.x, rgb.y), rgb.z);
     const float range = value - min;
 
     if (is_approx_zero(range)) {
-      return Hsl(0.0f, 0.0f, value);
+      return Hsl(std::numeric_limits<float>::quiet_NaN(), 0.0f, value);
     }
 
     const float saturation = range / value;
@@ -117,7 +122,7 @@ namespace kmath {
 
 
   Rgb hsv_to_rgb(const Hsv &hsv) {
-    if (is_approx_zero(hsv.y)) {
+    if (std::isnan(hsv.x) || is_approx_zero(hsv.y)) {
       // Achromatic color
       return Rgb(hsv.z);
     }

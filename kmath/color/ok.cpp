@@ -24,6 +24,8 @@
 #include "../constants.hpp"
 #include "../matrix.hpp"
 #include "base.hpp"
+#include <cmath>
+#include <limits>
 
 
 namespace kmath::ok {
@@ -322,7 +324,7 @@ namespace kmath::ok {
 
 
   OkLab okhsv_to_oklab(const OkHsv &hsv) {
-    float h = hsv.x;
+    float h = (std::isnan(hsv.x))? 0.0f : hsv.x;
   	float s = hsv.y;
   	float v = hsv.z;
 
@@ -367,7 +369,7 @@ namespace kmath::ok {
   	float C = std::sqrt(lab.y * lab.y + lab.z * lab.z);
   	if (is_approx_zero(C)) {
   	  // The color is fully desaturated
-  	  return OkHsv(0.0f, 0.0f, toe(lab.x));
+  	  return OkHsv(std::numeric_limits<float>::quiet_NaN(), 0.0f, toe(lab.x));
   	}
 
   	float a_ = lab.y / C;
@@ -417,7 +419,7 @@ namespace kmath::ok {
 
 
   OkLab okhsl_to_oklab(const OkHsl &hsl) {
-  	float h = hsl.x;
+  	float h = (std::isnan(hsl.x))? 0.0f : hsl.x;
   	float s = hsl.y;
   	float l = hsl.z;
 
@@ -471,7 +473,7 @@ namespace kmath::ok {
   	float C = std::sqrt(lab.y * lab.y + lab.z * lab.z);
     if (is_approx_zero(C)) {
       // The color is fully desaturated
-      return OkHsl(0.0f, 0.0f, toe(lab.x));
+      return OkHsl(std::numeric_limits<float>::quiet_NaN(), 0.0f, toe(lab.x));
     }
   	float a_ = lab.y / C;
   	float b_ = lab.z / C;

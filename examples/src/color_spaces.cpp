@@ -201,6 +201,7 @@ void color_spaces_run(void *p_data) {
     if (xy.x > 0.0f && xy.y > 0.0f && xy.x < 1.0f && xy.y < 1.0f) {
       const Vec3 cyl_color = Vec3(xy, data->value);
       const Vec3 rgb_color = into_rgb(cyl_color);
+      const Vec3 back_move = from_rgb(rgb_color);
       const Vec3i cyl_colori{
         int(cyl_color.x * 360.0f),
         Vec2i(cyl_color.yz() * 100.0f)
@@ -208,6 +209,8 @@ void color_spaces_run(void *p_data) {
       const Vec3i rgb_colori = Vec3i(rgb_to_rgbu8(rgb_color));
       std::cout << "Cyl Color: " << cyl_colori << std::endl;
       std::cout << "RGB Color: " << rgb_colori << std::endl;
+      std::cout << "Back Color: " << back_move << std::endl;
+      std::cout << std::endl;
     }
   }
 

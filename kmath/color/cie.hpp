@@ -126,6 +126,16 @@ namespace kmath::cie {
   Lrgb xyz_to_lrgb(const XYZ &xyz);
 
 
+  inline XYZ rgb_to_xyz(const Rgb &rgb) {
+    return lrgb_to_xyz(rgb_to_lrgb(rgb));
+  }
+
+
+  inline Rgb xyz_to_rgb(const XYZ &xyz) {
+    return lrgb_to_rgb(xyz_to_lrgb(xyz));
+  }
+
+
   // ========================
   // = xy and xyY functions =
   // ========================
@@ -134,7 +144,38 @@ namespace kmath::cie {
   xyY xyz_to_xyy(const XYZ &xyz);
   XYZ xyy_to_xyz(const xyY &xyy);
 
+
+  inline xyY lrgb_to_xyy(const Lrgb &rgb) {
+    return xyz_to_xyy(lrgb_to_xyz(rgb));
+  }
+
+
+  inline Lrgb xyy_to_lrgb(const xyY &xyy) {
+    return xyz_to_lrgb(xyy_to_xyz(xyy));
+  }
+
+
+  inline xyY rgb_to_xyy(const Rgb &rgb) {
+    return xyz_to_xyy(rgb_to_xyz(rgb));
+  }
+
+
+  inline Rgb xyy_to_rgb(const xyY &xyy) {
+    return xyz_to_rgb(xyy_to_xyz(xyy));
+  }
+
+
   xy xyz_to_xy(const XYZ &xyz);
+
+
+  inline xy lrgb_to_xy(const Lrgb &rgb) {
+    return xyz_to_xy(lrgb_to_xyz(rgb));
+  }
+
+  
+  inline xy rgb_to_xy(const Rgb &rgb) {
+    return xyz_to_xy(rgb_to_xyz(rgb));
+  }
 
 
   // ===============

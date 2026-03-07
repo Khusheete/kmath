@@ -23,6 +23,8 @@
 #include "cie.hpp"
 
 #include "../matrix.hpp"
+#include <cmath>
+#include <limits>
 
 
 namespace kmath::cie {
@@ -185,5 +187,37 @@ namespace kmath::cie {
     const float fz = fy - lab.z * 0.5f;
 
     return apply(Vec3(fx, fy, fz), f) * illum_xyz;
+  }
+
+
+  // ====================
+  // = LCh color spaces =
+  // ====================
+
+
+  LChab lab_to_lchab(const Lab &lab) {
+    const float c = length(lab.yz());
+    if (is_approx_zero(c)) {
+      return LChab(
+        lab.x, 0.0f, std::numeric_limits<float>::quiet_NaN()
+      );
+    }
+    return LChab(
+      lab.x,
+      c,
+      std::atan2(lab.z, lab.y)
+    );
+  }
+
+
+  Lab lchab_to_lab(const LChab &lch) {
+    if (std::isnan(lch.z)) {
+      return Lab(lch.x, 0.0f, 0.0f);
+    }
+    return Lab(
+      lch.x,
+      lch.y * std::cos(lch.z),
+      lch.y * std::sin(lch.z)
+    );
   }
 }

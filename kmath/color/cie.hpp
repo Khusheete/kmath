@@ -35,6 +35,11 @@ namespace kmath::cie {
 
   typedef _Vec3<float> Lab;
 
+  // This is a cylindrical version of the Lab color space.
+  // Unlike HSL, HSV, and HWB color spaces, the hue h is expressed in radians.
+  // For achromatic colors, the hue is set to NaN.
+  typedef _Vec3<float> LChab;
+
   // The CIE XYZ tristimulus color space.
   // In functions bellow, the unit of the tristimulus XYZ is 1 (in other works, it is seldome 100).
   typedef _Vec3<float> XYZ;
@@ -229,5 +234,34 @@ namespace kmath::cie {
 
   inline Rgb lab_to_rgb(const Lab &lab) {
     return xyz_to_rgb(lab_to_xyz(lab));
+  }
+
+
+  // ====================
+  // = LCh color spaces =
+  // ====================
+
+
+  LChab lab_to_lchab(const Lab &lab);
+  Lab lchab_to_lab(const LChab &lch);
+
+
+  inline LChab lrgb_to_lchab(const Lrgb &rgb) {
+    return lab_to_lchab(lrgb_to_lab(rgb));
+  }
+
+
+  inline Lrgb lchab_to_lrgb(const LChab &lch) {
+    return lab_to_lrgb(lchab_to_lab(lch));
+  }
+
+
+  inline LChab rgb_to_lchab(const Rgb &rgb) {
+    return lab_to_lchab(rgb_to_lab(rgb));
+  }
+
+
+  inline Rgb lchab_to_rgb(const LChab &lch) {
+    return lab_to_rgb(lchab_to_lab(lch));
   }
 }

@@ -33,6 +33,7 @@ namespace kmath::cie {
   // = Types =
   // =========
 
+  typedef _Vec3<float> Lab;
 
   // The CIE XYZ tristimulus color space.
   // In functions bellow, the unit of the tristimulus XYZ is 1 (in other works, it is seldome 100).
@@ -190,4 +191,43 @@ namespace kmath::cie {
   XYZ illuminant_tristimulus(const Illuminant illum);
 
 
+  // ===================
+  // = Lab color space =
+  // ===================
+  
+
+  Lab xyz_to_lab(const XYZ &xyz, const Illuminant illum);
+  XYZ lab_to_xyz(const Lab &lab, const Illuminant illum);
+
+
+  // Conversion function if we use the D65 illuminant.
+  inline Lab xyz_to_lab(const XYZ &xyz) {
+    return xyz_to_lab(xyz, Illuminant::D65);
+  }
+
+
+  // Conversion function if we use the D65 illuminant.
+  inline XYZ lab_to_xyz(const Lab &lab) {
+    return lab_to_xyz(lab, Illuminant::D65);
+  }
+
+
+  inline Lab lrgb_to_lab(const Lrgb &rgb) {
+    return xyz_to_lab(lrgb_to_xyz(rgb));
+  }
+
+
+  inline Lrgb lab_to_lrgb(const Lab &lab) {
+    return xyz_to_lrgb(lab_to_xyz(lab));
+  }
+
+
+  inline Lab rgb_to_lab(const Rgb &rgb) {
+    return xyz_to_lab(rgb_to_xyz(rgb));
+  }
+
+
+  inline Rgb lab_to_rgb(const Lab &lab) {
+    return xyz_to_rgb(lab_to_xyz(lab));
+  }
 }

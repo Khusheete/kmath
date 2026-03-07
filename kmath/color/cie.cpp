@@ -151,4 +151,39 @@ namespace kmath::cie {
   XYZ illuminant_tristimulus(const Illuminant illum) {
     return xyy_to_xyz(xyY(illuminant_chromaticity(illum), 1.0f));
   }
+
+
+  // ===================
+  // = Lab color space =
+  // ===================
+
+
+  Lab xyz_to_lab(const XYZ &xyz, const Illuminant illum) {
+    const auto f = [](const float x) -> float {
+      const float CUT = 0.008856451679035631f;
+      return (x > CUT)? std::pow(x, 1.0f / 3.0f) : 7.833333333333333 * x + 0.13793103448275862f;
+    };
+    const XYZ illum_xyz = illuminant_tristimulus(illum);
+    const Vec3 fxyz = apply(xyz / illum_xyz, f);
+    return Lab(
+      1.16f * fxyz.y - 0.16f,
+      5.0f * (fxyz.x - fxyz.y),
+      2.0f * (fxyz.y - fxyz.z)
+    );
+  }
+
+
+  XYZ lab_to_xyz(const Lab &lab, const Illuminant illum) {
+    const auto f = [](const float x) -> float {
+      const float CUT = 0.20689655172413793f;
+      return (x > CUT)? std::pow(x, 3) : (x - 0.13793103448275862f) * 0.12841854934601665f;
+    };
+    const XYZ illum_xyz = illuminant_tristimulus(illum);
+
+    const float fy = (lab.x + 0.16f) * 0.8620689655172414f;
+    const float fx = lab.y * 0.2f + fy;
+    const float fz = fy - lab.z * 0.5f;
+
+    return apply(Vec3(fx, fy, fz), f) * illum_xyz;
+  }
 }

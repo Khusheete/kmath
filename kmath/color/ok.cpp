@@ -242,7 +242,7 @@ namespace kmath::ok {
   // ===================
 
 
-  OkLab xyzd65_to_oklab(const cie::XYZD65 &xyz) {
+  OkLab xyz_to_oklab(const cie::XYZ &xyz) {
     const Mat3 M1(
       Vec3(+0.8189330101f, +0.0329845436f, +0.0482003018f),
       Vec3(+0.3618667424f, +0.9293118715f, +0.2643662691f),
@@ -263,7 +263,7 @@ namespace kmath::ok {
   }
 
 
-  cie::XYZD65 oklab_to_xyzd65(const OkLab &lab) {
+  cie::XYZ oklab_to_xyz(const OkLab &lab) {
     const Mat3 M2(
       Vec3(+0.9999999984505197f , +1.0000000088817607f , +1.0000000546724108f),
       Vec3(+0.39633779217376786f, -0.10556134232365633f, -0.08948418209496574f),

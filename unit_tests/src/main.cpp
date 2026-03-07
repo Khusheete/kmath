@@ -635,16 +635,16 @@ int main(void) {
     };
     
     UNIT_TEST("XYZ to OkLab", {
-      TEST_EQ_APPROX("1", round(ok::xyzd65_to_oklab(cie::XYZD65(0.950f, 1.000f, 1.089f))), ok::OkLab(1.000, 0.000, 0.000));
-      TEST_EQ_APPROX("2", round(ok::xyzd65_to_oklab(cie::XYZD65(1.000f, 0.000f, 0.000f))), ok::OkLab(0.450, 1.236, -0.019));
-      TEST_EQ_APPROX("3", round(ok::xyzd65_to_oklab(cie::XYZD65(0.000f, 1.000f, 0.000f))), ok::OkLab(0.922, -0.671, 0.263));
-      TEST_EQ_APPROX("4", round(ok::xyzd65_to_oklab(cie::XYZD65(0.000f, 0.000f, 1.000f))), ok::OkLab(0.153, -1.415, -0.449));
+      TEST_EQ_APPROX("1", round(ok::xyz_to_oklab(cie::XYZ(0.950f, 1.000f, 1.089f))), ok::OkLab(1.000, 0.000, 0.000));
+      TEST_EQ_APPROX("2", round(ok::xyz_to_oklab(cie::XYZ(1.000f, 0.000f, 0.000f))), ok::OkLab(0.450, 1.236, -0.019));
+      TEST_EQ_APPROX("3", round(ok::xyz_to_oklab(cie::XYZ(0.000f, 1.000f, 0.000f))), ok::OkLab(0.922, -0.671, 0.263));
+      TEST_EQ_APPROX("4", round(ok::xyz_to_oklab(cie::XYZ(0.000f, 0.000f, 1.000f))), ok::OkLab(0.153, -1.415, -0.449));
     });
     UNIT_TEST("OkLab to XYZ", {
-      TEST_EQ_APPROX("1", round(ok::oklab_to_xyzd65(ok::OkLab(1.000, 0.000, 0.000)), 2),   cie::XYZD65(0.95f, 1.00f, 1.09f));
-      TEST_EQ_APPROX("2", round(ok::oklab_to_xyzd65(ok::OkLab(0.450, 1.236, -0.019)), 2),  cie::XYZD65(1.00f, 0.00f, 0.00f));
-      TEST_EQ_APPROX("3", round(ok::oklab_to_xyzd65(ok::OkLab(0.922, -0.671, 0.263)), 2),  cie::XYZD65(0.00f, 1.00f, 0.00f));
-      TEST_EQ_APPROX("4", round(ok::oklab_to_xyzd65(ok::OkLab(0.153, -1.415, -0.449)), 2), cie::XYZD65(0.00f, 0.00f, 1.00f));
+      TEST_EQ_APPROX("1", round(ok::oklab_to_xyz(ok::OkLab(1.000, 0.000, 0.000)), 2),   cie::XYZ(0.95f, 1.00f, 1.09f));
+      TEST_EQ_APPROX("2", round(ok::oklab_to_xyz(ok::OkLab(0.450, 1.236, -0.019)), 2),  cie::XYZ(1.00f, 0.00f, 0.00f));
+      TEST_EQ_APPROX("3", round(ok::oklab_to_xyz(ok::OkLab(0.922, -0.671, 0.263)), 2),  cie::XYZ(0.00f, 1.00f, 0.00f));
+      TEST_EQ_APPROX("4", round(ok::oklab_to_xyz(ok::OkLab(0.153, -1.415, -0.449)), 2), cie::XYZ(0.00f, 0.00f, 1.00f));
     });
     UNIT_TEST("lRGB to YCbCr", {
       using namespace itu::bt_2020;

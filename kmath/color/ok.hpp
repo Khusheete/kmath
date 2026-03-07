@@ -56,8 +56,9 @@ namespace kmath::ok {
   // ===================
   
 
-  OkLab xyzd65_to_oklab(const cie::XYZD65 &xyz);
-  cie::XYZD65 oklab_to_xyzd65(const OkLab &lab);
+  // The oklab color space assumes a D65 white point.
+  OkLab xyz_to_oklab(const cie::XYZ &xyz);
+  cie::XYZ oklab_to_xyz(const OkLab &lab);
 
   Lrgb oklab_to_lrgb(const OkLab &lab);
   OkLab lrgb_to_oklab(const Lrgb &rgb);

@@ -22,6 +22,7 @@
 #include "examples.hpp"
 
 #include "kmath/color/base.hpp"
+#include "kmath/color/cie.hpp"
 #include "kmath/color/ok.hpp"
 #include "kmath/vector.hpp"
 #include "kmath/print.hpp"
@@ -39,9 +40,12 @@ enum class ColorSpace {
   OkHSL,
   OkHSV,
   OkHWB,
+  OkLAB,
   HSL,
   HSV,
   HWB,
+  XYZ,
+  LAB,
   COLOR_SPACE_MAX,
 };
 
@@ -66,14 +70,93 @@ void *color_spaces_init() {
 }
 
 
+// Returns a vector i
+// i.x denotes the parameter that changes with TestData::value.
+// i.yz denotes the parameters changing with the position inside the rectangle.
+Vec3i get_color_space_permutation(const ColorSpace p_color_space) {
+  switch (p_color_space) {
+  case ColorSpace::OkHSL: 
+  case ColorSpace::OkHSV:
+  case ColorSpace::HSL:
+  case ColorSpace::HSV:
+    return Vec3i(2, 0, 1);
+  case ColorSpace::OkLAB:
+  case ColorSpace::LAB:
+  case ColorSpace::OkHWB:
+  case ColorSpace::HWB:
+    return Vec3i(0, 1, 2);
+  case ColorSpace::XYZ:
+    return Vec3i(1, 0, 2);
+  case ColorSpace::COLOR_SPACE_MAX:
+    break;
+  }
+  return Vec3i(-1);
+}
+
+
+Vec3 get_color_space_min(const ColorSpace p_color_space) {
+  switch (p_color_space) {
+  case ColorSpace::OkHSL: 
+  case ColorSpace::OkHSV:
+  case ColorSpace::HSL:
+  case ColorSpace::HSV:
+  case ColorSpace::OkHWB:
+  case ColorSpace::HWB:
+  case ColorSpace::XYZ:
+    return Vec3::ZERO;
+  case ColorSpace::OkLAB:
+    return Vec3(0.0f, -0.5f, -0.5f);
+  case ColorSpace::LAB:
+    return Vec3(0.0f, -1.0f, -1.0f);
+  case ColorSpace::COLOR_SPACE_MAX:
+    break;
+  }
+  return Vec3();
+}
+
+
+Vec3 get_color_space_max(const ColorSpace p_color_space) {
+  switch (p_color_space) {
+  case ColorSpace::OkHSL: 
+  case ColorSpace::OkHSV:
+  case ColorSpace::HSL:
+  case ColorSpace::HSV:
+  case ColorSpace::OkHWB:
+  case ColorSpace::HWB:
+  case ColorSpace::XYZ:
+    return Vec3::ONE;
+  case ColorSpace::OkLAB:
+    return Vec3(1.0f, 0.5f, 0.5f);
+  case ColorSpace::LAB:
+    return Vec3::ONE;
+  case ColorSpace::COLOR_SPACE_MAX:
+    break;
+  }
+  return Vec3();
+}
+
+
+Vec3 build_vector(const Vec3 &p_coefs, const Vec3i &p_permutation, const Vec3 &p_min, const Vec3 &p_max) {
+  Vec3 res{};
+  res[p_permutation.x] = p_coefs.x;
+  res[p_permutation.y] = p_coefs.y;
+  res[p_permutation.z] = p_coefs.z;
+  res = lerp(p_min, p_max, res);
+  return res;
+}
+
+
 const char *get_color_space_name(const ColorSpace p_space) {
   switch (p_space) {
   case ColorSpace::OkHSL: return "OkHSL";
   case ColorSpace::OkHSV: return "OkHSV";
   case ColorSpace::OkHWB: return "OkHWB";
+  case ColorSpace::OkLAB: return "OkLab";
   case ColorSpace::HSL:   return "HSL";
   case ColorSpace::HSV:   return "HSV";
   case ColorSpace::HWB:   return "HWB";
+  case ColorSpace::XYZ:   return "XYZ";
+  case ColorSpace::LAB:   return "Lab";
   case ColorSpace::COLOR_SPACE_MAX: return "ERROR";
   }
   return "ERROR";
@@ -88,9 +171,12 @@ ConvertFunc into_rgb_fun(const ColorSpace p_space) {
   case ColorSpace::OkHSL: return ok::okhsl_to_rgb;
   case ColorSpace::OkHSV: return ok::okhsv_to_rgb;
   case ColorSpace::OkHWB: return ok::okhwb_to_rgb;
+  case ColorSpace::OkLAB: return ok::oklab_to_rgb;
   case ColorSpace::HSL: return hsl_to_rgb;
   case ColorSpace::HSV: return hsv_to_rgb;
   case ColorSpace::HWB: return hwb_to_rgb;
+  case ColorSpace::XYZ: return cie::xyz_to_rgb;
+  case ColorSpace::LAB: return cie::lab_to_rgb;
   case ColorSpace::COLOR_SPACE_MAX: break;
   }
   abort();
@@ -103,9 +189,12 @@ ConvertFunc from_rgb_fun(const ColorSpace p_space) {
   case ColorSpace::OkHSL: return ok::rgb_to_okhsl;
   case ColorSpace::OkHSV: return ok::rgb_to_okhsv;
   case ColorSpace::OkHWB: return ok::rgb_to_okhwb;
+  case ColorSpace::OkLAB: return ok::rgb_to_oklab;
   case ColorSpace::HSL: return rgb_to_hsl;
   case ColorSpace::HSV: return rgb_to_hsv;
   case ColorSpace::HWB: return rgb_to_hwb;
+  case ColorSpace::XYZ: return cie::rgb_to_xyz;
+  case ColorSpace::LAB: return cie::rgb_to_lab;
   case ColorSpace::COLOR_SPACE_MAX: break;
   }
   abort();
@@ -146,16 +235,20 @@ void color_spaces_run(void *p_data) {
   const ConvertFunc into_rgb = into_rgb_fun(data->csp);
   const ConvertFunc from_rgb = from_rgb_fun(data->csp);
 
+  const Vec3i permutation = get_color_space_permutation(data->csp);
+  const Vec3 min_value = get_color_space_min(data->csp);
+  const Vec3 max_value = get_color_space_max(data->csp);
+
+  auto get_color = [&](const Vec3 &sij) -> Vec3 {
+    return build_vector(sij, permutation, min_value, max_value);
+  };
+
   for (int j = 0; j < vertical_dots; j++) {
     for (int i = 0; i < horizontal_dots; i++) {
       const Vec2 pos = top_left + Vec2(i, j) * dot_size;
 
-      const Vec3 cyl_color = Vec3(
-        i * inv_horizontal_dots,
-        j * inv_vertical_dots,
-        data->value
-      );
-      Rgb rgb_color = into_rgb(cyl_color);
+      const Vec3 color = get_color(Vec3{data->value, i * inv_horizontal_dots, j * inv_vertical_dots});
+      Rgb rgb_color = into_rgb(color);
       if (data->convert_back) {
         rgb_color = into_rgb(from_rgb(rgb_color)); // Convert into and from rgb to debug
       }
@@ -199,17 +292,15 @@ void color_spaces_run(void *p_data) {
     const Vec2 xy = (mouse_pos - top_left) / size;
 
     if (xy.x > 0.0f && xy.y > 0.0f && xy.x < 1.0f && xy.y < 1.0f) {
-      const Vec3 cyl_color = Vec3(xy, data->value);
-      const Vec3 rgb_color = into_rgb(cyl_color);
+      const Vec3 color = get_color(Vec3{data->value, xy});
+      const Vec3 rgb_color = into_rgb(color);
       const Vec3 back_move = from_rgb(rgb_color);
-      const Vec3i cyl_colori{
-        int(cyl_color.x * 360.0f),
-        Vec2i(cyl_color.yz() * 100.0f)
-      };
+      const Vec3i colori{color * 100.0f};
       const Vec3i rgb_colori = Vec3i(rgb_to_rgbu8(rgb_color));
-      std::cout << "Cyl Color: " << cyl_colori << std::endl;
-      std::cout << "RGB Color: " << rgb_colori << std::endl;
-      std::cout << "Back Color: " << back_move << std::endl;
+
+      std::cout << "Base Color: " << colori << std::endl;
+      std::cout << "RGB: " << rgb_colori << std::endl;
+      std::cout << "Convert Back Color: " << back_move << std::endl;
       std::cout << std::endl;
     }
   }

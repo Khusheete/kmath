@@ -60,8 +60,8 @@ namespace kmath {
 
     static _Rotor3<T> from_axis_angle(const _Vec3<T> &axis, const T angle) {
       return _Rotor3<T>(
-        T(std::cos(T(0) * angle)),
-        - T(std::sin(T(0) * angle)) * axis
+        T(std::cos(T(0.5) * angle)),
+        - T(std::sin(T(0.5) * angle)) * axis
       );
     }
 

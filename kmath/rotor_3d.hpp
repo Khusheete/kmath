@@ -22,6 +22,7 @@
 #pragma once
 
 
+#include "constants.hpp"
 #include "utils.hpp"
 #include "vector.hpp"
 #include "matrix.hpp"
@@ -62,6 +63,25 @@ namespace kmath {
         T(std::cos(T(0) * angle)),
         - T(std::sin(T(0) * angle)) * axis
       );
+    }
+
+
+    static _Rotor3<T> from_directions(const _Vec3<T> &start_direction, const _Vec3<T> &end_direction) {
+      const _Vec3<T> nstart = normalized(start_direction);
+      const _Vec3<T> nend = normalized(end_direction);
+
+      const float cos_angle = dot(nstart, nend);
+      if (is_approx(cos_angle, -1.0f)) {
+        // Directions are opposites
+        _Vec3<T> axis = cross(Vec3::Z, nstart);
+        if (is_approx_zero(axis)) {
+          axis = cross(Vec3::X, nstart);
+        }
+        return from_axis_angle(normalized(axis), PI);
+      }
+
+      const _Vec3<T> axis_sin_angle = cross(nstart, nend);
+      return sqrt(_Rotor3<T>(cos_angle, -axis_sin_angle));
     }
 
   public:

@@ -31,26 +31,26 @@ namespace kmath {
 
   // Turns a vector in spherical coordinates (radius, polar, azimuth) to cartesian coordinates (Y up).
   template<Number T>
-  _Vec3<T> spherical_to_cartesian(const _Vec3<T> &p_spherical) {
-    return p_spherical.x * _Vec3<T>(
-      std::cos(p_spherical.z) * std::sin(p_spherical.y),
-      std::cos(p_spherical.y),
-      std::sin(p_spherical.z) * std::sin(p_spherical.y)
+  _Vec3<T> spherical_to_cartesian(const _Vec3<T> &spherical) {
+    return spherical.x * _Vec3<T>(
+      std::cos(spherical.z) * std::sin(spherical.y),
+      std::cos(spherical.y),
+      std::sin(spherical.z) * std::sin(spherical.y)
     );
   }
 
 
   template<Number T>
-  inline _Vec3<T> spherical_to_cartesian(const T p_radius, const T p_polar, const T p_azimuth) {
-    return spherical_to_cartesian(_Vec3<T>(p_radius, p_polar, p_azimuth));
+  inline _Vec3<T> spherical_to_cartesian(const T radius, const T polar, const T azimuth) {
+    return spherical_to_cartesian(_Vec3<T>(radius, polar, azimuth));
   }
 
 
   // Turns a vector in cartesian coordinates (Y up) to spherical coordinates (radius, polar, azimuth).
   template<Number T>
-  _Vec3<T> cartesian_to_spherical(const _Vec3<T> &p_cartesian) {
-    const T radius = length(p_cartesian);
-    const _Vec3<T> unit = p_cartesian / radius;
+  _Vec3<T> cartesian_to_spherical(const _Vec3<T> &cartesian) {
+    const T radius = length(cartesian);
+    const _Vec3<T> unit = cartesian / radius;
     const T polar = std::acos(unit.y);
     const T azimuth = std::atan2(unit.z, unit.x);
     return _Vec3<T>(radius, polar, azimuth);
@@ -64,15 +64,16 @@ namespace kmath {
 
 
   template<Number T>
-  inline T degrees_to_radians(const T p_degree) {
+  inline T degrees_to_radians(const T degree) {
     constexpr T conversion_coef = PI / 180.0;
-    return p_degree * conversion_coef;
+    return degree * conversion_coef;
   }
 
 
   template<Number T>
-  inline T radians_to_degrees(const T p_radians) {
+  inline T radians_to_degrees(const T radians) {
     constexpr T conversion_coef = 180.0 / PI;
-    return p_radians * conversion_coef;
+    return radians * conversion_coef;
   }
+
 }

@@ -25,6 +25,7 @@
 #include "concepts.hpp"
 #include "constants.hpp"
 #include "vector.hpp"
+#include <cmath>
 
 
 namespace kmath {
@@ -76,4 +77,31 @@ namespace kmath {
     return radians * conversion_coef;
   }
 
+
+  template<Number T>
+  inline T angle_difference(const T &from, const T &to, const T basis = T(TAU)) {
+    const T diff = std::fmod(to - from, basis);
+    return std::fmod(T(2) * diff, basis) - diff;
+  }
+
+
+  template<Number T>
+  inline T angle_lerp(const T &from, const T &to, const T &t, const T &basis = T(TAU)) {
+    return from + angle_difference(from, to, basis) * t;
+  }
+
+
+  template<Number T>
+  inline T angle_inv_lerp(const T &from, const T &to, const T &value, const T &basis = T(TAU)) {
+    const T base_diff = angle_difference(from, to, basis);
+    const T mid_angle = from + base_diff * T(0.5);
+    const T value_diff = angle_difference(mid_angle, value, basis);
+    return value_diff / base_diff - T(0.5);
+  }
+
+
+  template<Number T>
+  inline T angle_map(const T &value, const T &prev_min, const T &prev_max, const T &new_min, const T &new_max, const T &basis = T(TAU)) {
+    return angle_lerp(new_min, new_max, angle_inv_lerp(prev_min, prev_max, value, basis), basis);
+  }
 }

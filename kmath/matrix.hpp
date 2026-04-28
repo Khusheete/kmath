@@ -51,6 +51,11 @@ namespace kmath {
     }
 
 
+    static inline _Mat2<T> scale(const _Vec2<T> scale_vec) {
+      return scale(scale_vec.x, scale_vec.y);
+    }
+
+
     static inline _Mat2<T> scale(const T x, const T y) {
       return _Mat2<T>(
         _Vec2<T>(x     , T(0)),
@@ -234,6 +239,11 @@ namespace kmath {
 
     static inline _Mat3<T> scale(const T s) {
       return scale(s, s, s);
+    }
+
+
+    static inline _Mat3<T> scale(const _Vec3<T> scale_vec) {
+      return scale(scale_vec.x, scale_vec.y, scale_vec.z);
     }
 
 
@@ -472,6 +482,11 @@ namespace kmath {
   public:
     static inline _Mat4<T> scale(const T scale) {
       return scale * _Mat4<T>::IDENTITY;
+    }
+
+
+    static inline _Mat4<T> scale(const _Vec4<T> scale_vec) {
+      return scale(scale_vec.x, scale_vec.y, scale_vec.z, scale_vec.w);
     }
 
 

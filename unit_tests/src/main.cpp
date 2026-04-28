@@ -713,7 +713,7 @@ int main(void) {
   
 
   std::cout << "\n" << Testing::get_singleton()->get_final_report() << std::endl;
-  bool success = Testing::get_singleton()->has_succeeded();
+  const bool success = Testing::get_singleton()->has_succeeded();
   Testing::deinit_singleton();
   return (success)? EXIT_SUCCESS : EXIT_FAILURE;
 }

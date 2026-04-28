@@ -273,6 +273,18 @@ namespace kmath {
   }
 
 
+  template<Number T>
+  inline bool operator==(const _Vec2<T> &a, const _Vec2<T> &b) {
+    return a.x == b.x && a.y == b.y;
+  }
+
+
+  template<Number T>
+  inline bool operator!=(const _Vec2<T> &a, const _Vec2<T> &b) {
+    return !(a == b);
+  }
+
+
   // ===========
   // = Vector3 =
   // ===========
@@ -576,6 +588,18 @@ namespace kmath {
   inline _Vec3<T> &operator/=(_Vec3<T> &v, const T s) {
     const T scale = T(1) / s;
     return v *= scale;
+  }
+
+
+  template<Number T>
+  inline bool operator==(const _Vec3<T> &a, const _Vec3<T> &b) {
+    return a.x == b.x && a.y == b.y && a.z == b.z;
+  }
+
+
+  template<Number T>
+  inline bool operator!=(const _Vec3<T> &a, const _Vec3<T> &b) {
+    return !(a == b);
   }
 
 
@@ -1190,6 +1214,18 @@ namespace kmath {
   inline _Vec4<T> &operator/=(_Vec4<T> &v, const T s) {
     const T scale = T(1) / s;
     return v *= scale;
+  }
+
+
+  template<Number T>
+  inline bool operator==(const _Vec4<T> &a, const _Vec4<T> &b) {
+    return a.x == b.x && a.y == b.y && a.z == b.z && a.w == b.w;
+  }
+
+
+  template<Number T>
+  inline bool operator!=(const _Vec4<T> &a, const _Vec4<T> &b) {
+    return !(a == b);
   }
 
 

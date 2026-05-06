@@ -79,6 +79,21 @@ namespace kmath {
 
 
   template<Number T>
+  inline T angle_mod(const T angle, const T basis = T(TAU)) {
+    const T base_mod = std::fmod(angle, basis);
+    const T half_basis = T(0.5) * basis;
+    return (base_mod < half_basis) ? (base_mod > -half_basis) ? base_mod : (base_mod + basis) : (base_mod - basis);
+  }
+
+
+  template<Number T>
+  inline T angle_posmod(const T angle, const T basis = T(TAU)) {
+    const T base_mod = std::fmod(angle, basis);
+    return (base_mod >= T(0.0)) ? base_mod : (base_mod + basis);
+  }
+
+
+  template<Number T>
   inline T angle_difference(const T from, const T to, const T basis = T(TAU)) {
     const T diff = std::fmod(to - from, basis);
     return std::fmod(T(2) * diff, basis) - diff;

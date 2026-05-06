@@ -74,6 +74,7 @@ namespace kmath {
     }
 
   public:
+    inline _Vec2<T> &operator[](const size_t i) { return reinterpret_cast<_Vec2<T>*>(this)[i]; }
     inline T &operator()(const size_t i, const size_t j) { return reinterpret_cast<T*>(this)[2 * i + j]; }
     inline const T &operator()(const size_t i, const size_t j) const { return reinterpret_cast<const T*>(this)[2 * i + j]; }
 
@@ -289,6 +290,7 @@ namespace kmath {
     }
 
   public:
+    inline _Vec3<T> &operator[](const size_t i) { return reinterpret_cast<_Vec3<T>*>(this)[i]; }
     inline T &operator()(const size_t i, const size_t j) { return reinterpret_cast<T*>(this)[3 * i + j]; }
     inline const T &operator()(const size_t i, const size_t j) const { return reinterpret_cast<const T*>(this)[3 * i + j]; }
 
@@ -708,6 +710,7 @@ namespace kmath {
     }
 
   public:
+    inline _Vec4<T> &operator[](const size_t i) { return reinterpret_cast<_Vec4<T>*>(this)[i]; }
     inline T &operator()(const size_t i, const size_t j) { return reinterpret_cast<T*>(this)[4 * i + j]; }
     inline const T &operator()(const size_t i, const size_t j) const { return reinterpret_cast<const T*>(this)[4 * i + j]; }
 

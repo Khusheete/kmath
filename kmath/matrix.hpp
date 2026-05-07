@@ -65,11 +65,11 @@ namespace kmath {
     
 
     static inline _Mat2<T> rotation(const T angle) {
-      const T cos = cos(angle);
-      const T sin = sin(angle);
+      const T cos_angle = cos(angle);
+      const T sin_angle = sin(angle);
       return _Mat2<T>(
-        _Vec2<T>(cos , sin),
-        _Vec2<T>(-sin, cos)
+        _Vec2<T>(cos_angle, sin_angle),
+        _Vec2<T>(-sin_angle, cos_angle)
       );
     }
 
@@ -258,34 +258,34 @@ namespace kmath {
 
 
     static inline _Mat3<T> x_rotation(const T angle) {
-      const T cos = cos(angle);
-      const T sin = sin(angle);
+      const T cos_angle = cos(angle);
+      const T sin_angle = sin(angle);
       return _Mat3<T>(
-        _Vec3<T>(T(1), T(0), T(0)),
-        _Vec3<T>(T(0), cos   , sin   ),
-        _Vec3<T>(T(0), -sin  , cos   )
+        _Vec3<T>(T(1), T(0)      , T(0)     ),
+        _Vec3<T>(T(0), cos_angle , sin_angle),
+        _Vec3<T>(T(0), -sin_angle, cos_angle)
       );
     }
 
 
     static inline _Mat3<T> y_rotation(const T angle) {
-      const T cos = cos(angle);
-      const T sin = sin(angle);
+      const T cos_angle = cos(angle);
+      const T sin_angle = sin(angle);
       return _Mat3<T>(
-        _Vec3<T>(cos   , T(0), -sin  ),
-        _Vec3<T>(T(0), T(1), T(0)),
-        _Vec3<T>(sin   , T(0), cos   )
+        _Vec3<T>(cos_angle, T(0), -sin_angle),
+        _Vec3<T>(T(0)     , T(1), T(0)      ),
+        _Vec3<T>(sin_angle, T(0), cos_angle )
       );
     }
 
 
     static inline _Mat3<T> z_rotation(const T angle) {
-      const T cos = cos(angle);
-      const T sin = sin(angle);
+      const T cos_angle = cos(angle);
+      const T sin_angle = sin(angle);
       return _Mat3<T>(
-        _Vec3<T>(cos   , sin   , T(0)),
-        _Vec3<T>(-sin  , cos   , T(0)),
-        _Vec3<T>(T(0), T(0), T(1))
+        _Vec3<T>(cos_angle , sin_angle, T(0)),
+        _Vec3<T>(-sin_angle, cos_angle, T(0)),
+        _Vec3<T>(T(0)      , T(0)     , T(1))
       );
     }
 
@@ -503,35 +503,35 @@ namespace kmath {
 
 
     static inline _Mat4<T> x_rotation(const T angle) {
-      const T cos = cos(angle);
-      const T sin = sin(angle);
+      const T cos_angle = cos(angle);
+      const T sin_angle = sin(angle);
       return _Mat4<T>(
         _Vec4<T>(T(1), T(0), T(0), T(0)),
-        _Vec4<T>(T(0), cos   , sin   , T(0)),
-        _Vec4<T>(T(0), -sin  , cos   , T(0)),
+        _Vec4<T>(T(0), cos_angle , sin_angle, T(0)),
+        _Vec4<T>(T(0), -sin_angle, cos_angle, T(0)),
         _Vec4<T>(T(0), T(0), T(0), T(1))
       );
     }
 
 
     static inline _Mat4<T> y_rotation(const T angle) {
-      const T cos = cos(angle);
-      const T sin = sin(angle);
+      const T cos_angle = cos(angle);
+      const T sin_angle = sin(angle);
       return _Mat4<T>(
-        _Vec4<T>(cos   , T(0), -sin  , T(0)),
+        _Vec4<T>(cos_angle, T(0), -sin_angle, T(0)),
         _Vec4<T>(T(0), T(1), T(0), T(0)),
-        _Vec4<T>(sin   , T(0), cos   , T(0)),
+        _Vec4<T>(sin_angle, T(0), cos_angle, T(0)),
         _Vec4<T>(T(0), T(0), T(0), T(1))
       );
     }
 
 
     static inline _Mat4<T> z_rotation(const T angle) {
-      const T cos = cos(angle);
-      const T sin = sin(angle);
+      const T cos_angle = cos(angle);
+      const T sin_angle = sin(angle);
       return _Mat4<T>(
-        _Vec4<T>(cos   , sin   , T(0), T(0)),
-        _Vec4<T>(-sin  , cos   , T(0), T(0)),
+        _Vec4<T>(cos_angle , sin_angle, T(0), T(0)),
+        _Vec4<T>(-sin_angle, cos_angle, T(0), T(0)),
         _Vec4<T>(T(0), T(0), T(1), T(0)),
         _Vec4<T>(T(0), T(0), T(0), T(1))
       );

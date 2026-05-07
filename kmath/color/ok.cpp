@@ -24,7 +24,7 @@
 #include "../constants.hpp"
 #include "../matrix.hpp"
 #include "base.hpp"
-#include <cmath>
+
 #include <limits>
 
 
@@ -42,7 +42,7 @@ namespace kmath::ok {
     constexpr float k1 = 0.206f;
     constexpr float k2 = 0.03f;
     constexpr float k3 = (1.0f + k1) / (1.0f + k2);
-    return 0.5f * (k3 * x - k1 + std::sqrt((k3 * x - k1) * (k3 * x - k1) + 4 * k2 * k3 * x));
+    return 0.5f * (k3 * x - k1 + sqrt((k3 * x - k1) * (k3 * x - k1) + 4 * k2 * k3 * x));
   }
 
 
@@ -112,7 +112,7 @@ namespace kmath::ok {
   inline LC find_cusp(const float a, const float b) {
     float S_cusp = compute_max_saturation(a, b);
     Lrgb rgb_at_max = oklab_to_lrgb(OkLab(1.0, S_cusp * a, S_cusp * b));
-    float L_cusp = std::cbrt(1.0f / std::max(std::max(rgb_at_max.x, rgb_at_max.y), rgb_at_max.z));
+    float L_cusp = cbrt(1.0f / max(max(rgb_at_max.x, rgb_at_max.y), rgb_at_max.z));
     float C_cusp = L_cusp * S_cusp;
     return LC(L_cusp, C_cusp);
   }
@@ -192,7 +192,7 @@ namespace kmath::ok {
   				t_g = u_g >= 0.0f ? t_g : std::numeric_limits<float>::infinity();
   				t_b = u_b >= 0.0f ? t_b : std::numeric_limits<float>::infinity();
 
-  				t += std::min(t_r, std::min(t_g, t_b));
+  				t += min(t_r, min(t_g, t_b));
   			}
   		}
   	}
@@ -214,7 +214,7 @@ namespace kmath::ok {
   	float C_max = find_gamut_intersection(a_, b_, L, 1, L, cusp);
   	ST ST_max = to_ST(cusp);
 
-  	float k = C_max / std::min((L * ST_max.x), (1 - L) * ST_max.y);
+  	float k = C_max / min((L * ST_max.x), (1 - L) * ST_max.y);
 
   	float C_mid;
   	{
@@ -222,7 +222,7 @@ namespace kmath::ok {
 
   		float C_a = L * ST_mid.x;
   		float C_b = (1.0f - L) * ST_mid.y;
-  		C_mid = 0.9f * k * std::sqrt(std::sqrt(1.0f / (1.0f / (C_a * C_a * C_a * C_a) + 1.0f / (C_b * C_b * C_b * C_b))));
+  		C_mid = 0.9f * k * sqrt(sqrt(1.0f / (1.0f / (C_a * C_a * C_a * C_a) + 1.0f / (C_b * C_b * C_b * C_b))));
   	}
 
   	float C_0;
@@ -230,7 +230,7 @@ namespace kmath::ok {
   		float C_a = L * 0.4f;
   		float C_b = (1.0f - L) * 0.8f;
 
-  		C_0 = std::sqrt(1.0f / (1.0f / (C_a * C_a) + 1.0f / (C_b * C_b)));
+  		C_0 = sqrt(1.0f / (1.0f / (C_a * C_a) + 1.0f / (C_b * C_b)));
   	}
 
   	return Cs(C_0, C_mid, C_max);
@@ -255,9 +255,9 @@ namespace kmath::ok {
     );
     Vec3 lms = M1 * xyz;
     lms = Vec3(
-      std::cbrt(lms.x),
-      std::cbrt(lms.y),
-      std::cbrt(lms.z)
+      cbrt(lms.x),
+      cbrt(lms.y),
+      cbrt(lms.z)
     );
     return M2 * lms;
   }
@@ -310,9 +310,9 @@ namespace kmath::ok {
     );
     Vec3 lms = M1 * rgb;
     lms = Vec3(
-      std::cbrt(lms.x),
-      std::cbrt(lms.y),
-      std::cbrt(lms.z)
+      cbrt(lms.x),
+      cbrt(lms.y),
+      cbrt(lms.z)
     );
     return M2 * lms;
   }
@@ -324,12 +324,12 @@ namespace kmath::ok {
 
 
   OkLab okhsv_to_oklab(const OkHsv &hsv) {
-    float h = (std::isnan(hsv.x))? 0.0f : hsv.x;
+    float h = (is_nan(hsv.x))? 0.0f : hsv.x;
   	float s = hsv.y;
   	float v = hsv.z;
 
-  	float a_ = std::cos(2.0f * PI * h);
-  	float b_ = std::sin(2.0f * PI * h);
+  	float a_ = cos(2.0f * PI * h);
+  	float b_ = sin(2.0f * PI * h);
 
   	LC cusp = find_cusp(a_, b_);
   	ST ST_max = to_ST(cusp);
@@ -356,7 +356,7 @@ namespace kmath::ok {
   	L = L_new;
 
   	Lrgb rgb_scale = oklab_to_lrgb(Lrgb(L_vt, a_ * C_vt, b_ * C_vt));
-  	float scale_L = std::cbrt(1.0f / std::max(std::max(rgb_scale.x, rgb_scale.y), std::max(rgb_scale.z, 0.0f)));
+  	float scale_L = cbrt(1.0f / max(max(rgb_scale.x, rgb_scale.y), max(rgb_scale.z, 0.0f)));
 
   	L = L * scale_L;
   	C = C * scale_L;
@@ -366,7 +366,7 @@ namespace kmath::ok {
 
 
   OkHsv oklab_to_okhsv(const OkLab &lab) {
-  	float C = std::sqrt(lab.y * lab.y + lab.z * lab.z);
+  	float C = sqrt(lab.y * lab.y + lab.z * lab.z);
   	if (is_approx_zero(C)) {
   	  // The color is fully desaturated
   	  return OkHsv(std::numeric_limits<float>::quiet_NaN(), 0.0f, toe(lab.x));
@@ -376,7 +376,7 @@ namespace kmath::ok {
   	float b_ = lab.z / C;
 
   	float L = lab.x;
-  	float h = 0.5f + 0.5f * std::atan2(-lab.z, -lab.y) / PI;
+  	float h = 0.5f + 0.5f * atan2(-lab.z, -lab.y) / PI;
 
   	LC cusp = find_cusp(a_, b_);
   	ST ST_max = to_ST(cusp);
@@ -396,7 +396,7 @@ namespace kmath::ok {
 
   	// we can then use these to invert the step that compensates for the toe and the curved top part of the triangle:
   	Lrgb rgb_scale = oklab_to_lrgb(Lrgb(L_vt, a_ * C_vt, b_ * C_vt));
-  	float scale_L = std::cbrt(1.0f / std::max(std::max(rgb_scale.x, rgb_scale.y), std::max(rgb_scale.z, 0.0f)));
+  	float scale_L = cbrt(1.0f / max(max(rgb_scale.x, rgb_scale.y), max(rgb_scale.z, 0.0f)));
 
   	L = L / scale_L;
   	C = C / scale_L;
@@ -419,7 +419,7 @@ namespace kmath::ok {
 
 
   OkLab okhsl_to_oklab(const OkHsl &hsl) {
-  	float h = (std::isnan(hsl.x))? 0.0f : hsl.x;
+  	float h = (is_nan(hsl.x))? 0.0f : hsl.x;
   	float s = hsl.y;
   	float l = hsl.z;
 
@@ -429,8 +429,8 @@ namespace kmath::ok {
   		return OkLab(0.0f, 0.0f, 0.0f);
   	}
 
-  	float a_ = std::cos(2.0f * PI * h);
-  	float b_ = std::sin(2.0f * PI * h);
+  	float a_ = cos(2.0f * PI * h);
+  	float b_ = sin(2.0f * PI * h);
   	float L = toe_inv(l);
 
   	Cs cs = get_Cs(L, a_, b_);
@@ -470,7 +470,7 @@ namespace kmath::ok {
 
 
   OkHsl oklab_to_okhsl(const OkLab &lab) {
-  	float C = std::sqrt(lab.y * lab.y + lab.z * lab.z);
+  	float C = sqrt(lab.y * lab.y + lab.z * lab.z);
     if (is_approx_zero(C)) {
       // The color is fully desaturated
       return OkHsl(std::numeric_limits<float>::quiet_NaN(), 0.0f, toe(lab.x));
@@ -479,7 +479,7 @@ namespace kmath::ok {
   	float b_ = lab.z / C;
 
   	float L = lab.x;
-  	float h = 0.5f + 0.5f * std::atan2(-lab.z, -lab.y) / PI;
+  	float h = 0.5f + 0.5f * atan2(-lab.z, -lab.y) / PI;
 
   	Cs cs = get_Cs(L, a_, b_);
   	float C_0 = cs.x;

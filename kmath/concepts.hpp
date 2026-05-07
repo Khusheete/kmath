@@ -152,7 +152,7 @@ namespace kmath {
 
 
   template<typename T>
-  constexpr const bool is_integer = std::is_floating_point_v<T>;
+  constexpr const bool is_integer = std::is_integral_v<T>;
 
 
   template<typename T>

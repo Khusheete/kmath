@@ -24,7 +24,6 @@
 
 #include "base.hpp"
 #include "vector.hpp"
-#include <cmath>
 
 
 namespace kmath {
@@ -266,13 +265,13 @@ namespace kmath {
 
   template<Number T>
   inline T magnitude(const _Plane3<T> &a) {
-    return std::sqrt(magnitude_squared(a));
+    return sqrt(magnitude_squared(a));
   }
   
 
   template<Number T>
   inline T vanishing_magnitude(const _Plane3<T> &a) {
-    return std::abs(a.e0);
+    return abs(a.e0);
   }
 
 
@@ -455,13 +454,13 @@ namespace kmath {
 
   template<Number T>
   inline T magnitude(const _Line3<T> &a) {
-    return std::sqrt(magnitude_squared(a));
+    return sqrt(magnitude_squared(a));
   }
   
 
   template<Number T>
   inline T vanishing_magnitude(const _Line3<T> &a) {
-    return std::sqrt(vanishing_magnitude_squared(a));
+    return sqrt(vanishing_magnitude_squared(a));
   }
 
 
@@ -472,7 +471,7 @@ namespace kmath {
   inline _Line3<T> normalized(const _Line3<T> &a) {
     const T vm2 = vanishing_magnitude_squared(a);
     if (!is_approx_zero(vm2)) {
-      return a / std::sqrt(vm2);
+      return a / sqrt(vm2);
     } else {
       return a / magnitude(a);
     }
@@ -683,13 +682,13 @@ namespace kmath {
 
   template<Number T>
   inline T magnitude(const _Point3<T> &a) {
-    return std::abs(a.e123);
+    return abs(a.e123);
   }
   
 
   template<Number T>
   inline T vanishing_magnitude(const _Point3<T> &a) {
-    return std::sqrt(vanishing_magnitude_squared(a));
+    return sqrt(vanishing_magnitude_squared(a));
   }
 
 

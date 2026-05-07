@@ -25,8 +25,6 @@
 #include "constants.hpp"
 #include "base.hpp"
 
-#include <cmath>
-
 
 namespace kmath::ease {
   template<Number T>
@@ -64,26 +62,26 @@ namespace kmath::ease {
 
     template<Number T>
     inline T sine(const T t) {
-      return std::sin(T(0.5) * T(PI) * t);
+      return sin(T(0.5) * T(PI) * t);
     }
 
 
     template<Number T>
     inline T circ(const T t) {
       T u = T(1.0) - t;
-      return std::sqrt(T(1.0) - u * u);
+      return sqrt(T(1.0) - u * u);
     }
 
 
     template<Number T>
     inline T elastic(const T t) {
-      return (t == T(1.0))? 1.0 : std::pow(T(2.0), T(-10.0) * t) * std::sin((t * T(10.0) - T(0.75)) * TAU / T(3.0)) + T(1.0);
+      return (t == T(1.0))? 1.0 : pow(T(2.0), T(-10.0) * t) * sin((t * T(10.0) - T(0.75)) * TAU / T(3.0)) + T(1.0);
     }
 
 
     template<Number T>
     inline T expo(const T t) {
-      return (t == T(1.0))? T(1.0) : T(1.0) - std::pow(T(2.0), T(-10.0) * t);
+      return (t == T(1.0))? T(1.0) : T(1.0) - pow(T(2.0), T(-10.0) * t);
     }
 
 
@@ -143,25 +141,25 @@ namespace kmath::ease {
 
     template<Number T>
     inline T sine(const T t) {
-      return T(1.0) - std::cos(T(0.5) * T(PI) * t);
+      return T(1.0) - cos(T(0.5) * T(PI) * t);
     }
 
 
     template<Number T>
     inline T circ(const T t) {
-      return T(1.0) - std::sqrt(T(1.0) - t * t);
+      return T(1.0) - sqrt(T(1.0) - t * t);
     }
 
 
     template<Number T>
     inline T elastic(const T t) {
-      return (t == T(0.0))? 0.0 : -std::pow(T(2.0), T(10.0) * t - T(10.0)) * std::sin((t * T(10.0) - T(10.75)) * TAU / 3);
+      return (t == T(0.0))? 0.0 : -pow(T(2.0), T(10.0) * t - T(10.0)) * sin((t * T(10.0) - T(10.75)) * TAU / 3);
     }
 
 
     template<Number T>
     inline T expo(const T t) {
-      return (t == T(0.0))? 0.0 : std::pow(T(2.0), T(10.0) * t - T(10.0));
+      return (t == T(0.0))? 0.0 : pow(T(2.0), T(10.0) * t - T(10.0));
     }
 
 
@@ -224,15 +222,15 @@ namespace kmath::ease {
 
     template<Number T>
     inline T sine(const T t) {
-      return T(-0.5) * (std::cos(PI * t) - 1.0);
+      return T(-0.5) * (cos(PI * t) - 1.0);
     }
 
 
     template<Number T>
     inline T circ(const T t) {
       return (t < T(0.5))?
-      T(0.5) - T(0.5) * std::sqrt(T(1.0) - T(4.0) * t * t)
-      : T(0.5) * std::sqrt(T(1.0) - (T(-2.0) * t + T(2.0)) * (T(-2.0) * t + T(2.0))) + T(0.5);
+      T(0.5) - T(0.5) * sqrt(T(1.0) - T(4.0) * t * t)
+      : T(0.5) * sqrt(T(1.0) - (T(-2.0) * t + T(2.0)) * (T(-2.0) * t + T(2.0))) + T(0.5);
     }
 
 
@@ -242,8 +240,8 @@ namespace kmath::ease {
       return
         (t == T(0.0))? 0.0 : (t == T(1.0))? 1.0
         : (t < T(0.5))?
-        T(-0.5) * std::pow(T(2.0), T(20.0) * t - T(10.0)) * std::sin((T(20.0) * t - T(11.125)) * omega)
-        : T(1.0) + T(0.5) * std::pow(T(2.0), T(-20.0) * t + T(10.0)) * std::sin((T(20.0) * t - T(11.125)) * omega);
+        T(-0.5) * pow(T(2.0), T(20.0) * t - T(10.0)) * sin((T(20.0) * t - T(11.125)) * omega)
+        : T(1.0) + T(0.5) * pow(T(2.0), T(-20.0) * t + T(10.0)) * sin((T(20.0) * t - T(11.125)) * omega);
     }
 
 
@@ -251,8 +249,8 @@ namespace kmath::ease {
     inline T expo(const T t) {
       return (t == T(0.0))? 0.0 : (t == T(1.0))? 1.0
         : (t < T(0.5))?
-        T(0.5) * std::pow(T(2.0), T(20.0) * t - T(10.0))
-        : T(1.0) - T(0.5) * std::pow(T(2.0), T(-20.0) * t + T(10.0));
+        T(0.5) * pow(T(2.0), T(20.0) * t - T(10.0))
+        : T(1.0) - T(0.5) * pow(T(2.0), T(-20.0) * t + T(10.0));
     }
 
 

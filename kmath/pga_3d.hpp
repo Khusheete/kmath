@@ -22,9 +22,8 @@
 #pragma once
 
 
+#include "base.hpp"
 #include "vector.hpp"
-
-#include <cmath>
 
 
 namespace kmath {
@@ -155,12 +154,12 @@ namespace kmath {
 
 
     inline T norm() const {
-      return std::sqrt(norm_squared());
+      return sqrt(norm_squared());
     }
 
 
     inline T inorm() const {
-      return std::sqrt(inorm_squared());
+      return sqrt(inorm_squared());
     }
 
 

@@ -22,13 +22,12 @@
 #pragma once
 
 
+#include "base.hpp"
 #include "concepts.hpp"
 #include "constants.hpp"
 #include "rotor_3d.hpp"
-#include "base.hpp"
 #include "vector.hpp"
 
-#include <cmath>
 #include <cstdint>
 
 
@@ -38,9 +37,9 @@ namespace kmath {
   template<Number T>
   _Vec3<T> spherical_to_cartesian(const _Vec3<T> &spherical) {
     return spherical.x * _Vec3<T>(
-      std::cos(spherical.z) * std::sin(spherical.y),
-      std::cos(spherical.y),
-      std::sin(spherical.z) * std::sin(spherical.y)
+      cos(spherical.z) * sin(spherical.y),
+      cos(spherical.y),
+      sin(spherical.z) * sin(spherical.y)
     );
   }
 
@@ -56,8 +55,8 @@ namespace kmath {
   _Vec3<T> cartesian_to_spherical(const _Vec3<T> &cartesian) {
     const T radius = length(cartesian);
     const _Vec3<T> unit = cartesian / radius;
-    const T polar = std::acos(unit.y);
-    const T azimuth = std::atan2(unit.z, unit.x);
+    const T polar = acos(unit.y);
+    const T azimuth = atan2(unit.z, unit.x);
     return _Vec3<T>(radius, polar, azimuth);
   }
 
@@ -84,7 +83,7 @@ namespace kmath {
 
   template<Number T>
   inline T angle_mod(const T angle, const T basis = T(TAU)) {
-    const T base_mod = std::fmod(angle, basis);
+    const T base_mod = mod(angle, basis);
     const T half_basis = T(0.5) * basis;
     return (base_mod < half_basis) ? (base_mod > -half_basis) ? base_mod : (base_mod + basis) : (base_mod - basis);
   }
@@ -92,15 +91,15 @@ namespace kmath {
 
   template<Number T>
   inline T angle_posmod(const T angle, const T basis = T(TAU)) {
-    const T base_mod = std::fmod(angle, basis);
+    const T base_mod = mod(angle, basis);
     return (base_mod >= T(0.0)) ? base_mod : (base_mod + basis);
   }
 
 
   template<Number T>
   inline T angle_difference(const T from, const T to, const T basis = T(TAU)) {
-    const T diff = std::fmod(to - from, basis);
-    return std::fmod(T(2) * diff, basis) - diff;
+    const T diff = mod(to - from, basis);
+    return fmod(T(2) * diff, basis) - diff;
   }
 
 
@@ -170,13 +169,13 @@ namespace kmath {
 
   template<Number T>
   _Mat3<T> euler_to_basis(const _Vec3<T> &rotation, const EulerBasis basis = EulerBasis::YXZ) {
-    const _Vec3<T> c = apply(rotation, [](const T x) { return std::cos(x); });
-    const _Vec3<T> s = apply(rotation, [](const T x) { return std::sin(x); });
+    const _Vec3<T> c = apply(rotation, [](const T x) { return os(x); });
+    const _Vec3<T> s = apply(rotation, [](const T x) { return in(x); });
 
     switch (basis) {
     break;case EulerBasis::xzy:
       return _Mat3<T>(
-        _Vec3<T>(c.z * c.y, s.x * s.y + c.x * c.y * s.z, c.y * s.x * s.z - c.x * s.y),
+        _Vec3<T>(c.z * c.y, s.x * s.y + c.x * c.y * s.z, c.y *s.x * s.z - c.x * s.y),
         _Vec3<T>(-s.z     , c.x * c.z                  , c.z * s.x                  ),
         _Vec3<T>(c.z * s.y, c.x * s.z * s.y - c.y * s.x, c.x * c.y + s.x * s.z * s.y)
       );
@@ -257,54 +256,54 @@ namespace kmath {
 
     switch (basis) {
     break;case EulerBasis::XZY:
-      angles.x = std::atan2(rotation(2, 1), rotation(1, 1));
-      angles.z = std::asin(-rotation(0, 1));
-      angles.y = std::atan2(rotation(0, 2), rotation(0, 0));
+      angles.x = atan2(rotation(2, 1), rotation(1, 1));
+      angles.z = asin(-rotation(0, 1));
+      angles.y = atan2(rotation(0, 2), rotation(0, 0));
     break;case EulerBasis::XYZ:
-      angles.x = std::atan2(-rotation(1, 2), rotation(2, 2));
-      angles.y = std::asin(rotation(0, 2));
-      angles.z = std::atan2(-rotation(0, 1), rotation(0, 0));
+      angles.x = atan2(-rotation(1, 2), rotation(2, 2));
+      angles.y = asin(rotation(0, 2));
+      angles.z = atan2(-rotation(0, 1), rotation(0, 0));
     break;case EulerBasis::YXZ:
-      angles.y = std::atan2(rotation(0, 2), rotation(2, 2));
-      angles.x = std::asin(-rotation(1, 2));
-      angles.z = std::atan2(rotation(1, 0), rotation(1, 1));
+      angles.y = atan2(rotation(0, 2), rotation(2, 2));
+      angles.x = asin(-rotation(1, 2));
+      angles.z = atan2(rotation(1, 0), rotation(1, 1));
     break;case EulerBasis::YZX:
-      angles.y = std::atan2(-rotation(2, 0), rotation(0, 0));
-      angles.z = std::asin(rotation(1, 0));
-      angles.x = std::atan2(-rotation(1, 2), rotation(1, 1));
+      angles.y = atan2(-rotation(2, 0), rotation(0, 0));
+      angles.z = asin(rotation(1, 0));
+      angles.x = atan2(-rotation(1, 2), rotation(1, 1));
     break;case EulerBasis::ZYX:
-      angles.z = std::atan2(rotation(1, 0), rotation(0, 0));
-      angles.y = std::asin(-rotation(2, 0));
-      angles.x = std::atan2(rotation(2, 1), rotation(2, 2));
+      angles.z = atan2(rotation(1, 0), rotation(0, 0));
+      angles.y = asin(-rotation(2, 0));
+      angles.x = atan2(rotation(2, 1), rotation(2, 2));
     break;case EulerBasis::ZXY:
-      angles.z = std::atan2(-rotation(0, 1), rotation(1, 1));
-      angles.x = std::asin(rotation(2, 1));
-      angles.y = std::atan2(-rotation(2, 0), rotation(2, 2));
+      angles.z = atan2(-rotation(0, 1), rotation(1, 1));
+      angles.x = asin(rotation(2, 1));
+      angles.y = atan2(-rotation(2, 0), rotation(2, 2));
 
     break;case EulerBasis::XZX:
-      angles.x = std::atan2(rotation(2, 0), rotation(1, 0));
-      angles.y = std::acos(rotation(0, 0));
-      angles.z = std::atan2(rotation(0, 2), -rotation(0, 1));
+      angles.x = atan2(rotation(2, 0), rotation(1, 0));
+      angles.y = acos(rotation(0, 0));
+      angles.z = atan2(rotation(0, 2), -rotation(0, 1));
     break;case EulerBasis::XYX:
-      angles.x = std::atan2(rotation(1, 0), -rotation(2, 0));
-      angles.y = std::acos(rotation(0, 0));
-      angles.z = std::atan2(rotation(0, 1), rotation(0, 2));
+      angles.x = atan2(rotation(1, 0), -rotation(2, 0));
+      angles.y = acos(rotation(0, 0));
+      angles.z = atan2(rotation(0, 1), rotation(0, 2));
     break;case EulerBasis::YXY:
-      angles.x = std::atan2(rotation(0, 1), rotation(2, 1));
-      angles.y = std::acos(rotation(1, 1));
-      angles.z = std::atan2(rotation(1, 0), -rotation(1, 2));
+      angles.x = atan2(rotation(0, 1), rotation(2, 1));
+      angles.y = acos(rotation(1, 1));
+      angles.z = atan2(rotation(1, 0), -rotation(1, 2));
     break;case EulerBasis::YZY:
-      angles.x = std::atan2(rotation(2, 1), -rotation(0, 1));
-      angles.y = std::acos(rotation(1, 1));
-      angles.z = std::atan2(rotation(1, 2), rotation(1, 0));
+      angles.x = atan2(rotation(2, 1), -rotation(0, 1));
+      angles.y = acos(rotation(1, 1));
+      angles.z = atan2(rotation(1, 2), rotation(1, 0));
     break;case EulerBasis::ZYZ:
-      angles.x = std::atan2(rotation(1, 2), rotation(0, 2));
-      angles.y = std::acos(rotation(2, 2));
-      angles.z = std::atan2(rotation(1, 0), -rotation(1, 2));
+      angles.x = atan2(rotation(1, 2), rotation(0, 2));
+      angles.y = acos(rotation(2, 2));
+      angles.z = atan2(rotation(1, 0), -rotation(1, 2));
     break;case EulerBasis::ZXZ:
-      angles.x = std::atan2(rotation(0, 2), -rotation(1, 2));
-      angles.y = std::acos(rotation(2, 2));
-      angles.z = std::atan2(rotation(2, 0), rotation(2, 1));
+      angles.x = atan2(rotation(0, 2), -rotation(1, 2));
+      angles.y = acos(rotation(2, 2));
+      angles.z = atan2(rotation(2, 0), rotation(2, 1));
     }
 
     return angles;
@@ -314,8 +313,8 @@ namespace kmath {
   template<Number T>
   _Rotor3<T> euler_to_rotor(const _Vec3<T> &euler, const EulerBasis basis = EulerBasis::YZX) {
     const _Vec3<T> half_angles = T(0.5) * euler;
-    const _Vec3<T> c = apply(half_angles, [](const T x) { return std::cos(x); });
-    const _Vec3<T> s = apply(-half_angles, [](const T x) { return std::sin(x); });
+    const _Vec3<T> c = apply(half_angles, [](const T x) { return cos(x); });
+    const _Vec3<T> s = apply(-half_angles, [](const T x) { return sin(x); });
 
     switch (basis) {
     break;case EulerBasis::XYZ:

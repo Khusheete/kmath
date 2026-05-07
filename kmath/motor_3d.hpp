@@ -29,8 +29,6 @@
 #include "matrix.hpp"
 #include "rotor_3d.hpp"
 
-#include <cmath>
-
 
 namespace kmath {
 
@@ -86,8 +84,8 @@ namespace kmath {
 
     static _Motor3<T> from_screw_coordinates(const _Vec3<T> &direction, const _Vec3<T> &moment, const T angle, const T translation) {
       if (!is_approx_zero(angle)) {
-        T cos_a = std::cos(angle / 2);
-        T sin_a = std::sin(angle / 2);
+        T cos_a = cos(angle / 2);
+        T sin_a = sin(angle / 2);
         return _Motor3<T>(
           _Rotor3<T>(cos_a, sin_a * direction),
           _Rotor3<T>(T(-0.5) * translation * sin_a, sin_a * moment + T(0.5) * translation * cos_a * direction)
@@ -188,7 +186,7 @@ namespace kmath {
         m.e01 + m.e23 * g4,
         m.e02 + m.e31 * g4,
         m.e03 + m.e12 * g4
-      ) / std::sqrt(num);
+      ) / sqrt(num);
     } else {
       T num = T(2) * (T(1) - m.s);
       T g4 = m.e0123 / num;
@@ -201,7 +199,7 @@ namespace kmath {
         m.e01 + m.e23 * g4,
         m.e02 + m.e31 * g4,
         m.e03 + m.e12 * g4
-      ) / std::sqrt(num);
+      ) / sqrt(num);
     }
   }
 
@@ -220,9 +218,9 @@ namespace kmath {
 
   template<Number T>
   void to_screw_coordinates(const _Motor3<T> &m, _Vec3<T> &direction, _Vec3<T> &moment, T &angle, T &translation) {
-    angle = T(2) * std::acos(m.s);
+    angle = T(2) * acos(m.s);
     if (!is_approx_zero(angle)) {
-      T inv_sin_a = std::sin(T(0.5) * angle);
+      T inv_sin_a = sin(T(0.5) * angle);
       direction = inv_sin_a * _Vec3<T>(m.e23, m.e31, m.e12);
       translation = T(-2) * m.s * inv_sin_a;
       moment = inv_sin_a * _Vec3<T>(m.e01, m.e02, m.e03) - T(0.5) * translation * m.s * inv_sin_a * direction;
@@ -256,7 +254,7 @@ namespace kmath {
 
   template<Number T>
   inline T magnitude(const _Motor3<T> &m) {
-    return std::sqrt(magnitude_squared(m));
+    return sqrt(magnitude_squared(m));
   }
 
 
@@ -268,7 +266,7 @@ namespace kmath {
 
   template<Number T>
   inline T vanishing_magnitude(const _Motor3<T> &m) {
-    return std::sqrt(vanishing_magnitude_squared(m));
+    return sqrt(vanishing_magnitude_squared(m));
   }
   
 
@@ -314,7 +312,7 @@ namespace kmath {
     // (This formula is why we calculated half the pseudo-scalar part of S)
     //
     // Let's call the real part u and the pseudo-scalar part v:
-    const T u = std::sqrt(r);
+    const T u = sqrt(r);
     const T v = ps / u;
 
     // And to normalize the bivector, we need the inverse square root of S:
@@ -343,8 +341,8 @@ namespace kmath {
     // exp(b) = exp(ul) exp(vlI)
     //        = (cos u + sin u l) (1 + vlI)
     //        = cos u + sin u l + v cos u l I - v sin u I
-    const T cosu = std::cos(u);
-    const T sinu = std::sin(u);
+    const T cosu = cos(u);
+    const T sinu = sin(u);
     const T vcosu = v * cosu;
 
     return _Motor3<T>(
@@ -383,7 +381,7 @@ namespace kmath {
     const T ps = - m.e23 * m.e01 - m.e31 * m.e02 - m.e12 * m.e03;
 
     // S^0.5 = u + vI
-    const T u = std::sqrt(r);
+    const T u = sqrt(r);
     const T v = ps / u;
 
     // S^(-0.5) = inv_u + inv_v I
@@ -425,7 +423,7 @@ namespace kmath {
       inv_u * m.e03 - inv_v * m.e12
     );
 
-    const T a = std::atan2(u, m.s);
+    const T a = atan2(u, m.s);
     const T b = (is_approx_zero(m.s))? -m.e0123 / u : v / m.s;
 
     return _Line3<T>(

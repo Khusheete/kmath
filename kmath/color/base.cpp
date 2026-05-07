@@ -23,29 +23,27 @@
 
 #include "../base.hpp"
 
-#include <algorithm>
-#include <cmath>
 #include <limits>
 
 
 namespace kmath {
 
   Hsl rgb_to_hsl(const Rgb &rgb) {
-    const float max = std::max(std::max(rgb.x, rgb.y), rgb.z);
-    const float min = std::min(std::min(rgb.x, rgb.y), rgb.z);
+    const float max_component = max(max(rgb.x, rgb.y), rgb.z);
+    const float min_component = min(min(rgb.x, rgb.y), rgb.z);
     Hsl hsl(
-      std::numeric_limits<float>::quiet_NaN(), 0.0f, (min + max) * 0.5f
+      std::numeric_limits<float>::quiet_NaN(), 0.0f, (min_component + max_component) * 0.5f
     );
-    const float range = max - min;
+    const float range = max_component - min_component;
 
     if (!is_approx_zero(range)) {
       hsl.y = (hsl.z == 0.0f || hsl.z == 1.0f)?
         0.0f
-        : (max - hsl.z) / std::min(hsl.z, 1.0f - hsl.z);
+        : (max_component - hsl.z) / min(hsl.z, 1.0f - hsl.z);
 
-      if (max == rgb.x) {
+      if (max_component == rgb.x) {
         hsl.x = (rgb.y - rgb.z) / range + (rgb.y < rgb.z? 6.0f : 0.0f);
-      } else if (max == rgb.y) {
+      } else if (max_component == rgb.y) {
         hsl.x = (rgb.z - rgb.x) / range + 2.0f;
       } else {
         hsl.x = (rgb.x - rgb.y) / range + 4.0f;
@@ -57,7 +55,7 @@ namespace kmath {
 
     if (hsl.y < 0.0f) {
       hsl.x += 0.5f;
-      hsl.y = std::abs(hsl.y);
+      hsl.y = abs(hsl.y);
     }
 
     if (hsl.x >= 1.0f) {
@@ -69,32 +67,32 @@ namespace kmath {
 
 
   Rgb hsl_to_rgb(const Hsl &hsl) {
-    if (std::isnan(hsl.x)) {
+    if (is_nan(hsl.x)) {
       return Rgb(hsl.z);
     }
     
-    const float a = hsl.y * std::min(hsl.z, 1.0f - hsl.z);
-    const float k_r = 12.0f * std::fmod(hsl.x, 1.0f);
-    const float k_g = 12.0f * std::fmod(2.0f / 3.0f + hsl.x, 1.0f);
-    const float k_b = 12.0f * std::fmod(1.0f / 3.0f + hsl.x, 1.0f);
+    const float a = hsl.y * min(hsl.z, 1.0f - hsl.z);
+    const float k_r = 12.0f * mod(hsl.x, 1.0f);
+    const float k_g = 12.0f * mod(2.0f / 3.0f + hsl.x, 1.0f);
+    const float k_b = 12.0f * mod(1.0f / 3.0f + hsl.x, 1.0f);
 
     return Rgb(
-      hsl.z - a * std::max(-1.0f, std::min(std::min(k_r - 3.0f, 9.0f - k_r), 1.0f)),
-      hsl.z - a * std::max(-1.0f, std::min(std::min(k_g - 3.0f, 9.0f - k_g), 1.0f)),
-      hsl.z - a * std::max(-1.0f, std::min(std::min(k_b - 3.0f, 9.0f - k_b), 1.0f))
+      hsl.z - a * max(-1.0f, min(min(k_r - 3.0f, 9.0f - k_r), 1.0f)),
+      hsl.z - a * max(-1.0f, min(min(k_g - 3.0f, 9.0f - k_g), 1.0f)),
+      hsl.z - a * max(-1.0f, min(min(k_b - 3.0f, 9.0f - k_b), 1.0f))
     );
   }
 
 
   Hsv rgb_to_hsv(const Rgb &rgb) {
-    const float value = std::max(std::max(rgb.x, rgb.y), rgb.z);
+    const float value = max(max(rgb.x, rgb.y), rgb.z);
 
     if (is_approx_zero(value)) {
       return Hsl(std::numeric_limits<float>::quiet_NaN(), 0.0f, 0.0f);
     }
     
-    const float min = std::min(std::min(rgb.x, rgb.y), rgb.z);
-    const float range = value - min;
+    const float min_component = min(min(rgb.x, rgb.y), rgb.z);
+    const float range = value - min_component;
 
     if (is_approx_zero(range)) {
       return Hsl(std::numeric_limits<float>::quiet_NaN(), 0.0f, value);
@@ -122,15 +120,15 @@ namespace kmath {
 
 
   Rgb hsv_to_rgb(const Hsv &hsv) {
-    if (std::isnan(hsv.x) || is_approx_zero(hsv.y)) {
+    if (is_nan(hsv.x) || is_approx_zero(hsv.y)) {
       // Achromatic color
       return Rgb(hsv.z);
     }
 
-    float six_h = std::fmod(6.0f * hsv.x, 6.0f);
+    float six_h = mod(6.0f * hsv.x, 6.0f);
     if (six_h < 0.0f) six_h += 6.0f;
 
-    const int index = std::floor(six_h);
+    const int index = floor(six_h);
     const float h_fract = six_h - float(index);
 
     const float n = hsv.z * (1.0f - hsv.y);

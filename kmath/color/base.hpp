@@ -22,6 +22,7 @@
 #pragma once
 
 
+#include "../base.hpp"
 #include "../vector.hpp"
 
 #include <cstdint>

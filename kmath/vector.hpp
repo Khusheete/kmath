@@ -24,8 +24,7 @@
 
 #include "concepts.hpp"
 
-#include <cmath>
-#include <algorithm>
+#include <limits>
 
 
 namespace kmath {
@@ -96,7 +95,7 @@ namespace kmath {
 
   template<Number T>
   inline T length(const _Vec2<T> &v) {
-    return std::sqrt(length_squared(v));
+    return sqrt(length_squared(v));
   }
 
 
@@ -121,42 +120,6 @@ namespace kmath {
   template<Number T>
   inline T dot(const _Vec2<T> &a, const _Vec2<T> &b) {
     return a.x * b.x + a.y * b.y;
-  }
-
-
-  template<Number T, Function<T, T> F>
-  inline _Vec2<T> apply(const _Vec2<T> &a, F op) {
-    return _Vec2<T>(
-      op(a.x),
-      op(a.y)
-    );
-  }
-
-
-  template<Number T, Function<T, T, T> F>
-  inline _Vec2<T> apply(const _Vec2<T> &a, const _Vec2<T> &b, F op) {
-    return _Vec2<T>(
-      op(a.x, b.x),
-      op(a.y, b.y)
-    );
-  }
-
-
-  template<Number T>
-  inline _Vec2<T> min(const _Vec2<T> &a, const _Vec2<T> &b) {
-    return _Vec2<T>(
-      std::min(a.x, b.x),
-      std::min(a.y, b.y)
-    );
-  }
-
-
-  template<Number T>
-  inline _Vec2<T> max(const _Vec2<T> &a, const _Vec2<T> &b) {
-    return _Vec2<T>(
-      std::max(a.x, b.x),
-      std::max(a.y, b.y)
-    );
   }
 
 
@@ -391,7 +354,7 @@ namespace kmath {
 
   template<Number T>
   inline T length(const _Vec3<T> &v) {
-    return std::sqrt(length_squared(v));
+    return sqrt(length_squared(v));
   }
 
 
@@ -432,46 +395,6 @@ namespace kmath {
   template<Number T>
   inline _Vec2<T> homogeneous_projection(const _Vec3<T> &v) {
     return _Vec2<T>(v.x, v.y, v.z) / v.w;
-  }
-
-
-  template<Number T, Function<T, T> F>
-  inline _Vec3<T> apply(const _Vec3<T> &a, F op) {
-    return _Vec3<T>(
-      op(a.x),
-      op(a.y),
-      op(a.z)
-    );
-  }
-
-
-  template<Number T, Function<T, T, T> F>
-  inline _Vec3<T> apply(const _Vec3<T> &a, const _Vec3<T> &b, F op) {
-    return _Vec3<T>(
-      op(a.x, b.x),
-      op(a.y, b.y),
-      op(a.z, b.z)
-    );
-  }
-
-
-  template<Number T>
-  inline _Vec3<T> min(const _Vec3<T> &a, const _Vec3<T> &b) {
-    return _Vec3<T>(
-      std::min(a.x, b.x),
-      std::min(a.y, b.y),
-      std::min(a.z, b.z)
-    );
-  }
-
-
-  template<Number T>
-  inline _Vec3<T> max(const _Vec3<T> &a, const _Vec3<T> &b) {
-    return _Vec3<T>(
-      std::max(a.x, b.x),
-      std::max(a.y, b.y),
-      std::max(a.z, b.z)
-    );
   }
   
 
@@ -1020,7 +943,7 @@ namespace kmath {
 
   template<Number T>
   inline T length(const _Vec4<T> &v) {
-    return std::sqrt(length_squared(v));
+    return sqrt(length_squared(v));
   }
 
 
@@ -1051,50 +974,6 @@ namespace kmath {
   template<Number T>
   inline _Vec3<T> homogeneous_projection(const _Vec4<T> &v) {
     return _Vec3<T>(v.x, v.y, v.z) / v.w;
-  }
-
-
-  template<Number T, Function<T, T> F>
-  inline _Vec4<T> apply(const _Vec4<T> &a, F op) {
-    return _Vec4<T>(
-      op(a.x),
-      op(a.y),
-      op(a.z),
-      op(a.w)
-    );
-  }
-
-
-  template<Number T, Function<T, T, T> F>
-  inline _Vec4<T> apply(const _Vec4<T> &a, const _Vec4<T> &b, F op) {
-    return _Vec4<T>(
-      op(a.x, b.x),
-      op(a.y, b.y),
-      op(a.z, b.z),
-      op(a.w, b.w)
-    );
-  }
-
-
-  template<Number T>
-  inline _Vec4<T> min(const _Vec4<T> &a, const _Vec4<T> &b) {
-    return _Vec4<T>(
-      std::min(a.x, b.x),
-      std::min(a.y, b.y),
-      std::min(a.z, b.z),
-      std::min(a.w, b.w)
-    );
-  }
-
-
-  template<Number T>
-  inline _Vec4<T> max(const _Vec4<T> &a, const _Vec4<T> &b) {
-    return _Vec4<T>(
-      std::max(a.x, b.x),
-      std::max(a.y, b.y),
-      std::max(a.z, b.z),
-      std::max(a.w, b.w)
-    );
   }
   
 

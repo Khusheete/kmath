@@ -26,7 +26,6 @@
 
 #include "raylib.h"
 
-#include <cmath>
 #include <array>
 
 

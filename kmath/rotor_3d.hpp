@@ -28,8 +28,6 @@
 #include "matrix.hpp"
 #include "euclidian_flat_3d.hpp"
 
-#include <cmath>
-
 
 namespace kmath {
 
@@ -60,8 +58,8 @@ namespace kmath {
 
     static _Rotor3<T> from_axis_angle(const _Vec3<T> &axis, const T angle) {
       return _Rotor3<T>(
-        T(std::cos(T(0.5) * angle)),
-        - T(std::sin(T(0.5) * angle)) * axis
+        T(cos(T(0.5) * angle)),
+        - T(sin(T(0.5) * angle)) * axis
       );
     }
 
@@ -123,7 +121,7 @@ namespace kmath {
 
   template<Number T>
   inline T length(const _Rotor3<T> &r) {
-    return std::sqrt(length_squared(r));
+    return sqrt(length_squared(r));
   }
 
 
@@ -164,7 +162,7 @@ namespace kmath {
       t = r;
     }
 
-    const T scale = T(1) / std::sqrt(T(2) * (T(1) + t.s));
+    const T scale = T(1) / sqrt(T(2) * (T(1) + t.s));
     return scale * _Rotor3<T>(
        T(1) + t.s,
        t.e23, t.e31, t.e12
@@ -185,13 +183,13 @@ namespace kmath {
   template<Number T>
   _Rotor3<T> exp(const _Rotor3<T> &r) {
     T len_v = length(get_direction(r));
-    T exp_w = std::exp(r.s);
+    T exp_w = exp(r.s);
 
     if (is_approx_zero(len_v)) return _Rotor3<T>(exp_w, exp_w * get_direction(r));
 
     return _Rotor3<T>(
-      exp_w * std::cos(len_v),
-      (exp_w * std::sin(len_v) / len_v) * get_direction(r)
+      exp_w * cos(len_v),
+      (exp_w * sin(len_v) / len_v) * get_direction(r)
     );
   }
 
@@ -201,11 +199,11 @@ namespace kmath {
     T len = length(r);
     T len_v = length(_Vec3<T>(r.e23, r.e31, r.e12));
 
-    if (is_approx_zero(len_v)) return _Rotor3<T>(std::log(len), _Vec3<T>::ZERO);
+    if (is_approx_zero(len_v)) return _Rotor3<T>(ln(len), _Vec3<T>::ZERO);
   
     return _Rotor3<T>(
-      std::log(len),
-      (std::acos(r.s / len) / len_v) * get_direction(r)
+      ln(len),
+      (acos(r.s / len) / len_v) * get_direction(r)
     );
   }
 

@@ -65,8 +65,8 @@ namespace kmath {
     
 
     static inline _Mat2<T> rotation(const T angle) {
-      const T cos = std::cos(angle);
-      const T sin = std::sin(angle);
+      const T cos = cos(angle);
+      const T sin = sin(angle);
       return _Mat2<T>(
         _Vec2<T>(cos , sin),
         _Vec2<T>(-sin, cos)
@@ -258,8 +258,8 @@ namespace kmath {
 
 
     static inline _Mat3<T> x_rotation(const T angle) {
-      const T cos = std::cos(angle);
-      const T sin = std::sin(angle);
+      const T cos = cos(angle);
+      const T sin = sin(angle);
       return _Mat3<T>(
         _Vec3<T>(T(1), T(0), T(0)),
         _Vec3<T>(T(0), cos   , sin   ),
@@ -269,8 +269,8 @@ namespace kmath {
 
 
     static inline _Mat3<T> y_rotation(const T angle) {
-      const T cos = std::cos(angle);
-      const T sin = std::sin(angle);
+      const T cos = cos(angle);
+      const T sin = sin(angle);
       return _Mat3<T>(
         _Vec3<T>(cos   , T(0), -sin  ),
         _Vec3<T>(T(0), T(1), T(0)),
@@ -280,8 +280,8 @@ namespace kmath {
 
 
     static inline _Mat3<T> z_rotation(const T angle) {
-      const T cos = std::cos(angle);
-      const T sin = std::sin(angle);
+      const T cos = cos(angle);
+      const T sin = sin(angle);
       return _Mat3<T>(
         _Vec3<T>(cos   , sin   , T(0)),
         _Vec3<T>(-sin  , cos   , T(0)),
@@ -503,8 +503,8 @@ namespace kmath {
 
 
     static inline _Mat4<T> x_rotation(const T angle) {
-      const T cos = std::cos(angle);
-      const T sin = std::sin(angle);
+      const T cos = cos(angle);
+      const T sin = sin(angle);
       return _Mat4<T>(
         _Vec4<T>(T(1), T(0), T(0), T(0)),
         _Vec4<T>(T(0), cos   , sin   , T(0)),
@@ -515,8 +515,8 @@ namespace kmath {
 
 
     static inline _Mat4<T> y_rotation(const T angle) {
-      const T cos = std::cos(angle);
-      const T sin = std::sin(angle);
+      const T cos = cos(angle);
+      const T sin = sin(angle);
       return _Mat4<T>(
         _Vec4<T>(cos   , T(0), -sin  , T(0)),
         _Vec4<T>(T(0), T(1), T(0), T(0)),
@@ -527,8 +527,8 @@ namespace kmath {
 
 
     static inline _Mat4<T> z_rotation(const T angle) {
-      const T cos = std::cos(angle);
-      const T sin = std::sin(angle);
+      const T cos = cos(angle);
+      const T sin = sin(angle);
       return _Mat4<T>(
         _Vec4<T>(cos   , sin   , T(0), T(0)),
         _Vec4<T>(-sin  , cos   , T(0), T(0)),
@@ -579,7 +579,7 @@ namespace kmath {
     // v_fov is the vertical field of view in rad.
     static inline _Mat4<T> perspective_rh_zo_ndc_vfov(const T near, const T far, const T v_fov, const T aspect_ratio) {
       const T half_fov = T(0.5) * v_fov;
-      const T iw_v = std::cos(half_fov) / std::sin(half_fov);
+      const T iw_v = cos(half_fov) / sin(half_fov);
       const T iw_h = iw_v / aspect_ratio;
       const T inv_nf_dist = T(1) / (far - near);
       return _Mat4<T>(
@@ -596,7 +596,7 @@ namespace kmath {
     // h_fov is the horizontal field of view in rad.
     static inline _Mat4<T> perspective_rh_zo_ndc_hfov(const T near, const T far, const T v_fov, const T aspect_ratio) {
       const T half_fov = T(0.5) * v_fov;
-      const T iw_h = std::cos(half_fov) / std::sin(half_fov);
+      const T iw_h = cos(half_fov) / sin(half_fov);
       const T iw_v = iw_h * aspect_ratio;
       const T inv_nf_dist = T(1) / (far - near);
       return _Mat4<T>(
@@ -613,7 +613,7 @@ namespace kmath {
     // v_fov is the vertical field of view in rad.
     static inline _Mat4<T> perspective_lh_zo_ndc_vfov(const T near, const T far, const T v_fov, const T aspect_ratio) {
       const T half_fov = T(0.5) * v_fov;
-      const T iw_v = std::cos(half_fov) / std::sin(half_fov);
+      const T iw_v = cos(half_fov) / sin(half_fov);
       const T iw_h = iw_v / aspect_ratio;
       const T inv_nf_dist = T(1) / (far - near);
       return _Mat4<T>(
@@ -630,7 +630,7 @@ namespace kmath {
     // h_fov is the horizontal field of view in rad.
     static inline _Mat4<T> perspective_lh_zo_ndc_hfov(const T near, const T far, const T v_fov, const T aspect_ratio) {
       const T half_fov = T(0.5) * v_fov;
-      const T iw_h = std::cos(half_fov) / std::sin(half_fov);
+      const T iw_h = cos(half_fov) / sin(half_fov);
       const T iw_v = iw_h * aspect_ratio;
       const T inv_nf_dist = T(1) / (far - near);
       return _Mat4<T>(
@@ -647,7 +647,7 @@ namespace kmath {
     // v_fov is the vertical field of view in rad.
     static inline _Mat4<T> perspective_rh_no_ndc_vfov(const T near, const T far, const T v_fov, const T aspect_ratio) {
       const T half_fov = T(0.5) * v_fov;
-      const T iw_v = std::cos(half_fov) / std::sin(half_fov);
+      const T iw_v = cos(half_fov) / sin(half_fov);
       const T iw_h = iw_v / aspect_ratio;
       const T inv_nf_dist = T(1) / (far - near);
       return _Mat4<T>(
@@ -664,7 +664,7 @@ namespace kmath {
     // h_fov is the horizontal field of view in rad.
     static inline _Mat4<T> perspective_rh_no_ndc_hfov(const T near, const T far, const T h_fov, const T aspect_ratio) {
       const T half_fov = T(0.5) * h_fov;
-      const T iw_h = std::cos(half_fov) / std::sin(half_fov);
+      const T iw_h = cos(half_fov) / sin(half_fov);
       const T iw_v = iw_h * aspect_ratio;
       const T inv_nf_dist = T(1) / (far - near);
       return _Mat4<T>(
@@ -681,7 +681,7 @@ namespace kmath {
     // v_fov is the vertical field of view in rad.
     static inline _Mat4<T> perspective_lh_no_ndc_vfov(const T near, const T far, const T v_fov, const T aspect_ratio) {
       const T half_fov = T(0.5) * v_fov;
-      const T iw_v = std::cos(half_fov) / std::sin(half_fov);
+      const T iw_v = cos(half_fov) / sin(half_fov);
       const T iw_h = iw_v / aspect_ratio;
       const T inv_nf_dist = T(1) / (far - near);
       return _Mat4<T>(
@@ -698,7 +698,7 @@ namespace kmath {
     // h_fov is the horizontal field of view in rad.
     static inline _Mat4<T> perspective_lh_no_ndc_hfov(const T near, const T far, const T h_fov, const T aspect_ratio) {
       const T half_fov = T(0.5) * h_fov;
-      const T iw_h = std::cos(half_fov) / std::sin(half_fov);
+      const T iw_h = cos(half_fov) / sin(half_fov);
       const T iw_v = iw_h * aspect_ratio;
       const T inv_nf_dist = T(1) / (far - near);
       return _Mat4<T>(

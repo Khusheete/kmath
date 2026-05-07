@@ -23,7 +23,7 @@
 #include "cie.hpp"
 
 #include "../matrix.hpp"
-#include <cmath>
+
 #include <limits>
 
 
@@ -163,7 +163,7 @@ namespace kmath::cie {
   Lab xyz_to_lab(const XYZ &xyz, const Illuminant illum) {
     const auto f = [](const float x) -> float {
       const float CUT = 0.008856451679035631f;
-      return (x > CUT)? std::pow(x, 1.0f / 3.0f) : 7.833333333333333 * x + 0.13793103448275862f;
+      return (x > CUT)? pow(x, 1.0f / 3.0f) : 7.833333333333333 * x + 0.13793103448275862f;
     };
     const XYZ illum_xyz = illuminant_tristimulus(illum);
     const Vec3 fxyz = apply(xyz / illum_xyz, f);
@@ -178,7 +178,7 @@ namespace kmath::cie {
   XYZ lab_to_xyz(const Lab &lab, const Illuminant illum) {
     const auto f = [](const float x) -> float {
       const float CUT = 0.20689655172413793f;
-      return (x > CUT)? std::pow(x, 3) : (x - 0.13793103448275862f) * 0.12841854934601665f;
+      return (x > CUT)? pow(x, 3) : (x - 0.13793103448275862f) * 0.12841854934601665f;
     };
     const XYZ illum_xyz = illuminant_tristimulus(illum);
 
@@ -205,19 +205,19 @@ namespace kmath::cie {
     return LChab(
       lab.x,
       c,
-      std::atan2(lab.z, lab.y)
+      atan2(lab.z, lab.y)
     );
   }
 
 
   Lab lchab_to_lab(const LChab &lch) {
-    if (std::isnan(lch.z)) {
+    if (is_nan(lch.z)) {
       return Lab(lch.x, 0.0f, 0.0f);
     }
     return Lab(
       lch.x,
-      lch.y * std::cos(lch.z),
-      lch.y * std::sin(lch.z)
+      lch.y * cos(lch.z),
+      lch.y * sin(lch.z)
     );
   }
 }

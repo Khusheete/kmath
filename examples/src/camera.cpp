@@ -25,7 +25,6 @@
 #include "utils/freecam.hpp"
 
 #include "raylib.h"
-#include <cmath>
 
 
 struct TestData {

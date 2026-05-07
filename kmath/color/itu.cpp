@@ -30,7 +30,7 @@ namespace kmath::itu {
       auto pos_gamma = [&](const float pos_value) -> float {
         return (pos_value < beta)?
           4.5f * pos_value
-          : alpha * std::pow(pos_value, 0.45f) - (alpha - 1);
+          : alpha * pow(pos_value, 0.45f) - (alpha - 1);
       };
       return (value >= 0.0f)? pos_gamma(value) : -pos_gamma(-value);
     }
@@ -46,7 +46,7 @@ namespace kmath::itu {
       auto inv_pos_gamma = [&](const float pos_value) -> float {
         return (pos_value < beta2)?
           pos_value * a
-          : std::pow(inv_alpha * (pos_value + (alpha - 1)), e);
+          : pow(inv_alpha * (pos_value + (alpha - 1)), e);
       };
       return (value >= 0.0f)? inv_pos_gamma(value) : -inv_pos_gamma(-value);
     }

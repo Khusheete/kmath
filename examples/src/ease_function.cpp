@@ -22,10 +22,10 @@
 #include "examples.hpp"
 
 #include "kmath/interpolation_functions.hpp"
+#include "kmath/vector.hpp"
 
 #include "raylib.h"
 #include <array>
-#include <cmath>
 
 
 void *ease_function_init() {

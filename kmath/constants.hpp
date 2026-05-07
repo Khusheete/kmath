@@ -23,6 +23,13 @@
 
 
 namespace kmath {
-  constexpr double PI  = 3.141592653589793;
-  constexpr double TAU = 6.283185307179586;
+
+  // ===========================
+  // = Trigonometric constants =
+  // ===========================
+  
+  constexpr const double QUARTER_PI = 0.7853981633974483;
+  constexpr const double HALF_PI = 1.5707963267948966;
+  constexpr const double PI  = 3.141592653589793;
+  constexpr const double TAU = 6.283185307179586;
 }

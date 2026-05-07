@@ -59,11 +59,15 @@ namespace kmath {
     inline const T &operator[](const size_t index) const { return reinterpret_cast<const T*>(this)[index]; }
 
   public:
+    static constexpr const size_t SIZE = 2;
+
+  public:
     static const _Vec2<T> ZERO;
     static const _Vec2<T> ONE;
     static const _Vec2<T> INF;
     static const _Vec2<T> X;
     static const _Vec2<T> Y;
+
   };
 
 
@@ -346,6 +350,9 @@ namespace kmath {
   public:
     inline T &operator[](const size_t index) { return reinterpret_cast<T*>(this)[index]; }
     inline const T &operator[](const size_t index) const { return reinterpret_cast<const T*>(this)[index]; }
+
+  public:
+    static constexpr const size_t SIZE = 3;
 
   public:
     static const _Vec3<T> ZERO;
@@ -971,6 +978,9 @@ namespace kmath {
     inline const T &operator[](const size_t index) const { return reinterpret_cast<const T*>(this)[index]; }
 
   public:
+    static constexpr const size_t SIZE = 4;
+
+  public:
     static const _Vec4<T> ZERO;
     static const _Vec4<T> ONE;
     static const _Vec4<T> INF;
@@ -1238,14 +1248,17 @@ namespace kmath {
   typedef _Vec2<double> Vec2d;
   typedef _Vec2<int> Vec2i;
   typedef _Vec2<long> Vec2l;
+  typedef _Vec2<bool> Vec2b;
 
   typedef _Vec3<float> Vec3;
   typedef _Vec3<double> Vec3d;
   typedef _Vec3<int> Vec3i;
   typedef _Vec3<long> Vec3l;
+  typedef _Vec3<bool> Vec3b;
 
   typedef _Vec4<float> Vec4;
   typedef _Vec4<double> Vec4d;
   typedef _Vec4<int> Vec4i;
   typedef _Vec4<long> Vec4l;
+  typedef _Vec4<bool> Vec4b;
 }

@@ -24,7 +24,7 @@
 
 #include "constants.hpp"
 #include "euclidian_flat_3d.hpp"
-#include "utils.hpp"
+#include "base.hpp"
 #include "vector.hpp"
 #include "matrix.hpp"
 #include "rotor_3d.hpp"
@@ -123,6 +123,12 @@ namespace kmath {
   template<Number T>
   inline const _Rotor3<T> &get_dual_part(const _Motor3<T> &m) {
     return *(1 + reinterpret_cast<const _Rotor3<T>*>(&m));
+  }
+
+
+  template<Number T>
+  constexpr bool is_approx_zero(const _Motor3<T> &m) {
+    return is_approx_zero(get_real_part(m)) && is_approx_zero(get_dual_part(m));
   }
 
 
@@ -282,7 +288,7 @@ namespace kmath {
   template<Number T>
   _Motor3<T> exp(const _Line3<T> &b) {
     const T r = magnitude_squared(b);
-    if (is_square_approx_zero(r)) {
+    if (is_approx_zero(r)) {
       // When the bivector is ideal, the degree 2 and higher are null
       return _Motor3<T>(
         _Rotor3<T>::IDENTITY,

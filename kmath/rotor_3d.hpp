@@ -22,8 +22,8 @@
 #pragma once
 
 
+#include "base.hpp"
 #include "constants.hpp"
-#include "utils.hpp"
 #include "vector.hpp"
 #include "matrix.hpp"
 #include "euclidian_flat_3d.hpp"
@@ -99,6 +99,12 @@ namespace kmath {
   // ===========================
   // = Rotor specific function =
   // ===========================
+
+
+  template<Number T>
+  constexpr bool is_approx_zero(const _Rotor3<T> &r) {
+    return is_approx_zero(reinterpret_cast<const _Vec4<T>&>(r));
+  }
 
 
   template<Number T>

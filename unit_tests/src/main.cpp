@@ -6,14 +6,10 @@
 #include "kmath/color/ok.hpp"
 
 #include "kmath/euclidian_flat_3d.hpp"
-#include "kmath/interpolation_functions.hpp"
 #include "kmath/matrix.hpp"
-#include "kmath/motor_3d.hpp"
 #include "kmath/rotor_3d.hpp"
 #include "kmath/vector.hpp"
-#include "kmath/utils.hpp"
 #include "kmath/angles.hpp"
-#include "kmath/print.hpp"
 
 #include <cmath>
 #include <cstdlib>

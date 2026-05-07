@@ -22,7 +22,7 @@
 #pragma once
 
 
-#include "utils.hpp"
+#include "base.hpp"
 #include "vector.hpp"
 #include <cmath>
 
@@ -248,7 +248,7 @@ namespace kmath {
 
   template<Number T>
   inline bool is_vanishing(const _Plane3<T> &a) {
-    return is_square_approx_zero(magnitude_squared(a));
+    return is_approx_zero(magnitude_squared(a));
   }
 
 
@@ -437,7 +437,7 @@ namespace kmath {
 
   template<Number T>
   inline bool is_vanishing(const _Line3<T> &a) {
-    return is_square_approx_zero(magnitude_squared(a));
+    return is_approx_zero(magnitude_squared(a));
   }
   
 
@@ -471,7 +471,7 @@ namespace kmath {
   template<Number T>
   inline _Line3<T> normalized(const _Line3<T> &a) {
     const T vm2 = vanishing_magnitude_squared(a);
-    if (!is_square_approx_zero(vm2)) {
+    if (!is_approx_zero(vm2)) {
       return a / std::sqrt(vm2);
     } else {
       return a / magnitude(a);

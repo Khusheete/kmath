@@ -79,15 +79,21 @@ namespace kmath {
     constexpr const T &operator()(const size_t i, const size_t j) const { return reinterpret_cast<const T*>(this)[2 * i + j]; }
 
   public:
-    static constexpr const _Mat2<T> IDENTITY = _Mat2<T>(
-      _Vec2<T>(T(1), T(0)),
-      _Vec2<T>(T(0), T(1))
-    );
-    static constexpr const _Mat2<T> ZERO = _Mat2<T>(
-      _Vec2<T>::ZERO,
-      _Vec2<T>::ZERO
-    );
+    static const _Mat2<T> IDENTITY;
+    static const _Mat2<T> ZERO;
   };
+
+
+  template<Number T>
+  constexpr const _Mat2<T> _Mat2<T>::IDENTITY = _Mat2<T>(
+    _Vec2<T>(T(1), T(0)),
+    _Vec2<T>(T(0), T(1))
+  );
+  template<Number T>
+  constexpr const _Mat2<T> _Mat2<T>::ZERO = _Mat2<T>(
+    _Vec2<T>::ZERO,
+    _Vec2<T>::ZERO
+  );
 
 
   template<Number T>
@@ -287,17 +293,25 @@ namespace kmath {
     constexpr const T &operator()(const size_t i, const size_t j) const { return reinterpret_cast<const T*>(this)[3 * i + j]; }
 
   public:
-    static constexpr const _Mat3<T> IDENTITY = _Mat3<T>(
-      _Vec3<T>(T(1), T(0), T(0)),
-      _Vec3<T>(T(0), T(1), T(0)),
-      _Vec3<T>(T(0), T(0), T(1))
-    );
-    static constexpr const _Mat3<T> ZERO = _Mat3<T>(
-      _Vec3<T>::ZERO,
-      _Vec3<T>::ZERO,
-      _Vec3<T>::ZERO
-    );
+    static const _Mat3<T> IDENTITY;
+    static const _Mat3<T> ZERO;
   };
+
+
+  template<Number T>
+  constexpr const _Mat3<T> _Mat3<T>::IDENTITY  = _Mat3<T>(
+    _Vec3<T>(T(1), T(0), T(0)),
+    _Vec3<T>(T(0), T(1), T(0)),
+    _Vec3<T>(T(0), T(0), T(1))
+  );
+
+
+  template<Number T>
+  constexpr const _Mat3<T> _Mat3<T>::ZERO = _Mat3<T>(
+    _Vec3<T>::ZERO,
+    _Vec3<T>::ZERO,
+    _Vec3<T>::ZERO
+  );
 
 
   template<Number T>
@@ -699,19 +713,25 @@ namespace kmath {
     constexpr const T &operator()(const size_t i, const size_t j) const { return reinterpret_cast<const T*>(this)[4 * i + j]; }
 
   public:
-    static constexpr const _Mat4<T> IDENTITY = _Mat4<T>(
-      _Vec4<T>(T(1), T(0), T(0), T(0)),
-      _Vec4<T>(T(0), T(1), T(0), T(0)),
-      _Vec4<T>(T(0), T(0), T(1), T(0)),
-      _Vec4<T>(T(0), T(0), T(0), T(1))
-    );
-    static constexpr const _Mat4<T> ZERO = _Mat4<T>(
-      _Vec4<T>::ZERO,
-      _Vec4<T>::ZERO,
-      _Vec4<T>::ZERO,
-      _Vec4<T>::ZERO
-    );
+    static const _Mat4<T> IDENTITY;
+    static const _Mat4<T> ZERO;
   };
+
+
+  template<Number T>
+  constexpr const _Mat4<T> _Mat4<T>::IDENTITY = _Mat4<T>(
+    _Vec4<T>(T(1), T(0), T(0), T(0)),
+    _Vec4<T>(T(0), T(1), T(0), T(0)),
+    _Vec4<T>(T(0), T(0), T(1), T(0)),
+    _Vec4<T>(T(0), T(0), T(0), T(1))
+  );
+  template<Number T>
+  constexpr const _Mat4<T> _Mat4<T>::ZERO = _Mat4<T>(
+    _Vec4<T>::ZERO,
+    _Vec4<T>::ZERO,
+    _Vec4<T>::ZERO,
+    _Vec4<T>::ZERO
+  );
 
 
   template<Number T>

@@ -61,13 +61,24 @@ namespace kmath {
     static constexpr const size_t SIZE = 2;
 
   public:
-    static constexpr const _Vec2<T> ZERO = _Vec2<T>(T(0), T(0));
-    static constexpr const _Vec2<T> ONE = _Vec2<T>(T(1), T(1));
-    static constexpr const _Vec2<T> INF = _Vec2<T>(std::numeric_limits<T>::infinity(), std::numeric_limits<T>::infinity());
-    static constexpr const _Vec2<T> X = _Vec2<T>(T(1), T(0));
-    static constexpr const _Vec2<T> Y = _Vec2<T>(T(0), T(1));
-
+    static const _Vec2<T> ZERO;
+    static const _Vec2<T> ONE;
+    static const _Vec2<T> INF;
+    static const _Vec2<T> X;
+    static const _Vec2<T> Y;
   };
+
+
+  template<Number T>
+  constexpr const _Vec2<T> _Vec2<T>::ZERO = _Vec2<T>(T(0), T(0));
+  template<Number T>
+  constexpr const _Vec2<T> _Vec2<T>::ONE = _Vec2<T>(T(1), T(1));
+  template<Number T>
+  constexpr const _Vec2<T> _Vec2<T>::INF = _Vec2<T>(std::numeric_limits<T>::infinity(), std::numeric_limits<T>::infinity());
+  template<Number T>
+  constexpr const _Vec2<T> _Vec2<T>::X = _Vec2<T>(T(1), T(0));
+  template<Number T>
+  constexpr const _Vec2<T> _Vec2<T>::Y = _Vec2<T>(T(0), T(1));
 
 
   // =====================
@@ -306,13 +317,27 @@ namespace kmath {
     static constexpr const size_t SIZE = 3;
 
   public:
-    static constexpr const _Vec3<T> ZERO = _Vec3<T>(T(0), T(0), T(0));
-    static constexpr const _Vec3<T> ONE = _Vec3<T>(T(1), T(1), T(1));
-    static constexpr const _Vec3<T> INF = _Vec3<T>(std::numeric_limits<T>::infinity(), std::numeric_limits<T>::infinity(), std::numeric_limits<T>::infinity());
-    static constexpr const _Vec3<T> X = _Vec3<T>(T(1), T(0), T(0));
-    static constexpr const _Vec3<T> Y = _Vec3<T>(T(0), T(1), T(0));
-    static constexpr const _Vec3<T> Z = _Vec3<T>(T(0), T(0), T(1));
+    static const _Vec3<T> ZERO;
+    static const _Vec3<T> ONE;
+    static const _Vec3<T> INF;
+    static const _Vec3<T> X;
+    static const _Vec3<T> Y;
+    static const _Vec3<T> Z;
   };
+
+
+  template<Number T>
+  constexpr const _Vec3<T> _Vec3<T>::ZERO = _Vec3<T>(T(0), T(0), T(0));
+  template<Number T>
+  constexpr const _Vec3<T> _Vec3<T>::ONE = _Vec3<T>(T(1), T(1), T(1));
+  template<Number T>
+  constexpr const _Vec3<T> _Vec3<T>::INF = _Vec3<T>(std::numeric_limits<T>::infinity(), std::numeric_limits<T>::infinity(), std::numeric_limits<T>::infinity());
+  template<Number T>
+  constexpr const _Vec3<T> _Vec3<T>::X = _Vec3<T>(T(1), T(0), T(0));
+  template<Number T>
+  constexpr const _Vec3<T> _Vec3<T>::Y = _Vec3<T>(T(0), T(1), T(0));
+  template<Number T>
+  constexpr const _Vec3<T> _Vec3<T>::Z = _Vec3<T>(T(0), T(0), T(1));
 
 
   // =====================
@@ -878,14 +903,30 @@ namespace kmath {
     static constexpr const size_t SIZE = 4;
 
   public:
-    static constexpr const _Vec4<T> ZERO = _Vec4<T>(T(0), T(0), T(0), T(0));
-    static constexpr const _Vec4<T> ONE = _Vec4<T>(T(1), T(1), T(1), T(1));
-    static constexpr const _Vec4<T> INF = _Vec4<T>(std::numeric_limits<T>::infinity(), std::numeric_limits<T>::infinity(), std::numeric_limits<T>::infinity(), std::numeric_limits<T>::infinity());
-    static constexpr const _Vec4<T> X = _Vec4<T>(T(1), T(0), T(0), T(0));
-    static constexpr const _Vec4<T> Y = _Vec4<T>(T(0), T(1), T(0), T(0));
-    static constexpr const _Vec4<T> Z = _Vec4<T>(T(0), T(0), T(1), T(0));
-    static constexpr const _Vec4<T> W = _Vec4<T>(T(0), T(0), T(0), T(1));
+    static const _Vec4<T> ZERO;
+    static const _Vec4<T> ONE;
+    static const _Vec4<T> INF;
+    static const _Vec4<T> X;
+    static const _Vec4<T> Y;
+    static const _Vec4<T> Z;
+    static const _Vec4<T> W;
   };
+
+
+  template<Number T>
+  constexpr const _Vec4<T> _Vec4<T>::ZERO = _Vec4<T>(T(0), T(0), T(0), T(0));
+  template<Number T>
+  constexpr const _Vec4<T> _Vec4<T>::ONE = _Vec4<T>(T(1), T(1), T(1), T(1));
+  template<Number T>
+  constexpr const _Vec4<T> _Vec4<T>::INF = _Vec4<T>(std::numeric_limits<T>::infinity(), std::numeric_limits<T>::infinity(), std::numeric_limits<T>::infinity(), std::numeric_limits<T>::infinity());
+  template<Number T>
+  constexpr const _Vec4<T> _Vec4<T>::X = _Vec4<T>(T(1), T(0), T(0), T(0));
+  template<Number T>
+  constexpr const _Vec4<T> _Vec4<T>::Y = _Vec4<T>(T(0), T(1), T(0), T(0));
+  template<Number T>
+  constexpr const _Vec4<T> _Vec4<T>::Z = _Vec4<T>(T(0), T(0), T(1), T(0));
+  template<Number T>
+  constexpr const _Vec4<T> _Vec4<T>::W = _Vec4<T>(T(0), T(0), T(0), T(1));
 
 
   // =====================

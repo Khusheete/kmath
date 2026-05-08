@@ -316,44 +316,46 @@ namespace kmath {
     const _Vec3<T> c = apply(half_angles, [](const T x) { return cos(x); });
     const _Vec3<T> s = apply(-half_angles, [](const T x) { return sin(x); });
 
+    _Rotor3<T> result;
+
     switch (basis) {
     break;case EulerBasis::XYZ:
-      return _Rotor3<T>(
+      result = _Rotor3<T>(
          c.y * c.x * c.z - s.y * s.x * s.z,
         -s.y * c.x * s.z - c.y * s.x * c.z,
         -s.y * c.x * c.z + c.y * s.x * s.z,
         -c.y * c.x * s.z - s.y * s.x * c.z
       );
     break;case EulerBasis::YZX:
-      return _Rotor3<T>(
+      result = _Rotor3<T>(
         -s.x * s.z * s.y + c.x * c.z * c.y,
         -s.x * c.z * c.y - c.x * s.z * s.y,
         -c.x * c.z * s.y - s.x * s.z * c.y,
         -c.x * s.z * c.y + s.x * c.z * s.y
       );
     break;case EulerBasis::ZXY:
-      return _Rotor3<T>(
+      result = _Rotor3<T>(
          c.y * c.x * c.z - s.y * s.x * s.z,
          s.y * c.x * s.z - c.y * s.x * c.z,
         -s.y * c.x * c.z - c.y * s.x * s.z,
         -c.y * c.x * s.z - s.y * s.x * c.z
       );
     break;case EulerBasis::XZY:
-      return _Rotor3<T>(
+      result = _Rotor3<T>(
          s.x * s.z * s.y + c.y * c.x * c.z,
         -c.y * s.x * c.z + c.x * s.z * s.y,
          c.y * s.x * s.z - c.x * c.z * s.y,
         -s.x * c.z * s.y - c.y * c.x * s.z
       );
     break;case EulerBasis::ZYX:
-      return _Rotor3<T>(
+      result = _Rotor3<T>(
          s.x * s.z * s.y + c.x * c.z * c.y,
          c.x * s.z * s.y - s.x * c.z * c.y,
         -s.x * s.z * c.y - c.x * c.z * s.y,
         -c.x * s.z * c.y + s.x * c.z * s.y
       );
     break;case EulerBasis::YXZ:
-      return _Rotor3<T>(
+      result = _Rotor3<T>(
          s.x * s.z * s.y + c.x * c.z * c.y,
         -c.x * s.z * s.y - s.x * c.z * c.y,
         -c.x * c.z * s.y + s.x * s.z * c.y,
@@ -361,48 +363,50 @@ namespace kmath {
       );
 
     break;case EulerBasis::ZXZ:
-      return _Rotor3<T>(
+      result = _Rotor3<T>(
         -c.y * s.x * s.z + c.y * c.x * c.z,
         -s.y * s.x * s.z - s.y * c.x * c.z,
         -s.y * s.x * c.z + s.y * c.x * s.z,
         -c.y * s.x * c.z - c.y * c.x * s.z
       );
     break;case EulerBasis::XYX:
-      return _Rotor3<T>(
+      result = _Rotor3<T>(
         -c.y * s.x * s.z + c.y * c.x * c.z,
         -c.y * s.x * c.z - c.y * c.x * s.z,
         -s.y * s.x * s.z - s.y * c.x * c.z,
         -s.y * s.x * c.z + s.y * c.x * s.z
       );
     break;case EulerBasis::YZY:
-      return _Rotor3<T>(
+      result = _Rotor3<T>(
          c.x * c.z * c.y - s.z * c.y * s.x,
         -c.z * s.y * s.x + c.x * s.z * s.y,
         -c.x * s.z * c.y - c.z * c.y * s.x,
         -c.x * c.z * s.y - s.z * s.y * s.x
       );
     break;case EulerBasis::ZYZ:
-      return _Rotor3<T>(
+      result = _Rotor3<T>(
         -c.y * s.x * s.z + c.z * c.y * c.x,
         -s.y * c.x * s.z + c.z * s.y * s.x,
         -c.z * s.y * c.x - s.y * s.x * s.z,
         -c.z * c.y * s.x - c.y * c.x * s.z
       );
     break;case EulerBasis::XZX:
-      return _Rotor3<T>(
+      result = _Rotor3<T>(
         -c.y * s.x * s.z + c.y * c.x * c.z,
         -c.y * c.x * s.z - c.y * s.x * c.z,
         -s.y * c.x * s.z + s.y * s.x * c.z,
         -s.y * s.x * s.z - s.y * c.x * c.z
       );
     break;case EulerBasis::YXY:
-      return _Rotor3<T>(
+      result = _Rotor3<T>(
         -s.z * c.y * s.x + c.x * c.z * c.y,
         -s.z * s.y * s.x - c.x * c.z * s.y,
         -c.x * s.z * c.y - c.z * c.y * s.x,
         -c.x * s.z * s.y + c.z * s.y * s.x
       );
     }
+
+    return result;
   }
 
 

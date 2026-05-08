@@ -686,10 +686,10 @@ int main(void) {
 
 
   UNIT_TEST_SECTION("Angles", {
-    Vec3 sph_1(1.0f, 0.0, 0.0);
-    Vec3 sph_2(1.0f, 0.0, 0.5f * PI);
-    Vec3 sph_3(1.0f, 0.5f * PI, 0.0);
-    Vec3 sph_4(1.0f, 0.5f * PI, PI);
+    // Vec3 sph_1(1.0f, 0.0, 0.0);
+    // Vec3 sph_2(1.0f, 0.0, 0.5f * PI);
+    // Vec3 sph_3(1.0f, 0.5f * PI, 0.0);
+    // Vec3 sph_4(1.0f, 0.5f * PI, PI);
     
     UNIT_TEST("cartesian to spherical", {
       TEST_EQ_APPROX("(1, 0, 0)" , cartesian_to_spherical(Vec3(1.0, 0.0, 0.0)) , Vec3(1.0, 0.5 * PI, 0.0));

@@ -473,13 +473,13 @@ namespace kmath {
 
 
   template<Number K>
-  inline K map(const K val, const K prev_min, const K prev_max, const K new_min, const K new_max) {
+  constexpr K map(const K val, const K prev_min, const K prev_max, const K new_min, const K new_max) {
     return (val - prev_min) / (prev_max - prev_min) * (new_max - new_min) + new_min;
   }
 
 
   template<Number K, Vector<K> V>
-  inline V map(const V val, const K prev_min, const K prev_max, const K new_min, const K new_max) {
+  constexpr V map(const V val, const K prev_min, const K prev_max, const K new_min, const K new_max) {
     return (val - V(prev_min)) / ((prev_max - prev_min) * (new_max - new_min)) + V(new_min);
   }
 

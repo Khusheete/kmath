@@ -68,14 +68,14 @@ namespace kmath {
 
 
   template<Number T>
-  inline T degrees_to_radians(const T degree) {
+  constexpr T degrees_to_radians(const T degree) {
     constexpr T conversion_coef = PI / 180.0;
     return degree * conversion_coef;
   }
 
 
   template<Number T>
-  inline T radians_to_degrees(const T radians) {
+  constexpr T radians_to_degrees(const T radians) {
     constexpr T conversion_coef = 180.0 / PI;
     return radians * conversion_coef;
   }

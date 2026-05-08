@@ -46,17 +46,17 @@ namespace kmath {
     _Vec2<T> x, y;
 
   public:
-    static inline _Mat2<T> scale(const T scale) {
+    static constexpr _Mat2<T> scale(const T scale) {
       return scale * _Mat2<T>::IDENTITY;
     }
 
 
-    static inline _Mat2<T> scale(const _Vec2<T> scale_vec) {
+    static constexpr _Mat2<T> scale(const _Vec2<T> scale_vec) {
       return scale(scale_vec.x, scale_vec.y);
     }
 
 
-    static inline _Mat2<T> scale(const T x, const T y) {
+    static constexpr _Mat2<T> scale(const T x, const T y) {
       return _Mat2<T>(
         _Vec2<T>(x     , T(0)),
         _Vec2<T>(T(0), y     )
@@ -74,38 +74,30 @@ namespace kmath {
     }
 
   public:
-    inline _Vec2<T> &operator[](const size_t i) { return reinterpret_cast<_Vec2<T>*>(this)[i]; }
-    inline T &operator()(const size_t i, const size_t j) { return reinterpret_cast<T*>(this)[2 * i + j]; }
-    inline const T &operator()(const size_t i, const size_t j) const { return reinterpret_cast<const T*>(this)[2 * i + j]; }
+    constexpr _Vec2<T> &operator[](const size_t i) { return reinterpret_cast<_Vec2<T>*>(this)[i]; }
+    constexpr T &operator()(const size_t i, const size_t j) { return reinterpret_cast<T*>(this)[2 * i + j]; }
+    constexpr const T &operator()(const size_t i, const size_t j) const { return reinterpret_cast<const T*>(this)[2 * i + j]; }
 
   public:
-    static const _Mat2<T> IDENTITY;
-    static const _Mat2<T> ZERO;
+    static constexpr const _Mat2<T> IDENTITY = _Mat2<T>(
+      _Vec2<T>(T(1), T(0)),
+      _Vec2<T>(T(0), T(1))
+    );
+    static constexpr const _Mat2<T> ZERO = _Mat2<T>(
+      _Vec2<T>::ZERO,
+      _Vec2<T>::ZERO
+    );
   };
 
 
   template<Number T>
-  const _Mat2<T> _Mat2<T>::IDENTITY = _Mat2<T>(
-    _Vec2<T>(T(1), T(0)),
-    _Vec2<T>(T(0), T(1))
-  );
-
-
-  template<Number T>
-  const _Mat2<T> _Mat2<T>::ZERO = _Mat2<T>(
-    _Vec2<T>::ZERO,
-    _Vec2<T>::ZERO
-  );
-
-
-  template<Number T>
-  inline bool is_approx_zero(const _Mat2<T> &a) {
+  constexpr bool is_approx_zero(const _Mat2<T> &a) {
     return is_approx_zero(a.x) && is_approx_zero(a.y);
   }
 
 
   template<Number T>
-  inline _Mat2<T> transpose(const _Mat2<T> &m) {
+  constexpr _Mat2<T> transpose(const _Mat2<T> &m) {
     return _Mat2<T>(
       _Vec2<T>(m.x.x, m.y.x),
       _Vec2<T>(m.x.y, m.y.y)
@@ -114,7 +106,7 @@ namespace kmath {
 
   
   template<Number T>
-  inline _Vec2<T> operator*(const _Mat2<T> &a, const _Vec2<T> &b) {
+  constexpr _Vec2<T> operator*(const _Mat2<T> &a, const _Vec2<T> &b) {
     return _Vec2<T>(
       a.x.x * b.x + a.y.x * b.y,
       a.x.y * b.x + a.y.x * b.y
@@ -123,7 +115,7 @@ namespace kmath {
 
 
   template<Number T>
-  inline _Vec2<T> operator*(const _Vec2<T> &a, const _Mat2<T> &b) {
+  constexpr _Vec2<T> operator*(const _Vec2<T> &a, const _Mat2<T> &b) {
     return _Vec2<T>(
       kmath::dot(a.x, b),
       kmath::dot(a.y, b)
@@ -132,7 +124,7 @@ namespace kmath {
 
 
   template<Number T>
-  inline _Mat2<T> operator*(const _Mat2<T> &a, const _Mat2<T> &b) {
+  constexpr _Mat2<T> operator*(const _Mat2<T> &a, const _Mat2<T> &b) {
     return _Mat2<T>(
       a * b.x,
       a * b.y
@@ -141,14 +133,14 @@ namespace kmath {
 
 
   template<Number T>
-  inline _Mat2<T> &operator*=(_Mat2<T> &a, const _Mat2<T> &b) {
+  constexpr _Mat2<T> &operator*=(_Mat2<T> &a, const _Mat2<T> &b) {
     a = a * b;
     return a;
   }
 
 
   template<Number T>
-  inline _Mat2<T> operator+(const _Mat2<T> &a, const _Mat2<T> &b) {
+  constexpr _Mat2<T> operator+(const _Mat2<T> &a, const _Mat2<T> &b) {
     return _Mat2(
       a.x + b.x,
       a.y + b.y,
@@ -159,14 +151,14 @@ namespace kmath {
 
 
   template<Number T>
-  inline _Mat2<T> &operator+=(_Mat2<T> &a, const _Mat2<T> &b) {
+  constexpr _Mat2<T> &operator+=(_Mat2<T> &a, const _Mat2<T> &b) {
     a = a + b;
     return a;
   }
 
 
   template<Number T>
-  inline _Mat2<T> operator-(const _Mat2<T> &a, const _Mat2<T> &b) {
+  constexpr _Mat2<T> operator-(const _Mat2<T> &a, const _Mat2<T> &b) {
     return _Mat2(
       a.x - b.x,
       a.y - b.y,
@@ -177,20 +169,20 @@ namespace kmath {
 
 
   template<Number T>
-  inline _Mat2<T> &operator-=(_Mat2<T> &a, const _Mat2<T> &b) {
+  constexpr _Mat2<T> &operator-=(_Mat2<T> &a, const _Mat2<T> &b) {
     a = a - b;
     return a;
   }
 
 
   template<Number T>
-  inline _Mat2<T> operator*(const _Mat2<T> &a, const T b) {
+  constexpr _Mat2<T> operator*(const _Mat2<T> &a, const T b) {
     return b * a;
   }
 
 
   template<Number T>
-  inline _Mat2<T> operator*(const T a, const _Mat2<T> &b) {
+  constexpr _Mat2<T> operator*(const T a, const _Mat2<T> &b) {
     return _Mat2<T>(
       a * b.x,
       a * b.y
@@ -199,21 +191,21 @@ namespace kmath {
 
 
   template<Number T>
-  inline _Mat2<T> &operator*=(_Mat2<T> &a, const T b) {
+  constexpr _Mat2<T> &operator*=(_Mat2<T> &a, const T b) {
     a = b * a;
     return a;
   }
 
 
   template<Number T>
-  inline _Mat2<T> operator/(const _Mat2<T> &a, const T b) {
+  constexpr _Mat2<T> operator/(const _Mat2<T> &a, const T b) {
     const T scale = T(1) / b;
     return scale * a;
   }
 
 
   template<Number T>
-  inline _Mat2<T> &operator/=(_Mat2<T> &a, const T b) {
+  constexpr _Mat2<T> &operator/=(_Mat2<T> &a, const T b) {
     a = a / b;
     return a;
   }
@@ -229,7 +221,7 @@ namespace kmath {
     _Vec3<T> x, y, z;
 
   public:
-    static inline _Mat3<T> from_mat4(const _Mat4<T> &mat4) {
+    static constexpr _Mat3<T> from_mat4(const _Mat4<T> &mat4) {
       return _Mat3<T>(
         _Vec3<T>(mat4.x.x, mat4.x.y, mat4.x.z),
         _Vec3<T>(mat4.y.x, mat4.y.y, mat4.y.z),
@@ -238,17 +230,17 @@ namespace kmath {
     }
 
 
-    static inline _Mat3<T> scale(const T s) {
+    static constexpr _Mat3<T> scale(const T s) {
       return scale(s, s, s);
     }
 
 
-    static inline _Mat3<T> scale(const _Vec3<T> scale_vec) {
+    static constexpr _Mat3<T> scale(const _Vec3<T> scale_vec) {
       return scale(scale_vec.x, scale_vec.y, scale_vec.z);
     }
 
 
-    static inline _Mat3<T> scale(const T x, const T y, const T z) {
+    static constexpr _Mat3<T> scale(const T x, const T y, const T z) {
       return _Mat3<T>(
         _Vec3<T>(x     , T(0), T(0)),
         _Vec3<T>(T(0), y     , T(0)),
@@ -290,40 +282,32 @@ namespace kmath {
     }
 
   public:
-    inline _Vec3<T> &operator[](const size_t i) { return reinterpret_cast<_Vec3<T>*>(this)[i]; }
-    inline T &operator()(const size_t i, const size_t j) { return reinterpret_cast<T*>(this)[3 * i + j]; }
-    inline const T &operator()(const size_t i, const size_t j) const { return reinterpret_cast<const T*>(this)[3 * i + j]; }
+    constexpr _Vec3<T> &operator[](const size_t i) { return reinterpret_cast<_Vec3<T>*>(this)[i]; }
+    constexpr T &operator()(const size_t i, const size_t j) { return reinterpret_cast<T*>(this)[3 * i + j]; }
+    constexpr const T &operator()(const size_t i, const size_t j) const { return reinterpret_cast<const T*>(this)[3 * i + j]; }
 
   public:
-    static const _Mat3<T> IDENTITY;
-    static const _Mat3<T> ZERO;
+    static constexpr const _Mat3<T> IDENTITY = _Mat3<T>(
+      _Vec3<T>(T(1), T(0), T(0)),
+      _Vec3<T>(T(0), T(1), T(0)),
+      _Vec3<T>(T(0), T(0), T(1))
+    );
+    static constexpr const _Mat3<T> ZERO = _Mat3<T>(
+      _Vec3<T>::ZERO,
+      _Vec3<T>::ZERO,
+      _Vec3<T>::ZERO
+    );
   };
 
 
   template<Number T>
-  const _Mat3<T> _Mat3<T>::IDENTITY = _Mat3<T>(
-    _Vec3<T>(T(1), T(0), T(0)),
-    _Vec3<T>(T(0), T(1), T(0)),
-    _Vec3<T>(T(0), T(0), T(1))
-  );
-
-
-  template<Number T>
-  const _Mat3<T> _Mat3<T>::ZERO = _Mat3<T>(
-    _Vec3<T>::ZERO,
-    _Vec3<T>::ZERO,
-    _Vec3<T>::ZERO
-  );
-
-
-  template<Number T>
-  inline bool is_approx_zero(const _Mat3<T> &a) {
+  constexpr bool is_approx_zero(const _Mat3<T> &a) {
     return is_approx_zero(a.x) && is_approx_zero(a.y) && is_approx_zero(a.z);
   }
 
 
   template<Number T>
-  inline _Mat3<T> transpose(const _Mat3<T> &m) {
+  constexpr _Mat3<T> transpose(const _Mat3<T> &m) {
     return _Mat3<T>(
       _Vec3<T>(m.x.x, m.y.x, m.z.x),
       _Vec3<T>(m.x.y, m.y.y, m.z.y),
@@ -335,13 +319,13 @@ namespace kmath {
   // The inverse for a Matrice representing a rigid transformation. (Orthogonal matrix).
   // If the matrice has non-uniform scaling, use fast_inverse_non_uniform.
   template<Number T>
-  inline _Mat3<T> fast_inverse(const _Mat3<T> &m) {
+  constexpr _Mat3<T> fast_inverse(const _Mat3<T> &m) {
     return transpose(m);
   }
 
 
   template<Number T>
-  inline _Mat3<T> fast_inverse_non_uniform(const _Mat3<T> &m) {
+  constexpr _Mat3<T> fast_inverse_non_uniform(const _Mat3<T> &m) {
     _Mat3<T> res(m);
     res.x /= length_squared(res.x);
     res.y /= length_squared(res.y);
@@ -351,7 +335,7 @@ namespace kmath {
   
 
   template<Number T>
-  inline _Vec3<T> operator*(const _Mat3<T> &a, const _Vec3<T> &b) {
+  constexpr _Vec3<T> operator*(const _Mat3<T> &a, const _Vec3<T> &b) {
     return _Vec3<T>(
       a.x.x * b.x + a.y.x * b.y + a.z.x * b.z,
       a.x.y * b.x + a.y.y * b.y + a.z.y * b.z,
@@ -361,7 +345,7 @@ namespace kmath {
 
 
   template<Number T>
-  inline _Vec3<T> operator*(const _Vec3<T> &a, const _Mat3<T> &b) {
+  constexpr _Vec3<T> operator*(const _Vec3<T> &a, const _Mat3<T> &b) {
     return _Vec3<T>(
       kmath::dot(a, b.x),
       kmath::dot(a, b.y),
@@ -371,7 +355,7 @@ namespace kmath {
 
 
   template<Number T>
-  inline _Mat3<T> operator*(const _Mat3<T> &a, const _Mat3<T> &b) {
+  constexpr _Mat3<T> operator*(const _Mat3<T> &a, const _Mat3<T> &b) {
     return _Mat3<T>(
       a * b.x,
       a * b.y,
@@ -381,14 +365,14 @@ namespace kmath {
 
 
   template<Number T>
-  inline _Mat3<T> &operator*=(_Mat3<T> &a, const _Mat3<T> &b) {
+  constexpr _Mat3<T> &operator*=(_Mat3<T> &a, const _Mat3<T> &b) {
     a = a * b;
     return a;
   }
 
 
   template<Number T>
-  inline _Mat3<T> operator+(const _Mat3<T> &a, const _Mat3<T> &b) {
+  constexpr _Mat3<T> operator+(const _Mat3<T> &a, const _Mat3<T> &b) {
     return _Mat3(
       a.x + b.x,
       a.y + b.y,
@@ -399,14 +383,14 @@ namespace kmath {
 
 
   template<Number T>
-  inline _Mat3<T> &operator+=(_Mat3<T> &a, const _Mat3<T> &b) {
+  constexpr _Mat3<T> &operator+=(_Mat3<T> &a, const _Mat3<T> &b) {
     a = a + b;
     return a;
   }
 
 
   template<Number T>
-  inline _Mat3<T> operator-(const _Mat3<T> &a, const _Mat3<T> &b) {
+  constexpr _Mat3<T> operator-(const _Mat3<T> &a, const _Mat3<T> &b) {
     return _Mat3(
       a.x - b.x,
       a.y - b.y,
@@ -417,20 +401,20 @@ namespace kmath {
 
 
   template<Number T>
-  inline _Mat3<T> &operator-=(_Mat3<T> &a, const _Mat3<T> &b) {
+  constexpr _Mat3<T> &operator-=(_Mat3<T> &a, const _Mat3<T> &b) {
     a = a - b;
     return a;
   }
 
 
   template<Number T>
-  inline _Mat3<T> operator*(const _Mat3<T> &a, const T b) {
+  constexpr _Mat3<T> operator*(const _Mat3<T> &a, const T b) {
     return b * a;
   }
 
 
   template<Number T>
-  inline _Mat3<T> operator*(const T a, const _Mat3<T> &b) {
+  constexpr _Mat3<T> operator*(const T a, const _Mat3<T> &b) {
     return _Mat3<T>(
       a * b.x,
       a * b.y,
@@ -440,21 +424,21 @@ namespace kmath {
 
 
   template<Number T>
-  inline _Mat3<T> &operator*=(_Mat3<T> &a, const T b) {
+  constexpr _Mat3<T> &operator*=(_Mat3<T> &a, const T b) {
     a = b * a;
     return a;
   }
 
 
   template<Number T>
-  inline _Mat3<T> operator/(const _Mat3<T> &a, const T b) {
+  constexpr _Mat3<T> operator/(const _Mat3<T> &a, const T b) {
     const T scale = T(1) / b;
     return scale * a;
   }
 
 
   template<Number T>
-  inline _Mat3<T> &operator/=(_Mat3<T> &a, const T b) {
+  constexpr _Mat3<T> &operator/=(_Mat3<T> &a, const T b) {
     a = a / b;
     return a;
   }
@@ -471,28 +455,28 @@ namespace kmath {
 
   public:
 
-    inline static _Mat4<T> from_basis(const _Mat3<T> &basis, const _Vec3<T> &position = _Vec3<T>::ZERO) {
+    constexpr static _Mat4<T> from_basis(const _Mat3<T> &basis, const _Vec3<T> &position = _Vec3<T>::ZERO) {
       return _Mat4<T>(
-      _Vec4<T>(basis.x.x , basis.x.y , basis.x.z , T(0)),
-      _Vec4<T>(basis.y.x , basis.y.y , basis.y.z , T(0)),
-      _Vec4<T>(basis.z.x , basis.z.y , basis.z.z , T(0)),
-      _Vec4<T>(position.x, position.y, position.z, T(1))
+        _Vec4<T>(basis.x.x , basis.x.y , basis.x.z , T(0)),
+        _Vec4<T>(basis.y.x , basis.y.y , basis.y.z , T(0)),
+        _Vec4<T>(basis.z.x , basis.z.y , basis.z.z , T(0)),
+        _Vec4<T>(position.x, position.y, position.z, T(1))
       );
     }
 
 
   public:
-    static inline _Mat4<T> scale(const T scale) {
+    static constexpr _Mat4<T> scale(const T scale) {
       return scale * _Mat4<T>::IDENTITY;
     }
 
 
-    static inline _Mat4<T> scale(const _Vec4<T> scale_vec) {
+    static constexpr _Mat4<T> scale(const _Vec4<T> scale_vec) {
       return scale(scale_vec.x, scale_vec.y, scale_vec.z, scale_vec.w);
     }
 
 
-    static inline _Mat4<T> scale(const T x, const T y, const T z, const T w = T(1)) {
+    static constexpr _Mat4<T> scale(const T x, const T y, const T z, const T w = T(1)) {
       return _Mat4<T>(
         _Vec4<T>(x     , T(0), T(0), T(0)),
         _Vec4<T>(T(0), y     , T(0), T(0)),
@@ -538,7 +522,7 @@ namespace kmath {
     }
 
 
-    static inline _Mat4<T> translation(const _Vec3<T> &translation) {
+    static constexpr _Mat4<T> translation(const _Vec3<T> &translation) {
       return _Mat4<T>(
         _Vec4<T>(T(1), T(0), T(0), T(0)),
         _Vec4<T>(T(0), T(1), T(0), T(0)),
@@ -550,7 +534,7 @@ namespace kmath {
     
     // Creates an orthogonal projection matrix with a right handed ndc that goes from negative one to one.
     // Note that the near plane is mapped to -1 and the far plane is mapped to 1.
-    static inline _Mat4<T> orthogonal_rh_no_ndc(const T near, const T far, const T width, const T height) {
+    static constexpr _Mat4<T> orthogonal_rh_no_ndc(const T near, const T far, const T width, const T height) {
       const T inv_nf_dist = T(1) / (far - near);
       return _Mat4<T>(
         _Vec4<T>(T(2) / width, T(0)         , T(0)                    , T(0)                           ),
@@ -563,7 +547,7 @@ namespace kmath {
 
     // Creates an orthogonal projection matrix with a left handed ndc that goes from negative one to one.
     // Note that the near plane is mapped to -1 and the far plane is mapped to 1.
-    static inline _Mat4<T> orthogonal_lh_no_ndc(const T near, const T far, const T width, const T height) {
+    static constexpr _Mat4<T> orthogonal_lh_no_ndc(const T near, const T far, const T width, const T height) {
       const T inv_nf_dist = T(1) / (far - near);
       return _Mat4<T>(
         _Vec4<T>(T(2) / width, T(0)         , T(0)                , T(0)                      ),
@@ -710,42 +694,34 @@ namespace kmath {
     }
 
   public:
-    inline _Vec4<T> &operator[](const size_t i) { return reinterpret_cast<_Vec4<T>*>(this)[i]; }
-    inline T &operator()(const size_t i, const size_t j) { return reinterpret_cast<T*>(this)[4 * i + j]; }
-    inline const T &operator()(const size_t i, const size_t j) const { return reinterpret_cast<const T*>(this)[4 * i + j]; }
+    constexpr _Vec4<T> &operator[](const size_t i) { return reinterpret_cast<_Vec4<T>*>(this)[i]; }
+    constexpr T &operator()(const size_t i, const size_t j) { return reinterpret_cast<T*>(this)[4 * i + j]; }
+    constexpr const T &operator()(const size_t i, const size_t j) const { return reinterpret_cast<const T*>(this)[4 * i + j]; }
 
   public:
-    static const _Mat4<T> IDENTITY;
-    static const _Mat4<T> ZERO;
+    static constexpr const _Mat4<T> IDENTITY = _Mat4<T>(
+      _Vec4<T>(T(1), T(0), T(0), T(0)),
+      _Vec4<T>(T(0), T(1), T(0), T(0)),
+      _Vec4<T>(T(0), T(0), T(1), T(0)),
+      _Vec4<T>(T(0), T(0), T(0), T(1))
+    );
+    static constexpr const _Mat4<T> ZERO = _Mat4<T>(
+      _Vec4<T>::ZERO,
+      _Vec4<T>::ZERO,
+      _Vec4<T>::ZERO,
+      _Vec4<T>::ZERO
+    );
   };
 
 
   template<Number T>
-  const _Mat4<T> _Mat4<T>::IDENTITY = _Mat4<T>(
-    _Vec4<T>(T(1), T(0), T(0), T(0)),
-    _Vec4<T>(T(0), T(1), T(0), T(0)),
-    _Vec4<T>(T(0), T(0), T(1), T(0)),
-    _Vec4<T>(T(0), T(0), T(0), T(1))
-  );
-
-
-  template<Number T>
-  const _Mat4<T> _Mat4<T>::ZERO = _Mat4<T>(
-    _Vec4<T>::ZERO,
-    _Vec4<T>::ZERO,
-    _Vec4<T>::ZERO,
-    _Vec4<T>::ZERO
-  );
-
-
-  template<Number T>
-  inline bool is_approx_zero(const _Mat4<T> &a) {
+  constexpr bool is_approx_zero(const _Mat4<T> &a) {
     return is_approx_zero(a.x) && is_approx_zero(a.y) && is_approx_zero(a.z) && is_approx_zero(a.w);
   }
   
 
   template<Number T>
-  inline _Mat4<T> transpose(const _Mat4<T> &m) {
+  constexpr _Mat4<T> transpose(const _Mat4<T> &m) {
     return _Mat4<T>(
       _Vec4<T>(m.x.x, m.y.x, m.z.x, m.w.x),
       _Vec4<T>(m.x.y, m.y.y, m.z.y, m.w.y),
@@ -756,7 +732,7 @@ namespace kmath {
 
 
   template<Number T>
-  inline _Vec4<T> operator*(const _Mat4<T> &a, const _Vec4<T> &b) {
+  constexpr _Vec4<T> operator*(const _Mat4<T> &a, const _Vec4<T> &b) {
     return _Vec4(
       a.x.x * b.x + a.y.x * b.y + a.z.x * b.z + a.w.x * b.w,
       a.x.y * b.x + a.y.y * b.y + a.z.y * b.z + a.w.y * b.w,
@@ -767,7 +743,7 @@ namespace kmath {
 
 
   template<Number T>
-  inline _Vec4<T> operator*(const _Vec4<T> &a, const _Mat4<T> &b) {
+  constexpr _Vec4<T> operator*(const _Vec4<T> &a, const _Mat4<T> &b) {
     return _Vec4(
       kmath::dot(a, b.x),
       kmath::dot(a, b.y),
@@ -778,7 +754,7 @@ namespace kmath {
 
 
   template<Number T>
-  inline _Mat4<T> operator*(const _Mat4<T> &a, const _Mat4<T> &b) {
+  constexpr _Mat4<T> operator*(const _Mat4<T> &a, const _Mat4<T> &b) {
     return _Mat4<T>(
       a * b.x,
       a * b.y,
@@ -789,14 +765,14 @@ namespace kmath {
 
 
   template<Number T>
-  inline _Mat4<T> &operator*=(_Mat4<T> &a, const _Mat4<T> &b) {
+  constexpr _Mat4<T> &operator*=(_Mat4<T> &a, const _Mat4<T> &b) {
     a = a * b;
     return a;
   }
 
 
   template<Number T>
-  inline _Mat4<T> operator+(const _Mat4<T> &a, const _Mat4<T> &b) {
+  constexpr _Mat4<T> operator+(const _Mat4<T> &a, const _Mat4<T> &b) {
     return _Mat4(
       a.x + b.x,
       a.y + b.y,
@@ -807,14 +783,14 @@ namespace kmath {
 
 
   template<Number T>
-  inline _Mat4<T> &operator+=(_Mat4<T> &a, const _Mat4<T> &b) {
+  constexpr _Mat4<T> &operator+=(_Mat4<T> &a, const _Mat4<T> &b) {
     a = a + b;
     return a;
   }
 
 
   template<Number T>
-  inline _Mat4<T> operator-(const _Mat4<T> &a, const _Mat4<T> &b) {
+  constexpr _Mat4<T> operator-(const _Mat4<T> &a, const _Mat4<T> &b) {
     return _Mat4(
       a.x - b.x,
       a.y - b.y,
@@ -825,20 +801,20 @@ namespace kmath {
 
 
   template<Number T>
-  inline _Mat4<T> &operator-=(_Mat4<T> &a, const _Mat4<T> &b) {
+  constexpr _Mat4<T> &operator-=(_Mat4<T> &a, const _Mat4<T> &b) {
     a = a - b;
     return a;
   }
 
 
   template<Number T>
-  inline _Mat4<T> operator*(const _Mat4<T> &a, const T b) {
+  constexpr _Mat4<T> operator*(const _Mat4<T> &a, const T b) {
     return b * a;
   }
 
 
   template<Number T>
-  inline _Mat4<T> operator*(const T a, const _Mat4<T> &b) {
+  constexpr _Mat4<T> operator*(const T a, const _Mat4<T> &b) {
     return _Mat4<T>(
       a * b.x,
       a * b.y,
@@ -849,28 +825,28 @@ namespace kmath {
 
 
   template<Number T>
-  inline _Mat4<T> &operator*=(_Mat4<T> &a, const T b) {
+  constexpr _Mat4<T> &operator*=(_Mat4<T> &a, const T b) {
     a = b * a;
     return a;
   }
 
 
   template<Number T>
-  inline _Mat4<T> operator/(const _Mat4<T> &a, const T b) {
+  constexpr _Mat4<T> operator/(const _Mat4<T> &a, const T b) {
     const T scale = T(1) / b;
     return scale * a;
   }
 
 
   template<Number T>
-  inline _Mat4<T> &operator/=(_Mat4<T> &a, const T b) {
+  constexpr _Mat4<T> &operator/=(_Mat4<T> &a, const T b) {
     a = a / b;
     return a;
   }
 
 
   template<Number T>
-  _Mat4<T> inverse(const _Mat4<T> &m) {
+  constexpr _Mat4<T> inverse(const _Mat4<T> &m) {
     _Mat4<T> inv;
 
     inv(0, 0) = (

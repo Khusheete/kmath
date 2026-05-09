@@ -149,9 +149,7 @@ namespace kmath {
   constexpr _Mat2<T> operator+(const _Mat2<T> &a, const _Mat2<T> &b) {
     return _Mat2(
       a.x + b.x,
-      a.y + b.y,
-      a.z + b.z,
-      a.w + b.w
+      a.y + b.y
     );
   }
 
@@ -167,9 +165,7 @@ namespace kmath {
   constexpr _Mat2<T> operator-(const _Mat2<T> &a, const _Mat2<T> &b) {
     return _Mat2(
       a.x - b.x,
-      a.y - b.y,
-      a.z - b.z,
-      a.w - b.w
+      a.y - b.y
     );
   }
 
@@ -390,8 +386,7 @@ namespace kmath {
     return _Mat3(
       a.x + b.x,
       a.y + b.y,
-      a.z + b.z,
-      a.w + b.w
+      a.z + b.z
     );
   }
 
@@ -408,8 +403,7 @@ namespace kmath {
     return _Mat3(
       a.x - b.x,
       a.y - b.y,
-      a.z - b.z,
-      a.w - b.w
+      a.z - b.z
     );
   }
 

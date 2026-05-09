@@ -257,7 +257,7 @@ namespace kmath {
 
     switch (basis) {
     break;case EulerBasis::XZY: {
-      const float s = -rotation(0, 1);
+      const T s = -rotation(0, 1);
       if (s > T(1 - KMATH_EPSILON)) {
         // s ~ 1
         angles.x = -atan2(rotation(1, 2), rotation(2, 2)); // -sin(y + x) = -sin(x)
@@ -276,7 +276,7 @@ namespace kmath {
       }
     }
     break;case EulerBasis::XYZ: {
-      const float s = rotation(0, 2);
+      const T s = rotation(0, 2);
       if (s > T(1 - KMATH_EPSILON)) {
         // s ~ 1
         angles.x = atan2(rotation(2, 1), rotation(1, 1)); // +sin(x + z) = sin(x)
@@ -295,7 +295,7 @@ namespace kmath {
       }
     }
     break;case EulerBasis::YXZ: {
-      const float s = -rotation(1, 2);
+      const T s = -rotation(1, 2);
       if (s > T(1 - KMATH_EPSILON)) {
         // s ~ 1
         angles.y = atan2(rotation(0, 1), rotation(0, 0)); // +sin(y + z) = sin(y)
@@ -315,7 +315,7 @@ namespace kmath {
       return angles;
     }
     break;case EulerBasis::YZX: {
-      const float s = rotation(1, 0);
+      const T s = rotation(1, 0);
       if (s > T(1 - KMATH_EPSILON)) {
         // s ~ 1
         angles.y = atan2(rotation(2, 1), rotation(2, 2)); // +sin(x + y) = sin(y)
@@ -334,7 +334,7 @@ namespace kmath {
       }
     }
     break;case EulerBasis::ZYX: {
-      const float s = -rotation(2, 0);
+      const T s = -rotation(2, 0);
       if (s > T(1 - KMATH_EPSILON)) {
         // s ~ 1
         angles.z = -atan2(rotation(0, 1), rotation(1, 1)); // -sin(x + z) = -sin(z)
@@ -353,7 +353,7 @@ namespace kmath {
       }
     }
     break;case EulerBasis::ZXY: {
-      const float s = rotation(2, 1);
+      const T s = rotation(2, 1);
       if (s > T(1 - KMATH_EPSILON)) {
         // s ~ 1
         angles.z = atan2(rotation(1, 0), rotation(0, 0)); // +sin(y + z) = sin(z)

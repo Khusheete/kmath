@@ -25,6 +25,7 @@
 #include "base.hpp"
 #include "concepts.hpp"
 #include "constants.hpp"
+#include "private/defines.hpp"
 #include "rotor_3d.hpp"
 #include "vector.hpp"
 
@@ -169,78 +170,78 @@ namespace kmath {
 
   template<Number T>
   _Mat3<T> euler_to_basis(const _Vec3<T> &rotation, const EulerBasis basis = EulerBasis::YXZ) {
-    const _Vec3<T> c = apply(rotation, [](const T x) { return os(x); });
-    const _Vec3<T> s = apply(rotation, [](const T x) { return in(x); });
+    const _Vec3<T> c = cos(rotation);
+    const _Vec3<T> s = sin(rotation);
 
     switch (basis) {
-    break;case EulerBasis::xzy:
+    break;case EulerBasis::XZY:
       return _Mat3<T>(
-        _Vec3<T>(c.z * c.y, s.x * s.y + c.x * c.y * s.z, c.y *s.x * s.z - c.x * s.y),
+        _Vec3<T>(c.z * c.y, s.x * s.y + c.x * c.y * s.z, c.y *s.x * s.z - c.x * s.y ),
         _Vec3<T>(-s.z     , c.x * c.z                  , c.z * s.x                  ),
         _Vec3<T>(c.z * s.y, c.x * s.z * s.y - c.y * s.x, c.x * c.y + s.x * s.z * s.y)
       );
-    break;case EulerBasis::xyz:
+    break;case EulerBasis::XYZ:
       return _Mat3<T>(
         _Vec3<T>(c.y * c.z , c.x * s.z + c.z * s.x * s.y, s.x * s.z - c.x * c.z * s.y),
         _Vec3<T>(-c.y * s.z, c.x * c.z - s.x * s.y * s.z, c.z * s.x + c.x * s.y * s.z),
         _Vec3<T>(s.y       , - c.y * s.x                , c.x * c.y                  )
       );
-    break;case EulerBasis::yxz:
+    break;case EulerBasis::YXZ:
       return _Mat3<T>(
         _Vec3<T>(c.y * c.z + s.y * s.x * s.z, c.x * s.z, c.y * s.x * s.z - c.z * s.y),
         _Vec3<T>(c.z * s.y * s.x - c.y * s.z, c.x * c.z, c.y * c.z * s.x + s.y * s.z),
         _Vec3<T>(c.x * s.y                  , -s.x     , c.y * c.x                  )
       );
-    break;case EulerBasis::yzx:
+    break;case EulerBasis::YZX:
       return _Mat3<T>(
         _Vec3<T>(c.y * c.z                  , s.z       , -c.z * s.y                 ),
         _Vec3<T>(s.y * s.x - c.y * c.x * s.z, c.z * c.x , c.y * s.x + c.x * s.y * s.z),
         _Vec3<T>(c.x * s.y + c.y * s.z * s.x, -c.z * s.x, c.y * c.x - s.y * s.z * s.x)
       );
-    break;case EulerBasis::zyx:
+    break;case EulerBasis::ZYX:
       return _Mat3<T>(
         _Vec3<T>(c.z * c.y                  , c.y * s.z                  , -s.y     ),
         _Vec3<T>(c.z * s.y * s.x - c.x * s.z, c.z * c.x + s.z * s.y * s.x, c.y * s.x),
         _Vec3<T>(s.z * s.x + c.z * c.x * s.y, c.x * s.z * s.y - c.z * s.x, c.y * c.x)
       );
-    break;case EulerBasis::zxy:
+    break;case EulerBasis::ZXY:
       return _Mat3<T>(
         _Vec3<T>(c.z * c.y - s.z * s.x * s.y, c.y * s.z + c.z * s.x * s.y, -c.x * s.y),
         _Vec3<T>(-c.x * s.z                 , c.z * c.x                  , s.x       ),
-        _Vec3<T>(c.z * s.y + c.y * s.z * s.x, s.z * s.y - c.z * c.y * s.x, c.x * c.y)
+        _Vec3<T>(c.z * s.y + c.y * s.z * s.x, s.z * s.y - c.z * c.y * s.x, c.x * c.y )
       );
 
-    break;case EulerBasis::xzx:
+    break;case EulerBasis::XZX:
       return _Mat3<T>(
-        _Vec3<T>(c.y, c.x * s.y, s.x * s.y                                           ),
-        _Vec3<T>(-c.z * s.y, c.x * c.y * c.z - s.x * s.z, c.x * s.z + c.y * c.z * s.x),
-        _Vec3<T>(s.y * s.z, -c.z * s.x - c.x * c.y * s.z, c.x * c.z - c.y * s.x * s.z)
+        _Vec3<T>(c.y       , c.x * s.y                   , s.x * s.y                  ),
+        _Vec3<T>(-c.z * s.y, c.x * c.y * c.z - s.x * s.z , c.x * s.z + c.y * c.z * s.x),
+        _Vec3<T>(s.y * s.z , -c.z * s.x - c.x * c.y * s.z, c.x * c.z - c.y * s.x * s.z)
       );
-    break;case EulerBasis::xyx:
+    break;case EulerBasis::XYX:
       return _Mat3<T>(
-        _Vec3<T>(c.y      , c.x * s.y                   , s.a * s.y                  ),
+        _Vec3<T>(c.y      , c.x * s.y                   , s.x * s.y                  ),
         _Vec3<T>(s.y * s.z, c.x * c.z - c.y * s.x * s.z , c.z * s.x - c.x * c.y * s.z),
         _Vec3<T>(c.z * s.y, -c.x * s.z - c.y * c.z * s.x, c.x * c.y * c.z - s.x * s.z)
       );
-    break;case EulerBasis::yxy:
+    break;case EulerBasis::YXY:
       return _Mat3<T>(
         _Vec3<T>(c.x * c.z - c.y * s.x * s.z, s.y * s.z , -c.z * s.x - c.x * c.y * s.z),
         _Vec3<T>(s.x * s.y                  , c.y       , c.x * s.y                   ),
         _Vec3<T>(c.x * s.z + c.y * c.z * s.x, -c.z * s.y, c.x * c.y * c.z - s.x * s.z )
       );
-    break;case EulerBasis::yzy:
+    break;case EulerBasis::YZY:
       return _Mat3<T>(
         _Vec3<T>(c.x * c.y * c.z - s.x * s.z, c.y * s.y, -c.x * s.z - c.y * c.z * s.x),
         _Vec3<T>(-c.x * s.y                 , c.y      , s.x * s.y                   ),
         _Vec3<T>(c.z * s.x + c.x * c.y * s.z, s.y * s.z, c.x * c.z - c.y * s.x * s.z )
       );
-    break;case EulerBasis::zyz:
+    break;case EulerBasis::ZYZ:
       return _Mat3<T>(
         _Vec3<T>(c.x * c.y * c.z - s.x * s.z , c.x * s.z + c.y * c.z * s.x, -c.z * s.y),
         _Vec3<T>(-c.z * s.x - c.x * c.y * s.z, c.x * c.z - c.y * s.x * s.z, s.y * s.z ),
         _Vec3<T>(c.x * s.y                   , s.x * s.y                  , c.y       )
       );
-    break;case EulerBasis::zxz:
+    break;case EulerBasis::ZXZ:
       return _Mat3<T>(
         _Vec3<T>(c.x * c.z - c.y * s.x * s.z , c.z * s.x + c.x * c.y * s.z, s.y * s.z),
         _Vec3<T>(-c.x * s.z - c.y * c.z * s.x, c.x * c.y * c.z - s.x * s.z, c.z * s.y),
@@ -255,30 +256,121 @@ namespace kmath {
     _Vec3<T> angles;
 
     switch (basis) {
-    break;case EulerBasis::XZY:
-      angles.x = atan2(rotation(2, 1), rotation(1, 1));
-      angles.z = asin(-rotation(0, 1));
-      angles.y = atan2(rotation(0, 2), rotation(0, 0));
-    break;case EulerBasis::XYZ:
-      angles.x = atan2(-rotation(1, 2), rotation(2, 2));
-      angles.y = asin(rotation(0, 2));
-      angles.z = atan2(-rotation(0, 1), rotation(0, 0));
-    break;case EulerBasis::YXZ:
-      angles.y = atan2(rotation(0, 2), rotation(2, 2));
-      angles.x = asin(-rotation(1, 2));
-      angles.z = atan2(rotation(1, 0), rotation(1, 1));
-    break;case EulerBasis::YZX:
-      angles.y = atan2(-rotation(2, 0), rotation(0, 0));
-      angles.z = asin(rotation(1, 0));
-      angles.x = atan2(-rotation(1, 2), rotation(1, 1));
-    break;case EulerBasis::ZYX:
-      angles.z = atan2(rotation(1, 0), rotation(0, 0));
-      angles.y = asin(-rotation(2, 0));
-      angles.x = atan2(rotation(2, 1), rotation(2, 2));
-    break;case EulerBasis::ZXY:
-      angles.z = atan2(-rotation(0, 1), rotation(1, 1));
-      angles.x = asin(rotation(2, 1));
-      angles.y = atan2(-rotation(2, 0), rotation(2, 2));
+    break;case EulerBasis::XZY: {
+      const float s = -rotation(0, 1);
+      if (s > T(1 - KMATH_EPSILON)) {
+        // s ~ 1
+        angles.x = -atan2(rotation(1, 2), rotation(2, 2));
+        angles.z = T(HALF_PI);
+        angles.y = T(0);
+      } else if (s < T(-1 + KMATH_EPSILON)) {
+        // s ~ -1
+        angles.x = -atan2(rotation(1, 2), rotation(2, 2));
+        angles.z = -T(HALF_PI);
+        angles.y = T(0);
+      } else {
+        // s is in (-1, 1)
+        angles.x = atan2(rotation(2, 1), rotation(1, 1));
+        angles.z = asin(s);
+        angles.y = atan2(rotation(0, 2), rotation(0, 0));
+      }
+    }
+    break;case EulerBasis::XYZ: {
+      const float s = rotation(0, 2);
+      if (s > T(1 - KMATH_EPSILON)) {
+        // s ~ 1
+        angles.x = atan2(rotation(2, 1), rotation(1, 1));
+        angles.y = T(HALF_PI);
+        angles.z = T(0);
+      } else if (s < T(-1 + KMATH_EPSILON)) {
+        // s ~ -1
+        angles.x = atan2(rotation(2, 1), rotation(1, 1));
+        angles.y = -T(HALF_PI);
+        angles.z = T(0);
+      } else {
+        // s is in (-1, 1)
+        angles.x = atan2(-rotation(1, 2), rotation(2, 2));
+        angles.y = asin(s);
+        angles.z = atan2(-rotation(0, 1), rotation(0, 0));
+      }
+    }
+    break;case EulerBasis::YXZ: {
+      const float s = -rotation(1, 2);
+      if (s > T(1 - KMATH_EPSILON)) {
+        // s ~ 1
+        angles.y = atan2(rotation(0, 1), rotation(0, 0)); // tan(y + z) = tan(y)
+        angles.x = T(HALF_PI);
+        angles.z = T(0);
+      } else if (s < T(-1 + KMATH_EPSILON)) {
+        // s ~ -1
+        angles.y = -atan2(rotation(0, 1), rotation(0, 0)); // -tan(y + z) = -tan(y)
+        angles.x = -T(HALF_PI);
+        angles.z = T(0);
+      } else {
+        // s is in (-1, 1)
+        angles.y = atan2(rotation(0, 2), rotation(2, 2));
+        angles.x = asin(s);
+        angles.z = atan2(rotation(1, 0), rotation(1, 1));
+      }
+      return angles;
+    }
+    break;case EulerBasis::YZX: { // TODO
+      const float s = rotation(1, 0);
+      if (s > T(1 - KMATH_EPSILON)) {
+        // s ~ 1
+        angles.y = atan2(rotation(2, 1), rotation(2, 2));
+        angles.z = T(HALF_PI);
+        angles.x = T(0);
+      } else if (s < T(-1 + KMATH_EPSILON)) {
+        // s ~ -1
+        angles.y = atan2(rotation(2, 1), rotation(2, 2));
+        angles.z = -T(HALF_PI);
+        angles.x = T(0);
+      } else {
+        // s is in (-1, 1)
+        angles.y = atan2(-rotation(2, 0), rotation(0, 0));
+        angles.z = asin(s);
+        angles.x = atan2(-rotation(1, 2), rotation(1, 1));
+      }
+    }
+    break;case EulerBasis::ZYX: {
+      const float s = -rotation(2, 0);
+      if (s > T(1 - KMATH_EPSILON)) {
+        // s ~ 1
+        angles.z = atan2(rotation(0, 1), rotation(1, 1));
+        angles.y = T(HALF_PI);
+        angles.x = T(0);
+      } else if (s < T(-1 + KMATH_EPSILON)) {
+        // s ~ -1
+        angles.z = atan2(rotation(0, 1), rotation(1, 1));
+        angles.y = -T(HALF_PI);
+        angles.x = T(0);
+      } else {
+        // s is in (-1, 1)
+        angles.z = atan2(rotation(1, 0), rotation(0, 0));
+        angles.y = asin(s);
+        angles.x = atan2(rotation(2, 1), rotation(2, 2));
+      }
+    }
+    break;case EulerBasis::ZXY: {
+      const float s = rotation(2, 1);
+      if (s > T(1 - KMATH_EPSILON)) {
+        // s ~ 1
+        angles.z = atan2(-rotation(1, 0), rotation(0, 0));
+        angles.x = T(HALF_PI);
+        angles.y = T(0);
+      } else if (s < T(-1 + KMATH_EPSILON)) {
+        // s ~ -1
+        angles.z = atan2(-rotation(1, 0), rotation(0, 0));
+        angles.x = T(HALF_PI);
+        angles.y = T(0);
+      } else {
+        // s is in (-1, 1)
+        angles.z = atan2(-rotation(0, 1), rotation(1, 1));
+        angles.x = asin(s);
+        angles.y = atan2(-rotation(2, 0), rotation(2, 2));
+      }
+    }
 
     break;case EulerBasis::XZX:
       angles.x = atan2(rotation(2, 0), rotation(1, 0));
@@ -313,8 +405,8 @@ namespace kmath {
   template<Number T>
   _Rotor3<T> euler_to_rotor(const _Vec3<T> &euler, const EulerBasis basis = EulerBasis::YZX) {
     const _Vec3<T> half_angles = T(0.5) * euler;
-    const _Vec3<T> c = apply(half_angles, [](const T x) { return cos(x); });
-    const _Vec3<T> s = apply(-half_angles, [](const T x) { return sin(x); });
+    const _Vec3<T> c = cos(half_angles);
+    const _Vec3<T> s = sin(half_angles);
 
     _Rotor3<T> result;
 

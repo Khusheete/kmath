@@ -448,6 +448,22 @@ namespace kmath {
   }
 
 
+  template<Number V>
+  V clamp(const V v, const V minimum, const V maximum) {
+    return max(min(v, maximum), minimum);
+  }
+
+
+  template<Number K, Vector<K> V>
+  V clamp(const V v, const K minimum, const K maximum) {
+    return select(
+      less(v, V(maximum)),
+      select(greater(v, V(minimum)), v, V(minimum)),
+      V(maximum)
+    );
+  }
+
+
   template<Number K>
   constexpr K lerp(const K a, const K b, const K t) {
     return t * (b - a) + a;

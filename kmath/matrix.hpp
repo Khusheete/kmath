@@ -75,8 +75,8 @@ namespace kmath {
 
   public:
     constexpr _Vec2<T> &operator[](const size_t i) { return reinterpret_cast<_Vec2<T>*>(this)[i]; }
-    constexpr T &operator()(const size_t i, const size_t j) { return reinterpret_cast<T*>(this)[2 * i + j]; }
-    constexpr const T &operator()(const size_t i, const size_t j) const { return reinterpret_cast<const T*>(this)[2 * i + j]; }
+    constexpr T &operator()(const size_t i, const size_t j) { return reinterpret_cast<T*>(this)[i + 2 * j]; }
+    constexpr const T &operator()(const size_t i, const size_t j) const { return reinterpret_cast<const T*>(this)[i + 2 * j]; }
 
   public:
     static const _Mat2<T> IDENTITY;
@@ -285,8 +285,8 @@ namespace kmath {
 
   public:
     constexpr _Vec3<T> &operator[](const size_t i) { return reinterpret_cast<_Vec3<T>*>(this)[i]; }
-    constexpr T &operator()(const size_t i, const size_t j) { return reinterpret_cast<T*>(this)[3 * i + j]; }
-    constexpr const T &operator()(const size_t i, const size_t j) const { return reinterpret_cast<const T*>(this)[3 * i + j]; }
+    constexpr T &operator()(const size_t i, const size_t j) { return reinterpret_cast<T*>(this)[i + 3 * j]; }
+    constexpr const T &operator()(const size_t i, const size_t j) const { return reinterpret_cast<const T*>(this)[i + 3 * j]; }
 
   public:
     static const _Mat3<T> IDENTITY;
@@ -703,8 +703,8 @@ namespace kmath {
 
   public:
     constexpr _Vec4<T> &operator[](const size_t i) { return reinterpret_cast<_Vec4<T>*>(this)[i]; }
-    constexpr T &operator()(const size_t i, const size_t j) { return reinterpret_cast<T*>(this)[4 * i + j]; }
-    constexpr const T &operator()(const size_t i, const size_t j) const { return reinterpret_cast<const T*>(this)[4 * i + j]; }
+    constexpr T &operator()(const size_t i, const size_t j) { return reinterpret_cast<T*>(this)[i + 4 * j]; }
+    constexpr const T &operator()(const size_t i, const size_t j) const { return reinterpret_cast<const T*>(this)[i + 4 * j]; }
 
   public:
     static const _Mat4<T> IDENTITY;

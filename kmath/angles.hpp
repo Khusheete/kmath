@@ -231,7 +231,7 @@ namespace kmath {
       );
     break;case EulerBasis::YZY:
       return _Mat3<T>(
-        _Vec3<T>(c.x * c.y * c.z - s.x * s.z, c.y * s.y, -c.x * s.z - c.y * c.z * s.x),
+        _Vec3<T>(c.x * c.y * c.z - s.x * s.z, c.z * s.y, -c.x * s.z - c.y * c.z * s.x),
         _Vec3<T>(-c.x * s.y                 , c.y      , s.x * s.y                   ),
         _Vec3<T>(c.z * s.x + c.x * c.y * s.z, s.y * s.z, c.x * c.z - c.y * s.x * s.z )
       );
@@ -260,12 +260,12 @@ namespace kmath {
       const T s = -rotation(0, 1);
       if (s > T(1 - KMATH_EPSILON)) {
         // s ~ 1
-        angles.x = -atan2(rotation(1, 2), rotation(2, 2)); // -sin(y + x) = -sin(x)
+        angles.x = atan2(-rotation(1, 2), rotation(2, 2)); // -sin(y + x) = -sin(x)
         angles.z = T(HALF_PI);
         angles.y = T(0);
       } else if (s < T(-1 + KMATH_EPSILON)) {
         // s ~ -1
-        angles.x = -atan2(rotation(1, 2), rotation(2, 2)); // +sin(y - x) = -sin(x)
+        angles.x = atan2(-rotation(1, 2), rotation(2, 2)); // +sin(y - x) = -sin(x)
         angles.z = -T(HALF_PI);
         angles.y = T(0);
       } else {
@@ -289,9 +289,9 @@ namespace kmath {
         angles.z = T(0);
       } else {
         // s is in (-1, 1)
-        angles.x = -atan2(rotation(1, 2), rotation(2, 2));
+        angles.x = atan2(-rotation(1, 2), rotation(2, 2));
         angles.y = asin(s);
-        angles.z = -atan2(rotation(0, 1), rotation(0, 0));
+        angles.z = atan2(-rotation(0, 1), rotation(0, 0));
       }
     }
     break;case EulerBasis::YXZ: {
@@ -303,7 +303,7 @@ namespace kmath {
         angles.z = T(0);
       } else if (s < T(-1 + KMATH_EPSILON)) {
         // s ~ -1
-        angles.y = -atan2(rotation(0, 1), rotation(0, 0)); // -sin(y + z) = -sin(y)
+        angles.y = atan2(-rotation(0, 1), rotation(0, 0)); // -sin(y + z) = -sin(y)
         angles.x = -T(HALF_PI);
         angles.z = T(0);
       } else {
@@ -323,26 +323,26 @@ namespace kmath {
         angles.x = T(0);
       } else if (s < T(-1 + KMATH_EPSILON)) {
         // s ~ -1
-        angles.y = -atan2(rotation(2, 1), rotation(2, 2)); // +sin(x - y) = -sin(y)
+        angles.y = atan2(-rotation(2, 1), rotation(2, 2)); // +sin(x - y) = -sin(y)
         angles.z = -T(HALF_PI);
         angles.x = T(0);
       } else {
         // s is in (-1, 1)
-        angles.y = -atan2(rotation(2, 0), rotation(0, 0));
+        angles.y = atan2(-rotation(2, 0), rotation(0, 0));
         angles.z = asin(s);
-        angles.x = -atan2(rotation(1, 2), rotation(1, 1));
+        angles.x = atan2(-rotation(1, 2), rotation(1, 1));
       }
     }
     break;case EulerBasis::ZYX: {
       const T s = -rotation(2, 0);
       if (s > T(1 - KMATH_EPSILON)) {
         // s ~ 1
-        angles.z = -atan2(rotation(0, 1), rotation(1, 1)); // -sin(x + z) = -sin(z)
+        angles.z = atan2(-rotation(0, 1), rotation(1, 1)); // -sin(x + z) = -sin(z)
         angles.y = T(HALF_PI);
         angles.x = T(0);
       } else if (s < T(-1 + KMATH_EPSILON)) {
         // s ~ -1
-        angles.z = -atan2(rotation(0, 1), rotation(1, 1)); // sin(x - z) = -sin(z)
+        angles.z = atan2(-rotation(0, 1), rotation(1, 1)); // sin(x - z) = -sin(z)
         angles.y = -T(HALF_PI);
         angles.x = T(0);
       } else {
@@ -366,36 +366,120 @@ namespace kmath {
         angles.y = T(0);
       } else {
         // s is in (-1, 1)
-        angles.z = -atan2(rotation(0, 1), rotation(1, 1));
+        angles.z = atan2(-rotation(0, 1), rotation(1, 1));
         angles.x = asin(s);
-        angles.y = -atan2(rotation(2, 0), rotation(2, 2));
+        angles.y = atan2(-rotation(2, 0), rotation(2, 2));
       }
     }
 
-    break;case EulerBasis::XZX:
-      angles.x = atan2(rotation(2, 0), rotation(1, 0));
-      angles.y = acos(rotation(0, 0));
-      angles.z = atan2(rotation(0, 2), -rotation(0, 1));
-    break;case EulerBasis::XYX:
-      angles.x = atan2(rotation(1, 0), -rotation(2, 0));
-      angles.y = acos(rotation(0, 0));
-      angles.z = atan2(rotation(0, 1), rotation(0, 2));
-    break;case EulerBasis::YXY:
-      angles.x = atan2(rotation(0, 1), rotation(2, 1));
-      angles.y = acos(rotation(1, 1));
-      angles.z = atan2(rotation(1, 0), -rotation(1, 2));
-    break;case EulerBasis::YZY:
-      angles.x = atan2(rotation(2, 1), -rotation(0, 1));
-      angles.y = acos(rotation(1, 1));
-      angles.z = atan2(rotation(1, 2), rotation(1, 0));
-    break;case EulerBasis::ZYZ:
-      angles.x = atan2(rotation(1, 2), rotation(0, 2));
-      angles.y = acos(rotation(2, 2));
-      angles.z = atan2(rotation(1, 0), -rotation(1, 2));
-    break;case EulerBasis::ZXZ:
-      angles.x = atan2(rotation(0, 2), -rotation(1, 2));
-      angles.y = acos(rotation(2, 2));
-      angles.z = atan2(rotation(2, 0), rotation(2, 1));
+    break;case EulerBasis::XZX: {
+      const T c = rotation(0, 0);
+      if (c > T(1 - KMATH_EPSILON)) {
+        // c ~ 1
+        angles.x = atan2(rotation(2, 1), rotation(2, 2)); // sin(z + x) = sin(x)
+        angles.y = T(0);
+        angles.z = T(0);
+      } else if (c < T(-1 + KMATH_EPSILON)) {
+        // c ~ -1
+        angles.x = atan2(-rotation(2, 1), rotation(2, 2)); // sin(z - x) = -sin(x)
+        angles.y = T(0);
+        angles.z = T(PI);
+      } else {
+        angles.x = atan2(rotation(2, 0), rotation(1, 0));
+        angles.y = acos(c);
+        angles.z = atan2(rotation(0, 2), -rotation(0, 1));
+      }
+    }
+    break;case EulerBasis::XYX: {
+      const T c = rotation(0, 0);
+      if (c > T(1 - KMATH_EPSILON)) {
+        // c ~ 1
+        angles.x = atan2(rotation(2, 1), rotation(1, 1)); // sin(x - z) = sin(x)
+        angles.y = T(0);
+        angles.z = T(0);
+      } else if (c < T(-1 + KMATH_EPSILON)) {
+        // c ~ -1
+        angles.x = atan2(rotation(2, 1), rotation(1, 1)); // sin(x + z) = sin(x)
+        angles.y = T(0);
+        angles.z = T(PI);
+      } else {
+        angles.x = atan2(rotation(2, 0), rotation(1, 0));
+        angles.y = acos(c);
+        angles.z = atan2(rotation(0, 1), rotation(0, 2));
+      }
+    }
+    break;case EulerBasis::YXY: {
+      const T c = rotation(1, 1);
+      if (c > T(1 - KMATH_EPSILON)) {
+        // c ~ 1
+        angles.x = atan2(rotation(0, 2), rotation(0, 0)); // sin(z + x) = sin(x)
+        angles.y = T(0);
+        angles.z = T(0);
+      } else if (c < T(-1 + KMATH_EPSILON)) {
+        // c ~ -1
+        angles.x = atan2(-rotation(0, 2), rotation(0, 0)); // sin(z - x) = -sin(x)
+        angles.y = T(0);
+        angles.z = T(PI);
+      } else {
+        angles.x = atan2(rotation(0, 1), rotation(2, 1));
+        angles.y = acos(c);
+        angles.z = atan2(rotation(1, 0), -rotation(1, 2));
+      }
+    }
+    break;case EulerBasis::YZY: {
+      const T c = rotation(1, 1);
+      if (c > T(1 - KMATH_EPSILON)) {
+        // c ~ 1
+        angles.x = atan2(rotation(0, 2), rotation(2, 2)); // sin(x + z) = sin(x)
+        angles.y = T(0);
+        angles.z = T(0);
+      } else if (c < T(-1 + KMATH_EPSILON)) {
+        // c ~ -1
+        angles.x = atan2(rotation(0, 2), rotation(2, 2)); // sin(x - z) = sin(x)
+        angles.y = T(0);
+        angles.z = T(PI);
+      } else {
+        angles.x = atan2(rotation(2, 1), -rotation(0, 1));
+        angles.y = acos(c);
+        angles.z = atan2(rotation(1, 2), rotation(1, 0));
+      }
+    }
+    break;case EulerBasis::ZYZ: {
+      const T c = rotation(2, 2);
+      if (c > T(1 - KMATH_EPSILON)) {
+        // c ~ 1
+        angles.x = atan2(rotation(1, 0), rotation(1, 1)); // sin(z + x) = sin(x)
+        angles.y = T(0);
+        angles.z = T(0);
+      } else if (c < T(-1 + KMATH_EPSILON)) {
+        // c ~ -1
+        angles.x = atan2(-rotation(1, 0), rotation(1, 1)); // sin(z - x) = -sin(x)
+        angles.y = T(0);
+        angles.z = T(PI);
+      } else {
+        angles.x = atan2(rotation(1, 2), rotation(0, 2));
+        angles.y = acos(c);
+        angles.z = atan2(rotation(2, 1), -rotation(2, 0));
+      }
+    }
+    break;case EulerBasis::ZXZ: {
+      const T c = rotation(2, 2);
+      if (c > T(1 - KMATH_EPSILON)) {
+        // c ~ 1
+        angles.x = atan2(rotation(1, 0), rotation(0, 0)); // sin(x + z) = sin(x)
+        angles.y = T(0);
+        angles.z = T(0);
+      } else if (c < T(-1 + KMATH_EPSILON)) {
+        // c ~ -1
+        angles.x = atan2(rotation(1, 0), rotation(0, 0)); // sin(x - z) = sin(x)
+        angles.y = T(0);
+        angles.z = T(PI);
+      } else {
+        angles.x = atan2(rotation(0, 2), -rotation(1, 2));
+        angles.y = acos(c);
+        angles.z = atan2(rotation(2, 0), rotation(2, 1));
+      }
+    }
     }
 
     return angles;

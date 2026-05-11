@@ -341,6 +341,34 @@ namespace kmath {
   }
 
 
+  template<template<typename> typename ST>
+  requires ArrayTemplate<ST>
+  constexpr ST<bool> operator&&(const ST<bool> a, const ST<bool> b) {
+    return apply(a, b, [](const bool a, const bool b) -> bool { return a && b; });
+  }
+
+
+  template<template<typename> typename ST>
+  requires ArrayTemplate<ST>
+  constexpr ST<bool> operator||(const ST<bool> a, const ST<bool> b) {
+    return apply(a, b, [](const bool a, const bool b) -> bool { return a || b; });
+  }
+
+
+  template<template<typename> typename ST>
+  requires ArrayTemplate<ST>
+  constexpr ST<bool> operator^(const ST<bool> a, const ST<bool> b) {
+    return apply(a, b, [](const bool a, const bool b) -> bool { return a ^ b; });
+  }
+
+
+  template<template<typename> typename ST>
+  requires ArrayTemplate<ST>
+  constexpr ST<bool> operator!(const ST<bool> a) {
+    return apply(a, [](const bool a) -> bool { return !a; });
+  }
+
+
   // ==========================
   // = Mathematical Functions =
   // ==========================

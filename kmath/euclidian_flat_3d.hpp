@@ -335,6 +335,12 @@ namespace kmath {
   }
 
 
+  template<Number T>
+  inline _Vec3<T> get_normal(const _Plane3<T> &p) {
+    return _Vec3<T>(p.e1, p.e2, p.e3);
+  }
+
+
   // ===================
   // = Plane operators =
   // ===================

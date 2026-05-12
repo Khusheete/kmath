@@ -53,6 +53,11 @@ namespace kmath {
     }
 
 
+    static inline _Plane3<T> plane(const _Vec3<T> &point, const _Vec3<T> &normal) {
+      return plane(normal, dot(point, normal));
+    }
+
+
     static inline _Plane3<T> vanishing_plane(const T delta) {
       return _Plane3<T>(T(0), T(0), T(0), -delta);
     }

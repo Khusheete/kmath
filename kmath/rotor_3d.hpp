@@ -117,6 +117,22 @@ namespace kmath {
       return _Rotor3<T>(values.w, values.xyz());
     }
 
+
+    static _Rotor3<T> x_rotation(const T angle) {
+      return from_axis_angle(Vec3::X, angle);
+    }
+
+
+    static _Rotor3<T> y_rotation(const T angle) {
+      return from_axis_angle(Vec3::Y, angle);
+    }
+
+
+    static _Rotor3<T> z_rotation(const T angle) {
+      return from_axis_angle(Vec3::Z, angle);
+    }
+
+
   public:
     static const _Rotor3<T> ZERO;
     static const _Rotor3<T> IDENTITY;

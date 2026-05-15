@@ -335,7 +335,7 @@ namespace kmath {
   template<Number T>
   inline _Vec3<T> get_x_basis_vector(const _Rotor3<T> &r) {
     return _Vec3<T>(
-      r.e23 * r.e23 - r.e31 * r.e31 - r.e12 * r.e12 + r.s * r.s,
+      T(1) - T(2) * (r.e31 * r.e31 + r.e12 * r.e12),
       T(2) * (r.e23 * r.e31 - r.e12 * r.s),
       T(2) * (r.e23 * r.e12 + r.e31 * r.s)
     );
@@ -346,7 +346,7 @@ namespace kmath {
   inline _Vec3<T> get_y_basis_vector(const _Rotor3<T> &r) {
     return _Vec3<T>(
       T(2) * (r.e23 * r.e31 + r.e12 * r.s),
-      -r.e23 * r.e23 + r.e31 * r.e31 - r.e12 * r.e12 + r.s * r.s,
+      T(1) - T(2) * (r.e12 * r.e12 + r.e23 * r.e23),
       T(2) * (r.e31 * r.e12 - r.e23 * r.s)
     );
   }
@@ -357,7 +357,7 @@ namespace kmath {
     return _Vec3<T>(
       T(2) * (r.e23 * r.e12 - r.e31 * r.s),
       T(2) * (r.e31 * r.e12 + r.e23 * r.s),
-      -r.e23 * r.e23 - r.e31 * r.e31 + r.e12 * r.e12 + r.s * r.s
+      T(1) - T(2) * (r.e23 * r.e23 + r.e31 * r.e31)
     );
   }
 

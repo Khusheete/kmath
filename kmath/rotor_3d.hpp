@@ -82,6 +82,41 @@ namespace kmath {
       return sqrt(_Rotor3<T>(cos_angle, -axis_sin_angle));
     }
 
+
+    // The given basis must be a rotation matrix.
+    static _Rotor3<T> from_basis(const _Mat3<T> &basis) {
+      const T tr = trace(basis);
+      _Vec4<T> values;
+
+      if (tr > T(0)) {
+        const T r = sqrt(tr + T(1));
+
+        values.w = r * T(0.5);
+        const T inv = T(0.5) / r;
+
+        values.x = (basis(1, 2) - basis(2, 1)) * inv;
+        values.y = (basis(2, 0) - basis(0, 2)) * inv;
+        values.z = (basis(0, 1) - basis(1, 0)) * inv;
+      } else {
+        // When the trace is negative, the above calculations may be unstable because sqrt(tr + 1) / 2 may be close (or equal to) zero.
+        const size_t i = basis(0, 0) >= basis(1, 1)
+          ? basis(0, 0) >= basis(2, 2) ? 0 : 2
+          : basis(1, 1) >= basis(2, 2) ? 1 : 2;
+        const size_t j = (i + 1) % 3;
+        const size_t k = (i + 2) % 3;
+
+        const T r = sqrt(basis(i, i) - basis(j, j) - basis(k, k) + T(1));
+        const T inv = T(0.5) / r;
+
+        values[i] = T(0.5) * r;
+        values[j] = (basis(i, j) + basis(j, i)) * inv;
+        values[k] = (basis(k, i) + basis(i, k)) * inv;
+        values[3] = (basis(j, k) - basis(k, j)) * inv;
+      }
+
+      return _Rotor3<T>(values.w, values.xyz());
+    }
+
   public:
     static const _Rotor3<T> ZERO;
     static const _Rotor3<T> IDENTITY;

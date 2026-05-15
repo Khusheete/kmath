@@ -22,7 +22,6 @@
 #include "freecam.hpp"
 #include "kmath/rotor_3d.hpp"
 #include "raylib.h"
-#include <iostream>
 
 
 void FreeCam::update(float p_delta) {

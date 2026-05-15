@@ -103,6 +103,12 @@ namespace kmath {
 
 
   template<Number T>
+  constexpr T trace(const _Mat2<T> &a) {
+    return a(0, 0) + a(1, 1);
+  }
+
+
+  template<Number T>
   constexpr _Mat2<T> transpose(const _Mat2<T> &m) {
     return _Mat2<T>(
       _Vec2<T>(m.x.x, m.y.x),
@@ -313,6 +319,12 @@ namespace kmath {
   template<Number T>
   constexpr bool is_approx_zero(const _Mat3<T> &a) {
     return is_approx_zero(a.x) && is_approx_zero(a.y) && is_approx_zero(a.z);
+  }
+
+
+  template<Number T>
+  constexpr T trace(const _Mat3<T> &a) {
+    return a(0, 0) + a(1, 1) + a(2, 2);
   }
 
 
@@ -742,6 +754,12 @@ namespace kmath {
       _Vec4<T>(m.x.z, m.y.z, m.z.z, m.w.z),
       _Vec4<T>(m.x.w, m.y.w, m.z.w, m.w.w)
     );
+  }
+
+
+  template<Number T>
+  constexpr T trace(const _Mat4<T> &a) {
+    return a(0, 0) + a(1, 1) + a(2, 2) + a(3, 3);
   }
 
 

@@ -487,7 +487,7 @@ namespace kmath {
 
 
   template<Number T>
-  _Rotor3<T> euler_to_rotor(const _Vec3<T> &euler, const EulerBasis basis = EulerBasis::YZX) {
+  _Rotor3<T> euler_to_rotor(const _Vec3<T> &euler, const EulerBasis basis = EulerBasis::YXZ) {
     const _Vec3<T> half_angles = T(0.5) * euler;
     const _Vec3<T> c = cos(half_angles);
     const _Vec3<T> s = sin(half_angles);

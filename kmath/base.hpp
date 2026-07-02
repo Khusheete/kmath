@@ -217,14 +217,14 @@ namespace kmath {
 
   template<Orderable K>
   requires (!Indexable<K>)
-  constexpr bool less(const K a, const K b) {
+  constexpr bool lesser(const K a, const K b) {
     return a < b;
   }
 
 
   template<Orderable K>
   requires (!Indexable<K>)
-  constexpr bool less_eq(const K a, const K b) {
+  constexpr bool lesser_eq(const K a, const K b) {
     return a <= b;
   }
 
@@ -267,10 +267,10 @@ namespace kmath {
 
   template<Orderable K, template<typename> typename ST>
   requires ArrayTemplate<ST>
-  constexpr ST<bool> less(const ST<K> a, const ST<K> b) {
+  constexpr ST<bool> lesser(const ST<K> a, const ST<K> b) {
     ST<bool> result{};
     for (size_t i = 0; i < ST<K>::SIZE; i++) {
-      result[i] = less(a[i], b[i]);
+      result[i] = lesser(a[i], b[i]);
     }
     return result;
   }
@@ -278,10 +278,10 @@ namespace kmath {
 
   template<Orderable K, template<typename> typename ST>
   requires ArrayTemplate<ST>
-  constexpr ST<bool> less_eq(const ST<K> a, const ST<K> b) {
+  constexpr ST<bool> lesser_eq(const ST<K> a, const ST<K> b) {
     ST<bool> result{};
     for (size_t i = 0; i < ST<K>::SIZE; i++) {
-      result[i] = less_eq(a[i], b[i]);
+      result[i] = lesser_eq(a[i], b[i]);
     }
     return result;
   }
@@ -384,7 +384,7 @@ namespace kmath {
   constexpr V sign(const V a) {
     return apply(a, [](const auto a) -> decltype(a) {
       using K = decltype(a);
-      return K(less(K(0.0), a) - greater(K(0.0), a));
+      return K(lesser(K(0.0), a) - greater(K(0.0), a));
     });
   }
 
@@ -393,7 +393,7 @@ namespace kmath {
   constexpr V possign(const V a) {
     return apply(a, [](const auto a) -> decltype(a) {
       using K = decltype(a);
-      return K(less_eq(K(0.0), a) - greater(K(0.0), a));
+      return K(lesser_eq(K(0.0), a) - greater(K(0.0), a));
     });
   }
 
@@ -402,7 +402,7 @@ namespace kmath {
   constexpr V negsign(const V a) {
     return apply(a, [](const auto a) -> decltype(a) {
       using K = decltype(a);
-      return K(less(K(0.0), a) - greater_eq(K(0.0), a));
+      return K(lesser(K(0.0), a) - greater_eq(K(0.0), a));
     });
   }
 
@@ -485,7 +485,7 @@ namespace kmath {
   template<Number K, Vector<K> V>
   V clamp(const V v, const K minimum, const K maximum) {
     return select(
-      less(v, V(maximum)),
+      lesser(v, V(maximum)),
       select(greater(v, V(minimum)), v, V(minimum)),
       V(maximum)
     );
@@ -1044,7 +1044,7 @@ namespace kmath {
 
   template<Number V>
   constexpr BoolParameter<V> approx_zero(const V a) {
-    return less_eq(abs(a), V(KMATH_EPSILON));
+    return lesser_eq(abs(a), V(KMATH_EPSILON));
   }
 
 

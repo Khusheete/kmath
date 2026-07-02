@@ -33,30 +33,27 @@
 
 
 namespace kmath {
-  using namespace std;
-
-
   // ===========
   // = Vectors =
   // ===========
 
 
   template<Number T>
-  ostream &operator<<(ostream &stream, const _Vec2<T> &o) {
+  std::ostream &operator<<(std::ostream &stream, const _Vec2<T> &o) {
     stream << "Vec2(" << o.x << ", " << o.y << ")";
     return stream;
   }
 
 
   template<Number T>
-  ostream &operator<<(ostream &stream, const _Vec3<T> &o) {
+  std::ostream &operator<<(std::ostream &stream, const _Vec3<T> &o) {
     stream << "Vec3(" << o.x << ", " << o.y << ", " << o.z << ")";
     return stream;
   }
 
 
   template<Number T>
-  ostream &operator<<(ostream &stream, const _Vec4<T> &o) {
+  std::ostream &operator<<(std::ostream &stream, const _Vec4<T> &o) {
     stream << "Vec4(" << o.x << ", " << o.y << ", " << o.z << ", " << o.w << ")";
     return stream;
   }
@@ -68,7 +65,7 @@ namespace kmath {
 
 
   template<Number T>
-  ostream &operator<<(ostream &stream, const _Mat2<T> &o) {
+  std::ostream &operator<<(std::ostream &stream, const _Mat2<T> &o) {
     stream << "Mat2(" << o.x.x << ", " << o.x.y << "; ";
     stream << o.y.x << ", " << o.y.y << ")";
     return stream;
@@ -76,7 +73,7 @@ namespace kmath {
 
 
   template<Number T>
-  ostream &operator<<(ostream &stream, const _Mat3<T> &o) {
+  std::ostream &operator<<(std::ostream &stream, const _Mat3<T> &o) {
     stream << "Mat3(" << o.x.x << ", " << o.x.y << ", " << o.x.z << "; ";
     stream << o.y.x << ", " << o.y.y << ", " << o.y.z << "; ";
     stream << o.z.x << ", " << o.z.y << ", " << o.z.z << ")";
@@ -85,7 +82,7 @@ namespace kmath {
 
 
   template<Number T>
-  ostream &operator<<(ostream &stream, const _Mat4<T> &o) {
+  std::ostream &operator<<(std::ostream &stream, const _Mat4<T> &o) {
     stream << "Mat4(" << o.x.x << ", " << o.x.y << ", " << o.x.z << ", " << o.x.w << "; ";
     stream << o.y.x << ", " << o.y.y << ", " << o.y.z << ", " << o.y.w << "; ";
     stream << o.z.x << ", " << o.z.y << ", " << o.z.z << ", " << o.z.w << "; ";
@@ -100,14 +97,14 @@ namespace kmath {
 
 
   template<Number T>
-  ostream &operator<<(ostream &stream, const _Plane3<T> &o) {
+  std::ostream &operator<<(std::ostream &stream, const _Plane3<T> &o) {
     stream << o.e1 << " e1 + " << o.e2 << " e2 + " << o.e3 << " e3 + " << o.e0 << " e0";
     return stream;
   }
 
 
   template<Number T>
-  ostream &operator<<(ostream &stream, const _Line3<T> &o) {
+  std::ostream &operator<<(std::ostream &stream, const _Line3<T> &o) {
     if (!is_vanishing(o)) {
       stream << o.e23 << " e23 + " << o.e31 << " e31 + " << o.e12 << " e12 + ";
     }
@@ -117,21 +114,21 @@ namespace kmath {
 
 
   template<Number T>
-  ostream &operator<<(ostream &stream, const _Point3<T> &o) {
+  std::ostream &operator<<(std::ostream &stream, const _Point3<T> &o) {
     stream << o.e032 << " e032 + " << o.e013 << " e013 + " << o.e021 << " e021 + " << o.e123 << " e123";
     return stream;
   }
 
 
   template<Number T>
-  ostream &operator<<(ostream &stream, const _Rotor3<T> &o) {
+  std::ostream &operator<<(std::ostream &stream, const _Rotor3<T> &o) {
     stream << o.s << " + " << o.e23 << " e23 + " << o.e31 << " e31 + " << o.e12 << " e12";
     return stream;
   }
 
 
   template<Number T>
-  ostream &operator<<(ostream &stream, const _Motor3<T> &o) {
+  std::ostream &operator<<(std::ostream &stream, const _Motor3<T> &o) {
     stream << o.s << " + " << o.e23 << " e23 + " << o.e31 << " e31 + " << o.e12 << " e12 + ";
     stream << o.e0123 << " e0123 + " << o.e01 << " e01 + " << o.e02 << " e02 + " << o.e03 << " e03";
     return stream;
@@ -139,7 +136,7 @@ namespace kmath {
 
 
   template<Number T>
-  ostream &operator<<(ostream &stream, const _Mvec3<T> &o) {
+  std::ostream &operator<<(std::ostream &stream, const _Mvec3<T> &o) {
     stream << o[_Mvec3<T>::Basis::s] << " + " << o[_Mvec3<T>::Basis::e0] << " e0 + " << o[_Mvec3<T>::Basis::e1] << " e1 + " << o[_Mvec3<T>::Basis::e2] << " e2 + " << o[_Mvec3<T>::Basis::e3] << " e3 + ";
     stream << o[_Mvec3<T>::Basis::e23] << " e23 + " << o[_Mvec3<T>::Basis::e31] << " e31 + " << o[_Mvec3<T>::Basis::e12] << " e12 + ";
     stream << o[_Mvec3<T>::Basis::e01] << " e01 + " << o[_Mvec3<T>::Basis::e02] << " e02 + " << o[_Mvec3<T>::Basis::e03] << " e03 + ";

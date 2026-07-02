@@ -23,6 +23,8 @@
 
 
 #include "base.hpp"
+#include "motor_3d.hpp"
+#include "rotor_3d.hpp"
 #include "vector.hpp"
 
 
@@ -202,6 +204,7 @@ namespace kmath {
     inline const T &operator[](Basis idx) const { return data[(size_t)idx]; }
 
   public:
+    // FIXME: Update creation functions
     static _Mvec3<T> plane(const T a, const T b, const T c, const T d) {
       _Mvec3<T> res;
       res[Basis::e0] = -d;
@@ -300,6 +303,30 @@ namespace kmath {
 
     static _Mvec3<T> direction(const _Vec3<T> &dir) {
       return direction(dir.x, dir.y, dir.z);
+    }
+
+
+    static _Mvec3<T> rotor(const _Rotor3<T> &r) {
+      _Mvec3<T> res;
+      res[Basis::s] = r.s;
+      res[Basis::e23] = r.e23;
+      res[Basis::e31] = r.e31;
+      res[Basis::e12] = r.e12;
+      return res;
+    }
+
+
+    static _Mvec3<T> motor(const _Motor3<T> &m) {
+      _Mvec3<T> res;
+      res[Basis::s] = m.s;
+      res[Basis::e23] = m.e23;
+      res[Basis::e31] = m.e31;
+      res[Basis::e12] = m.e12;
+      res[Basis::e01] = m.e01;
+      res[Basis::e02] = m.e02;
+      res[Basis::e03] = m.e03;
+      res[Basis::e0123] = m.e0123;
+      return res;
     }
 
 

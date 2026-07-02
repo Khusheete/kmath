@@ -86,14 +86,18 @@ namespace kmath {
   inline T angle_mod(const T angle, const T basis = T(TAU)) {
     const T base_mod = mod(angle, basis);
     const T half_basis = T(0.5) * basis;
-    return (base_mod < half_basis) ? (base_mod > -half_basis) ? base_mod : (base_mod + basis) : (base_mod - basis);
+    return select(
+      lesser(base_mod, half_basis),
+      select(greater(base_mod, -half_basis), base_mod, base_mod + basis),
+      base_mod - basis
+    );
   }
 
 
   template<Number T>
   inline T angle_posmod(const T angle, const T basis = T(TAU)) {
     const T base_mod = mod(angle, basis);
-    return (base_mod >= T(0.0)) ? base_mod : (base_mod + basis);
+    return select(greater_eq(base_mod, T(0)), base_mod, base_mod + basis);
   }
 
 

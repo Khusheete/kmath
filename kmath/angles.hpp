@@ -104,7 +104,7 @@ namespace kmath {
   template<Number T>
   inline T angle_difference(const T from, const T to, const T basis = T(TAU)) {
     const T diff = mod(to - from, basis);
-    return fmod(T(2) * diff, basis) - diff;
+    return mod(T(2) * diff, basis) - diff;
   }
 
 

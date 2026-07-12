@@ -1,3 +1,5 @@
+#include "kmath/base.hpp"
+#include "kmath/constants.hpp"
 #include "testing.hpp"
 
 #include "kmath/color/base.hpp"
@@ -13,7 +15,6 @@
 
 #include <cmath>
 #include <cstdlib>
-
 
 using namespace kmath;
 
@@ -686,11 +687,6 @@ int main(void) {
 
 
   UNIT_TEST_SECTION("Angles", {
-    // Vec3 sph_1(1.0f, 0.0, 0.0);
-    // Vec3 sph_2(1.0f, 0.0, 0.5f * PI);
-    // Vec3 sph_3(1.0f, 0.5f * PI, 0.0);
-    // Vec3 sph_4(1.0f, 0.5f * PI, PI);
-    
     UNIT_TEST("cartesian to spherical", {
       TEST_EQ_APPROX("(1, 0, 0)" , cartesian_to_spherical(Vec3(1.0, 0.0, 0.0)) , Vec3(1.0, 0.5 * PI, 0.0));
       TEST_EQ_APPROX("(0, 1, 0)" , cartesian_to_spherical(Vec3(0.0, 2.0, 0.0)) , Vec3(2.0, 0.0, 0.0));
@@ -705,8 +701,36 @@ int main(void) {
       TEST_EQ_APPROX("(1, PI / 2, PI / 2)", spherical_to_cartesian(Vec3(1.0, 0.5 * PI, 0.5 * PI)), Vec3(0.0, 0.0, 1.0));
       TEST_EQ_APPROX("(2, PI / 2, 0)", spherical_to_cartesian(Vec3(2.0, 0.5 * PI, 0.0)), Vec3(2.0, 0.0, 0.0));
     });
+    // TODO: add tests
+    UNIT_TEST("rotor / euler", {
+      bool ok = true;
+      size_t step = 90;
+      
+      for (size_t i = 1; i < step; i++) {
+        const float alpha = PI * i / step - HALF_PI;
+        for (size_t j = 1; j < step; j++) {
+          const float beta = TAU * j / step - PI;
+          for (size_t k = 1; k < step; k++) {
+            const float gamma = 2.0f * TAU * k / step - TAU;
+            const Vec3 euler(alpha, gamma, beta);
+            const Rotor3 rotor = euler_to_rotor(euler);
+            const Vec3 back = rotor_to_euler(rotor);
+
+            const Vec3 diff = back - euler;
+
+            if (any(greater(abs(diff), Vec3(1e-4)))) {
+              ok = false;
+              break;
+            }
+          }
+          if (!ok) break;
+        }
+        if (!ok) break;
+      }
+
+      TEST("YXZ", ok);
+    });
   });
-  
 
   std::cout << "\n" << Testing::get_singleton()->get_final_report() << std::endl;
   const bool success = Testing::get_singleton()->has_succeeded();

@@ -129,6 +129,12 @@ namespace kmath {
   }
 
 
+  template<Number T>
+  inline bool is_angle_approx(const T a, const T b, const T basis = T(TAU)) {
+    return is_approx_zero(angle_difference(b, a, basis));
+  }
+
+
   // This enum classifies euler basis with the following convention:
   // x, y, and z represent the axes of the original frame (describing extrinsic rotations)
   // X, Y, and Z represent the axes of the (mid-rotation) reference frame (describing intrinsic rotations)
@@ -590,8 +596,128 @@ namespace kmath {
   }
 
 
+  // This method is adapted from "Quaternion to Euler angles conversion: a direct, general and computationally efficient method"
+  // by Evandro Bernardes and Stéphane Viollet.
   template<Number T>
   _Vec3<T> rotor_to_euler(const _Rotor3<T> &rotor, const EulerBasis basis = EulerBasis::YXZ) {
-    return basis_to_euler(as_basis(rotor), basis);
+    const T INV_SQRT_2 = T(1) / sqrt(T(2));
+
+    bool tait_bryan;
+    Vec3i rotation_basis; // This is the indices for the rotation basis (a, b, c)
+    Vec3i permutation; // Angle permutation for Tait-Bryan angles
+    T signature;
+
+    switch (basis) {
+    break;case EulerBasis::XYZ:
+      tait_bryan = true;
+      rotation_basis = {2, 1, 0};
+      permutation = {2, 1, 0};
+      signature = T(1);
+    break;case EulerBasis::YZX:
+      tait_bryan = true;
+      rotation_basis = {0, 2, 1};
+      permutation = {0, 2, 1};
+      signature = T(1);
+    break;case EulerBasis::ZXY:
+      tait_bryan = true;
+      rotation_basis = {1, 0, 2};
+      permutation = {1, 0, 2};
+      signature = T(1);
+    break;case EulerBasis::XZY:
+      tait_bryan = true;
+      rotation_basis = {1, 2, 0};
+      permutation = {2, 0, 1};
+      signature = T(-1);
+    break;case EulerBasis::ZYX:
+      tait_bryan = true;
+      rotation_basis = {0, 1, 2};
+      permutation = {0, 1, 2};
+      signature = T(-1);
+    break;case EulerBasis::YXZ:
+      tait_bryan = true;
+      rotation_basis = {2, 0, 1};
+      permutation = {1, 2, 0};
+      signature = T(-1);
+
+    break;case EulerBasis::ZXZ:
+      tait_bryan = false;
+      rotation_basis = {2, 0, 1};
+      signature = T(-1);
+    break;case EulerBasis::XYX:
+      tait_bryan = false;
+      rotation_basis = {1, 0, 2};
+      signature = T(-1);
+    break;case EulerBasis::YZY:
+      tait_bryan = false;
+      rotation_basis = {1, 2, 0};
+      signature = T(1);
+    break;case EulerBasis::ZYZ:
+      tait_bryan = false;
+      rotation_basis = {2, 1, 0};
+      signature = T(1);
+    break;case EulerBasis::XZX:
+      tait_bryan = false;
+      rotation_basis = {0, 2, 1};
+      signature = T(1);
+    break;case EulerBasis::YXY:
+      tait_bryan = false;
+      rotation_basis = {1, 0, 2};
+      signature = -T(1);
+    }
+
+    const _Vec3<T> r{rotor.e23, rotor.e31, rotor.e12};
+    _Rotor3<T> proj;
+
+    if (tait_bryan) {
+      proj.s   = rotor.s - r[rotation_basis.y];
+      proj.e23 = r[rotation_basis.x] + signature * r[rotation_basis.z];
+      proj.e31 = r[rotation_basis.y] + rotor.s;
+      proj.e12 = r[rotation_basis.z] - signature * r[rotation_basis.x];
+      proj *= INV_SQRT_2;
+    } else {
+      proj.s   = rotor.s;
+      proj.e23 = r[rotation_basis.x];
+      proj.e31 = r[rotation_basis.y];
+      proj.e12 = r[rotation_basis.z] * signature;
+    }
+
+    const T c = T(2) * (proj.s * proj.s + proj.e23 * proj.e23) - T(1);
+    const T tp = atan2(-proj.e23, proj.s);
+    const T tn = atan2(signature * proj.e12, proj.e31);
+
+    _Vec3<T> angles;
+
+    if (c < T(-1 + KMATH_EPSILON)) {
+      angles.x = T(0);
+      angles.y = T(0);
+      angles.z = T(2) * tp;
+    } else if (c > T(1 - KMATH_EPSILON)) {
+      angles.x = T(0);
+      angles.y = T(PI);
+      angles.z = T(2) * tp;
+    } else {
+      angles.x = tp + tn;
+      angles.y = T(PI) - acos(c);
+      angles.z = tp - tn;
+    }
+
+    if (angles.x > T(PI)) {
+      angles.x -= T(TAU);
+      angles.z -= sign(angles.z) * T(TAU);
+    } else if (angles.x < T(-PI)) {
+      angles.x += T(TAU);
+      angles.z -= sign(angles.z) * T(TAU);
+    }
+    if (tait_bryan) {
+      angles.y -= T(HALF_PI);
+      angles.z *= signature;
+      angles = {
+        angles[permutation.x],
+        angles[permutation.y],
+        angles[permutation.z],
+      };
+    }
+
+    return angles;
   }
 }

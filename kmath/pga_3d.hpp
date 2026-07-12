@@ -277,6 +277,16 @@ namespace kmath {
     }
 
 
+    static _Mvec3<T> point(const T x, const T y, const T z, const T w) {
+      _Mvec3<T> res;
+      res[Basis::e032] = x;
+      res[Basis::e013] = y;
+      res[Basis::e021] = z;
+      res[Basis::e123] = w;
+      return res;
+    }
+
+
     static _Mvec3<T> point(const T x, const T y, const T z) {
       _Mvec3<T> res;
       res[Basis::e123] = T(1);
@@ -316,6 +326,16 @@ namespace kmath {
     }
 
 
+    static _Mvec3<T> rotor(const T s, const T e23, const T e31, const T e12) {
+      _Mvec3<T> res;
+      res[Basis::s] = s;
+      res[Basis::e23] = e23;
+      res[Basis::e31] = e31;
+      res[Basis::e12] = e12;
+      return res;
+    }
+
+
     static _Mvec3<T> motor(const _Motor3<T> &m) {
       _Mvec3<T> res;
       res[Basis::s] = m.s;
@@ -326,6 +346,20 @@ namespace kmath {
       res[Basis::e02] = m.e02;
       res[Basis::e03] = m.e03;
       res[Basis::e0123] = m.e0123;
+      return res;
+    }
+
+
+    static _Mvec3<T> motor(const T s, const T e23, const T e31, const T e12, const T e01, const T e02, const T e03, const T e0123) {
+      _Mvec3<T> res;
+      res[Basis::s] = s;
+      res[Basis::e23] = e23;
+      res[Basis::e31] = e31;
+      res[Basis::e12] = e12;
+      res[Basis::e01] = e01;
+      res[Basis::e02] = e02;
+      res[Basis::e03] = e03;
+      res[Basis::e0123] = e0123;
       return res;
     }
 

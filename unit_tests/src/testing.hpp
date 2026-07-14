@@ -1,22 +1,23 @@
 #pragma once
 
 
-#include "kmath/base.hpp"
-
 #include <string>
+#include <string_view>
+
 #include <iostream>
+#include "kmath/base.hpp"
 
 
 class Testing {
 public:
-  std::string change_section(const std::string &p_section_name);
-  std::string change_test(const std::string &p_test_name);
+  std::string change_section(const std::string_view p_section_name);
+  std::string change_test(const std::string_view p_test_name);
 
   std::string get_test_report();
   std::string get_section_report();
   std::string get_final_report();
 
-  std::string assert(const std::string &p_title, const bool p_success);
+  std::string assert(const std::string_view p_title, const bool p_success);
 
   bool has_succeeded() const;
   

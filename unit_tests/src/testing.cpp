@@ -1,18 +1,13 @@
 #include "testing.hpp"
+#include "csi.hpp"
 
 #include <format>
-
-
-#define CSI_BOLD "\e[1m"
-#define CSI_GREEN "\e[38;2;50;255;50m"
-#define CSI_RED "\e[38;2;255;50;50m"
-#define CSI_CLEAR "\e[0m"
 
 
 Testing *Testing::singleton = nullptr;
 
 
-std::string Testing::change_section(const std::string &p_section_name) {
+std::string Testing::change_section(const std::string_view p_section_name) {
   section = p_section_name;
   section_success_count = 0;
   section_assertion_count = 0;
@@ -22,7 +17,7 @@ std::string Testing::change_section(const std::string &p_section_name) {
 }
 
 
-std::string Testing::change_test(const std::string &p_test_name) {
+std::string Testing::change_test(const std::string_view p_test_name) {
   test = p_test_name;
   test_success_count = 0;
   test_assertion_count = 0;
@@ -60,7 +55,7 @@ std::string Testing::get_final_report() {
 }
 
 
-std::string Testing::assert(const std::string &p_title, const bool p_success) {
+std::string Testing::assert(const std::string_view p_title, const bool p_success) {
   total_assertion_count += 1;
   section_assertion_count += 1;
   test_assertion_count += 1;

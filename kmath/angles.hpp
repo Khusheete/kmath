@@ -645,12 +645,12 @@ namespace kmath {
       signature = T(-1);
     break;case EulerBasis::XYX:
       tait_bryan = false;
-      rotation_basis = {1, 0, 2};
+      rotation_basis = {0, 1, 2};
       signature = T(-1);
     break;case EulerBasis::YZY:
       tait_bryan = false;
       rotation_basis = {1, 2, 0};
-      signature = T(1);
+      signature = T(-1);
     break;case EulerBasis::ZYZ:
       tait_bryan = false;
       rotation_basis = {2, 1, 0};
@@ -662,7 +662,7 @@ namespace kmath {
     break;case EulerBasis::YXY:
       tait_bryan = false;
       rotation_basis = {1, 0, 2};
-      signature = -T(1);
+      signature = T(1);
     }
 
     const _Vec3<T> r{rotor.e23, rotor.e31, rotor.e12};
@@ -670,34 +670,34 @@ namespace kmath {
 
     if (tait_bryan) {
       proj.s   = rotor.s - r[rotation_basis.y];
-      proj.e23 = r[rotation_basis.x] + signature * r[rotation_basis.z];
+      proj.e23 = -r[rotation_basis.x] - signature * r[rotation_basis.z];
       proj.e31 = r[rotation_basis.y] + rotor.s;
       proj.e12 = r[rotation_basis.z] - signature * r[rotation_basis.x];
       proj *= INV_SQRT_2;
     } else {
       proj.s   = rotor.s;
-      proj.e23 = r[rotation_basis.x];
-      proj.e31 = r[rotation_basis.y];
-      proj.e12 = r[rotation_basis.z] * signature;
+      proj.e23 = -r[rotation_basis.x];
+      proj.e31 = -r[rotation_basis.y];
+      proj.e12 = r[rotation_basis.z];
     }
 
     const T c = T(2) * (proj.s * proj.s + proj.e23 * proj.e23) - T(1);
-    const T tp = atan2(-proj.e23, proj.s);
+    const T tp = atan2(proj.e23, proj.s);
     const T tn = atan2(signature * proj.e12, proj.e31);
 
     _Vec3<T> angles;
 
     if (c < T(-1 + KMATH_EPSILON)) {
       angles.x = T(0);
-      angles.y = T(0);
+      angles.y = T(PI);
       angles.z = T(2) * tp;
     } else if (c > T(1 - KMATH_EPSILON)) {
       angles.x = T(0);
-      angles.y = T(PI);
+      angles.y = T(0);
       angles.z = T(2) * tp;
     } else {
       angles.x = tp + tn;
-      angles.y = T(PI) - acos(c);
+      angles.y = acos(c);
       angles.z = tp - tn;
     }
 
@@ -709,7 +709,7 @@ namespace kmath {
       angles.z -= sign(angles.z) * T(TAU);
     }
     if (tait_bryan) {
-      angles.y -= T(HALF_PI);
+      angles.y = T(HALF_PI) - angles.y;
       angles.z *= signature;
       angles = {
         angles[permutation.x],

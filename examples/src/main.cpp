@@ -28,7 +28,7 @@
 #include "raygui.h"
 
 
-struct Test {
+struct TestSection {
   std::string name;
   void *(*init)(void);
   void (*run)(void*);
@@ -36,44 +36,44 @@ struct Test {
 };
 
 
-const std::array<Test, 7> TESTS = {
-  Test{
+const std::array<TestSection, 7> TEST_SECTIONS = {
+  TestSection{
     .name = "Test Rotor3 and Motor3 structs",
     .init = &rotor_motor_init,
     .run = &rotor_motor_run,
     .cleanup = &rotor_motor_cleanup,
   },
-  Test{
+  TestSection{
     .name = "Camera",
     .init = &camera_init,
     .run = &camera_run,
     .cleanup = &camera_cleanup,
   },
-  Test{
+  TestSection{
     .name = "Motor3 Transforms",
     .init = &motor_transforms_init,
     .run = &motor_transforms_run,
     .cleanup = &motor_transforms_cleanup,
   },
-  Test{
+  TestSection{
     .name = "PGA Visualization",
     .init = &pga_visualization_init,
     .run = &pga_visualization_run,
     .cleanup = &pga_visualization_run,
   },
-  Test{
+  TestSection{
     .name = "OkLab interpolation",
     .init = &oklab_interpolation_init,
     .run = &oklab_interpolation_run,
     .cleanup = &oklab_interpolation_cleanup,
   },
-  Test{
+  TestSection{
     .name = "Ease functions",
     .init = &ease_function_init,
     .run = &ease_function_run,
     .cleanup = &ease_function_cleanup,
   },
-  Test{
+  TestSection{
     .name = "Color Spaces",
     .init = &color_spaces_init,
     .run = &color_spaces_run,
@@ -82,7 +82,7 @@ const std::array<Test, 7> TESTS = {
 };
 
 
-const Test *current_test = nullptr;
+const TestSection *current_test = nullptr;
 void *current_test_data = nullptr;
 
 
@@ -93,8 +93,8 @@ void test_selection_menu() {
 
   int render_width = GetRenderWidth();
 
-  for (size_t i = 0; i < TESTS.size(); i++) {
-    const Test &test = TESTS[i];
+  for (size_t i = 0; i < TEST_SECTIONS.size(); i++) {
+    const TestSection &test = TEST_SECTIONS[i];
     const Rectangle button_bounds{
       .x = 0.5f * (render_width - X_SIZE),
       .y = float(i) * (Y_SIZE + Y_SPACING) + Y_SPACING,

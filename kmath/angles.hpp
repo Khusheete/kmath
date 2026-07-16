@@ -690,7 +690,7 @@ namespace kmath {
     if (c < T(-1 + KMATH_EPSILON)) {
       angles.x = T(0);
       angles.y = T(PI);
-      angles.z = T(2) * tp;
+      angles.z = T(-2) * tn;
     } else if (c > T(1 - KMATH_EPSILON)) {
       angles.x = T(0);
       angles.y = T(0);

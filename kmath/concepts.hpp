@@ -60,7 +60,7 @@ namespace kmath {
 
 
   template<typename V, typename K>
-  concept Vector = requires(V v1, V v2, K l) {
+  concept AnyVector = requires(V v1, V v2, K l) {
     v1 += v2;
     v1 -= v2;
     v1 *= l;
@@ -70,7 +70,11 @@ namespace kmath {
     l * v1;
     v1 * l;
     v1 / l;
-  } && Number<K> && (!std::same_as<V, K>);
+  } && Number<K>;
+
+
+  template<typename V, typename K>
+  concept Vector = AnyVector<V, K> && (!std::same_as<V, K>);
 
 
   template<template<typename> typename VT>

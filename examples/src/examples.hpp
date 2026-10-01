@@ -54,3 +54,9 @@ void ease_function_cleanup(void *p_data);
 void *color_spaces_init();
 void color_spaces_run(void *p_data);
 void color_spaces_cleanup(void *p_data);
+
+
+void *dynamic_interpolation_init();
+void dynamic_interpolation_run(void *p_data);
+void dynamic_interpolation_cleanup(void *p_data);
+

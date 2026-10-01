@@ -36,7 +36,7 @@ struct TestSection {
 };
 
 
-const std::array<TestSection, 7> TEST_SECTIONS = {
+const std::array<TestSection, 8> TEST_SECTIONS = {
   TestSection{
     .name = "Test Rotor3 and Motor3 structs",
     .init = &rotor_motor_init,
@@ -79,6 +79,12 @@ const std::array<TestSection, 7> TEST_SECTIONS = {
     .run = &color_spaces_run,
     .cleanup = &color_spaces_cleanup,
   },
+  TestSection{
+    .name = "Dynamic Interpolation",
+    .init = &dynamic_interpolation_init,
+    .run = &dynamic_interpolation_run,
+    .cleanup = &dynamic_interpolation_cleanup,
+  },
 };
 
 
@@ -114,7 +120,7 @@ int main(void) {
   SetWindowState(
     FLAG_WINDOW_RESIZABLE
   );
-  SetTargetFPS(60.0);
+  SetTargetFPS(120);
 
   GuiLoadStyle("thirdparty/raygui/terminal/style_terminal.txt.rgs");
 

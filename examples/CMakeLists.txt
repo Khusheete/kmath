@@ -8,6 +8,7 @@ add_executable(KMathExamples
   src/oklab_interpolation.cpp
   src/camera.cpp
   src/color_spaces.cpp
+  src/dynamic_interpolation.cpp
   # Utils sources
   src/utils/freecam.cpp
   src/utils/math.cpp

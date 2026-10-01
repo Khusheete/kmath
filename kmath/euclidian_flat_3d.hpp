@@ -19,7 +19,8 @@
 // SOFTWARE.
 
 
-#pragma once
+#ifndef KMATH_EUCLIDIAN_FLAT_3D_HPP
+#define KMATH_EUCLIDIAN_FLAT_3D_HPP
 
 
 #include "base.hpp"
@@ -1297,3 +1298,6 @@ namespace kmath {
   typedef _Line3<double> Line3d;
   typedef _Point3<double> Point3d;
 }
+
+
+#endif // #ifndef KMATH_EUCLIDIAN_FLAT_3D_HPP

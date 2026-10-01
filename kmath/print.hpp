@@ -19,23 +19,27 @@
 // SOFTWARE.
 
 
-#pragma once
+#ifndef KMATH_PRINT_HPP
+#define KMATH_PRINT_HPP
 
 
-#include "matrix.hpp"
-#include "vector.hpp"
-#include "euclidian_flat_3d.hpp"
-#include "rotor_3d.hpp"
-#include "motor_3d.hpp"
-#include "pga_3d.hpp"
-
+#if defined(KMATH_VECTOR_HPP) \
+  || defined(KMATH_MATRIX_HPP) \
+  || defined(KMATH_EUCLIDIAN_FLAT_3D_HPP) \
+  || defined(KMATH_ROTOR_3D_HPP) \
+  || defined(KMATH_MOTOR_3D_HPP) \
+  || defined(KMATH_PGA_3D_HPP)
 #include <ostream>
+#endif
 
 
 namespace kmath {
   // ===========
   // = Vectors =
   // ===========
+
+
+#ifdef KMATH_VECTOR_HPP
 
 
   template<Number T>
@@ -59,9 +63,15 @@ namespace kmath {
   }
 
 
+#endif // #ifdef KMATH_VECTOR_HPP
+
+
   // ============
   // = Matrices =
   // ============
+
+
+#ifdef KMATH_MATRIX_HPP
 
 
   template<Number T>
@@ -91,9 +101,15 @@ namespace kmath {
   }
 
 
+#endif // #ifndef KMATH_MATRIX_HPP
+
+
   // =====================
   // = 3D PGA primitives =
   // =====================
+
+
+#ifdef KMATH_EUCLIDIAN_FLAT_3D_HPP
 
 
   template<Number T>
@@ -120,11 +136,23 @@ namespace kmath {
   }
 
 
+#endif // #ifndef KMATH_EUCLIDIAN_FLAT_3D_HPP
+
+
+#ifdef KMATH_ROTOR_3D_HPP
+
+
   template<Number T>
   std::ostream &operator<<(std::ostream &stream, const _Rotor3<T> &o) {
     stream << o.s << " + " << o.e23 << " e23 + " << o.e31 << " e31 + " << o.e12 << " e12";
     return stream;
   }
+
+
+#endif // #ifdef KMATH_ROTOR_3D_HPP
+
+
+#ifdef KMATH_MOTOR_3D_HPP
 
 
   template<Number T>
@@ -133,6 +161,12 @@ namespace kmath {
     stream << o.e0123 << " e0123 + " << o.e01 << " e01 + " << o.e02 << " e02 + " << o.e03 << " e03";
     return stream;
   }
+
+
+#endif // #ifdef KMATH_MOTOR_3D_HPP
+
+
+#ifdef KMATH_PGA_3D_HPP
 
 
   template<Number T>
@@ -144,4 +178,10 @@ namespace kmath {
     stream << o[_Mvec3<T>::Basis::e0123] << " e0123";
     return stream;
   }
+
+
+#endif // #ifdef KMATH_PGA_3D_HPP
 }
+
+
+#endif // #ifndef KMATH_PRINT_HPP

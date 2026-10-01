@@ -19,7 +19,8 @@
 // SOFTWARE.
 
 
-#pragma once
+#ifndef KMATH_PGA_3D_HPP
+#define KMATH_PGA_3D_HPP
 
 
 #include "base.hpp"
@@ -807,3 +808,6 @@ namespace kmath {
   typedef _Mvec3<float> Mvec3;
   typedef _Mvec3<double> Mvec3d;
 }
+
+
+#endif // #ifndef KMATH_PGA_3D_HPP

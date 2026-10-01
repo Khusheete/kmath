@@ -19,7 +19,8 @@
 // SOFTWARE.
 
 
-#pragma once
+#ifndef KMATH_ROTOR_3D_HPP
+#define KMATH_ROTOR_3D_HPP
 
 
 #include "base.hpp"
@@ -487,3 +488,6 @@ namespace kmath {
   typedef _Rotor3<float> Rotor3;
   typedef _Rotor3<double> Rotor3d;
 }
+
+
+#endif // #ifndef KMATH_ROTOR_3D_HPP

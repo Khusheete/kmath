@@ -19,7 +19,8 @@
 // SOFTWARE.
 
 
-#pragma once
+#ifndef KMATH_COLOR_ITU_HPP
+#define KMATH_COLOR_ITU_HPP
 
 
 #include "base.hpp"
@@ -71,3 +72,6 @@ namespace kmath::itu {
     }
   }
 }
+
+
+#endif // #ifndef KMATH_COLOR_ITU_HPP

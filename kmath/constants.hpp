@@ -19,7 +19,8 @@
 // SOFTWARE.
 
 
-#pragma once
+#ifndef KMATH_CONSTANTS_HPP
+#define KMATH_CONSTANTS_HPP
 
 
 namespace kmath {
@@ -33,3 +34,6 @@ namespace kmath {
   constexpr const double PI  = 3.141592653589793;
   constexpr const double TAU = 6.283185307179586;
 }
+
+
+#endif // #ifndef KMATH_CONSTANTS_HPP

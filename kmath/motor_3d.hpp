@@ -19,7 +19,8 @@
 // SOFTWARE.
 
 
-#pragma once
+#ifndef KMATH_MOTOR_3D_HPP
+#define KMATH_MOTOR_3D_HPP
 
 
 #include "constants.hpp"
@@ -786,3 +787,6 @@ namespace kmath {
   typedef _Motor3<float> Motor3;
   typedef _Motor3<double> Motor3d;
 }
+
+
+#endif // #ifndef KMATH_MOTOR_3D_HPP

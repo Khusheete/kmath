@@ -19,7 +19,8 @@
 // SOFTWARE.
 
 
-#pragma once
+#ifndef KMATH_COLOR_OK_HPP
+#define KMATH_COLOR_OK_HPP
 
 
 #include "base.hpp"
@@ -170,3 +171,6 @@ namespace kmath::ok {
     return okhsv_to_okhwb(oklab_to_okhsv(lab));
   }
 }
+
+
+#endif // #ifndef KMATH_COLOR_OK_HPP

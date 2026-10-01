@@ -19,7 +19,8 @@
 // SOFTWARE.
 
 
-#pragma once
+#ifndef KMATH_COLOR_CIE_HPP
+#define KMATH_COLOR_CIE_HPP
 
 
 #include "base.hpp"
@@ -265,3 +266,6 @@ namespace kmath::cie {
     return lab_to_rgb(lchab_to_lab(lch));
   }
 }
+
+
+#endif // #ifndef KMATH_COLOR_CIE_HPP

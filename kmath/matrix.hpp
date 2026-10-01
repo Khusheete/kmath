@@ -19,7 +19,8 @@
 // SOFTWARE.
 
 
-#pragma once
+#ifndef KMATH_MATRIX_HPP
+#define KMATH_MATRIX_HPP
 
 
 #include "base.hpp"
@@ -1053,6 +1054,7 @@ namespace kmath {
 
   typedef _Mat4<float> Mat4;
   typedef _Mat4<double> Mat4d;
-  
-
 }
+
+
+#endif // #ifndef KMATH_MATRIX_HPP

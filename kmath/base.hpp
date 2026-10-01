@@ -19,7 +19,8 @@
 // SOFTWARE.
 
 
-#pragma once
+#ifndef KMATH_BASE_HPP
+#define KMATH_BASE_HPP
 
 
 #include "private/defines.hpp"
@@ -1065,3 +1066,6 @@ namespace kmath {
     return is_approx_zero(b - a);
   }
 }
+
+
+#endif // #ifndef KMATH_BASE_HPP

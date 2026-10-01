@@ -19,7 +19,8 @@
 // SOFTWARE.
 
 
-#pragma once
+#ifndef KMATH_COLOR_BASE_HPP
+#define KMATH_COLOR_BASE_HPP
 
 
 #include "../base.hpp"
@@ -217,3 +218,6 @@ namespace kmath {
     return hsv_to_rgb(hwb_to_hsv(hwb));
   }
 }
+
+
+#endif // #ifndef KMATH_COLOR_BASE_HPP

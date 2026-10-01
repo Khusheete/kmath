@@ -19,7 +19,8 @@
 // SOFTWARE.
 
 
-#pragma once
+#ifndef KMATH_VECTOR_HPP
+#define KMATH_VECTOR_HPP
 
 
 #include "concepts.hpp"
@@ -1140,3 +1141,6 @@ namespace kmath {
   typedef _Vec4<long> Vec4l;
   typedef _Vec4<bool> Vec4b;
 }
+
+
+#endif // #ifndef KMATH_VECTOR_HPP

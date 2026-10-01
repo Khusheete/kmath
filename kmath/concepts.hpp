@@ -19,7 +19,8 @@
 // SOFTWARE.
 
 
-#pragma once
+#ifndef KMATH_CONCEPTS_HPP
+#define KMATH_CONCEPTS_HPP
 
 
 #include <complex>
@@ -230,3 +231,6 @@ namespace kmath {
   template<typename T>
   using Parameter = _parameter<T>::type;
 }
+
+
+#endif // #ifndef KMATH_CONCEPTS_HPP

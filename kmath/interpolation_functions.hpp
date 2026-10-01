@@ -19,7 +19,8 @@
 // SOFTWARE.
 
 
-#pragma once
+#ifndef KMATH_INTERPOLATION_FUNCTIONS_HPP
+#define KMATH_INTERPOLATION_FUNCTIONS_HPP
 
 
 #include "constants.hpp"
@@ -280,3 +281,6 @@ namespace kmath {
     return lerp(a, b, easing(t));
   }
 }
+
+
+#endif // #ifndef KMATH_INTERPOLATION_FUNCTIONS_HPP

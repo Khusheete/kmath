@@ -19,7 +19,8 @@
 // SOFTWARE.
 
 
-#pragma once
+#ifndef KMATH_ANGLES_HPP
+#define KMATH_ANGLES_HPP
 
 
 #include "base.hpp"
@@ -721,3 +722,6 @@ namespace kmath {
     return angles;
   }
 }
+
+
+#endif // #ifndef KMATH_ANGLES_HPP

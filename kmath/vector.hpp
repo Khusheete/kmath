@@ -1127,18 +1127,24 @@ namespace kmath {
   typedef _Vec2<double> Vec2d;
   typedef _Vec2<int> Vec2i;
   typedef _Vec2<long> Vec2l;
+  typedef _Vec2<unsigned int> Vec2u;
+  typedef _Vec2<unsigned long> Vec2ul;
   typedef _Vec2<bool> Vec2b;
 
   typedef _Vec3<float> Vec3;
   typedef _Vec3<double> Vec3d;
   typedef _Vec3<int> Vec3i;
   typedef _Vec3<long> Vec3l;
+  typedef _Vec3<unsigned int> Vec3u;
+  typedef _Vec3<unsigned long> Vec3ul;
   typedef _Vec3<bool> Vec3b;
 
   typedef _Vec4<float> Vec4;
   typedef _Vec4<double> Vec4d;
   typedef _Vec4<int> Vec4i;
   typedef _Vec4<long> Vec4l;
+  typedef _Vec4<unsigned int> Vec4u;
+  typedef _Vec4<unsigned long> Vec4ul;
   typedef _Vec4<bool> Vec4b;
 }
 

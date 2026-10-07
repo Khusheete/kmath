@@ -14,6 +14,11 @@ Here is what's present in this library:
 - `interpolation_functions.hpp`: implementation of common interpolation functions.
 - `print.hpp`: what to pull to print the different structures.
 
+# How to use the library ?
+
+If you want to use this (somehow) you can just copy the `kmath/` folder in your project and add it as a CMake submodule. This will build the library that you can link with your program.
+
+
 # Roadmap
 
 If anyone besides me is interested by my todo-list for this project here are some things that are planned (in no particular order):

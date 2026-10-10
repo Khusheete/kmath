@@ -24,7 +24,7 @@ struct TestSection {
 };
 
 
-constexpr const std::array<TestSection, 11> TEST_SECTIONS{
+constexpr const std::array<TestSection, 13> TEST_SECTIONS{
   // TODO: add more tests for colors
   // TODO: test operations on rotors
   // TODO: test operations on motors
@@ -45,6 +45,8 @@ constexpr const std::array<TestSection, 11> TEST_SECTIONS{
 
   TestSection{ .name = "color_conversion", .function = &test_color_conversion, },
 
+  TestSection{ .name = "spherical_conversion", .function = &test_spherical_conversion, },
+  TestSection{ .name = "cylindrical_conversion", .function = &test_cylindrical_conversion, },
   TestSection{ .name = "rotor3_euler_conversion", .function = &test_rotor_euler_conversion, },
 };
 

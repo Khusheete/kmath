@@ -69,6 +69,33 @@ namespace kmath {
   }
 
 
+  // Turns a vector from cylindrical (r, theta, height) to cartesian coordinates (where the up vector is Y).
+  template<Number T>
+  inline _Vec3<T> cylindrical_to_cartesian(const _Vec3<T> &cylindrical) {
+    return _Vec3<T>(
+      cylindrical.x * sin(cylindrical.y),
+      cylindrical.z,
+      cylindrical.x * cos(cylindrical.y)
+    );
+  }
+
+
+  template<Number T>
+  inline _Vec3<T> cylindrical_to_cartesian(const T radius, const T theta, const T height) {
+    return _Vec3<T>(radius, theta, height);
+  }
+
+
+  template<Number T>
+  inline _Vec3<T> cartesian_to_cylindrical(const _Vec3<T> &cartesian) {
+    return _Vec3<T>(
+      length(cartesian.zx()),
+      atan2(cartesian.x, cartesian.z),
+      cartesian.y
+    );
+  }
+
+
   template<Number T>
   constexpr T degrees_to_radians(const T degree) {
     constexpr T conversion_coef = PI / 180.0;

@@ -4,6 +4,7 @@
 #include <array>
 
 #include "kmath/base.hpp"
+#include "kmath/constants.hpp"
 #include "kmath/rotor_3d.hpp"
 #include "kmath/vector.hpp"
 #include "kmath/matrix.hpp"
@@ -13,7 +14,7 @@
 using namespace kmath;
 
 
-void test_spherical_angles() {
+void test_spherical_conversion() {
   UNIT_TEST("cartesian to spherical", {
     TEST_EQ_APPROX("(1, 0, 0)" , cartesian_to_spherical(Vec3(1.0, 0.0, 0.0)) , Vec3(1.0, 0.5 * PI, 0.0));
     TEST_EQ_APPROX("(0, 1, 0)" , cartesian_to_spherical(Vec3(0.0, 2.0, 0.0)) , Vec3(2.0, 0.0, 0.0));
@@ -27,6 +28,26 @@ void test_spherical_angles() {
     TEST_EQ_APPROX("(1, PI, PI / 2)", spherical_to_cartesian(Vec3(1.0, PI, 0.5 * PI)), Vec3(0.0, -1.0, 0.0));
     TEST_EQ_APPROX("(1, PI / 2, PI / 2)", spherical_to_cartesian(Vec3(1.0, 0.5 * PI, 0.5 * PI)), Vec3(0.0, 0.0, 1.0));
     TEST_EQ_APPROX("(2, PI / 2, 0)", spherical_to_cartesian(Vec3(2.0, 0.5 * PI, 0.0)), Vec3(2.0, 0.0, 0.0));
+  });
+}
+
+
+void test_cylindrical_conversion() {
+  UNIT_TEST("cartesian to cylindrical", {
+    TEST_EQ_APPROX("(1, 0, 0)", cartesian_to_cylindrical(Vec3(1.0, 0.0, 0.0)), Vec3(1.0, HALF_PI, 0.0));
+    TEST_EQ_APPROX("(0, 1, 0)", cartesian_to_cylindrical(Vec3(0.0, 1.0, 0.0)), Vec3(0.0, 0.0, 1.0));
+    TEST_EQ_APPROX("(0, 0, 1)", cartesian_to_cylindrical(Vec3(0.0, 0.0, 1.0)), Vec3(1.0, 0.0, 0.0));
+    TEST_EQ_APPROX("(-1, 0, 0)", cartesian_to_cylindrical(Vec3(-1.0, 0.0, 0.0)), Vec3(1.0, -HALF_PI, 0.0));
+    TEST_EQ_APPROX("(0, -1, 0)", cartesian_to_cylindrical(Vec3(0.0, -1.0, 0.0)), Vec3(0.0, 0.0, -1.0));
+    TEST_EQ_APPROX("(0, 0, -1)", cartesian_to_cylindrical(Vec3(0.0, 0.0, -1.0)), Vec3(1.0, PI, 0.0));
+  });
+  UNIT_TEST("cylindrical to cartesian", {
+    TEST_EQ_APPROX("(1, 0, 0)", cylindrical_to_cartesian(Vec3(1.0, HALF_PI, 0.0)), Vec3(1.0, 0.0, 0.0));
+    TEST_EQ_APPROX("(0, 1, 0)", cylindrical_to_cartesian(Vec3(0.0, 0.0, 1.0)), Vec3(0.0, 1.0, 0.0));
+    TEST_EQ_APPROX("(0, 0, 1)", cylindrical_to_cartesian(Vec3(1.0, 0.0, 0.0)), Vec3(0.0, 0.0, 1.0));
+    TEST_EQ_APPROX("(-1, 0, 0)", cylindrical_to_cartesian(Vec3(1.0, -HALF_PI, 0.0)), Vec3(-1.0, 0.0, 0.0));
+    TEST_EQ_APPROX("(0, -1, 0)", cylindrical_to_cartesian(Vec3(0.0, 0.0, -1.0)), Vec3(0.0, -1.0, 0.0));
+    TEST_EQ_APPROX("(0, 0, -1)", cylindrical_to_cartesian(Vec3(1.0, PI, 0.0)), Vec3(0.0, 0.0, -1.0));
   });
 }
 

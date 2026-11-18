@@ -223,17 +223,17 @@ namespace kmath {
 
   // Swaps the parameter of a templated type T to S. If T is not a templated type, the new type is S.
   template<typename T, typename S>
-  using ParameterSwap = _parameter_swap<T, S>::type;
+  using ParameterSwap = typename _parameter_swap<T, S>::type;
 
 
   // Equivalent to ParameterSwap<T, bool>.
   template<typename T>
-  using BoolParameter = _bool_parameter<T>::type;
+  using BoolParameter = typename _bool_parameter<T>::type;
 
 
   // Gives the type of the parameter of the templated type T. If T is not templated returns T.
   template<typename T>
-  using Parameter = _parameter<T>::type;
+  using Parameter = typename _parameter<T>::type;
 }
 
 

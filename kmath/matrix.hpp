@@ -46,6 +46,10 @@ namespace kmath {
   struct _Mat2 {
     _Vec2<T> x, y;
 
+    constexpr _Mat2() {}
+    constexpr _Mat2(const _Mat2 &m) : x(m.x), y(m.y) {}
+    constexpr _Mat2(const _Vec2<T> &x, const _Vec2<T> &y) : x(x), y(y) {}
+
   public:
     static constexpr _Mat2<T> scale(const T scale) {
       return scale * _Mat2<T>::IDENTITY;
@@ -228,6 +232,10 @@ namespace kmath {
   template<Number T>
   struct _Mat3 {
     _Vec3<T> x, y, z;
+
+    constexpr _Mat3() {}
+    constexpr _Mat3(const _Mat3 &m) : x(m.x), y(m.y), z(m.z) {}
+    constexpr _Mat3(const _Vec3<T> &x, const _Vec3<T> &y, const _Vec3<T> &z) : x(x), y(y), z(z) {}
 
   public:
     static constexpr _Mat3<T> from_mat4(const _Mat4<T> &mat4) {
@@ -473,6 +481,10 @@ namespace kmath {
   template<Number T>
   struct _Mat4 {
     _Vec4<T> x, y, z, w;
+
+    constexpr _Mat4() {}
+    constexpr _Mat4(const _Mat4 &m) : x(m.x), y(m.y), z(m.z), w(m.w) {}
+    constexpr _Mat4(const _Vec4<T> &x, const _Vec4<T> &y, const _Vec4<T> &z, const _Vec4<T> &w) : x(x), y(y), z(z), w(w) {}
 
   public:
 

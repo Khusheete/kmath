@@ -34,6 +34,35 @@
 
 
 namespace kmath {
+  // Turns a vector in polar coordinates (radius, angle) to cartesian coordinates.
+  template<Number T>
+  _Vec2<T> polar_to_cartesian(const _Vec2<T> &polar) {
+    return polar.x * _Vec2<T>(
+      cos(polar.x), sin(polar.y)
+    );
+  }
+
+
+  template<Number T>
+  _Vec2<T> polar_to_cartesian(const T radius, const T angle) {
+    return polar_to_cartesian<T>(_Vec2<T>(radius, angle));
+  }
+
+
+  template<Number T>
+  _Vec2<T> cartesian_to_polar(const _Vec2<T> cartesian) {
+    return _Vec2<T>(
+      length(cartesian),
+      atan2(cartesian.y, cartesian.x)
+    );
+  };
+
+
+  template<Number T>
+  _Vec2<T> cartesian_to_polar(const T x, const T y) {
+    return cartesian_to_polar(_Vec2<T>(x, y));
+  }
+
 
   // Turns a vector in spherical coordinates (radius, polar, azimuth) to cartesian coordinates (Y up).
   template<Number T>

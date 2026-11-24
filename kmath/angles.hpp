@@ -659,10 +659,10 @@ namespace kmath {
   _Vec3<T> rotor_to_euler(const _Rotor3<T> &rotor, const EulerBasis basis = EulerBasis::YXZ) {
     const T INV_SQRT_2 = T(1) / sqrt(T(2));
 
-    bool tait_bryan;
+    bool tait_bryan = false;
     Vec3i rotation_basis; // This is the indices for the rotation basis (a, b, c)
     Vec3i permutation; // Angle permutation for Tait-Bryan angles
-    T signature;
+    T signature = T(0);
 
     switch (basis) {
     break;case EulerBasis::XYZ:

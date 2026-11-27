@@ -454,6 +454,12 @@ namespace kmath {
 
 
   template<Number V>
+  V max(const V a) {
+    return a;
+  }
+
+
+  template<Number V>
   V max(const V a, const V b) {
     return apply(a, b, [](const auto a, const auto b) {
       if constexpr(is_std_number<decltype(a)>) {
@@ -466,6 +472,18 @@ namespace kmath {
 
 
   template<Number V>
+  V max(const V a, const V b, const V others...) {
+    return max(max(a, b), others);
+  }
+
+
+  template<Number V>
+  V min(const V a) {
+    return a;
+  }
+
+
+  template<Number V>
   V min(const V a, const V b) {
     return apply(a, b, [](const auto a, const auto b) {
       if constexpr(is_std_number<decltype(a)>) {
@@ -474,6 +492,12 @@ namespace kmath {
         return min(a, b);
       }
     });
+  }
+
+
+  template<Number V>
+  V min(const V a, const V b, const V others...) {
+    return min(min(a, b), others);
   }
 
 
